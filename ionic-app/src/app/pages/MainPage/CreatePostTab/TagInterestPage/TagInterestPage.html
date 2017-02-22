@@ -1,0 +1,20 @@
+<ion-header>
+  <ion-navbar class="navbar-top">
+    <ion-buttons start>
+      <button block secondary (click)="dismissModal()" type="reset" class="button-light">Cancel</button>
+    </ion-buttons>
+    <ion-buttons end>
+      <button block (click)="submitInterests()" [hidden]="selectedInterests.length===0"> Save</button>
+    </ion-buttons>
+  </ion-navbar>
+</ion-header>
+
+<ion-content padding class="tag-interest-modal">
+  <ion-row center>
+    <ion-col class="header-text">
+      <h3>Select a category for your post!</h3>
+      <p>So we can show it to the right people...</p>
+    </ion-col>
+  </ion-row>
+  <interest-picker (selected)="onSelectInterest($event)" [defaultInterests]="defaultInterests" [isSingleMode]="true" [canSuggest]="false"></interest-picker>
+</ion-content>

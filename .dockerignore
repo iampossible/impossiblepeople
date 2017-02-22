@@ -1,0 +1,12 @@
+environment
+node_modules/
+api/node_modules/
+ionic-app/coverage/
+ionic-app/node_modules/
+ionic-app/platforms/
+ionic-app/plugins/
+ionic-app/resources/android/
+ionic-app/resources/ios/
+ionic-app/tmp/
+ionic-app/typings/
+ionic-app/www/build/

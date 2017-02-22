@@ -1,0 +1,9 @@
+<ion-header>
+  <ion-navbar class="navbar-top">
+    <ion-title>Your Posts</ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content class="my-posts-page background">
+  <post-card *ngFor="let post of posts" [post]="post"></post-card>
+</ion-content>

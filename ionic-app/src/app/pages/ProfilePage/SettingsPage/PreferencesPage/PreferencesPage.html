@@ -1,0 +1,28 @@
+<ion-header>
+  <ion-navbar class="navbar-top">
+    <ion-title>Settings</ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content class="preferences-page background">
+  <ion-list>
+    <ion-list-header>My Account</ion-list-header>
+    <ion-item class="user-email-address" (click)="changeEmail()" tappable>
+      Email: {{ user.email }}
+      <ion-icon item-right name="arrow-forward"></ion-icon>
+    </ion-item>
+
+    <ion-list-header>More Information</ion-list-header>
+    <ion-item class="user-privacy-policy" (click)="privacyPolicy()" tappable>
+      Privacy policy
+      <ion-icon item-right name="arrow-forward"></ion-icon>
+    </ion-item>
+    <ion-item class="user-terms-conditions" (click)="termsConditions()" tappable>
+      Terms and conditions
+      <ion-icon item-right name="arrow-forward"></ion-icon>
+    </ion-item>
+    <ion-item class="log-out" (click)="logOut()" tappable>Log out</ion-item>
+
+  </ion-list>
+  <div class="app-version">v{{ version }}</div>
+</ion-content>

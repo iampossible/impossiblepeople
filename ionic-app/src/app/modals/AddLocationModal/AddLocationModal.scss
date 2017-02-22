@@ -1,0 +1,9 @@
+.add-location-modal {
+	ion-list {
+		.item-input.ng-valid.input-has-value:not(.input-has-focus):last-child {
+			box-shadow: none;
+			padding-bottom: 10px;
+			border-bottom: 1px solid #dedede;
+		}
+	}
+}

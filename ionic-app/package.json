@@ -1,0 +1,108 @@
+{
+  "name": "ionic-app",
+  "description": "an ionic-app for project gnome",
+  "version": "2.2.4",
+  "scripts": {
+    "webserver": "gulp build && gulp webserver",
+    "preinstall": "npm install -g typings@^1.3.3 && npm install -g ionic@^2.0.0",
+    "postinstall": "typings install && node ./node_modules/protractor/bin/webdriver-manager update",
+    "version": "gulp config && git add config.xml package.json",
+    "build": "gulp build && ionic build ios",
+    "droid": "gulp build && ionic build android",
+    "dist": "GNOME_ENV=prod gulp build"
+  },
+  "author": "I Am Possible Ltd.",
+  "license": "ISC",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/iampossible/gnome-app.git"
+  },
+  "dependencies": {
+    "@angular/common": "2.0.0-rc.4",
+    "@angular/compiler": "2.0.0-rc.4",
+    "@angular/core": "2.0.0-rc.4",
+    "@angular/forms": "0.2.0",
+    "@angular/http": "2.0.0-rc.4",
+    "@angular/router": "^2.0.0-rc.1",
+    "@angular/platform-browser": "2.0.0-rc.4",
+    "@angular/platform-browser-dynamic": "2.0.0-rc.4",
+    "browserify": "^13.3.0",
+    "es6-promise": "3.0.2",
+    "es6-shim": "^0.35.1",
+    "ionic-angular": "2.0.0-beta.11",
+    "ionicons": "^3.0.0",
+    "ionic-native": "1.3.21",
+    "reflect-metadata": "0.1.8",
+    "rxjs": "5.0.0-beta.6",
+    "zone.js": "0.6.12",
+    "nprogress": "^0.2.0"
+  },
+  "devDependencies": {
+    "del": "^2.2.0",
+    "glob": "^7.0.3",
+    "gulp": "^3.9.1",
+    "gulp-cached": "^1.1.0",
+    "gulp-inject-file": "0.0.16",
+    "gulp-inject-string": "^1.1.0",
+    "gulp-preprocess": "^2.0.0",
+    "gulp-rimraf": "^0.2.0",
+    "gulp-run": "^1.6.12",
+    "gulp-sane-watch": "^1.1.1",
+    "gulp-sass": "2.2.0",
+    "gulp-typescript": "2.13.6",
+    "gulp-watch": "^4.3.5",
+    "gulp-webserver": "^0.9.1",
+    "ionic-gulp-browserify-typescript": "2.0.0",
+    "ionic-gulp-fonts-copy": "1.0.0",
+    "ionic-gulp-html-copy": "1.0.0",
+    "ionic-gulp-sass-build": "1.0.0",
+    "ionic-gulp-scripts-copy": "2.0.1",
+    "ionic-gulp-tslint": "1.1.0",
+    "jasmine-core": "^2.4.1",
+    "jasmine-spec-reporter": "^2.4.0",
+    "karma": "1.2.0",
+    "karma-browserify": "5.1.0",
+    "karma-chrome-launcher": "2.0.0",
+    "karma-coverage": "1.1.1",
+    "karma-jasmine": "1.0.2",
+    "karma-mocha-reporter": "2.1.0",
+    "protractor": "4.0.3",
+    "run-sequence": "^1.1.5",
+    "seraph": "^0.14.2",
+    "ts-node": "1.3.0",
+    "tsify": "^1.0.5",
+    "typings": "1.3.3"
+  },
+  "cordovaPlugins": [
+    "cordova-plugin-certificates",
+    "cordova-plugin-camera",
+    "cordova-plugin-console",
+    "ionic-plugin-keyboard",
+    "cordova-plugin-x-socialsharing",
+    "cordova-plugin-whitelist",
+    "cordova-plugin-geolocation",
+    "cordova-plugin-badge",
+    "cordova.plugins.diagnostic",
+    "cordova-plugin-inappbrowser",
+    {
+      "variables": {
+        "SENDER_ID": "257227398283"
+      },
+      "locator": "phonegap-plugin-push",
+      "id": "phonegap-plugin-push"
+    },
+    {
+      "variables": {
+        "APP_ID": "1608711046118075",
+        "APP_NAME": "Impossible"
+      },
+      "locator": "cordova-plugin-facebook4",
+      "id": "cordova-plugin-facebook4"
+    },
+    "cordova-plugin-contacts"
+  ],
+  "cordovaPlatforms": [
+    "ios",
+    "android"
+  ]
+}

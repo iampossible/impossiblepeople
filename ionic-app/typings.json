@@ -1,0 +1,10 @@
+{
+  "globalDependencies": {
+    "angular-protractor": "registry:dt/angular-protractor#1.5.0+20160914235635",
+    "es6-shim": "registry:dt/es6-shim#0.31.2+20160602141504",
+    "jasmine": "registry:dt/jasmine#2.5.0+20161003201800",
+    "node": "registry:dt/node#6.0.0+20161019125345",
+    "selenium-webdriver": "registry:dt/selenium-webdriver#2.44.0+20160914235635",
+    "zone.js": "registry:dt/zone.js#0.0.0+20160316155526"
+  }
+}

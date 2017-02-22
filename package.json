@@ -1,0 +1,36 @@
+{
+  "name": "gnome-app",
+  "version": "1.5.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "(cd api && npm test && npm start &) && (cd ionic-app && npm test)",
+    "fitxit": "sh ./scripts/fitxit || true",
+    "goodmorning": "(cd api && rm -R node_modules && npm install) && (cd ionic-app && rm -R node_modules && npm install)",
+    "api:build": "docker-compose build api",
+    "api:run": "docker-compose run --rm --service-ports --name gnome-api api",
+    "api:worker": "npm run api:build && docker-compose run --rm --service-ports --name gnome-worker api npm run worker",
+    "api:test": "npm run api:build && docker-compose run --rm --name gnome-api api npm test",
+    "app:clean": "docker stop gnome-app && docker rm gnome-app",
+    "app:build": "docker-compose build client",
+    "app:webserver": "docker-compose run --rm -d --service-ports --name gnome-app client npm run webserver && echo 'webserver up on port 8090' && read -n1 -r -p 'Press any key to stop...' && echo 'going down for real...' && npm run app:clean",
+    "app:test": "npm run app:build && docker-compose run --rm --name gnome-app-test client gulp test",
+    "app:e2e": "npm run app:build && docker-compose up client"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/iampossible/gnome-app.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/iampossible/gnome-app/issues"
+  },
+  "homepage": "https://github.com/iampossible/gnome-app#readme",
+  "dependencies": {},
+  "devDependencies": {
+    "eslint": "^2.5.1",
+    "eslint-config-airbnb": "^6.2.0",
+    "eslint-plugin-react": "^4.2.3"
+  }
+}

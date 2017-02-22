@@ -1,0 +1,315 @@
+// http://ionicframework.com/docs/v2/theming/
+
+
+// App Shared Imports
+// --------------------------------------------------
+// These are the imports which make up the design of this app.
+// By default each design mode includes these shared imports.
+// App Shared Sass variables belong in app.variables.scss.
+
+@import "./buttons";
+@import "./loading";
+
+@import "../pages/LandingPage/LandingPage";
+@import "../pages/PostDetailPage/PostDetails";
+@import "../pages/ProfilePage/ProfilePage";
+@import "../pages/MainPage/CreatePostTab/CreatePostTab";
+@import "../pages/MainPage/FeedTab/FeedTab";
+@import "../pages/MainPage/ActivityTab/ActivityTab";
+
+@import "../pages/ProfilePage/SettingsPage/SettingsPage";
+@import "../pages/ProfilePage/SettingsPage/EditProfileModal/EditProfileModal";
+@import "../pages/ProfilePage/SettingsPage/InviteFriendsPage/InviteFriendsPage";
+@import "../pages/ProfilePage/SettingsPage/FindFriendsPage/FindFriendsPage";
+@import "../pages/ProfilePage/SettingsPage/PreferencesPage/EmailPage/EmailPage";
+@import "../pages/ProfilePage/SettingsPage/MyFriendsPage/MyFriendsPage";
+@import "../pages/User/InterestsPage/InterestsPage";
+@import "../pages/User/AddLocationContextPage/AddLocationContextPage";
+@import "../pages/User/AuthPage/AuthPage";
+
+@import "../components/ButtonDropdown/ButtonDropdown";
+@import "../components/PostCard/PostCard";
+@import "../components/InterestPicker/InterestPicker";
+@import "../components/FacebookConnect/FacebookConnect";
+@import "../components/QuickFeedback/QuickFeedback";
+
+ion-item.item-text-wrap p,
+ion-item.item-text-wrap{
+  white-space: normal;
+}
+
+.margin-right {
+  margin-right: 15px;
+}
+
+.kill-padding-top {
+  padding-top: 0;
+}
+
+.kill-padding-left {
+  padding-left: 0;
+}
+
+.kill-margin-bottom {
+  margin-bottom: 0;
+}
+
+.app-version {
+  font-size: 1.4rem;
+  margin: 15px;
+  text-align: center;
+}
+
+.round {
+  border-radius:50%;
+}
+
+.align-right {
+  text-align: right;
+}
+
+.empty-state {
+  text-align: center;
+}
+
+.uppercase {
+  text-transform: uppercase;
+}
+
+h1, ion-card h1 {
+  font-size: 1.8rem;
+  font-weight: bold;
+}
+
+.user-headline {
+  align-items: center;
+  display: flex;
+  justify-content: flex-start;
+
+  &.user-headline-padded {
+    padding: 20px 15px;
+  }
+
+  p {
+    white-space: normal;
+  }
+
+  .user-headline-banner {
+    margin-bottom: 2rem;
+    text-align: center;
+
+    h2 {
+      margin: 5px 0 2px 0
+    }
+
+    p {
+      color: map_get($colors, dark-gray);
+    }
+
+    ion-thumbnail img {
+      display: inline-block;
+    }
+  }
+
+  background-color: map_get($colors, background-gray);
+
+  .item-inner {
+    position: relative;
+
+    .top-right {
+      position: absolute;
+      right: 10px;
+      top: 5px;
+    }
+  }
+}
+
+.navbar-top {
+
+  .toolbar-title {
+    font-weight: 300;
+    text-align: center;
+    color: map_get($colors, dark-night);
+
+    img {
+      margin-top:6px;
+      height: 30px;
+    }
+  }
+   .toolbar-background {
+    background: map_get($colors, snow);
+  }
+
+  .back-button {
+    color: map_get($colors, medium-gray);
+    
+    ion-icon {
+      color: map_get($colors, medium-gray);
+    }
+  }
+
+  .back-button-text {
+    text-indent: 5px;
+  }
+}
+
+ion-row.full{
+  padding-left: 0;
+  padding-right: 0;
+}
+
+// highlight important list items
+ion-item.primary-item {
+  color: map_get($colors, primary);
+  padding-left: 0;
+
+  ion-label{
+    font-size: 1.1em;
+    padding-left: 16px;
+  }
+
+  :active {
+    background: map_get($colors, primary);
+    color: map_get($colors, snow);
+  }
+}
+
+p.error-message {
+  color: map_get($colors, primary);
+  padding: 0 15px;
+}
+
+ion-item.has-error {
+  //border-bottom: 1px solid map_get($colors, primary) !important;
+  //border-top: 1px solid map_get($colors, primary) !important;
+
+  .item-inner{
+    //border: none !important;
+    color: map_get($colors, primary) !important;
+
+    ::-webkit-input-placeholder {
+      color: map_get($colors, primary) !important;
+    }
+  }
+}
+
+.item h2 {
+  color: map_get($colors, dark-gray);
+}
+
+.item p {
+  font-size: 1.4rem;
+  color: map_get($colors, medium-gray);
+}
+
+ion-item-divider {
+  font-size: 0.8em;
+  padding-bottom: 10px;
+  text-transform: uppercase;
+}
+
+// styling for buttons at bottom of screen
+footer > .toolbar {
+  min-height: 0;
+  padding: 0;
+
+  .toolbar-background {
+    background: map_get($colors, snow);
+  }
+
+  .toolbar-content {
+    button {
+      border-bottom: none;
+      border-color: map_get($colors, light-gray);
+      margin: 0;
+    }
+  }
+}
+
+ion-alert {
+  // remove bold font from last button
+  &.equal-weight .alert-button:last-child {
+    font-weight: normal;
+  }
+
+  // use secondary color for buttons
+  &.secondary .alert-button {
+    color: map_get($colors, secondary);
+  }
+}
+
+ion-navbar{
+  border-bottom: 1px solid map_get($colors, light-gray);
+}
+
+.strike {
+  display: block;
+  overflow: hidden;
+  text-align: center;
+  white-space: nowrap;
+
+  > span {
+    display: inline-block;
+    position: relative;
+
+    &:before, &:after {
+      background: map_get($colors, medium-gray);
+      content: "";
+      height: 1px;
+      position: absolute;
+      top: 50%;
+      width: 9999px;
+    }
+
+    &:after {
+      left: 100%;
+      margin-left: 15px;
+    }
+
+    &:before {
+      margin-right: 15px;
+      right: 100%;
+    }
+  }
+}
+
+.light-list {
+  border-bottom: none;
+  border-top: none;
+
+  & > .item, & > .item:last-child, & > button, & > button-dropdown button {
+    border-top: none;
+    margin: 0;
+  }
+
+  & > .item, & > .item:last-child, & > button.button-outline, & > button.button-clear, & > button-dropdown button {
+    background-color: map_get($colors, snow);
+    border-bottom: 1px solid map_get($colors, light-gray);
+  }
+
+  ion-icon {
+    text-align: center;
+  }
+
+  h2, p {
+    color: map_get($colors, medium-gray);
+  }
+}
+
+.background {
+  background: map_get($colors, background-gray);
+}
+
+.top-notification-banner {
+  background-color: #49B7A4;
+  padding: 20px 10px 20px 15px;
+  font-size: 14px;
+  color: #FFFFFF;
+  top: 0;
+  left: 0;
+  right:0;
+}
+
+
+
+

@@ -1,0 +1,20 @@
+{
+  "extends": "airbnb",
+  "parserOptions": {
+    "ecmaVersion": "6"
+  },
+  "env": {
+    "browser": false,
+    "node": true,
+    "jasmine": true
+  },
+  "rules": {
+    "max-len":  0,
+    "prefer-const" :  "off",
+    "no-var" :  "off",
+    "no-console" :  "off",
+    "strict": "off",
+    "padded-blocks": 0,
+    "comma-dangle": "off"
+  }
+}

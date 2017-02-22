@@ -1,0 +1,73 @@
+.create {
+
+  #create-post-wrapper {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+
+    #top-half {
+      flex-grow: 1;
+
+      .create-post-toggle {
+        margin: 12px 12px;
+      }
+
+      .create-post-input {
+        display: flex;
+
+        .textarea-avatar {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          width: 20%;
+
+          ion-icon.textarea-unfocus-button {
+            font-size: 3rem;
+            margin-top: 20px;
+          }
+        }
+
+        .textarea-wrapper {
+          width: 80%;
+
+          h1 {
+            font-weight: normal;
+            margin: 0 0 5px 0;
+          }
+
+          textarea {
+            border: none;
+            height: 110px;
+            width: 100%;
+          }
+        }
+      }
+    }
+
+    #bottom-half {
+      flex-grow: 1;
+      display: flex;
+      flex-direction: column;
+
+      .sticky-bottom {
+        flex-grow: 1;
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-end;
+
+        .button-border-top {
+          border-top: 1px solid map_get($colors, light-gray);
+        }
+
+        .button-no-border-bottom {
+          border-bottom: none;
+        }
+      }
+    }
+
+
+  }
+  .segment-button {
+    font-size: 0.9em;
+  }
+}

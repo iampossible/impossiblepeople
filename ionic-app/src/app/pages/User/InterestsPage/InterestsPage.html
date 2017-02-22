@@ -1,0 +1,22 @@
+<ion-header>
+  <ion-navbar class="navbar-top">
+    <ion-buttons end>
+      <button block
+              (click)="lastPage ? submitInterests() : nextPage()"
+              [disabled]="lastPage && !selectedInterests.length"
+              [ngClass]="{'deactivated': selectedInterests.length == 0 && lastPage}">
+        {{ lastPage ? ( params.data.editMode ? 'Save' : 'Done') : 'View more' }}
+      </button>
+    </ion-buttons>
+  </ion-navbar>
+</ion-header>
+
+<ion-content padding class="interest-page">
+  <ion-row center>
+    <ion-col class="header-text">
+      <h3>Which type of posts are you interested in?</h3>
+      <p [hidden]="params.data.editMode">This can be changed in your profile anytime.</p>
+    </ion-col>
+  </ion-row>
+  <interest-picker (selected)="onSelectInterest($event)" (pageChanged)="sliderPageChanged($event)" [defaultInterests]="initSelectedInterests" [canSuggest]="true"></interest-picker>
+</ion-content>

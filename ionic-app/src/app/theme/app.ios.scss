@@ -1,0 +1,156 @@
+
+// http://ionicframework.com/docs/v2/theming/
+
+
+// App Shared Variables
+// --------------------------------------------------
+// Shared Sass variables go in the app.variables.scss file
+@import 'app.variables';
+
+
+// App iOS Variables
+// --------------------------------------------------
+// iOS only Sass variables can go here
+$toolbar-ios-border-color: map-get($colors, snow);
+$toolbar-ios-height: 55px;
+
+$tabbar-ios-background: map-get($colors, snow);
+
+$list-ios-header-font-size: 1.4rem;
+$list-ios-header-color: map-get($colors, medium-gray);
+
+$item-ios-padding-top: 20px;
+$item-ios-padding-bottom: 20px;
+
+$card-ios-box-shadow: 0 0 1px rgba(0, 0, 0, 0.3);
+
+// Ionic iOS Sass
+// --------------------------------------------------
+// Custom App variables must be declared before importing Ionic.
+// Ionic will use its default values when a custom variable isn't provided.
+@import 'ionic.ios';
+
+
+// App Shared Sass
+// --------------------------------------------------
+// All Sass files that make up this app goes into the app.core.scss file.
+// For simpler CSS overrides, custom app CSS must come after Ionic's CSS.
+@import 'app.core';
+
+
+ion-icon{
+  color: map-get($colors, dark-gray);
+}
+.tab-button[aria-selected=true] {
+  ion-icon{
+    color: map-get($colors, primary);
+  }
+}
+.back-button{
+  color: map-get($colors, secondary);
+  ion-icon{
+    color: map-get($colors, secondary);
+  }
+}
+
+
+ion-tab.has-views {
+    background-color: map_get($colors, light-gray)
+}
+
+
+
+
+tabbar{
+  border-top: 1px solid map_get($colors, light-gray);
+
+  z-index: 11130;
+  width: 100%;
+
+  ion-icon {
+    color: map_get($colors, medium-gray)
+  }
+}
+
+ion-navbar-section ion-note.post-options {
+  float: right;
+}
+
+ion-searchbar {
+  background: transparent;
+
+  input.searchbar-input{
+    background:map-get($colors, light-gray);
+  }
+
+  button.button-clear{
+    .button-inner {
+      font-weight:300;
+      color: map-get($colors, medium-gray);
+    }
+  }
+}
+
+#nprogress .bar {
+  top: calc(20px + 55px);  // iOS status bar plus Ionic nav bar
+}
+
+//
+//.platform-ios10{
+//
+//  #create-post-wrapper button.button{
+//    height: 2.3em;
+//    padding-bottom: 1.5em;
+//    padding-top: 1.5em;
+//  }
+//  #create-post-wrapper button-dropdown .button{
+//    height: 3.6em;
+//  }
+//
+//  @media only screen
+//  and (max-device-width : 320px)
+//  and (orientation : portrait) {
+//    ion-slide div.slide-zoom img{
+//      width: 40%;
+//    }
+//  }
+//
+//  ion-content.create-account{
+//    height: 90%;
+//    scroll-content{
+//      padding-bottom: 50px;
+//    }
+//  }
+//
+  .landing div.landing-wrapper #landing-page-logo{
+    top: 45px;
+    position: absolute;
+    margin: auto;
+    left: 20%;
+  }
+
+ .landing ion-slides {
+   top: 60px;
+   height: auto;
+   position:absolute;
+ }
+
+//  ion-list.post-reply,
+//  .sticky-bottom{
+//    margin-bottom: 35px;
+//  }
+//
+//  ion-tab{
+//    height: calc(100% - 115px);
+//  }
+//
+//  tabbar{
+//    position: fixed !important;
+//    bottom: 0px !important;
+//  }
+//
+//  .landing div.landing-wrapper {
+//    overflow: hidden;
+//
+//  }
+//}

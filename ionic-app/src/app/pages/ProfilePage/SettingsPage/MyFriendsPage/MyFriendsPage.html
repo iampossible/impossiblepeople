@@ -1,0 +1,27 @@
+<ion-header>
+  <ion-navbar class="navbar-top">
+    <ion-title>Following</ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content class="my-friends-page background">
+  <ion-list class="friends-list light-list">
+    <p class="empty-state" *ngIf="friendsList && friendsList.length === 0">
+      You're not following anyone yet...
+    </p>
+    <ion-item *ngFor="let friend of friendsList" class="friends-list-item">
+      <div class="friends-list-item-info" (click)="goToProfile(friend.userID)">
+        <ion-avatar item-left>
+          <img src="{{ friend.imageSource || 'build/images/green-bean.png' }}">
+        </ion-avatar>
+        <h2>{{ friend.username }}</h2>
+        <p>{{ friend.location }}</p>
+      </div>
+      <button item-right class="follow-toggle"
+              (click)="followToggle(friend)"
+              [ngClass]="{ 'button-outline button-outline-secondary-light': friend.unfollowed, 'button-secondary-light': !friend.unfollowed }">
+        {{ friend.unfollowed ? 'Follow' : 'Unfollow' }}
+      </button>
+    </ion-item>
+  </ion-list>
+</ion-content>

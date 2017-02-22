@@ -1,0 +1,32 @@
+<ion-header>
+  <ion-navbar class="navbar-top auth-nav">
+    <ion-title></ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content class="auth">
+
+  <p padding class="kill-padding-top kill-margin-bottom">Sign in using your email</p>
+
+  <form [formGroup]="loginForm" (submit)="login($event)">
+    <ion-list class="kill-margin-bottom">
+
+      <ion-item class="email-input" [ngClass]="{ 'has-error': controlError.email }">
+        <ion-input type="email" formControlName="email" placeholder="Email address" required></ion-input>
+      </ion-item>
+
+      <ion-item class="password-input" [ngClass]="{ 'has-error': controlError.password }">
+        <ion-input type="password" formControlName="password" placeholder="Password" required></ion-input>
+      </ion-item>
+    </ion-list>
+
+    <p class="error-message" *ngIf="controlError.message">{{ controlError.message }}</p>
+
+    <button clear full secondary-light type="button" class="forgotten-password-button" (click)="forgotPassword()">
+      Forgot your password?
+    </button>
+
+    <button full type="submit" [disabled]="!loginForm.valid">Log in</button>
+  </form>
+
+</ion-content>

@@ -1,0 +1,22 @@
+<ion-header>
+  <ion-navbar class="navbar-top">
+    <ion-buttons start>
+      <button block (click)="dismissModal()" type="reset" class="button-light">Close</button>
+    </ion-buttons>
+    <ion-title></ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content padding class="add-interest-modal">
+  <form [formGroup]="suggestInterestForm" (submit)="submitSuggestion()">
+    <ion-list>
+      <ion-list-header class="modal-header">Add something you're interested in...</ion-list-header>
+      <ion-item class="email-input">
+        <ion-input type="text" formControlName="suggestion" placeholder="Add interest or skill!"></ion-input>
+      </ion-item>
+    </ion-list>
+    <div padding class="kill-padding-top">
+      <button block type="submit" [disabled]="!suggestInterestForm.valid">Continue</button>
+    </div>
+  </form>
+</ion-content>

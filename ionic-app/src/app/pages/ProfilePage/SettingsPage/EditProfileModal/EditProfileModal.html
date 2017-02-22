@@ -1,0 +1,45 @@
+<ion-header>
+  <ion-navbar class="navbar-top">
+    <ion-buttons start>
+      <button block secondary (click)="dismissModal()" type="reset">Close</button>
+    </ion-buttons>
+    <ion-title>Profile</ion-title>
+    <ion-buttons end>
+      <button block (click)="updateProfile()" [hidden]="!hasProfileChanges()">Save</button>
+    </ion-buttons>
+  </ion-navbar>
+</ion-header>
+
+<ion-content class="edit-profile-modal">
+  <div class="user-headline user-headline-padded">
+    <ion-avatar class="profile-picture" item-left>
+      <img [src]="profilePicture" class="round">
+    </ion-avatar>
+    <button clear secondary (click)="changeProfilePicture()">Update profile picture</button>
+  </div>
+
+  <ion-list class="user-edit-list">
+    <ion-item>
+      <ion-label stacked>Name</ion-label>
+      <ion-input class="profile-first-name" type="text" [(ngModel)]="user.firstName"></ion-input>
+      <ion-input class="profile-last-name" type="text" [(ngModel)]="user.lastName"></ion-input>
+    </ion-item>
+
+    <ion-item class="location-item">
+      <small style="display: block;" stacked>Location</small>
+      <button medium-gray clear (click)="addLocation($event)" class="location-button">
+        <ion-icon name="pin"></ion-icon>
+        {{ user.location || 'Add location' }}
+      </button>
+    </ion-item>
+    <ion-item>
+      <ion-label stacked>About me</ion-label>
+      <ion-input class="profile-bio" type="text" [(ngModel)]="user.biography" autocorrect autocomplete></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label stacked>Personal Website</ion-label>
+      <ion-input class="profile-url" type="url" [(ngModel)]="user.url" placeholder="Add a link to an online account!"></ion-input>
+    </ion-item>
+  </ion-list>
+  <div class="spacer">&nbsp;</div>
+</ion-content>

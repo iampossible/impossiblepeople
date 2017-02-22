@@ -1,0 +1,409 @@
+{
+  "results": [
+    {
+      "address_components": [
+        {
+          "long_name": "Camp Drewe Road",
+          "short_name": "Camp Drewe Rd",
+          "types": [
+            "route"
+          ]
+        },
+        {
+          "long_name": "Lennox Head",
+          "short_name": "Lennox Head",
+          "types": [
+            "locality",
+            "political"
+          ]
+        },
+        {
+          "long_name": "Ballina Shire Council",
+          "short_name": "Ballina",
+          "types": [
+            "administrative_area_level_2",
+            "political"
+          ]
+        },
+        {
+          "long_name": "New South Wales",
+          "short_name": "NSW",
+          "types": [
+            "administrative_area_level_1",
+            "political"
+          ]
+        },
+        {
+          "long_name": "Australia",
+          "short_name": "AU",
+          "types": [
+            "country",
+            "political"
+          ]
+        },
+        {
+          "long_name": "2478",
+          "short_name": "2478",
+          "types": [
+            "postal_code"
+          ]
+        }
+      ],
+      "formatted_address": "Camp Drewe Rd, Lennox Head NSW 2478, Australia",
+      "geometry": {
+        "bounds": {
+          "northeast": {
+            "lat": -28.7844169,
+            "lng": 153.5933598
+          },
+          "southwest": {
+            "lat": -28.7856407,
+            "lng": 153.5895593
+          }
+        },
+        "location": {
+          "lat": -28.7853496,
+          "lng": 153.5913296
+        },
+        "location_type": "GEOMETRIC_CENTER",
+        "viewport": {
+          "northeast": {
+            "lat": -28.7836798197085,
+            "lng": 153.5933598
+          },
+          "southwest": {
+            "lat": -28.7863777802915,
+            "lng": 153.5895593
+          }
+        }
+      },
+      "place_id": "ChIJ1UZOpPp9kGsRPI3F0iAUZ8E",
+      "types": [
+        "route"
+      ]
+    },
+    {
+      "address_components": [
+        {
+          "long_name": "Lennox Head",
+          "short_name": "Lennox Head",
+          "types": [
+            "locality",
+            "political"
+          ]
+        },
+        {
+          "long_name": "Ballina Shire Council",
+          "short_name": "Ballina",
+          "types": [
+            "administrative_area_level_2",
+            "political"
+          ]
+        },
+        {
+          "long_name": "New South Wales",
+          "short_name": "NSW",
+          "types": [
+            "administrative_area_level_1",
+            "political"
+          ]
+        },
+        {
+          "long_name": "Australia",
+          "short_name": "AU",
+          "types": [
+            "country",
+            "political"
+          ]
+        },
+        {
+          "long_name": "2478",
+          "short_name": "2478",
+          "types": [
+            "postal_code"
+          ]
+        }
+      ],
+      "formatted_address": "Lennox Head NSW 2478, Australia",
+      "geometry": {
+        "bounds": {
+          "northeast": {
+            "lat": -28.7587231,
+            "lng": 153.6081997
+          },
+          "southwest": {
+            "lat": -28.8244332,
+            "lng": 153.5568426
+          }
+        },
+        "location": {
+          "lat": -28.8,
+          "lng": 153.583333
+        },
+        "location_type": "APPROXIMATE",
+        "viewport": {
+          "northeast": {
+            "lat": -28.7587231,
+            "lng": 153.6081997
+          },
+          "southwest": {
+            "lat": -28.8244332,
+            "lng": 153.5568426
+          }
+        }
+      },
+      "place_id": "ChIJyy3PfF2HkGsRQPhDkLQJBgQ",
+      "types": [
+        "locality",
+        "political"
+      ]
+    },
+    {
+      "address_components": [
+        {
+          "long_name": "2478",
+          "short_name": "2478",
+          "types": [
+            "postal_code"
+          ]
+        },
+        {
+          "long_name": "South Ballina",
+          "short_name": "South Ballina",
+          "types": [
+            "locality",
+            "political"
+          ]
+        },
+        {
+          "long_name": "Ballina Shire Council",
+          "short_name": "Ballina",
+          "types": [
+            "administrative_area_level_2",
+            "political"
+          ]
+        },
+        {
+          "long_name": "New South Wales",
+          "short_name": "NSW",
+          "types": [
+            "administrative_area_level_1",
+            "political"
+          ]
+        },
+        {
+          "long_name": "Australia",
+          "short_name": "AU",
+          "types": [
+            "country",
+            "political"
+          ]
+        }
+      ],
+      "formatted_address": "South Ballina NSW 2478, Australia",
+      "geometry": {
+        "bounds": {
+          "northeast": {
+            "lat": -28.7587232,
+            "lng": 153.6088344
+          },
+          "southwest": {
+            "lat": -28.9565331,
+            "lng": 153.443222
+          }
+        },
+        "location": {
+          "lat": -28.8529354,
+          "lng": 153.5570056
+        },
+        "location_type": "APPROXIMATE",
+        "viewport": {
+          "northeast": {
+            "lat": -28.7587232,
+            "lng": 153.6088344
+          },
+          "southwest": {
+            "lat": -28.9565331,
+            "lng": 153.443222
+          }
+        }
+      },
+      "place_id": "ChIJn3nMJsuCkGsRQDfTzLcJBhw",
+      "postcode_localities": [
+        "Ballina",
+        "East Ballina",
+        "Empire Vale",
+        "Lennox Head",
+        "Patchs Beach",
+        "Skennars Head",
+        "South Ballina",
+        "Teven",
+        "Tintenbar",
+        "West Ballina"
+      ],
+      "types": [
+        "postal_code"
+      ]
+    },
+    {
+      "address_components": [
+        {
+          "long_name": "Ballina Shire Council",
+          "short_name": "Ballina",
+          "types": [
+            "administrative_area_level_2",
+            "political"
+          ]
+        },
+        {
+          "long_name": "New South Wales",
+          "short_name": "NSW",
+          "types": [
+            "administrative_area_level_1",
+            "political"
+          ]
+        },
+        {
+          "long_name": "Australia",
+          "short_name": "AU",
+          "types": [
+            "country",
+            "political"
+          ]
+        }
+      ],
+      "formatted_address": "Ballina, NSW, Australia",
+      "geometry": {
+        "bounds": {
+          "northeast": {
+            "lat": -28.7043077,
+            "lng": 153.6087602
+          },
+          "southwest": {
+            "lat": -29.0010986,
+            "lng": 153.3624948
+          }
+        },
+        "location": {
+          "lat": -28.8263605,
+          "lng": 153.5334025
+        },
+        "location_type": "APPROXIMATE",
+        "viewport": {
+          "northeast": {
+            "lat": -28.7043077,
+            "lng": 153.6087602
+          },
+          "southwest": {
+            "lat": -29.0010986,
+            "lng": 153.3624948
+          }
+        }
+      },
+      "place_id": "ChIJGSMhcwKCkGsRWLKq2JtdcD0",
+      "types": [
+        "administrative_area_level_2",
+        "political"
+      ]
+    },
+    {
+      "address_components": [
+        {
+          "long_name": "New South Wales",
+          "short_name": "NSW",
+          "types": [
+            "administrative_area_level_1",
+            "political"
+          ]
+        },
+        {
+          "long_name": "Australia",
+          "short_name": "AU",
+          "types": [
+            "country",
+            "political"
+          ]
+        }
+      ],
+      "formatted_address": "New South Wales, Australia",
+      "geometry": {
+        "bounds": {
+          "northeast": {
+            "lat": -28.1570199,
+            "lng": 159.1054321
+          },
+          "southwest": {
+            "lat": -37.505182,
+            "lng": 140.9992792
+          }
+        },
+        "location": {
+          "lat": -31.2532183,
+          "lng": 146.921099
+        },
+        "location_type": "APPROXIMATE",
+        "viewport": {
+          "northeast": {
+            "lat": -28.1570199,
+            "lng": 153.6386768
+          },
+          "southwest": {
+            "lat": -37.505182,
+            "lng": 140.9992792
+          }
+        }
+      },
+      "place_id": "ChIJDUte93TLDWsRLZ_EIhGvgBc",
+      "types": [
+        "administrative_area_level_1",
+        "political"
+      ]
+    },
+    {
+      "address_components": [
+        {
+          "long_name": "Australia",
+          "short_name": "AU",
+          "types": [
+            "country",
+            "political"
+          ]
+        }
+      ],
+      "formatted_address": "Australia",
+      "geometry": {
+        "bounds": {
+          "northeast": {
+            "lat": -9.219821400000001,
+            "lng": 159.2557541
+          },
+          "southwest": {
+            "lat": -54.7772185,
+            "lng": 112.9215626
+          }
+        },
+        "location": {
+          "lat": -25.274398,
+          "lng": 133.775136
+        },
+        "location_type": "APPROXIMATE",
+        "viewport": {
+          "northeast": {
+            "lat": -0.6911343999999999,
+            "lng": 166.7429167
+          },
+          "southwest": {
+            "lat": -51.66332320000001,
+            "lng": 100.0911072
+          }
+        }
+      },
+      "place_id": "ChIJ38WHZwf9KysRUhNblaFnglM",
+      "types": [
+        "country",
+        "political"
+      ]
+    }
+  ],
+  "status": "OK"
+}

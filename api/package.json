@@ -1,0 +1,76 @@
+{
+  "name": "gnome-app-api",
+  "version": "2.0.0",
+  "description": "Impossible new api",
+  "main": "index.js",
+  "scripts": {
+    "jasmine": "NODE_PATH=src node test/runner.js",
+    "test": "sh ./before-test.sh && npm run jasmine",
+    "coverage": "NODE_PATH=src JASMINE_CONFIG_PATH=test/jasmine.json istanbul cover jasmine",
+    "seed": "(cd ../ionic-app/ && gulp e2e.seed)",
+    "start": "NODE_PATH=src node index.js",
+    "worker": "NODE_PATH=src node worker.js"
+  },
+  "watch": {
+    "test": "{src,test}/*.js"
+  },
+  "author": "I Am Possible Ltd",
+  "license": "ISC",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/iampossible/gnome-app.git"
+  },
+  "dependencies": {
+    "aws-sdk": "^2.3.3",
+    "bcrypt": "^0.8.6",
+    "btoa": "^1.1.2",
+    "hapi": "^13.2.1",
+    "hapi-auth-cookie": "^6.1.1",
+    "hashids": "^1.0.2",
+    "impossible-promise": "^0.8.0",
+    "joi": "^8.0.5",
+    "log4js": "^0.6.35",
+    "memory-cache": "^0.1.5",
+    "moment": "^2.12.0",
+    "newrelic": "^1.26.1",
+    "nodemailer": "^2.7.0",
+    "nodemailer-wellknown": "^0.2.0",
+    "password": "^0.1.1",
+    "request": "^2.69.0",
+    "sequence": "^3.0.0",
+    "seraph": "^0.14.2",
+    "sqs-consumer": "^3.2.0",
+    "sqs-producer": "^1.3.4"
+  },
+  "devDependencies": {
+    "eslint-config-airbnb": "^6.2.0",
+    "inert": "4.1.0",
+    "istanbul": "^0.4.3",
+    "jasmine": "^2.4.1",
+    "jasmine-spec-reporter": "^3.0.0",
+    "lout": "9.2.0",
+    "nock": "^8.0.0",
+    "requestretry": "^1.8.0",
+    "vision": "4.1.1"
+  },
+  "engines": {
+    "node": "4.3"
+  },
+  "jshintConfig": {
+    "browser": true,
+    "jquery": true,
+    "node": true,
+    "esnext": true,
+    "camelcase": true,
+    "eqeqeq": true,
+    "indent": 2,
+    "latedef": true,
+    "maxlen": 100,
+    "newcap": true,
+    "quotmark": "single",
+    "strict": true,
+    "undef": true,
+    "unused": true,
+    "eqnull": true
+  }
+}

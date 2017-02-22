@@ -1,0 +1,305 @@
+<ion-header>
+  <ion-navbar class="navbar-top">
+    <ion-title>
+      <img src="build/images/logo-medium.png" alt="Impossible logo">
+    </ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content class="feed-tab background">
+  <ion-refresher (ionRefresh)="released($event)" pullMin="200" pullMax="260">
+    <div #animationWrapper class="animation day" *ngIf="isDay">
+      <svg height="270" width="100%" id="animation">
+        <style type="text/css">
+          .st1 {
+            fill: #D7EEFA;
+          }
+
+          .st3 {
+            fill: none;
+            stroke: #FFFFFF;
+            stroke-width: 3;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+            stroke-miterlimit: 10;
+          }
+
+          .st4 {
+            fill: #FFFFFF;
+            stroke: #FFFFFF;
+            stroke-width: 3;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+            stroke-miterlimit: 10;
+          }
+
+          .st5 {
+            fill: #FDB83D;
+          }
+
+          .st7 {
+            fill: none;
+            stroke: #FFC85B;
+            stroke-miterlimit: 10;
+          }
+
+          .st8 {
+            fill: #72C8AF;
+          }
+
+          .st9 {
+            fill: none;
+            stroke: #2F8469;
+            stroke-width: 2;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+            stroke-miterlimit: 10;
+          }
+
+          .st10 {
+            fill: #318268;
+          }
+
+          .st11 {
+            fill: #BB7F2B;
+          }
+
+          .st14 {
+            opacity: 0.34;
+            fill: #FCC198;
+          }
+        </style>
+
+        <rect id="background" x="0" y="0" class="st1" width="100%" height="100%"/>
+
+        <g id="gnome" transform="translate(-80, 0)">
+          <path class="st8" d="M174.5,307.1v-46.2v-4.3c0-2-0.2-4-0.7-5.9c-2.6-10.8-12.2-18.8-23.6-18.8c-13.4,0-24.3,11.1-24.3,24.7
+      	c0,0.8,0,1.6,0.1,2.3v49.4l-0.1,4.4c0,2.5,2,4.5,4.5,4.5c2.5,0,4.5-2,4.5-4.5v-0.5l0-1.4c0.1-1.1,1-2.1,2.1-2.1c1.2,0,2.1,1,2.1,2.3
+      	v1.7c0,2.5,2,4.5,4.5,4.5c2.5,0,4.5-2,4.5-4.5l0-1.7c0-1.2,0.9-2.3,2.1-2.3c1.2,0,2.1,1,2.1,2.3v1.7c0,2.5,2,4.5,4.5,4.5
+      	c2.5,0,4.5-2,4.5-4.5v-1.7c0-1.2,0.9-2.3,2.1-2.3c1.2,0,2.1,1,2.1,2.3l0.2,1.7c0,2.5,2,4.5,4.5,4.5c2.5,0,4.5-2,4.5-4.5L174.5,307.1
+      	z"/>
+          <path class="st9" d="M147.8,252.8c1.6,1,4.4,0.7,5.5,0"/>
+
+          <circle class="st10" cx="141.3" cy="243.3" r="2.5"/>
+          <circle class="st10" cx="160.6" cy="243.3" r="2.5"/>
+
+          <circle class="st14" cx="138.8" cy="252.3" r="3.5"/>
+          <circle class="st14" cx="162.9" cy="252.3" r="3.5"/>
+        </g>
+
+        <g id="sun" transform="scale(1.3)">
+          <g id="ray1">
+            <path class="st7" d="M153.9,129.6c-6.6-7.4-10.6-17.1-10.6-27.7c0-7.1,1.8-13.7,4.9-19.6"/>
+            <path class="st7" d="M216.4,129.3c-7.6,8.8-18.9,14.3-31.4,14.3c-9,0-17.3-2.8-24.1-7.7"/>
+            <path class="st7" d="M211.5,69.7c9.3,7.6,15.2,19.2,15.2,32.2c0,7.1-1.8,13.8-4.9,19.7"/>
+            <path class="st7" d="M153.9,74.2c7.6-8.6,18.8-14,31.1-14c5.8,0,11.2,1.2,16.2,3.3"/>
+            <animateTransform attributeType="xml" attributeName="transform" type="rotate" from="0 185 101.7"
+                              to="360 185 101.7" dur="4s" repeatCount="indefinite"/>
+          </g>
+
+          <g id="ray2">
+            <path class="st7" d="M177.9,155.1c-21.6-2.8-39.2-18.2-45-38.7"/>
+            <path class="st7" d="M238.9,98.5c0.1,1,0.1,2,0.1,3c0,24.5-16.3,45.2-38.6,51.8"/>
+            <path class="st7"
+                  d="M131.1,107.4c-0.2-1.9-0.3-3.9-0.3-5.9c0-29.9,24.2-54.1,54.1-54.1c23.4,0,43.2,14.8,50.8,35.5"/>
+            <animateTransform attributeType="xml" attributeName="transform" type="rotate" from="360 185 101.7"
+                              to="0 185 101.7" dur="4s" repeatCount="indefinite"/>
+          </g>
+
+          <g id="sun-face">
+            <circle class="st5" cx="185" cy="101.7" r="31.9"/>
+            <circle class="st11" cx="178.7" cy="115.7" r="1.5"/>
+            <circle class="st11" cx="190.4" cy="115.7" r="1.5"/>
+            <path class="st11" d="M186.9,118.9c0,1.3-1.1,2.4-2.4,2.4c-1.3,0-2.4-1.1-2.4-2.4"/>
+          </g>
+        </g>
+
+        <g>
+          <path class="st4" transform="scale(1)" d="M480.5,131.9h-26.3c0,0-12-13.2-24.1-4c0,0-4.5-14.8-19.5-23.5c0,0-36.1-19.2-54.1,17.3c0,0-25.6-16.8-34.6,4.6
+      	c0,0-19.6-16.2-28.6,5.6h-36.1v1.1h223.3V131.9z"></path>
+          <line class="st3" x1="357.1" y1="141.7" x2="322.1" y2="141.7"/>
+          <animateTransform attributeType="xml" attributeName="transform" type="translate" from="-500 40" to="320 40"
+                            dur="12s" repeatCount="indefinite"/>
+        </g>
+
+        <g id="cloud2" transform="scale(1) translate(-450 40)">
+          <line class="st3" x1="11.2" y1="40.6" x2="103.2" y2="40.6"/>
+          <line class="st3" x1="112.7" y1="40.6" x2="163.1" y2="40.6"/>
+
+          <path class="st4" d="M150.5,33.1h-29.4C117.3,17.7,105,6,85.3,6C70.8,6,61,17.8,57.2,29.2v3.9c0,0-8.8-13.5-17.1,0
+      	c0,0-6.4-8.7-12.4,0h-56.2v1h179L150.5,33.1z"/>
+
+          <animateTransform attributeType="xml" attributeName="transform" type="translate" from="-450 40" to="450 40"
+                            begin="2s" dur="12s" repeatCount="indefinite"/>
+        </g>
+      </svg>
+    </div>
+
+    <div #animationWrapper class="animation night" *ngIf="!isDay">
+      <svg height="270" width="100%" id="animation">
+        <style type="text/css">
+          .st3 {
+            fill: #465368;
+          }
+
+          .st20 {
+            fill: #4A72B8;
+            stroke: #4A72B8;
+            stroke-width: 2;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+            stroke-miterlimit: 10;
+          }
+
+          .st21 {
+            fill: #649FBC;
+          }
+
+          .st22 {
+            fill: #4A72B8;
+            stroke: #4A72B8;
+            stroke-width: 3;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+            stroke-miterlimit: 10;
+          }
+
+          .st23 {
+            fill: none;
+            stroke: #FFE5A4;
+            stroke-width: 3;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+            stroke-miterlimit: 10;
+          }
+
+          .st24 {
+            fill: none;
+            stroke: #FFE5A4;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+            stroke-miterlimit: 10;
+          }
+
+          .st25 {
+            fill: #A7D498;
+          }
+
+          .st26 {
+            fill: none;
+            stroke: #2C7B3D;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+            stroke-miterlimit: 10;
+          }
+
+          .st27 {
+            fill: #2B783B;
+          }
+
+          .st28 {
+            fill: #FFFFFF;
+          }
+
+          .st29 {
+            fill: #D3D3D3;
+          }
+        </style>
+        <rect x="0" y="0" class="st3" width="100%" height="100%"/>
+
+        <circle class="st28" cx="160.1" cy="93.7" r="1.2">
+          <animate attributeType="xml" attributeName="r" from="1.2" to="0" dur="2s" repeatCount="indefinite"/>
+        </circle>
+        <circle class="st28" cx="106.1" cy="150" r="1.2"/>
+        <circle class="st28" cx="100" cy="250" r="1.2">
+          <animate attributeType="xml" attributeName="r" from="1.2" to="0" dur="2s" begin="0.5s"
+                   repeatCount="indefinite"/>
+        </circle>
+        <circle class="st28" cx="170" cy="220" r="1.2"/>
+        <circle class="st28" cx="27.3" cy="96.1" r="1.2">
+          <animate attributeType="xml" attributeName="r" from="1.2" to="0" dur="2s" begin="0.75s"
+                   repeatCount="indefinite"/>
+        </circle>
+        <circle class="st28" cx="24.9" cy="190.4" r="1.2"/>
+        <circle class="st28" cx="301.3" cy="25.4" r="1.2">
+          <animate attributeType="xml" attributeName="r" from="1.2" to="0" dur="2s" begin="1.5s"
+                   repeatCount="indefinite"/>
+        </circle>
+        <circle class="st28" cx="243.3" cy="86.6" r="1.2"/>
+        <circle class="st28" cx="271.8" cy="264.6" r="1.2">
+          <animate attributeType="xml" attributeName="r" from="1.2" to="0" dur="2s" begin="1s"
+                   repeatCount="indefinite"/>
+        </circle>
+        <circle class="st28" cx="27.3" cy="305.8" r="1.2"/>
+        <circle class="st28" cx="148.9" cy="31.9" r="1.2"/>
+        <circle class="st28" cx="60" cy="394.5" r="1.2"/>
+        <circle class="st28" cx="313" cy="144.8" r="1.2"/>
+        <circle class="st28" cx="354.8" cy="87.8" r="1.2"/>
+        <circle class="st28" cx="172.6" cy="316.2" r="1.2"/>
+        <circle class="st28" cx="269.4" cy="175.4" r="1.2">
+        <animate attributeType="xml" attributeName="r" from="1.2" to="0" dur="2s" begin="1s"
+                   repeatCount="indefinite"/>
+        </circle>
+        <circle class="st28" cx="200." cy="170" r="1.2"/>
+        <circle class="st28" cx="261.5" cy="346.5" r="1.2"/>
+        <circle class="st28" cx="340.3" cy="296.1" r="1.2"/>
+        <g id='moon'>
+          <circle class="st28" cx="53.9" cy="50.7" r="25.3"/>
+          <path class="st29" d="M63.2,63.5c0,1.3-1.1,2.4-2.4,2.4c-1.3,0-2.4-1.1-2.4-2.4"/>
+          <circle class="st29" cx="55" cy="60.3" r="1.5"/>
+          <circle class="st29" cx="66.7" cy="60.3" r="1.5"/>
+        </g>
+
+        <g id="rocketship" transform="translate(-200 300)">
+          <path class="st20" d="M65.1,231.4c0,0,22.6-50.2,58.5-42.2l2.6,1.7l-19.9,35.2c0,0-9.8-8.8-40,5.3"/>
+          <path class="st20" d="M127,290.7c0,0,49.5-24.2,40.3-59.8l-1.7-2.5l-34.6,21c0,0,9.1,9.6-4,40.2"/>
+          <path class="st21" d="M116.9,202.7c0,0-26.6,1.4-41.1,25c0,0,24.2-7.5,30.3-0.5l14.4-24.5H116.9z"/>
+          <polygon class="st22" points="91.7,246.9 97.8,235.8 120.5,258.4 110.8,264.6 "/>
+          <g id="fire">
+            <line class="st23" x1="90.7" y1="258.4" x2="72.3" y2="272.6"/>
+            <line class="st24" x1="94.6" y1="262.4" x2="82.8" y2="272.6"/>
+            <line class="st23" x1="98.4" y1="265.6" x2="81.5" y2="282.4"/>
+            <animate attributeType="xml" attributeName="opacity" from="0.25" to="1" dur="0.25s"
+                     repeatCount="indefinite"/>
+          </g>
+          <path class="st21" d="M153.1,235.5c0,0-0.5,28.2-22.7,44.8c0,0,7-24.9-0.6-30.4l23.1-16.6L153.1,235.5z"/>
+          <g>
+            <path class="st25" d="M181.8,212.9v-22v-1c0-1.1-0.1-2.1-0.4-3.1c-1.4-5.8-6.5-10.1-12.6-10.1c-7.2,0-13,5.9-13,13.2
+      		c0,0.4,0,0.8,0.1,1.3v26.4l-0.1,2.4c0,1.3,1.1,2.4,2.4,2.4c1.3,0,2.4-1.1,2.4-2.4v-0.3l0-0.7c0.1-0.6,0.5-1.1,1.1-1.1
+      		c0.6,0,1.1,0.5,1.1,1.2v0.9c0,1.3,1.1,2.4,2.4,2.4c1.3,0,2.4-1.1,2.4-2.4l0-0.9c0-0.7,0.5-1.2,1.1-1.2c0.6,0,1.1,0.5,1.1,1.2v0.9
+      		c0,1.3,1.1,2.4,2.4,2.4c1.3,0,2.4-1.1,2.4-2.4v-0.9c0-0.7,0.5-1.2,1.1-1.2c0.6,0,1.1,0.5,1.1,1.2"/>
+            <path class="st26" d="M169.6,189.9c0.9,0.5,2.3,0.4,2.9,0"/>
+            <circle class="st27" cx="166.2" cy="184.8" r="1.3"/>
+            <circle class="st27" cx="176.5" cy="184.8" r="1.3"/>
+          </g>
+          <path class="st20" d="M216.5,139.3c-22.6,0.7-49,13.9-49,13.9c-39.8,16.3-61.3,72.6-61.3,72.6l24.5,24.3
+      	c50.9-18.4,74.5-64.4,74.5-64.4C217.4,168.3,216.5,139.3,216.5,139.3z M172.4,199.7c-10,0-18.2-8.1-18.2-18.2s8.1-18.2,18.2-18.2
+      	c10,0,18.2,8.1,18.2,18.2S182.4,199.7,172.4,199.7z"/>
+
+          <animateTransform attributeType="xml" attributeName="transform" type="translate" from="-200 300" to="200 -300"
+                            dur="2s" repeatCount="indefinite"/>
+        </g>
+      </svg>
+    </div>
+  </ion-refresher>
+
+  <div class="top-notification-banner" id="top-notification-banner" *ngIf="showBanner" (click)="openProfile()">
+        Here are posts from friends & neighbours.<br>
+        Edit friends, location & interests in <span id="profile-link">your profile.</span>
+  </div>
+
+
+    <div id="home-intro-state" class="empty-state" *ngIf="showIntro">
+      <div class="welcome">
+        <div class="dismiss-welcome" (click)="dismissIntroScreen()"></div>
+        <div class="welcome-illustration-holder"></div>
+        <h2>Hello there!</h2>
+        <div id="welcome-offer-button" full (click)="openModal()">
+          Offer something!
+        </div>
+      </div>
+    </div>
+
+  <post-card *ngFor="let post of feed" [post]="post"></post-card>
+
+</ion-content>

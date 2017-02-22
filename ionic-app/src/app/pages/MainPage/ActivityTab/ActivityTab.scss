@@ -1,0 +1,84 @@
+.activity-tab {
+	.empty-state {
+		img {
+			max-height: 300px;
+		}
+
+		label {
+			display: block;
+			width: 100%;
+			text-align: center;
+			margin-bottom: 30px;
+			font-weight: 700;
+		}
+
+		button {
+			width: 100%;
+		}
+	}
+	.post-activity {
+		white-space: normal;
+	}
+
+	.item {
+		padding-left: 0;
+		min-height: 70px;
+	}
+
+	ion-card {
+		margin: 0;
+		box-shadow: none;
+	}
+
+	ion-card-content.post-content {
+		border-left: 10px solid #FFF;
+		padding-left: none;
+	}
+
+	ion-card-content.post-content.unread {
+		border-left: 10px solid map_get($colors, gnome);
+	}
+
+	ion-item.card-footer.item {
+		display: none;
+	}
+	.post-reply {
+		.input-wrapper {
+			ion-label {
+				white-space: normal;
+				margin: 13px 8px 13px 18px;
+				font-weight: normal;
+				text-transform: none;
+				color: #6d6d72;
+			}
+		}
+	}
+	ion-card-content {
+		position: relative;
+
+		ion-avatar {
+			float: left;
+			margin: 0 16px 8px 0;
+		}
+		.input-wrapper {
+			white-space: normal;
+			margin-top: 14px;
+		}
+		.post-created-at {
+			position: absolute;
+			top: 15px;
+			right: 15px;
+		}
+		.dismiss {
+			position: absolute;
+			top: 10px;
+			right: 10px;
+		}
+
+		.source-post {
+			font-size: 0.8em;
+			margin-top: 14px;
+			text-indent: 50px;
+		}
+	}
+}

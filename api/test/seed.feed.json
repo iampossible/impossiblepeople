@@ -1,0 +1,312 @@
+{
+  "interests": [
+    {
+      "name": "Rings",
+      "suggested": false,
+      "featured": true
+    },
+    {
+      "name": "Beer",
+      "suggested": false,
+      "featured": true
+    },
+    {
+      "name": "Magic",
+      "suggested": false,
+      "featured": true
+    },
+    {
+      "name": "Gardening",
+      "suggested": false,
+      "featured": true
+    },
+    {
+      "name": "Music",
+      "suggested": false,
+      "featured": true
+    }
+  ],
+  "people": [
+    {
+      "Person": {
+        "firstName": "Frodo",
+        "lastName": "Baggins",
+        "email": "frodo@shire.com",
+        "_password": "sting",
+        "biography": "I wonder if people will ever say, \"Let's hear about Frodo and the Ring.\"",
+        "latitude": -37.871861,
+        "longitude": 175.683022,
+        "location": "Hobbiton, The Shire",
+        "imageSource": "http://i.imgur.com/QhAW89m.jpg"
+      },
+      "Interests": [
+        "Beer",
+        "Rings",
+        "Music"
+      ],
+      "Follows": [
+        "Samwise",
+        "Aragorn",
+        "Bilbo"
+      ],
+      "Posts": [
+        {
+          "postType": "OFFERS",
+          "content": "I will take the Ring to Mordor!",
+          "interest": "Rings",
+          "timeRequired": 0,
+          "location": "Rivendell"
+        }
+      ]
+    },
+    {
+      "Person": {
+        "firstName": "Samwise",
+        "lastName": "Gamgee",
+        "email": "sam@shire.com",
+        "_password": "iloveyoufrodo",
+        "biography": "Let him go, you filth! Let him go! You will not touch him again!",
+        "latitude": -37.871572,
+        "longitude": 175.683123,
+        "location": "Hobbiton, The Shire",
+        "imageSource": "http://i.imgur.com/NRT4fe2.jpg"
+      },
+      "Interests": [
+        "Beer"
+      ],
+      "Follows": [
+        "Frodo",
+        "Gandalf",
+        "Bilbo"
+      ],
+      "Posts": [
+        {
+          "postType": "ASKS",
+          "content": "Any good pubs near mordor?",
+          "interest": "Beer",
+          "timeRequired": 0,
+          "location": "Shire"
+        },
+        {
+          "postType": "ASKS",
+          "content": "Looking to buy 2 grams of Kingsfoil, my usual guy is not answering the phone.",
+          "interest": "Gardening",
+          "timeRequired": 0,
+          "location": "Shire"
+        }
+      ]
+    },
+    {
+      "Person": {
+        "firstName": "Gandalf",
+        "lastName": "The White",
+        "email": "the.white@whitecouncil.com",
+        "_password": "glamdring",
+        "biography": "You shall not pass!",
+        "latitude": 51.612547,
+        "longitude": -0.881231,
+        "location": "Minas Tirith",
+        "imageSource": "http://i.imgur.com/G244Tql.jpg"
+      },
+      "Interests": [
+        "Magic"
+      ],
+      "Follows": [
+        "Samwise"
+      ],
+      "Posts": [
+        {
+          "postType": "ASKS",
+          "content": "I'm looking for someone to go on an adventure. dragons may be involved.",
+          "interest": "Magic",
+          "timeRequired": 0
+        }
+      ]
+    },
+    {
+      "Person": {
+        "firstName": "Gollum",
+        "lastName": "Sméagol",
+        "email": "gollum@mistymountains.com",
+        "_password": "precious",
+        "biography": "We wants it, we needs it. Must have the precious. They stole it from us. Sneaky little hobbitses. Wicked, tricksy, false!",
+        "latitude": 51.612547,
+        "longitude": -0.881231,
+        "location": "Misty Mountains",
+        "imageSource": "http://i.imgur.com/ZPgt6Fb.png"
+      },
+      "Interests": [
+        "Rings",
+        "Magic"
+      ],
+      "Follows": [
+        "Aragorn",
+        "Witch-king"
+      ],
+      "Posts": [
+        {
+          "postType": "ASKS",
+          "content": "What has roots as nobody sees,  Is taller than trees,  Up, up it goes, And yet never grows?",
+          "interest": "Magic",
+          "timeRequired": 0,
+          "location": "Misty Mountains"
+        },
+        {
+          "postType": "ASKS",
+          "content": "Alive without breath, As cold as death; Never thirsty, ever drinking, All in mail never clinking.",
+          "interest": "Rings",
+          "timeRequired": 0,
+          "location": "Misty Mountains"
+        }
+      ]
+    },
+    {
+      "Person": {
+        "firstName": "Aragorn",
+        "lastName": "Son of Arathon",
+        "email": "aragon@ranger.com",
+        "_password": "narsil",
+        "biography": "All that is gold does not glitter",
+        "latitude": 51.612147,
+        "longitude": -0.883231,
+        "location": "Gondor",
+        "imageSource": "http://i.imgur.com/d4MEOXQ.png"
+      },
+      "Interests": [
+        "Rings",
+        "Magic"
+      ],
+      "Follows": [
+        "Gollum"
+      ],
+      "Posts": [
+        {
+          "postType": "ASKS",
+          "content": "Looking for elven blacksmiths in Gondor, need to repair a broken sword.",
+          "interest": "Magic",
+          "timeRequired": 0,
+          "location": "Gondor"
+        }
+      ]
+    },
+    {
+      "Person": {
+        "firstName": "Witch-king",
+        "lastName": "of Angmar",
+        "email": "nazgul@mordor.com",
+        "_password": "eowyn",
+        "biography": "Fool, no man can kill me",
+        "latitude": 51.61566,
+        "longitude": -0.88564,
+        "location": "Mordor",
+        "imageSource": "http://i.imgur.com/sQCWnjS.jpg"
+      },
+      "Interests": [
+        "Rings"
+      ],
+      "Follows": [
+        "Frodo"
+      ],
+      "Posts": [
+        {
+          "postType": "ASKS",
+          "content": "Looking for a ride back to mordor, an elf drowned my horse",
+          "interest": "Magic",
+          "timeRequired": 0,
+          "location": "Rivendale"
+        }
+      ]
+    },
+    {
+      "Person": {
+        "firstName": "Merry",
+        "lastName": "Brandybuck",
+        "email": "merrybrandybuck@shire.com",
+        "_password": "noldorin",
+        "biography": "This, my friend, is a pint.",
+        "latitude": -37.871661,
+        "longitude": 175.684022,
+        "location": "Hobbiton, The Shire",
+        "imageSource": "http://i.imgur.com/WZbXkzA.gif"
+      },
+      "Interests": [
+        "Beer"
+      ],
+      "Follows": [],
+      "Posts": [
+        {
+          "postType": "ASKS",
+          "content": "Looking for help leading the Uruks away from Frodo",
+          "interest": "Rings",
+          "timeRequired": 0,
+          "location": "Hobbiton, The Shire"
+        }
+      ]
+    },
+    {
+      "Person": {
+        "firstName": "Pippin",
+        "lastName": "Took",
+        "email": "pippintook@shire.com",
+        "_password": "trollsbane",
+        "biography": "The road goes on forever, but I can't without a rest. It is high time for lunch.",
+        "latitude": -37.871661,
+        "longitude": 175.684022,
+        "location": "Greenfields, The Shire",
+        "imageSource": "http://i.imgur.com/9QiNrLS.png"
+      },
+      "Interests": [
+        "Beer"
+      ],
+      "Follows": [],
+      "Posts": [
+        {
+          "postType": "OFFERS",
+          "content": "I can sing you a song. At least, well enough for my own people.",
+          "interest": "Music",
+          "timeRequired": 0,
+          "location": "Greenfields, The Shire",
+          "latitude": -37.871661,
+          "longitude": 175.684022
+        },
+        {
+          "postType": "ASKS",
+          "content": "Had a bit too much beer, woke up on top of a talking tree.",
+          "interest": "Beer",
+          "timeRequired": 0,
+          "location": "Forest of Fangorn",
+          "latitude": -37.9998378,
+          "longitude": 175.4420025
+        }
+      ]
+    },
+    {
+      "Person": {
+        "firstName": "Bilbo",
+        "lastName": "Baggins",
+        "email": "bilbo@shire.com",
+        "_password": "sting",
+        "biography": "Sorry! I don’t want any adventures, thank you. Not Today. Good morning! But please come to tea – any time you like! Why not tomorrow? Good bye!",
+        "latitude": -37.171661,
+        "longitude": 175.384022,
+        "location": "Hobbiton, The Shire",
+        "imageSource": "http://i.imgur.com/TimLkMb.jpg"
+      },
+      "Interests": [
+        "Beer"
+      ],
+      "Follows": ["Samwise","Frodo"],
+      "Posts": [
+        {
+          "postType": "OFFERS",
+          "content": "I will give you a name,” he said to it, “and I shall call you Sting.",
+          "interest": "Magic",
+          "timeRequired": 0,
+          "location": "Greenfields, The Shire",
+          "latitude": -37.871661,
+          "longitude": 175.684022
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,29 @@
+.interest-page {
+  .header-text {
+    h3 {
+      font-size: 1.8rem;
+      font-weight: bold;
+    }
+
+    h3, p {
+      text-align: center;
+      width: 100%;
+    }
+  }
+}
+
+.add-interest-modal {
+  ion-list-header.modal-header {
+    font-size: 1.8rem;
+    font-weight: bold;
+    overflow: visible;
+    padding: 2.5rem;
+    text-align: center;
+    text-transform: none;
+    white-space: normal;
+  }
+}
+
+button.deactivated {
+  color: map_get($colors, medium-gray);
+}

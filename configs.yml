@@ -1,0 +1,49 @@
+## Configuration options
+#### Should be set either prior to building the docker image or
+#### passed as a volume when starting a container.
+
+- GNOME_ENV # [MANDATORY] eg: prod
+api:
+  server:
+    - host # [OPTIONAL] [ENV_OVERRIDES] defaults to localhost
+    - port # [OPTIONAL] [ENV_OVERRIDES] defaults to 3000
+    - salt # [MANDATORY]
+    - logging # [OPTIONAL] [ENV_OVERRIDES] defaults to false
+    - endpoint # [OPTIONAL] defaults to host:port
+    https: # [OPTIONAL]
+      - cert
+      - key
+  aws:
+    - accessKey # [MANDATORY] [ENV_OVERRIDES]
+    - secretKey # [MANDATORY] [ENV_OVERRIDES]
+    sqs:
+      - endpoint # [MANDATORY] [ENV_OVERRIDES]
+    sns:
+      - Apple # [OPTIONAL]
+      - Android # [OPTIONAL]
+  facebook:
+    - appID # [MANDATORY] [ENV_OVERRIDES]
+    - appSecret # [MANDATORY] [ENV_OVERRIDES]
+  neo4j:
+    - host # [MANDATORY] [ENV_OVERRIDES]
+    - user # [MANDATORY] [ENV_OVERRIDES]
+    - pass # [MANDATORY] [ENV_OVERRIDES]
+  smtp:
+    - service # [OPTIONAL] defaults to sendgrid 
+    - user # [MANDATORY] [ENV_OVERRIDES]
+    - pass # [MANDATORY] [ENV_OVERRIDES]
+    - from # [MANDATORY] [ENV_OVERRIDES]
+  slack:
+    - token # [OPTIONAL] [ENV_OVERRIDES]
+    - channel # [OPTIONAL] [ENV_OVERRIDES]
+  - cookieTTL # [OPTIONAL] defaults to ?
+  login:
+    - penalty # [OPTIONAL] defaults to ?
+    - limit # [OPTIONAL] defaults to ?
+    - timeout # [OPTIONAL] defaults to ?
+app:
+  - api # [MANDATORY]
+  - heap # [OPTIONAL]
+  push: # [OPTIONAL]
+    - senderid
+    - firebaseJSON

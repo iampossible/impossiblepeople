@@ -1,0 +1,6 @@
+{
+  "name": "gnome-app",
+  "app_id": "com.impossible.gnome.prod",
+  "v2": true,
+  "typescript": true
+}

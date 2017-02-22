@@ -1,0 +1,39 @@
+<ion-header>
+  <ion-navbar class="navbar-top">
+    <ion-title>Profile</ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content class="settings-page background">
+  <ion-item no-lines class="user-headline" (click)="editProfile()">
+    <button item-right primary clear class="top-right">Edit</button>
+    <ion-thumbnail item-left>
+      <img src="{{ user.imageSource || 'build/images/green-bean.png' }}" class="round">
+    </ion-thumbnail>
+    <h2 class="user-name">{{ user.firstName + " " + user.lastName }}</h2>
+    <p class="user-location">
+      <ion-icon name="pin"></ion-icon>
+      {{ user.location }}
+    </p>
+    <p class="user-biography">{{ user.biography }}</p>
+  </ion-item>
+
+  <div class="light-list">
+    <button full outline medium-gray class="menu-button text-left my-friends-button" (click)="viewFriends()">
+      Following ({{ user.friends ? user.friends.length : 0 }})
+    </button>
+    <button full outline medium-gray class="menu-button text-left my-posts" (click)="viewPosts()">
+      Posts ({{ user.posts ? user.posts.length : 0 }})
+    </button>
+    <button full outline medium-gray class="menu-button text-left" (click)="editInterests()">
+      Interests ({{ user.interests ? user.interests.length : 0 }})
+    </button>
+    <button full outline medium-gray class="menu-button text-left" (click)="findFriends()">
+      Find and invite friends
+    </button>
+  </div>
+
+  <div class="light-list">
+    <button full outline medium-gray class="menu-button text-left" (click)="editSettings()">Settings</button>
+  </div>
+</ion-content>

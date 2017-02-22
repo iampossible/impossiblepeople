@@ -1,0 +1,22 @@
+<ion-header>
+  <ion-navbar class="navbar-top">
+    <ion-buttons start>
+      <button block secondary type="reset" class="button-light" (click)="dismissModal()">Cancel</button>
+    </ion-buttons>
+    <ion-buttons end>
+      <button block class="button-light" (click)="submitContacts()">Send</button>
+    </ion-buttons>
+
+    <ion-title>Select Contacts</ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content class="select-contacts-modal background">
+  <ion-list class="simple-list">
+    <ion-list-header>Share link with friends</ion-list-header>
+    <ion-item *ngFor="let contact of contacts" class="contact">
+      <ion-label>{{ contact.name }}</ion-label>
+      <ion-checkbox (click)="selectedContact($event, contact)"></ion-checkbox>
+    </ion-item>
+  </ion-list>
+</ion-content>

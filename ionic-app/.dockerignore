@@ -1,0 +1,9 @@
+coverage/
+node_modules/
+platforms/
+plugins/
+resources/android/
+resources/ios/
+tmp/
+typings/
+www/build/

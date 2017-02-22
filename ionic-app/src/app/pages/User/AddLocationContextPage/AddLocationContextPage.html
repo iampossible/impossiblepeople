@@ -1,0 +1,20 @@
+<ion-header>
+  <ion-navbar class="navbar-top background">
+    <ion-buttons end>
+      <button block medium-gray (click)="skipLocation()" type="reset" class="button-light skip-location">Skip</button>
+    </ion-buttons>
+  </ion-navbar>
+</ion-header>
+
+<ion-content class="add-location-context background">
+
+  <img src="build/images/location-context.png" class="location-context-image">
+
+  <h2>Share your location</h2>
+
+  <p>We will use your location to show you nearby posts we think might interest you.
+    We won’t share your specific location with anyone.</p>
+
+  <button full secondary-light class="share-location" (click)="shareLocation()">Share my location</button>
+
+</ion-content>

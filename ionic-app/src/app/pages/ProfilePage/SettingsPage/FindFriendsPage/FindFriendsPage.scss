@@ -1,0 +1,35 @@
+.find-friends-page {
+  img {
+    max-width: 60%;
+    padding-top: 40px;
+  }
+
+  ion-label{
+    text-align: center;
+    white-space: normal;
+
+    h2
+    {
+      font-size: 1.8rem;
+      font-weight: bold;
+      padding: 20px 0;
+    }
+
+    .invitation {
+      font-size: 1.6rem;
+    }
+  }
+
+  button {
+    margin: 0px;
+  }
+}
+
+.simple-list {
+  .item-inner {
+    border: none;
+  }
+  ion-item.item, ion-list-header {
+    border-bottom: 1px solid map_get($colors, light-gray);
+  }
+}

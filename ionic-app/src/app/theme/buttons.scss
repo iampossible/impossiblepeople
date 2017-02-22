@@ -1,0 +1,36 @@
+.button {
+  margin: 0.8rem 0;
+  height: 3.6em;
+}
+
+button.back-button {
+  margin-top: 2px;
+}
+
+button.button-default {
+  font-weight: bold;
+}
+
+button.button-clear-bold {
+  font-weight: bold;
+}
+
+button.button-outline-bold {
+  font-weight: bold;
+}
+
+button.text-left {
+  text-align: left;
+
+  .button-inner {
+    justify-content: flex-start;
+    -ms-flex-pack: start;
+    -webkit-box-pack: start;
+    -webkit-justify-content: flex-start;
+
+    ion-icon {
+      margin-right: 0.3em;
+      width: 2.5rem;
+    }
+  }
+}

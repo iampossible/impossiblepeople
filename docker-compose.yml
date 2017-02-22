@@ -1,0 +1,59 @@
+version: '2'
+
+services:
+  selenium:
+    image: selenium/standalone-chrome
+    expose:
+     - "5900"
+     - "4444"
+    links:
+     - api
+  sqs:
+    image: airdock/fake-sqs
+    expose:
+     - "4568"
+    ports:
+     - "4568:4568"
+  neo4j:
+    image: neo4j:3.0.2
+    environment:
+     - NEO4J_AUTH=${NEO4J_AUTH}
+    expose:
+     - "7474"
+    ports:
+     - "7474:7474"
+  api:
+    environment:
+     - GNOME_ENV=docker
+     - NEO4J_AUTH=${NEO4J_AUTH}
+     - AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID}
+     - AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY}
+     - FACEBOOK_APP_ID=${FACEBOOK_APP_ID}
+     - FACEBOOK_APP_SECRET=${FACEBOOK_APP_SECRET}
+     - SMTP_USER=${SMTP_USER}
+     - SMTP_PASS=${SMTP_PASS}
+    build: ./api
+    ports:
+     - "3000:3000"
+    expose:
+     - "3000"
+    links:
+     - neo4j
+     - sqs
+    volumes:
+     - /usr/src/api
+  client:
+    environment:
+     - GNOME_ENV=docker
+     - NEO4J_AUTH=${NEO4J_AUTH}
+    build: ./ionic-app
+    ports:
+     - "8090:8090"
+    expose:
+     - "8090"
+     - "5555"
+    links:
+     - api
+     - selenium
+    volumes_from:
+     - api:ro

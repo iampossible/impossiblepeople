@@ -1,0 +1,6 @@
+<ion-tabs #myTabs [selectedIndex]="tabsIndex" >
+  <ion-tab tabIcon="home" [root]="feedTab" tabTitle="Feed" class="feed-tab"></ion-tab>
+  <ion-tab tabIcon="create" [root]="createPostTab" tabTitle="Post" id="createPostTabButton" class="post-tab"></ion-tab>
+  <ion-tab tabIcon="notifications" [root]="activityTab" tabTitle="Activity" [tabBadge]="activityCount"  class="activity-tab"></ion-tab>
+  <ion-tab tabIcon="contact" [root]="profilePageTab" tabTitle="Profile" class="profile-tab profile-tab-class"></ion-tab>
+</ion-tabs>

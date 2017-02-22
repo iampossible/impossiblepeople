@@ -1,0 +1,18 @@
+{
+  "salt": "8f6e57c1822d6328e62104dd13095dc8",
+  "aws": {
+    "sns": {
+      "Apple": "",
+      "Android": ""
+    }
+  },
+  "smtp": {
+    "from": "Impossible <noreply@impossible.com>"
+  },
+  "cookieTTL": 86400000,
+  "login": {
+    "penalty": 1,
+    "limit": 99999,
+    "timeout": 1
+  }
+}

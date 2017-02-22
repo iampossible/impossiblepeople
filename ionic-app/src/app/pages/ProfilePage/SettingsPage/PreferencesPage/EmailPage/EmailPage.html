@@ -1,0 +1,15 @@
+<ion-header>
+  <ion-navbar class="navbar-top">
+    <ion-title>Email</ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content class="email-page background">
+  <p>Your email is used to log in and to secure your Impossible account.</p>
+
+  <form [formGroup]="emailForm" (submit)="saveEmail($event)">
+    <input placeholder="{{ user.email }}" formControlName="email" class="user-email-input" type="email">
+
+    <button full [keyboardAttach]="50" type="submit" class="save-button" [disabled]="!emailForm.valid">Save</button>
+  </form>
+</ion-content>
