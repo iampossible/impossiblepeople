@@ -15,7 +15,7 @@
     "test": "{src,test}/*.js"
   },
   "author": "I Am Possible Ltd",
-  "license": "ISC",
+  "license": "GPL-3.0+",
   "repository": {
     "type": "git",
     "url": "https://github.com/iampossible/gnome-app.git"
