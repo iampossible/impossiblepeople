@@ -15,7 +15,7 @@
   "license": "GPL-3.0+",
   "repository": {
     "type": "git",
-    "url": "https://github.com/iampossible/gnome-app.git"
+    "url": "https://github.com/iampossible/gnome.git"
   },
   "dependencies": {
     "@angular/common": "2.0.0-rc.4",

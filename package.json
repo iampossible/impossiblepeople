@@ -19,14 +19,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/iampossible/gnome-app.git"
+    "url": "git+https://github.com/iampossible/gnome.git"
   },
   "author": "",
   "license": "GPL-3.0+",
   "bugs": {
-    "url": "https://github.com/iampossible/gnome-app/issues"
+    "url": "https://github.com/iampossible/gnome/issues"
   },
-  "homepage": "https://github.com/iampossible/gnome-app#readme",
+  "homepage": "https://github.com/iampossible/gnome#readme",
   "dependencies": {},
   "devDependencies": {
     "eslint": "^2.5.1",
