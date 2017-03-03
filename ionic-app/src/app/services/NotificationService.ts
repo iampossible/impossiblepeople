@@ -2,16 +2,16 @@ import {Injectable} from '@angular/core'
 import {Events} from 'ionic-angular'
 import {Push} from 'ionic-native'
 import {Environment} from '../Environment'
+import {UserService} from './api/UserService'
 
 @Injectable()
 export class NotificationService {
 
   private pushNotification: any
 
-  constructor(private events: Events) {}
+  constructor(private events: Events, private userService: UserService) {}
 
   register() {
-
     try {
       this.pushNotification = Push.init({
         ios: { alert: 'true', badge: 'true', sound: 'true' },
@@ -42,15 +42,11 @@ export class NotificationService {
   }
 
   setupOnLaunch() {
-    try {
-      Push.hasPermission().then((permissions) => {
-        if (permissions.isEnabled) {
-          this.register()
-        }
-      })
-    } catch (err) {
-      console.warn('failed to initialise notifications', err)
-    }
+    this.userService.getCurrentUserPosts().subscribe((data) => {
+      if( data.json().posts.length > 0 ) {
+        this.register()
+      }
+    }, console.log)
   }
 
 }

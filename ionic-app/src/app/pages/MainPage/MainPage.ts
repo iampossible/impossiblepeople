@@ -28,8 +28,11 @@ export class MainPage {
     this.events.subscribe('activity:count', (data) => {
       let count = data.pop()
       if (count && 'unSeen' in count) {
+        let prevActivityCount = this.activityCount;
         this.activityCount = parseInt(count.unSeen, 10)
-        Badge.set(count.unSeen)
+        if (prevActivityCount != this.activityCount) {
+          Badge.set(count.unSeen)
+        }
         this._detector.detectChanges();
       }
     })
