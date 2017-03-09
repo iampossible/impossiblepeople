@@ -1,0 +1,21 @@
+{
+  "name": "report-server",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "I Am Possible Ltd",
+  "license": "GPL-3.0+",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/iampossible/gnome.git"
+  },
+  "dependencies": {
+    "mu2": "^0.5.21",
+    "nodemailer": "^3.1.4",
+    "nodemailer-wellknown": "^0.2.2",
+    "seraph": "^0.15.2"
+  }
+}

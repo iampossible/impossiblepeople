@@ -9,6 +9,8 @@
     "goodmorning": "(cd api && rm -R node_modules && npm install) && (cd ionic-app && rm -R node_modules && npm install)",
     "api:build": "docker-compose build api",
     "api:run": "docker-compose run --rm --service-ports --name gnome-api api",
+    "reports:build": "docker-compose build reports",
+    "reports:run": "docker-compose run --rm --name gnome-reports reports",
     "api:worker": "npm run api:build && docker-compose run --rm --service-ports --name gnome-worker api npm run worker",
     "api:test": "npm run api:build && docker-compose run --rm --name gnome-api api npm test",
     "app:clean": "docker stop gnome-app && docker rm gnome-app",

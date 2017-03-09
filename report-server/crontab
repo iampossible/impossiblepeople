@@ -1,0 +1,2 @@
+22 13 * * 1 /usr/bin/node /root/src/getUsers.js
+*/30 * * * * /usr/bin/node /root/src/processReport.js

@@ -1,0 +1,6 @@
+{
+  "logging": true,
+  "smtp": {
+    "from": "Impossible <noreply@impossible.com>"
+  }
+}

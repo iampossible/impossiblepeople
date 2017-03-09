@@ -57,3 +57,12 @@ services:
      - selenium
     volumes_from:
      - api:ro
+  reports:
+    environment:
+     - GNOME_ENV=docker
+     - NEO4J_AUTH=${NEO4J_AUTH}
+     - SMTP_USER=${SMTP_USER}
+     - SMTP_PASS=${SMTP_PASS}
+    build: ./report-server
+    links:
+     - neo4j
