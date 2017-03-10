@@ -140,15 +140,13 @@ class ProfileController extends Controller {
           if (status !== null) {
             return accept([])
           }
-          userModel.try_updateFacebookInfo(userID).done(() => {
-            userModel.getUserPosts(userID).done(postsResult => {
-              let posts = postsResult.map((postNode) => Object.assign(postNode, {
-                createdAtSince: moment(postNode.createdAt).fromNow(),
-                timeRequired: postNode.timeRequired || 0,
-              }));
-              accept(posts);
-            }).error(reject);
-          })
+          userModel.getUserPosts(userID).done(postsResult => {
+            let posts = postsResult.map((postNode) => Object.assign(postNode, {
+              createdAtSince: moment(postNode.createdAt).fromNow(),
+              timeRequired: postNode.timeRequired || 0,
+            }));
+            accept(posts);
+          }).error(reject);
         })
       })
       .done((raw, profile, posts) => reply(Object.assign(profile.user, { posts })).code(200))

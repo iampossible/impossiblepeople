@@ -6,8 +6,7 @@ const Sequence = require('impossible-promise');
 
 const profileModel = require('models/ProfileModel');
 const Model = require('core/Model');
-const passwordHelper = require('middleware/PasswordHelper')
-const facebookService = require('middleware/FacebookService');
+const passwordHelper = require('middleware/PasswordHelper');
 
 class UserModel extends Model {
   getUser(user) {
@@ -161,27 +160,6 @@ class UserModel extends Model {
           accept(node[0]);
         });
     });
-  }
-
-  try_updateFacebookInfo(userID) {
-    return this.getUser({ userID })
-      .then((accept, reject, userData) => {
-        if (!userData) return reject('user not found');
-        if (userData.fromFacebook) {
-          facebookService.getUserDetails(userData.fromFacebook).then((acceptIn, rejectIn, facebookData) => {
-            console.debug('FacebookService@getUserDetails:',`updating info for: ${userID}`);
-            userModel.updateUser(userID, {
-              imageSource: facebookData.imageSource
-            }).error(rejectIn).done(acceptIn);
-          }).error(() => {
-            // cant fetch facebook? no problem
-            accept(null)
-          })
-        } else {
-          console.log('in try_updateFacebookInfo null')
-          accept(null)
-        }
-      }).done((userData, updateData) => !!updateData);
   }
 
   updateUserPassword(user, newPassword) {

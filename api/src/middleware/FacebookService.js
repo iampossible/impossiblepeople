@@ -53,7 +53,7 @@ class FacebookService {
               firstName: facebookData.first_name,
               lastName: facebookData.last_name,
               biography: facebookData.bio,
-              imageSource: ((facebookData.picture || {}).data || {}).url,
+              imageSource: `http://graph.facebook.com/${facebookData.id}/picture?type=large`,
             },
           });
         }
