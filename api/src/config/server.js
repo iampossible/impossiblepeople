@@ -41,8 +41,8 @@ let config = {
       endpoint: process.env.SQS_HOST || rawConfig.aws.sqs.endpoint,
     },
     sns: {
-      Apple: rawConfig.aws.sns.Apple,
-      Android: rawConfig.aws.sns.Android
+      Apple: process.env.AWS_SNS_APPLE || rawConfig.aws.sns.Apple,
+      Android: process.env.AWS_SNS_ANDROID || rawConfig.aws.sns.Android
     }
   },
   facebook: {

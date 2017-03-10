@@ -39,19 +39,20 @@ class FacebookController extends Controller {
         facebookService.getUserDetails(facebookData.user_id).done(accept).error(reject);
       })
       .then((accept, reject, facebookData) => {
-        var newUser = Object.assign(facebookData.user, { password: '' });
+        var userToCreate = Object.assign(facebookData.user, { password: '' });
         userModel
-          .createUser(newUser)
+          .createUser(userToCreate)
           .then((acc, rej, newUser) => {
             if (newUser) {
               userModel
                 .addFacebookFriends(newUser, facebookData.friends)
                 .done(() => {
                   cookieHelper.setCookie(request, newUser).then(() => {
-                    delete newUser.id;
-                    delete newUser.sid;
-                    delete newUser.password;
-                    reply(newUser).code(201);
+                    let userResponse = Object.assign({}, newUser);
+                    delete userResponse.id;
+                    delete userResponse.sid;
+                    delete userResponse.password;
+                    reply(userResponse).code(201);
                   });
                 })
                 .error(rej);
@@ -63,10 +64,11 @@ class FacebookController extends Controller {
                 .getAuthUser({ fromFacebook: err.user.fromFacebook })
                 .done(user => {
                   cookieHelper.setCookie(request, user).then(() => {
-                    delete user.id;
-                    delete user.sid;
-                    delete user.password;
-                    reply(user).code(200);
+                    let userResponse = Object.assign({}, user);
+                    delete userResponse.id;
+                    delete userResponse.sid;
+                    delete userResponse.password;
+                    reply(userResponse).code(200);
                   });
                 })
                 .error(() => {
@@ -91,11 +93,14 @@ class FacebookController extends Controller {
           accept(facebookData.friends);
         } else {
           userModel.getUser({ fromFacebook: facebookData.user.fromFacebook }).done(user => {
-            if (user) return reject('account linked to another user');
-            userModel
-              .updateUser(request.auth.credentials.userID, { fromFacebook: facebookData.user.fromFacebook })
-              .done(() => accept(facebookData.friends))
-              .error(reject);
+            if (user) {
+              reject('account linked to another user');
+            } else {
+              userModel
+                .updateUser(request.auth.credentials.userID, { fromFacebook: facebookData.user.fromFacebook })
+                .done(() => accept(facebookData.friends))
+                .error(reject);
+            }
           }).error(reject);
         }
       })

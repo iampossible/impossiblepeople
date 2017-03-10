@@ -107,7 +107,7 @@ describe('Facebook endpoints', () => {
         expect(user.userID).toBeDefined();
         expect(user.firstName).toBe('New');
         expect(user.lastName).toBe('User');
-        expect(user.imageSource).toBe('somePictureUrl');
+        expect(user.imageSource).toBe('http://graph.facebook.com/1234/picture?type=large');
         expect(user.fromFacebook).toBeTruthy();
         expect(user.interests).toBeUndefined();
         expect(response.headers['set-cookie']).toBeDefined();
@@ -117,7 +117,7 @@ describe('Facebook endpoints', () => {
         done();
       });
     });
-    
+
     it('should check if facebook users are invitees', (done) => {
       detailScope = nockStubs.userDetailsScope(200,
         {
@@ -142,7 +142,7 @@ describe('Facebook endpoints', () => {
           expect(user.userID).toBeDefined();
           expect(user.firstName).toBe('Invitee');
           expect(user.lastName).toBe('Manatee');
-          expect(user.imageSource).toBe('somePictureUrl');
+          expect(user.imageSource).toBe('http://graph.facebook.com/1234/picture?type=large');
           expect(user.fromFacebook).toBeTruthy();
           expect(user.interests).toBeUndefined();
           expect(response.headers['set-cookie']).toBeDefined();
@@ -150,8 +150,9 @@ describe('Facebook endpoints', () => {
           tokenScope.done();
           detailScope.done();
 
-          helpers.getInvitee('invitee@impossible.com', (err, result) => {
-            expect(result.length).toBe(0);
+          helpers.getInvitee('invitee@impossible.com', (e, res) => {
+            expect(e).toBe(null);
+            expect(res.length).toBe(0);
             done();
           });
         });
@@ -203,11 +204,13 @@ describe('Facebook endpoints', () => {
           friends: { data: [{ id: 123456789 }] },
         });
 
-      helpers.logInTestUser((err, request) => {
-        request.get(`http://${Config.endpoint}/api/facebook/link?token=thisIsAToken`, (error, response) => {
-          expect(response.statusCode).toBe(204);
+      helpers.logInTestUser((err, authedRequest) => {
+        authedRequest.get(`http://${Config.endpoint}/api/facebook/link?token=thisIsAToken`, (linkError, linkResponse) => {
+          expect(linkError).toBe(null);
+          expect(linkResponse.statusCode).toBe(204);
 
-          request.get(`http://${Config.endpoint}/api/user`, (error, response) => {
+          authedRequest.get(`http://${Config.endpoint}/api/user`, (error, response) => {
+            expect(error).toBe(null);
             let user = JSON.parse(response.body);
             let newFriends = user.friends.filter((friend) => friend.email === 'monster@chimney.sweep');
 
@@ -236,11 +239,13 @@ describe('Facebook endpoints', () => {
           friends: { data: [{ id: 135792468 }, { id: 123456789 }] },
         });
 
-      helpers.logIn('mock.turtle@soup.com', 'inb4facebook', (err, request) => {
-        request.get(`http://${Config.endpoint}/api/facebook/link?token=thisIsAToken`, (error, response) => {
-          expect(response.statusCode).toBe(204);
+      helpers.logIn('mock.turtle@soup.com', 'inb4facebook', (err, authedRequest) => {
+        authedRequest.get(`http://${Config.endpoint}/api/facebook/link?token=thisIsAToken`, (linkError, linkResponse) => {
+          expect(linkError).toBe(null);
+          expect(linkResponse.statusCode).toBe(204);
 
-          request.get(`http://${Config.endpoint}/api/user`, (error, response) => {
+          authedRequest.get(`http://${Config.endpoint}/api/user`, (error, response) => {
+            expect(error).toBe(null);
             let user = JSON.parse(response.body);
             let newFriends = user.friends.filter((friend) => friend.email === 'monster@chimney.sweep');
 
@@ -269,8 +274,10 @@ describe('Facebook endpoints', () => {
           friends: { data: [{ id: 135792468 }, { id: 123456789 }] },
         });
 
-      helpers.logIn('mock.turtle@soup.com', 'inb4facebook', (err, request) => {
-        request.get(`http://${Config.endpoint}/api/facebook/link?token=thisIsAToken`, (error, response) => {
+      helpers.logIn('mock.turtle@soup.com', 'inb4facebook', (err, authedRequest) => {
+        expect(err).toBe(null);
+        authedRequest.get(`http://${Config.endpoint}/api/facebook/link?token=thisIsAToken`, (error, response) => {
+          expect(error).toBe(null);
           expect(response.statusCode).toBe(422);
 
           tokenScope.done();

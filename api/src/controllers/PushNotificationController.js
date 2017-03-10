@@ -1,7 +1,6 @@
 'use strict';
 
 const Joi = require('joi');
-const userModel = require('models/UserModel');
 const Controller = require('core/Controller');
 
 const PushNotificationService = require('middleware/PushNotificationService');

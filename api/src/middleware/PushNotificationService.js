@@ -2,7 +2,6 @@
 
 
 const AWS = require('aws-sdk');
-const request = require('request');
 const Sequence = require('impossible-promise');
 
 const config = require('config/server');
@@ -20,18 +19,12 @@ const androidApplicationArn = config.aws.sns.Android;
 
 class PushNotificationService {
 
-  constructor() {
-  }
-
   pushNotification(notificationEndpoint, text, dataObj) {
-
+    let ret = new Sequence();
     if (process.env.GNOME_ENV === 'dev') {
-      console.log('[skiping SNS] PushNotificationService:', Object.assign({ notificationEndpoint, text }, dataObj))
-      return new Sequence();
-    }
-
-    if (notificationEndpoint) {
-      return new Sequence((accept, reject) => {
+      console.log('[skiping SNS] PushNotificationService:', Object.assign({ notificationEndpoint, text }, dataObj));
+    } else if (notificationEndpoint) {
+      ret = new Sequence((accept, reject) => {
         let message = { aps: Object.assign({ alert: text }, dataObj) };
 
         let params = {
@@ -51,13 +44,15 @@ class PushNotificationService {
         });
       });
     } else {
-      return new Sequence();
+      ret = new Sequence();
     }
+    return ret;
   }
 
   publishCommentNotification(commenter, data) {
+    let ret = new Sequence();
     if (data.creator.notificationEndpoint) {
-      return new Sequence((accept, reject) => {
+      ret = new Sequence((accept, reject) => {
         let text = `${commenter.firstName} ${commenter.lastName} has commented on your post`;
         let message = { aps: { alert: text, postID: data.post.postID } };
         let endpoint = data.creator.notificationEndpoint;
@@ -78,16 +73,14 @@ class PushNotificationService {
           }
         });
       });
-    } else {
-      return new Sequence();
     }
+    return ret;
   }
 
   register(userID, deviceToken, deviceType) {
-    if (!deviceType) deviceType = '';
 
     return new Sequence((accept, reject) => {
-      let PlatformApplicationArn = deviceType === 'android' ? androidApplicationArn : appleApplicationArn;
+      let PlatformApplicationArn = (deviceType || '') === 'android' ? androidApplicationArn : appleApplicationArn;
       sns.createPlatformEndpoint(
         { PlatformApplicationArn, Token: deviceToken, CustomUserData: userID },
         (err, responseData) => {
@@ -95,17 +88,17 @@ class PushNotificationService {
             let dupErrorRegexp = /Endpoint (\s+) already exists/;
             let endpointArr = dupErrorRegexp.exec(err.message);
             if (endpointArr && endpointArr.length > 0) {
-              sns.deleteEndpoint({ EndpointArn: endpointArr[0] }, (err) => {
-                if (err) {
-                  reject(err);
+              sns.deleteEndpoint({ EndpointArn: endpointArr[0] }, (deleteErr) => {
+                if (deleteErr) {
+                  reject(deleteErr);
                 } else {
                   sns.createPlatformEndpoint(
                     { PlatformApplicationArn, Token: deviceToken, CustomUserData: userID },
-                    (err, responseData) => {
-                      if (err) {
-                        reject(err);
+                    (createErr, createResponseData) => {
+                      if (createErr) {
+                        reject(createErr);
                       }
-                      accept(responseData);
+                      accept(createResponseData);
                     });
                 }
               });

@@ -5,7 +5,6 @@ var request = require('request');
 var dataHelper = require('../DataHelper.js');
 var Config = require('config/server');
 
-const nock = require('nock');
 const nockStubs = require('../NockStubs');
 
 var helpers = require('../helpers');
@@ -28,8 +27,9 @@ describe('Push Notifications', () => {
   });
 
   it('should return 400 if a device token is not supplied', (done) => {
-    helpers.logInTestUser((err, request) => {
-      request.post(`http://${Config.endpoint}/api/notification/register`, (err, response) => {
+    helpers.logInTestUser((err, authedRequest) => {
+      authedRequest.post(`http://${Config.endpoint}/api/notification/register`, (error, response) => {
+        expect(error).toBe(null);
         expect(response.statusCode).toBe(400);
         done();
       }).form({});
@@ -39,10 +39,12 @@ describe('Push Notifications', () => {
   it('should return OK if a valid device token is supplied', (done) => {
     let nockScope = nockStubs.notificationEndpointScope(deviceToken, 'e52c854d');
 
-    helpers.logInTestUser((err, request) => {
-      request.post(`http://${Config.endpoint}/api/notification/register`, (err, response) => {
+    helpers.logInTestUser((err, innerRequest) => {
+      expect(err).toBe(null);
+      innerRequest.post(`http://${Config.endpoint}/api/notification/register`, (registerErr, response) => {
+        expect(registerErr).toBe(null);
         expect(response.statusCode).toBe(204);
-        nockScope.done();
+        expect(() => nockScope.done()).not.toThrow();
         done();
       }).form({ deviceToken, deviceType: 'ios' });
     });
