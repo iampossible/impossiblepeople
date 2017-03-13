@@ -1,0 +1,29 @@
+sudo: required
+dist: trusty
+services:
+  - docker
+language: node_js
+node_js:
+  - "4.3.2"
+notifications:
+  slack: "Y9gSitz4p0TfcVW8xe7/GjdrN0u6tstjdzsRPItaI7crofRj+eoZVDst+ptT6Nq7UfAbl8M+TIUfZLWXdVYaNsbpLqpxS+CV7byhIRKRe1GJYeswTuV9WVIcVKq9mCmehJRNE3QBmuW08148Glkl5wrwaZRpuidnra/FQsANBJokPgVG60OQ/yo9G6x73rnTItTjp1bdK+LlE/M8RYoFdJssqEwcPbwpUmA3kU+uMarVJlA1U9zaMBApEg5NX9K9pn+J3t73DZuEAyThhPNk9ybcJlIV1w4X8ZBxbpjSwKc+HZtaV166FF93vigJGA2eGJC51EPbF8MIffhyQsPBvbEfKhGk9qksyJeVv3hCrdm4vrQYkwDBu/i3dEJ03Pf0on56u8v2NJqtaZco50WCFUrWoR6auLoAiMdS83/a6pLXq+2G22Zro0QutAD/AfdMI+qVfUrVGdkHO8Ue0R1Pd5vNpxWXiVFuovGzlBnvr6x849PLUkamXoGdWSjLI2oDMZUgGvd/54ASFW9uZOKnVu9EUDs8JrQyJazLPgMPgJ1tL40GP7VEIL94OmIlxuStfBu3PTVdoJFfUmiwk77G/az+SGuRAFGly5DHIbsMm2+oSle7ZkNQNHJqlSkW4X1f55TexC9p/Z2qU28dNpDOot/NYajfkwK0dvN4rVLBlgU="
+env:
+  DOCKER_COMPOSE_VERSION: 1.7.1
+before_install:
+  - travis_retry sudo apt-get update
+  - travis_retry sudo apt-get purge -y docker-engine
+  - travis_retry sudo apt-get install -y docker-engine
+  - travis_retry docker pull selenium/standalone-chrome
+  - travis_retry docker pull rabbitmq
+  - sudo rm /usr/local/bin/docker-compose & echo 1
+  - curl -L https://github.com/docker/compose/releases/download/${DOCKER_COMPOSE_VERSION}/docker-compose-`uname -s`-`uname -m` > docker-compose
+  - chmod +x docker-compose
+  - sudo mv docker-compose /usr/local/bin
+install:
+  - travis_retry docker-compose build
+script:
+  - npm run api:test
+#  - npm run app:test
+#  - npm run app:e2e
+  - docker-compose ps -q | xargs docker inspect -f '{{ .Name }} exited with {{ .State.ExitCode }}'
+#  - docker-compose ps -q | xargs docker inspect -f '{{ .Name }}_{{ .State.ExitCode }}' | grep client_1_0
