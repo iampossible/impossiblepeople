@@ -14,7 +14,7 @@ before_install:
   - travis_retry sudo apt-get update
   - travis_retry sudo apt-get purge -y docker-engine
   - travis_retry sudo apt-get install -y docker-engine
-  - travis_retry docker pull selenium/standalone-chrome
+#  - travis_retry docker pull selenium/standalone-chrome
   - travis_retry docker pull rabbitmq
   - sudo rm /usr/local/bin/docker-compose & echo 1
   - curl -L https://github.com/docker/compose/releases/download/${DOCKER_COMPOSE_VERSION}/docker-compose-`uname -s`-`uname -m` > docker-compose
@@ -24,7 +24,7 @@ install:
   - travis_retry docker-compose build
 script:
   - npm run api:test
-  - npm run app:test
+#  - npm run app:test
 #  - npm run app:e2e
   - docker-compose ps -q | xargs docker inspect -f '{{ .Name }} exited with {{ .State.ExitCode }}'
 #  - docker-compose ps -q | xargs docker inspect -f '{{ .Name }}_{{ .State.ExitCode }}' | grep client_1_0
