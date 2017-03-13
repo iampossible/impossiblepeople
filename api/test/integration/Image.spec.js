@@ -44,7 +44,7 @@ describe('Image endpoints', () => {
         if (createdImage) {
           s3.deleteObject({
             Bucket: 'gnome-assets',
-            Key: createdImage.match(/^https:\/\/gnome-assets\.s3-eu-west-1\.amazonaws\.com\/([a-zA-Z0-9]+)$/)[ 1 ],
+            Key: createdImage.match(/^https:\/\/gnome-assets\.s3-eu-west-1\.amazonaws\.com\/([a-zA-Z0-9]+)$/)[1],
           }, done);
           createdImage = null;
         } else {
@@ -63,6 +63,7 @@ describe('Image endpoints', () => {
         helpers.logInTestUser((err, $request) => {
           $request.post(`http://${Config.endpoint}/api/user/image`, (error, response) => {
             let body = JSON.parse(response.body);
+            expect(body.msg).toBeUndefined();
             expect(response.statusCode).toBe(201);
             expect(body.imageSource).toMatch(/^https:\/\/gnome-assets\.s3-eu-west-1\.amazonaws\.com\/[a-zA-Z0-9]+$/);
             createdImage = body.imageSource;
@@ -72,9 +73,9 @@ describe('Image endpoints', () => {
       });
 
       it('should not accept non-image files', (done) => {
-        helpers.logInTestUser((err, request) => {
-          request.post(`http://${Config.endpoint}/api/user/image`, (error, response) => {
-            let body = JSON.parse(response.body);
+        helpers.logInTestUser((err, $request) => {
+          $request.post(`http://${Config.endpoint}/api/user/image`, (error, response) => {
+            JSON.parse(response.body);
             expect(response.statusCode).toBe(400);
             done();
           }).form({ imageData: `data:image/jpg;base64,${notImageData}` });
