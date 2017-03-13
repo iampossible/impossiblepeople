@@ -11,14 +11,21 @@ class PasswordHelper {
   }
 
   generatePassword() {
-    return password(3).split(' ').join('');
+    let temp = '';
+    while (temp.length <= 12) {
+      temp = password(3).split(' ').join('');
+    }
+    return temp;
   }
 
   validatePassword(inputPassword, hashedPassword) {
     return new Sequence((accept, reject) => {
       this.bcrypt.compare(inputPassword, hashedPassword, (err, result) => {
-        if (err) return reject(err);
-        accept(result);
+        if (err) {
+          reject(err);
+        } else {
+          accept(result);
+        }
       });
     });
   }
@@ -26,13 +33,19 @@ class PasswordHelper {
   hashPassword(inputPassword) {
     return new Sequence((accept, reject) => {
       this.bcrypt.genSalt(this.saltRounds, (err, salt) => {
-        if (err) return reject(err);
-        accept(salt);
+        if (err) {
+          reject(err);
+        } else {
+          accept(salt);
+        }
       });
     }).then((accept, reject, salt) => {
       this.bcrypt.hash(inputPassword, salt, (err, hash) => {
-        if (err) return reject(err);
-        accept(hash);
+        if (err) {
+          reject(err);
+        } else {
+          accept(hash);
+        }
       });
     }).done((salt, hash) => hash);
   }
