@@ -28,3 +28,11 @@ script:
 #  - npm run app:e2e
   - docker-compose ps -q | xargs docker inspect -f '{{ .Name }} exited with {{ .State.ExitCode }}'
 #  - docker-compose ps -q | xargs docker inspect -f '{{ .Name }}_{{ .State.ExitCode }}' | grep client_1_0
+after_success:
+  - if [ "$TRAVIS_BRANCH" == "master" ]; then
+    docker login -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD";
+    docker tag gnome_api:latest impossible/gnome-api:latest;
+    docker push impossible/gnome-api:latest;
+    docker tag gnome_reports:latest impossible/gnome-reports:latest;
+    docker push impossible/gnome-reports:latest;
+    fi
