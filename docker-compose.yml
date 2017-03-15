@@ -25,6 +25,10 @@ services:
   api:
     environment:
      - GNOME_ENV=docker
+     - GNOME_HOST=${GNOME_HOST}
+     - GNOME_PORT=${GNOME_PORT}
+     - GNOME_LOG=${GNOME_LOG}
+     - NEO4J_HOST=${NEO4J_HOST}
      - NEO4J_AUTH=${NEO4J_AUTH}
      - AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID}
      - AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY}
@@ -32,6 +36,7 @@ services:
      - AWS_SNS_ANDROID=${AWS_SNS_ANDROID}
      - FACEBOOK_APP_ID=${FACEBOOK_APP_ID}
      - FACEBOOK_APP_SECRET=${FACEBOOK_APP_SECRET}
+     - SLACK_TOKEN=${SLACK_TOKEN}
      - SMTP_USER=${SMTP_USER}
      - SMTP_PASS=${SMTP_PASS}
     build: ./api

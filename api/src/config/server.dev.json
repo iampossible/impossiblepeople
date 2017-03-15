@@ -1,10 +1,19 @@
 {
+  "host": "0.0.0.0",
+  "port": 3000,
+  "logging": true,
   "salt": "8f6e57c1822d6328e62104dd13095dc8",
   "aws": {
+    "sqs": {
+      "endpoint": "http://sqs:4568/"
+    },
     "sns": {
       "Apple": "",
       "Android": ""
     }
+  },
+  "neo4j": {
+    "host": "http://neo4j:7474"
   },
   "smtp": {
     "from": "Impossible <noreply@impossible.com>"
