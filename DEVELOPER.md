@@ -40,7 +40,7 @@ Make sure you export them to the current shell `export NEO4J_AUTH=neo4j/somethin
 We are using docker to run neo4j, rabbitmq, and our applications. This means you won't have to
 install any dependencies apart from docker.
 
-**At this point, it is time to [tune into this song](https://www.youtube.com/watch?v=mifnMC_Kn1Q) and run the below commands.
+**At this point, it is time to [tune into this song](https://youtu.be/7qbEt_lSib4) and run the below commands.
 Feel free to sing along to the chorus while your shell happily runs the commands. Commands need to be run from project root.**
 
 #### Api commands:
