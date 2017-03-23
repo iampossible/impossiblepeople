@@ -9,6 +9,9 @@
 </ion-header>
 
 <ion-content [attr.data-post-id]="postID" class="post-detail-page background" id="post-detail-page">
+  <svg height="63" width="63" style="position: absolute;right: 0;background: #ffffff;" *ngIf="post && post.resolved">
+    <polygon points="0,0 63,63 0,63" style="fill:#ffffff;stroke:#d6d7d8;stroke-width:1" />
+  </svg>
   <div block *ngIf="post && post.category.image">
     <img class="post-category-image" src="{{post.category.image}}">
   </div>
@@ -74,7 +77,7 @@
     </ion-item>
   </ion-list>
 
-  <form [formGroup]="createCommentForm" (submit)="createComment()">
+  <form [formGroup]="createCommentForm" (submit)="createComment()" *ngIf="post && !post.resolved">
     <ion-list class="post-reply">
         <ion-item>
           <ion-label *ngIf="!isCommentMode" stacked>

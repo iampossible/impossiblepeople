@@ -47,4 +47,9 @@ export class PostService {
     let reportEndpoint: string = ApiService.getUrl(`post/${postID}/report`)
     return this.http.get(reportEndpoint)
   }
+  
+  resolvePost(postID: string) {
+    let resolveEndpoint: string = ApiService.getUrl(`post/${postID}/resolve`)
+    return this.http.get(resolveEndpoint)
+  }
 }

@@ -73,6 +73,16 @@ describe('PostService', () => {
     expect(observable).isPrototypeOf(Observable)
   })
 
+  it('should fire GET /resolve when resolving a post', () => {
+    mockBackend.connections.subscribe((connection) => {
+      expect(connection.request.url).toEqual(createUrl('/api/post/somePost123/resolve'))
+      expect(connection.request.method).toEqual(RequestMethod.Get)
+    })
+
+    let observable = postService.resolvePost('somePost123')
+    expect(observable).isPrototypeOf(Observable)
+  })
+
   //TODO: test getPost and createComment
 })
 

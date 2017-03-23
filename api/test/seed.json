@@ -193,6 +193,7 @@
           "timeRequired": 0,
           "content": "which way i ought to go?",
           "location": "Wonderland and far far beyond",
+          "resolved": true,
           "comments": [
             {
               "by": "Cheshire",

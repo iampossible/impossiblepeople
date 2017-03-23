@@ -1,10 +1,10 @@
-import {NavController, NavParams, AlertController, ActionSheetController, Events, ActionSheet} from 'ionic-angular'
-import {Component, ElementRef} from '@angular/core'
-import {Validators, FormBuilder} from '@angular/common'
-import {PostService} from '../../services/api/ApiService'
-import {AppConstants} from '../../AppConstants'
-import {NavigationService} from '../../services/navigation/NavigationService'
-import {Environment} from '../../Environment'
+import { NavController, NavParams, AlertController, ActionSheetController, Events, ActionSheet } from 'ionic-angular'
+import { Component, ElementRef } from '@angular/core'
+import { Validators, FormBuilder } from '@angular/common'
+import { PostService } from '../../services/api/ApiService'
+import { AppConstants } from '../../AppConstants'
+import { NavigationService } from '../../services/navigation/NavigationService'
+import { Environment } from '../../Environment'
 
 declare const heap: any
 
@@ -27,13 +27,13 @@ export class PostDetailPage {
   reportActions: ActionSheet
 
   constructor(private nav: NavController,
-              private postService: PostService,
-              private params: NavParams,
-              private form: FormBuilder,
-              private alertCtrl: AlertController,
-              private myElement: ElementRef,
-              private actionSheetCtrl: ActionSheetController,
-              private events: Events) {
+    private postService: PostService,
+    private params: NavParams,
+    private form: FormBuilder,
+    private alertCtrl: AlertController,
+    private myElement: ElementRef,
+    private actionSheetCtrl: ActionSheetController,
+    private events: Events) {
     this.postID = params.get('postID')
     this.swipingComment = false
     this.createCommentForm = form.group({
@@ -115,6 +115,22 @@ export class PostDetailPage {
   }
 
   privateButtons: Array<any> = [{
+    text: 'Mark Done',
+    handler: () => {
+      this.postService.resolvePost(this.post.postID).subscribe((...args) => {
+        this.events.publish('feedback:show', { msg: 'Done!', icon: 'checkmark' })
+        this.events.publish('user:posts:updated', this.post)
+
+        this.post.resolved = true
+      }, () => {
+        this.alertCtrl.create({
+          title: 'Could not mark post as done, try again later!',
+          subTitle: '',
+          buttons: ['OK']
+        }).present()
+      })
+    }
+  }, {
     text: 'Delete',
     role: 'destructive',
     handler: () => {

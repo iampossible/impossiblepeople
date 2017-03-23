@@ -140,6 +140,14 @@ describe('Post-card component', () => {
 
     expect(this.instance.openOptions).toHaveBeenCalled()
   })
+
+  it('should not show time if post is resolved', () => {
+    this.instance.post.resolved = true;
+
+    this.fixture.detectChanges()
+
+    expect(this.element.querySelector('.post-created-at')).toBeNull()
+  })
 })
 //
 //

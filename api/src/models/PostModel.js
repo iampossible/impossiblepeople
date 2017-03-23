@@ -7,8 +7,6 @@ const userModel = require('models/UserModel');
 class PostModel extends Model {
 
   createPost(userNode, relation, post) {
-
-
     return new Sequence(
       (next, reject) => {
         this.db.save(post, 'Post', (err, postNode) => {
@@ -42,12 +40,11 @@ class PostModel extends Model {
         );
       })
       .done((createdNode, creatorObj, finalNode, interestObj) => {
-
         //asign user to interest
         //TODO: MOVE TO QUEUE ASYNC JOBS
-        setTimeout(()=> {
+        setTimeout(() => {
           userModel.addInterests(userNode, [{ interestID: post.interestID }]);
-        }, 333)
+        }, 333);
 
         return finalNode;
       })
@@ -60,21 +57,31 @@ class PostModel extends Model {
     return this
       .getPost(postID, userNode.userID)
       .then((next, reject, postNode) => {
-        let newComment = {
-          content: commentText,
-          at: Date.now(),
-        };
+        if (postNode.post.resolved) {
+          reject('Post is resolved');
+        } else {
+          let newComment = {
+            content: commentText,
+            at: Date.now(),
+          };
 
-        this.db.relate(userNode, 'COMMENTS', postNode.post, newComment, (err, relEdge) => {
-          if (err) return reject(err);
-          next(relEdge);
-        });
+          this.db.relate(userNode, 'COMMENTS', postNode.post, newComment, (err, relEdge) => {
+            if (err) {
+              reject(err);
+            } else {
+              next(relEdge);
+            }
+          });
+        }
       })
       .then((next, reject, relEdge) => {
         let commentID = this.db.encodeEdgeID(relEdge);
         this.db.rel.update(relEdge, 'commentID', commentID, (err) => {
-          if (err) return reject(err);
-          next(commentID);
+          if (err) {
+            reject(err);
+          } else {
+            next(commentID);
+          }
         });
       }).done((postNode, relEdge, commentID) => ({
         commentID,
@@ -92,8 +99,11 @@ class PostModel extends Model {
           ORDER BY rel.at ASC`,
         { postID, userID },
         (err, data) => {
-          if (err) return reject(err);
-          accept(data);
+          if (err) {
+            reject(err);
+          } else {
+            accept(data);
+          }
         }
       );
     });
@@ -137,7 +147,7 @@ class PostModel extends Model {
         { userID, postID },
         (err, data) => {
           if (err) return reject(err);
-          if (data.length === 0) return reject('permission denied to delete post');
+          if (data.length === 0) return reject('permission denied');
 
           return accept();
         }
@@ -153,11 +163,14 @@ class PostModel extends Model {
          ON CREATE SET r.at = timestamp()
          RETURN r`,
         { postID, userID },
-        (err, data) => {
-          if (err) return reject(err);
-          accept(true);
+        (err) => {
+          if (err) {
+            reject(err);
+          } else {
+            accept(true);
+          }
         }
-      )
+      );
     });
   }
 
@@ -169,11 +182,14 @@ class PostModel extends Model {
          ON CREATE SET r.at = timestamp(), r.commentID = {commentID}
          RETURN r`,
         { postID, userID, commentID },
-        (err, data) => {
-          if (err) return reject(err);
-          accept(true);
+        (err) => {
+          if (err) {
+            reject(err);
+          } else {
+            accept(true);
+          }
         }
-      )
+      );
     });
   }
 
@@ -183,11 +199,21 @@ class PostModel extends Model {
         'MATCH (p:Post {postID: {postID}}) DETACH DELETE p;',
         { postID },
         (err, data) => {
-          if (err) return reject(err);
-          accept();
+          if (err) {
+            reject(err);
+          } else {
+            accept(data);
+          }
         }
-      )
+      );
     });
+  }
+
+  resolvePost(postID) {
+    return this.db.getOne(
+      'MATCH (p:Post{postID: { postID }}) SET p.resolved = true RETURN p;',
+      { postID }
+    );
   }
 }
 

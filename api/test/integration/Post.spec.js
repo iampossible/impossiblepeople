@@ -11,11 +11,11 @@ const helpers = require('../helpers');
 
 describe('Post endpoints', () => {
 
-  beforeAll(() => gnomeApi.start())
+  beforeAll(() => gnomeApi.start());
 
   beforeEach((done) => dataHelper.populate().then(done));
 
-  var validPostParams = {
+  let validPostParams = {
     content: 'Can you cook spaghetti for me?',
     postType: 'ASKS',
     interestID: 'a52b59d',
@@ -363,7 +363,6 @@ describe('Post endpoints', () => {
 
   describe('/post/{id}/report', () => {
 
-
     it('should not allow report of own posts', (done) => {
       let reportPostID = 'dfaffa58';
 
@@ -419,4 +418,111 @@ describe('Post endpoints', () => {
 
   });
 
+  describe('/post/{id}/resolve', () => {
+    let resolvedPostID = '27c54302';
+    let newPostParams = {
+      content: 'Can you cook spaghetti for me?',
+      postType: 'ASKS',
+      interestID: 'a52b59d',
+    };
+
+    it('should return resolved status', (done) => {
+
+      helpers.logInAlice((err, $request) => {
+        $request.get(`http://${Config.endpoint}/api/post/${resolvedPostID}`, (innerErr, response) => {
+          expect(response.statusCode).toBe(200);
+          expect(response.body).toBeDefined();
+          if (response.body) {
+            let body = JSON.parse(response.body);
+            if (body) {
+              expect(body.resolved).toBe(true);
+            } else {
+              expect(false).toBe(true);
+            }
+          } else {
+            expect(false).toBe(true);
+          }
+          done();
+        });
+      });
+    });
+
+    it('should resolve self post', (done) => {
+      helpers.logInTestUser((err, $request) => {
+        function postWithParams(postParams, cb) {
+          $request
+            .post(`http://${Config.endpoint}/api/post/create`, cb)
+            .form(postParams);
+        }
+        postWithParams(newPostParams, (error, response) => {
+          var result = JSON.parse(response.body);
+
+          expect(response.statusCode).toBe(200);
+          expect(result.postID).not.toBeUndefined();
+
+          if (result.postID) {
+            $request.get(`http://${Config.endpoint}/api/post/${result.postID}/resolve`, (innerErr, resolveResponse) => {
+              expect(resolveResponse.statusCode).toBe(200);
+              expect(resolveResponse.body).toBeDefined();
+              if (resolveResponse.body) {
+                let body = JSON.parse(resolveResponse.body);
+                if (body) {
+                  expect(body.resolved).toBe(true);
+                } else {
+                  expect(false).toBe(true);
+                }
+              } else {
+                expect(false).toBe(true);
+              }
+              done();
+            });
+          } else {
+            expect(false).toBe(true);
+          }
+        });
+      });
+    });
+
+    it('should not resolve posts from someone else', (done) => {
+      function postWithParams(postParams, cb) {
+        helpers.logInTestUser((err, $request) => {
+          $request
+            .post(`http://${Config.endpoint}/api/post/create`, cb)
+            .form(postParams);
+        });
+      }
+      postWithParams(newPostParams, (error, response) => {
+        let result = JSON.parse(response.body);
+
+        expect(response.statusCode).toBe(200);
+        expect(result.postID).not.toBeUndefined();
+        if (result.postID) {
+          helpers.logInMadHatter((err, $request) => {
+            $request.get(`http://${Config.endpoint}/api/post/${result.postID}/resolve`, (innerErr, resolveResponse) => {
+              expect(resolveResponse.statusCode).toBe(403);
+              done();
+            });
+          });
+        }
+      });
+    });
+
+    it('should not create a comment on resolved post', (done) => {
+      function postWithParams(commentParams, expect) {
+        helpers.logInTestUser((err, $request) => {
+          $request
+            .post(`http://${Config.endpoint}/api/post/${resolvedPostID}/comment`, expect)
+            .form(commentParams);
+        });
+      }
+      let commentParams = {
+        content: 'something comment',
+      };
+
+      postWithParams(commentParams, (error, response) => {
+        expect(response.statusCode).toBe(500);
+        done();
+      });
+    });
+  });
 });
