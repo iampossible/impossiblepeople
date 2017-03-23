@@ -4,7 +4,6 @@ const Joi = require('joi');
 const moment = require('core/AppMoment');
 const Controller = require('core/Controller');
 const postModel = require('models/PostModel');
-const pushNotificationService = require('middleware/PushNotificationService');
 const Sequence = require('impossible-promise');
 const QueueWorkers = require('middleware/QueueWorkers');
 
@@ -76,6 +75,16 @@ class PostController extends Controller {
       },
     });
 
+    this.route('resolvePost', {
+      method: 'GET',
+      path: '/api/post/{postID}/resolve',
+      auth: 'session',
+      handler: this.resolvePostHandler,
+      validateParams: {
+        postID: Joi.string().alphanum(),
+      },
+    });
+
   }
 
   createCommentHandler(request, reply) {
@@ -99,17 +108,17 @@ class PostController extends Controller {
 
   createPostHandler(request, reply) {
     postModel.createPost(request.auth.credentials, request.payload.postType, {
-        content: request.payload.content,
-        location: request.payload.location,
-        latitude: request.payload.latitude,
-        longitude: request.payload.longitude,
-        timeRequired: request.payload.timeRequired || 0,
-        interestID: request.payload.interestID,
-      })
+      content: request.payload.content,
+      location: request.payload.location,
+      latitude: request.payload.latitude,
+      longitude: request.payload.longitude,
+      timeRequired: request.payload.timeRequired || 0,
+      interestID: request.payload.interestID,
+    })
       .error(e => reply({ msg: e }).code(400))
       .done((postNode) => {
         QueueWorkers.activity('CREATE_POST_EVENT', { postID: postNode.postID })
-        reply(postNode).code(200)
+        reply(postNode).code(200);
       });
   }
 
@@ -124,13 +133,13 @@ class PostController extends Controller {
     })
       .then((accept, reject, postNode) => {
         if (!postNode) {
-          return reject('post not found')
+          reject('post not found');
+        } else {
+          postModel
+            .getComments(request.params.id, userID)
+            .error(reject)
+            .done(accept);
         }
-
-        postModel
-          .getComments(request.params.id, userID)
-          .error(reject)
-          .done(accept);
       })
       .error((e) => {
         reply({ msg: e }).code(e === 'post not found' ? 404 : 400);
@@ -144,6 +153,7 @@ class PostController extends Controller {
           createdAt: postNode.rel.properties.at,
           createdAtSince: moment(postNode.rel.properties.at).fromNow(),
           location: postNode.post.location,
+          resolved: postNode.post.resolved || false,
           category: {
             interestID: postNode.category.interestID,
             name: postNode.category.name,
@@ -175,10 +185,10 @@ class PostController extends Controller {
     postModel
       .postBelongsToUser(userID, postID)
       .then((accept, reject) => {
-        postModel.deletePost(postID).error(reject).done(accept)
+        postModel.deletePost(postID).error(reject).done(accept);
       })
       .error((e) => {
-        if (e === 'permission denied to delete post') {
+        if (e === 'permission denied') {
           reply({}).code(403);
         } else {
           reply({ msg: e }).code(500);
@@ -191,7 +201,7 @@ class PostController extends Controller {
 
   reportPostHandler(request, reply) {
 
-    const postID = request.params.postID
+    const postID = request.params.postID;
     const userID = request.auth.credentials.userID;
 
     postModel
@@ -201,14 +211,14 @@ class PostController extends Controller {
       })
       .then((accept, reject, postNode) => {
         if (!postNode) {
-          return reject('post not found')
+          return reject('post not found');
         }
 
         if (postNode.creator.userID === userID) {
-          return reject('post bellongs to user')
+          return reject('post bellongs to user');
         }
 
-        postModel.reportPost(postID, userID).done(accept)
+        postModel.reportPost(postID, userID).done(accept);
       })
       .done(() => {
         QueueWorkers.activity('REPORT_POST_EVENT', { userID, postID });
@@ -216,14 +226,14 @@ class PostController extends Controller {
         reply({
           postID,
           msg: 'Thank you! We will review the post shortly.'
-        }).code(200)
+        }).code(200);
       });
 
   }
 
   reportCommentHandler(request, reply) {
 
-    const commentID = request.params.commentID
+    const commentID = request.params.commentID;
     const userID = request.auth.credentials.userID;
 
     postModel
@@ -233,12 +243,12 @@ class PostController extends Controller {
       })
       .then((accept, reject, commentNode) => {
         if (!commentNode) {
-          return reject('comment not found')
+          return reject('comment not found');
         }
         if (commentNode.authorID === userID) {
-          return reject('comment bellongs to user')
+          return reject('comment bellongs to user');
         }
-        postModel.reportComment(commentNode.postID, commentNode.commentID, userID).done(accept)
+        postModel.reportComment(commentNode.postID, commentNode.commentID, userID).done(accept);
       })
       .done(() => {
         QueueWorkers.activity('REPORT_COMMENT_EVENT', { userID, commentID });
@@ -246,9 +256,31 @@ class PostController extends Controller {
         reply({
           commentID,
           msg: 'Thank you for your report!'
-        }).code(200)
+        }).code(200);
       });
   }
+
+  resolvePostHandler(request, reply) {
+    const postID = request.params.postID;
+    const userID = request.auth.credentials.userID;
+
+    postModel
+      .postBelongsToUser(userID, postID)
+      .then((accept, reject) => {
+        postModel.resolvePost(postID).error(reject).done(accept);
+      })
+      .error((e) => {
+        if (e === 'permission denied') {
+          reply({}).code(403);
+        } else {
+          reply({ msg: e }).code(500);
+        }
+      })
+      .done((data) => {
+        reply(data).code(200);
+      });
+  }
+
 }
 
 module.exports = new PostController();

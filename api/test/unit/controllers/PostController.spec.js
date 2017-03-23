@@ -69,5 +69,15 @@ describe('PostController', () => {
     });
 
 
+    it('registers GET /post/{id}/resolve method', () => {
+      let route = postController._routes.resolvePost;
+
+      expect(route).toBeDefined();
+      expect(route.path).toBe('/api/post/{postID}/resolve');
+      expect(route.method).toBe('GET');
+      expect(route.config.auth).toBe('session');
+      expect(route.config.handler).toBeDefined();
+    });
+
   });
 });

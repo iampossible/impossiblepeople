@@ -4,13 +4,15 @@
     (click)="openPost($event, post.postID)"
     tappable
     class="post-card">
+  <svg height="63" width="63" style="position: absolute;right: 0;background: #F2F2F2;" *ngIf="post.resolved">
+    <polygon points="0,0 63,63 0,63" style="fill:#ffffff;stroke:#d6d7d8;stroke-width:1" />
+  </svg> 
   <ion-card-content class="post-content">
-
     <div class="post-card-header">
       <div class="post-category-name">
         {{ (post.category ? post.category.name : '') | uppercase }}
       </div>
-      <div class="post-created-at">
+      <div class="post-created-at" *ngIf="!post.resolved">
         <ion-icon name="ios-time-outline"></ion-icon>
         {{ post.createdAtSince }}
       </div>

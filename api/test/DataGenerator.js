@@ -242,6 +242,7 @@ class DataGenerator {
           location: postItem.location,
           latitude: postItem.latitude,
           longitude: postItem.longitude,
+          resolved: postItem.resolved,
         });
 
         comments.forEach(comment => {

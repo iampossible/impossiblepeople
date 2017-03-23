@@ -10,9 +10,12 @@
       ion-card {
         margin: 18px 0;
         width: 100%;
-        box-shadow: 0 2px 2px 0 rgba(170,170,170, 0.1), 0 1px 10px 0px rgba(170, 170, 170, 0.1), 0 1px 10px 0 rgba(170, 170, 170, 0.1);
-        border-bottom: 1px solid map_get($colors, border-gray);
-        border-top: 1px solid map_get($colors, border-gray);
+
+        .post-content {
+          /*box-shadow: 0 2px 2px 0 rgba(170,170,170, 0.1), 0 1px 10px 0px rgba(170, 170, 170, 0.1), 0 1px 10px 0 rgba(170, 170, 170, 0.1);*/
+          border-bottom: 1px solid map_get($colors, border-gray);
+          border-top: 1px solid map_get($colors, border-gray);
+        }
 
         .post-author-name {
           white-space: normal;
