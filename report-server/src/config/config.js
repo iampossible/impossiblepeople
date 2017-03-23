@@ -5,10 +5,10 @@ const path = require('path');
 // see configs.yml to better understand how to structure custom config files
 // see process.env.GNOME_xxx to see which environment overrides are available
 
-let GNOME_ENV = process.env.GNOME_ENV;
+let GNOME_ENV = process.env.GNOME_ENV
 
 if (!GNOME_ENV || GNOME_ENV === 'docker') {
-  GNOME_ENV = 'dev';
+  GNOME_ENV = 'dev'
 }
 
 let rawConfig = require(`./config.${GNOME_ENV}`);

@@ -53,6 +53,8 @@ services:
     environment:
      - GNOME_ENV=docker
      - NEO4J_AUTH=${NEO4J_AUTH}
+     - FACEBOOK_APP_ID=${FACEBOOK_APP_ID}
+     - FACEBOOK_APP_SECRET=${FACEBOOK_APP_SECRET}
     build: ./ionic-app
     ports:
      - "8090:8090"

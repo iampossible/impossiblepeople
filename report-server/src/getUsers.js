@@ -28,6 +28,9 @@ console.time('Gather user ids for reports')
 promisify(db.query, 'MATCH (p:Person) WHERE p.password <> "" return extract(n IN collect(p)| n.userID) AS extracted')
   .then((data) => {
     for (let user of data[0]) {
+      if (config.logging) {
+        console.log(`Found user ${user})`)
+      }
       touch(`${config.workdir}/reports/unprocessed/${user}`)
         .catch((err) => {
           console.error(`Failed to add ${user} to unprocessed queue: ${err}`)

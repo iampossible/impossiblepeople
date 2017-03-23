@@ -11,14 +11,13 @@ const config = require('./config/config')
 const promisify = (func, ...args) =>
   new Promise((resolve, reject) =>
     func(...args, (err, value) =>
-      err ? reject(err) : resolve(value)
+      (err ? reject(err) : resolve(value))
     )
   )
 
-const touch = (path) => {
-  return promisify(fs.open, path, "w")
+const touch = (path) =>
+  promisify(fs.open, path, 'w')
     .then((fd) => fs.close(fd))
-}
 
 const db = seraph({
   server: config.neo4j.host,
@@ -37,13 +36,13 @@ const locationSearch = `(
 )`
 
 const userQuery = (userID) => new Promise((resolve, reject) => {
-  promisify(db.query, `MATCH (p:Person {userID: {userID}}) RETURN p`, { userID })
+  promisify(db.query, 'MATCH (p:Person {userID: {userID}}) RETURN p', { userID })
     .then((result) => resolve(result.pop()))
     .catch(reject)
 })
 
 const friendCount = (userID) => new Promise((resolve, reject) => {
-  promisify(db.query, `MATCH (:Person {userID: {userID}}) -[:FOLLOWS]-> (friend:Person)RETURN COUNT(DISTINCT friend) AS friendCount`, { userID })
+  promisify(db.query, 'MATCH (:Person {userID: {userID}}) -[:FOLLOWS]-> (friend:Person)RETURN COUNT(DISTINCT friend) AS friendCount', { userID })
     .then((result) => resolve(result.pop().friendCount))
     .catch(reject)
 })
@@ -105,11 +104,9 @@ const mailReport = (user, htmlContent) =>
         pass: config.smtp.pass
       }
     })
-    x = user.email
-    x = 'gnome-reports.' + x.substr(0, x.lastIndexOf('@')) + '@mailinator.com'
     let email = {
       from: config.smtp.from,
-      to: x,
+      to: user.email,
       subject: 'Weekly highlights',
       html: htmlContent
     }
@@ -162,7 +159,7 @@ promisify(fs.readdir, `${config.workdir}/reports/unprocessed`)
       }
       for (let result of processed.success) {
         if (config.logging) {
-          console.log("Successfully sent report to " + result.id)
+          console.log(`Successfully sent report to ${result.id}`)
         }
         promisify(fs.unlink, `${config.workdir}/reports/unprocessed/${result.id}`)
           .catch(console.error)
@@ -170,7 +167,7 @@ promisify(fs.readdir, `${config.workdir}/reports/unprocessed`)
       for (let result of processed.failed) {
         if (/* TODO: move onto failed queue if permanent failure, ignore otherwise to retry */true) {
           if (config.logging) {
-            console.log("Failed to sent report to " + result.id + ": " + result.error)
+            console.log(`Failed to sent report to ${result.id}: ${result.error}`)
           }
           touch(`${config.workdir}/reports/failed/${result.id}`)
             .catch((err) => {

@@ -15,6 +15,7 @@
     "no-console" :  "off",
     "strict": "off",
     "padded-blocks": 0,
-    "comma-dangle": "off"
+    "comma-dangle": "off",
+    "semi": "off"
   }
 }
