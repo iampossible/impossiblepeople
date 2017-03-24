@@ -182,6 +182,7 @@ class UserModel extends Model {
           timeRequired: post.timeRequired,
           createdAt: rel.at,
           location: post.location,
+          resolved: post.resolved,
           commentCount: COUNT(comment),
           author: {
             userID: creator.userID,

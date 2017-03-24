@@ -115,22 +115,6 @@ export class PostDetailPage {
   }
 
   privateButtons: Array<any> = [{
-    text: 'Mark Done',
-    handler: () => {
-      this.postService.resolvePost(this.post.postID).subscribe((...args) => {
-        this.events.publish('feedback:show', { msg: 'Done!', icon: 'checkmark' })
-        this.events.publish('user:posts:updated', this.post)
-
-        this.post.resolved = true
-      }, () => {
-        this.alertCtrl.create({
-          title: 'Could not mark post as done, try again later!',
-          subTitle: '',
-          buttons: ['OK']
-        }).present()
-      })
-    }
-  }, {
     text: 'Delete',
     role: 'destructive',
     handler: () => {
@@ -184,7 +168,23 @@ export class PostDetailPage {
     event.stopPropagation()
     this.postActions = this.actionSheetCtrl.create({
       title: 'Post actions',
-      buttons: this.isMyPost ? this.privateButtons : this.publicButtons
+      buttons: this.isMyPost ? (this.post.resolved ? [] : [{
+        text: 'Mark Done',
+        handler: () => {
+          this.postService.resolvePost(this.post.postID).subscribe((...args) => {
+            this.events.publish('feedback:show', { msg: 'Done!', icon: 'checkmark' })
+            this.events.publish('user:posts:updated', this.post)
+
+            this.post.resolved = true
+          }, () => {
+            this.alertCtrl.create({
+              title: 'Could not mark post as done, try again later!',
+              subTitle: '',
+              buttons: ['OK']
+            }).present()
+          })
+        }
+      }]).concat(this.privateButtons) : this.publicButtons
     })
 
     this.postActions.present()

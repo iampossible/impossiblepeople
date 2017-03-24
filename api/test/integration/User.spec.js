@@ -204,6 +204,7 @@ describe('User', () => {
           expect(post.postID).toBeDefined('postID');
           expect(post.id).toBeUndefined();
           expect(post.content).toBeDefined('content');
+          expect(post.resolved).toBeDefined('resolved');
           expect(post.author).toBeDefined('author');
           expect(post.author.username).toBeDefined('author.username');
           expect(post.author.userID).toBeDefined('author.userID');

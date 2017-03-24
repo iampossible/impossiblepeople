@@ -1,7 +1,7 @@
-import {Component, Input} from '@angular/core'
-import {Button, Icon, Item, NavController, ActionSheetController, Events, ActionSheet} from 'ionic-angular'
-import {NavigationService} from '../../services/navigation/NavigationService'
-import {PostService} from '../../services/api/PostService'
+import { Component, Input } from '@angular/core'
+import { Button, Icon, Item, NavController, ActionSheetController, Events, ActionSheet } from 'ionic-angular'
+import { NavigationService } from '../../services/navigation/NavigationService'
+import { PostService } from '../../services/api/PostService'
 
 @Component({
   templateUrl: 'build/components/PostCard/PostCard.html',
@@ -45,9 +45,9 @@ export class PostCard {
   }]
 
   constructor(private nav: NavController,
-              private postService: PostService,
-              private events: Events,
-              private actionSheetCtrl: ActionSheetController) {
+    private postService: PostService,
+    private events: Events,
+    private actionSheetCtrl: ActionSheetController) {
   }
 
   ngOnInit() {
@@ -65,7 +65,19 @@ export class PostCard {
 
     this.actionSheet = this.actionSheetCtrl.create({
       title: 'Post actions',
-      buttons: this.isMyPost ? this.privateButtons : this.publicButtons
+      buttons: this.isMyPost ? (this.post.resolved ? [] : [{
+        text: 'Mark Done',
+        handler: () => {
+          this.postService.resolvePost(this.post.postID).subscribe((...args) => {
+            this.events.publish('feedback:show', { msg: 'Done!', icon: 'checkmark' })
+            this.events.publish('user:posts:updated', this.post)
+
+            this.post.resolved = true
+          }, () => {
+            this.events.publish('feedback:show', { msg: 'Failed!', icon: 'alert' })
+          })
+        }
+      }]).concat(this.privateButtons) : this.publicButtons
     })
 
     this.actionSheet.present()

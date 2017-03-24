@@ -26,6 +26,7 @@ class FeedController extends Controller {
         content: node.post.content,
         timeRequired: node.post.timeRequired || 0,
         location: node.post.location,
+        resolved: node.post.resolved || false,
         createdAt: node.rel.properties.at,
         createdAtSince: moment(node.rel.properties.at).fromNow(),
         commentCount: node.commentCount,

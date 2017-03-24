@@ -18,9 +18,8 @@ describe('Feed endpoints', () => {
 
   describe('GET /feed', () => {
     it('should return posts', (done) => {
-      helpers.logInTestUser((err, request) => {
-        request.get(`http://${Config.endpoint}/api/feed`, (error, response) => {
-
+      helpers.logInTestUser((err, $request) => {
+        $request.get(`http://${Config.endpoint}/api/feed`, (error, response) => {
           expect(response.statusCode).toBe(200);
           expect(JSON.parse(response.body).length).toBeGreaterThan(1);
           done();
@@ -29,15 +28,16 @@ describe('Feed endpoints', () => {
     });
 
     it('should transform the database responses', (done) => {
-      helpers.logInTestUser((err, request) => {
-        request.get(`http://${Config.endpoint}/api/feed`, (error, response) => {
-          let post = JSON.parse(response.body).filter( post => post.postID === 'dfaffa58').pop()
-          
+      helpers.logInTestUser((err, $request) => {
+        $request.get(`http://${Config.endpoint}/api/feed`, (error, response) => {
+          let post = JSON.parse(response.body).filter(p => p.postID === 'dfaffa58').pop();
+
           expect(post.id).toBeUndefined();
           expect(post.postID).toBeDefined('missing attribute: postID');
           expect(post.content).toBeDefined('missing attribute: content');
           expect(post.timeRequired).toBeDefined('missing attribute: timeRequired');
           expect(post.location).toBeDefined('missing attribute: location');
+          expect(post.resolved).toBeDefined('missing attribute: resolved');
 
           expect(post.commentCount).toBeDefined('missing attribute: commentCount');
 
@@ -61,8 +61,8 @@ describe('Feed endpoints', () => {
     });
 
     it('should include the user\'s relationship with the post', (done) => {
-      helpers.logInTestUser((err, request) => {
-        request.get(`http://${Config.endpoint}/api/feed`, (error, response) => {
+      helpers.logInTestUser((err, $request) => {
+        $request.get(`http://${Config.endpoint}/api/feed`, (error, response) => {
           let post = JSON.parse(response.body).filter((item) => item.postID === 'dfaffa58').pop();
 
           expect(post.author.commonFriends).toBeDefined();
@@ -81,8 +81,8 @@ describe('Feed endpoints', () => {
   });
 
   it('the correct number of posts for someone without friends', (done) => {
-    helpers.logInAlice((err, request) => {
-      request.get(`http://${Config.endpoint}/api/feed`, (error, response) => {
+    helpers.logInAlice((err, $request) => {
+      $request.get(`http://${Config.endpoint}/api/feed`, (error, response) => {
         let postCount = JSON.parse(response.body);
 
         expect(postCount.length).toBe(5); // 2 if interest AND location is turned on
@@ -92,11 +92,11 @@ describe('Feed endpoints', () => {
   });
 
   it('the correct number of comments', (done) => {
-    helpers.logInTestUser((err, request) => {
-      request.get(`http://${Config.endpoint}/api/feed`, (error, response) => {
+    helpers.logInTestUser((err, $request) => {
+      $request.get(`http://${Config.endpoint}/api/feed`, (error, response) => {
         let post = JSON.parse(response.body).filter((item) => item.postID === '27c54302').pop();
         let commentCount = post.commentCount;
-        expect(commentCount).toBe(5)
+        expect(commentCount).toBe(5);
         done();
       });
     });
