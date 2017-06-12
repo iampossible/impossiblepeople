@@ -107,7 +107,7 @@ describe('Facebook endpoints', () => {
         expect(user.userID).toBeDefined();
         expect(user.firstName).toBe('New');
         expect(user.lastName).toBe('User');
-        expect(user.imageSource).toBe('http://graph.facebook.com/1234/picture?type=large');
+        expect(user.imageSource).toBe('https://graph.facebook.com/1234/picture?type=large');
         expect(user.fromFacebook).toBeTruthy();
         expect(user.interests).toBeUndefined();
         expect(response.headers['set-cookie']).toBeDefined();
@@ -142,7 +142,7 @@ describe('Facebook endpoints', () => {
           expect(user.userID).toBeDefined();
           expect(user.firstName).toBe('Invitee');
           expect(user.lastName).toBe('Manatee');
-          expect(user.imageSource).toBe('http://graph.facebook.com/1234/picture?type=large');
+          expect(user.imageSource).toBe('https://graph.facebook.com/1234/picture?type=large');
           expect(user.fromFacebook).toBeTruthy();
           expect(user.interests).toBeUndefined();
           expect(response.headers['set-cookie']).toBeDefined();
