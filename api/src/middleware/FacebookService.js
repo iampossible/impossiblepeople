@@ -61,7 +61,7 @@ class FacebookService {
                 firstName: facebookData.first_name,
                 lastName: facebookData.last_name,
                 biography: facebookData.bio,
-                imageSource: `http://graph.facebook.com/${facebookData.id}/picture?type=large`,
+                imageSource: `https://graph.facebook.com/${facebookData.id}/picture?type=large`,
               },
             });
           }

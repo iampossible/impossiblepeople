@@ -26,7 +26,7 @@ describe('Facebook Service', () => {
         expect(data.user.biography).toBe('Hi I\'m Steve');
         expect(data.user.firstName).toBe('Steve');
         expect(data.user.lastName).toBe('Austin');
-        expect(data.user.imageSource).toBe('http://graph.facebook.com/456789/picture?type=large');
+        expect(data.user.imageSource).toBe('https://graph.facebook.com/456789/picture?type=large');
         expect(data.friends[0]).toEqual({ id: 123456 });
         scope.done();
         done();
