@@ -9,16 +9,17 @@ class ExploreController extends Controller {
   constructor() {
     super();
 
-    this.route('explore', {
+    this.route('getExplore', {
       method: 'GET',
-      path: '/api/explore/{interestID}',
+      path: '/api/explore/{name}',
       auth: 'session',
       handler: this.getInterest,
     });
   }
 
   getInterest(request, reply) {
-    return feedModel.get(request.params.interestID).done((data) => {
+    console.log('explore controler ', request.params.name);
+    return exploreModel.get(request.params.name).done((data) => {
       reply.response(data.map(node => ({
         postID: node.post.postID, //check
         postType: node.rel.type, //???
@@ -48,9 +49,9 @@ class ExploreController extends Controller {
       })));
     }).error(e => {
       reply({ msg: e }).code(500);
-      console.error('Explore could not be fetched for ', request.params.interestID);
+      console.error('Explore could not be fetched for ', request.params.name);
     });
   }
 }
 
-module.exports = new FeedController();
+module.exports = new ExploreController();
