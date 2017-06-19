@@ -1,0 +1,35 @@
+<img src="assets/images/logo-medium.png" id="landing-page-logo" alt="Impossible logo">
+<ion-slides pager autoplay=5000 zoom=false loop>
+  <ion-slide padding>
+    <img src="assets/images/welcome.png">
+    <h1>Creative collaboration</h1>
+    <h2>Offer to share a skill or ask for a favour with a creative project.</h2>
+  </ion-slide>
+  <ion-slide padding>
+    <img src="assets/images/location-context.png">
+    <h1>We match your post...</h1>
+    <h2>Based on your location, interests and mutual friends.</h2>
+  </ion-slide>
+  <ion-slide padding>
+    <img src="assets/images/imp-illustration.png">
+    <h1>Connect and create.</h1>
+    <h2>Trade small favours with friends, friends of friends and neighbours.</h2>
+  </ion-slide>
+  <ion-slide padding>
+    <img src="assets/images/find-friends.png">
+    <h1>Discover your community.</h1>
+    <h2>Meet new people, deepen relationships and make things happen!</h2>
+  </ion-slide>
+</ion-slides>
+
+<nav class="landing-buttons">
+  <facebook-connect (onConnect)="fbConnect($event)" (onError)="fbError($event)"></facebook-connect>
+
+  <button ion-button full (click)="goToSignUpPage($event)">
+    Sign up with email
+  </button>
+
+  <button ion-button full (click)="goToAuthPage($event)" class="log-in-button">
+    Already have an account?&nbsp;<strong>Log in</strong>
+  </button>
+</nav>
