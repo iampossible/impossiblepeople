@@ -1,0 +1,32 @@
+page-explore {
+ion-card ion-card-content {
+        padding: 14px;
+    }
+    ion-refresher {
+        height: 200px;
+        /* FIX TO BE NOT HARDCODED ... or use variable */
+        .animation {
+            height: 200px;
+            text-align: center;
+        }
+    }
+    .has-refresher>scroll-content {
+        border-top: none;
+    }
+    .tab-button-icon {
+        position: relative;
+    }
+    .notification-badge {
+        position: absolute;
+        color: #FFFFFF;
+        background-color: #FA775B;
+        border-radius: 15px;
+        top: 5px;
+        left: calc(50%);
+        width: 20px;
+        height: 20px;
+        display: block;
+        line-height: 21px;
+        font-size: 0.8em;
+    }
+}

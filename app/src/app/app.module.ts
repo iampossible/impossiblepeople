@@ -10,6 +10,7 @@ import { AboutPage } from '../pages/about/about';
 import { AuthPage } from '../pages/auth/auth';
 import { ContactPage } from '../pages/contact/contact';
 import { FeedPage } from '../pages/feed/feed';
+import { ExplorePage } from '../pages/explore/explore';
 import { CreatePostPage } from '../pages/create-post/create-post';
 import { HomePage } from '../pages/home/home';
 import { TabsPage } from '../pages/tabs/tabs';
@@ -32,6 +33,7 @@ import { AuthService } from '../providers/auth-service/auth-service';
 import { PostCardComponent } from '../components/post-card/post-card';
 import { PostService } from '../providers/post-service/post-service';
 import { FeedService } from '../providers/feed-service/feed-service';
+import { ExploreService } from '../providers/explore-service/explore-service';
 import { ScrollTopProvider } from '../providers/scroll-top/scroll-top';
 
 @NgModule({
@@ -41,6 +43,7 @@ import { ScrollTopProvider } from '../providers/scroll-top/scroll-top';
     ContactPage,
     HomePage,
     FeedPage,
+    ExplorePage,
     CreatePostPage,
     TabsPage,
     LandingPage,
@@ -64,6 +67,7 @@ import { ScrollTopProvider } from '../providers/scroll-top/scroll-top';
     ContactPage,
     HomePage,
     FeedPage,
+    ExplorePage,
     CreatePostPage,
     TabsPage,
     LandingPage,
@@ -94,6 +98,7 @@ import { ScrollTopProvider } from '../providers/scroll-top/scroll-top';
     AuthService,
     PostService,
     FeedService,
+    ExploreService,
     ScrollTopProvider
   ]
 })
