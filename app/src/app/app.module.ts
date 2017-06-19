@@ -10,6 +10,7 @@ import { AboutPage } from '../pages/about/about';
 import { AuthPage } from '../pages/auth/auth';
 import { ContactPage } from '../pages/contact/contact';
 import { FeedPage } from '../pages/feed/feed';
+import { PostDetailsPage } from '../pages/post-details/post-details';
 import { CreatePostPage } from '../pages/create-post/create-post';
 import { HomePage } from '../pages/home/home';
 import { TabsPage } from '../pages/tabs/tabs';
@@ -50,7 +51,8 @@ import { ScrollTopProvider } from '../providers/scroll-top/scroll-top';
     ForgottenPasswordPage,
     PrivacyPolicyPage,
     TermsConditionsPage,
-    PostCardComponent
+    PostCardComponent,
+    PostDetailsPage
   ],
   imports: [
     HttpModule,
@@ -71,7 +73,8 @@ import { ScrollTopProvider } from '../providers/scroll-top/scroll-top';
     SignupPage,
     ForgottenPasswordPage,
     PrivacyPolicyPage,
-    TermsConditionsPage
+    TermsConditionsPage,
+    PostDetailsPage
   ],
   providers: [
     StatusBar,

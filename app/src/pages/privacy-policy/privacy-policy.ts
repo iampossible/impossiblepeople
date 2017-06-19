@@ -18,7 +18,7 @@ export class PrivacyPolicyPage {
   }
 
   ionViewDidLoad() {
-    //console.log('ionViewDidLoad PrivacyPolicyPage');
+    // console.log('ionViewDidLoad PrivacyPolicyPage');
   }
 
 }

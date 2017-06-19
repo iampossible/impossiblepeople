@@ -4,7 +4,7 @@ import { Response } from '@angular/http';
 
 import { FeedService } from '../../providers/feed-service/feed-service';
 import { UserService } from '../../providers/user-service/user-service';
-//import { ScrollTopProvider } from '../../providers/scroll-top/scroll-top';
+// import { ScrollTopProvider } from '../../providers/scroll-top/scroll-top';
 
 @IonicPage()
 @Component({

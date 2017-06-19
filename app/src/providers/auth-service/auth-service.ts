@@ -25,21 +25,21 @@ export class AuthService {
   }
 
   public authenticate(email: string, password: string): Observable<Response> {
-    let credentials: Object = { email, password }
-    let url: string = ApiService.getUrl('auth/login')
+    let credentials: Object = { email, password };
+    let url: string = ApiService.getUrl('auth/login');
 
-    return this.http.post(url, JSON.stringify(credentials))
+    return this.http.post(url, JSON.stringify(credentials));
   }
 
   public recoverPassword(email: string): Observable<Response> {
-    let credentials: Object = { email }
-    let url: string = ApiService.getUrl('auth/recover')
+    let credentials: Object = { email };
+    let url: string = ApiService.getUrl('auth/recover');
 
-    return this.http.post(url, JSON.stringify(credentials))
+    return this.http.post(url, JSON.stringify(credentials));
   }
 
   public inviteContacts(emails: Array<string>): Observable<Response> {
-    let contacts: Object = { emails: JSON.stringify(emails) }
+    let contacts: Object = { emails: JSON.stringify(emails) };
     let url: string = ApiService.getUrl('user/invite');
 
     return this.http.post(url, JSON.stringify(contacts));
