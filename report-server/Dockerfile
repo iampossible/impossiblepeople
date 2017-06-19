@@ -7,7 +7,7 @@ ENV NEO4J_HOST 'http://neo4j:7474'
 RUN mkdir -p /root/reports/failed && mkdir -p /root/reports/unprocessed
 
 COPY ./package.json .
-RUN apk --no-cache --update add nodejs \
+RUN apk --no-cache --update add nodejs nodejs-npm \
   && npm config set loglevel warn \
   && npm --quiet install \
   && npm cache clean
