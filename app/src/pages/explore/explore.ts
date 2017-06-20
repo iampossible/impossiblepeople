@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 
 import { ExploreService } from '../../providers/explore-service/explore-service';
-
 import { FeedService } from '../../providers/feed-service/feed-service';
 /**
  * Generated class for the ExplorePage page.
@@ -17,16 +17,27 @@ import { FeedService } from '../../providers/feed-service/feed-service';
 })
 export class ExplorePage {
 
+  private interestForm: FormGroup;
   public exploreFeed: Array<Object> = [];
-
 
   public feed: Array<Object> = [];
 
   constructor(private exploreService: ExploreService, 
   private feedService: FeedService, 
+  private form: FormBuilder,
   public navCtrl: NavController, 
   public navParams: NavParams) {
-    
+    this.interestForm = form.group({
+      interest1: ['Lifestyle', Validators.required],
+      interest2: ['Travel', Validators.required],
+      interest3: ['Technology', Validators.required],
+      interest4: ['Music', Validators.required],
+      interest5: ['Art Design', Validators.required],
+      interest6: ['Wellness', Validators.required],
+      interest7: ['Politics', Validators.required],
+      interest8: ['Culture', Validators.required],
+      interest9: ['Surprise me', Validators.required],
+    });
   }
 
   getFeed(event?) {
@@ -52,14 +63,12 @@ export class ExplorePage {
   }
   ionViewDidLoad() {
     console.log('ionViewDidLoad ExplorePage');
-    this.getFeed();
+    //this.getFeed();
   }
 
-  onInput(event){
-
-  }
-  onCancel(event){
-    
+  getInterest(event){
+    event.
+    console.log("interest", this.interestForm.value.interest1);
   }
 
 }

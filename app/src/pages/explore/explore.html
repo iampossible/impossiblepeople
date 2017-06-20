@@ -13,8 +13,8 @@
 </ion-header>
 
 
-<ion-content class="feed-tab background">
-  <ion-refresher (ionRefresh)="released($event)" pullMin="200" pullMax="260">
+<ion-content>  <!--class="feed-tab background"-->
+  <!--<ion-refresher (ionRefresh)="released($event)" pullMin="200" pullMax="260">
     <div #animationWrapper class="animation day" *ngIf="isDay">
       <svg height="270" width="100%" id="animation">
         <style type="text/css">
@@ -281,8 +281,45 @@
         </g>
       </svg>
     </div>
-  </ion-refresher>
+  </ion-refresher>-->
 
-  <post-card *ngFor="let post of feed" [post]="post"></post-card>
+  <div>
+    <h2>Explore</h2>
+    <div >
+      <form [formGroup]="interestForm" (ngSubmit)="getInterest()">
+        <ion-item>
+          <ion-input type="text" formControlName="interest1" readonly="true" (click)="getInterest()"></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-input type="text" formControlName="interest2" readonly="true" (click)="getInterest()"></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-input type="text" formControlName="interest3" readonly="true" (click)="getInterest()"></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-input type="text" formControlName="interest4" readonly="true" (click)="getInterest()"></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-input type="text" formControlName="interest5" readonly="true" (click)="getInterest()"></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-input type="text" formControlName="interest6" readonly="true" (click)="getInterest()"></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-input type="text" formControlName="interest7" readonly="true" (click)="getInterest()"></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-input type="text" formControlName="interest8" readonly="true" (click)="getInterest()"></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-input type="text" formControlName="interest9" readonly="true" (click)="getInterest()"></ion-input>
+        </ion-item>
+      </form>
+         
+
+      
+    </div>
+  </div>
+  <!--<post-card *ngFor="let post of feed" [post]="post"></post-card>-->
 
 </ion-content>
