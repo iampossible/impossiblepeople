@@ -62,6 +62,7 @@ if (config.logging === true) {
 
 [
   'AuthController',
+  'ExploreController',
   'FacebookController',
   'FeedController',
   'ImageController',

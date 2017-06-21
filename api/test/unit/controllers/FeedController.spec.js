@@ -9,5 +9,6 @@ describe('FeedCtrl', () => {
     expect(feedRoutes.getFeed.method).toBe('GET');
     expect(feedRoutes.getFeed.path).toBe('/api/feed');
     expect(feedRoutes.getFeed.config.auth).toBe('session');
+    expect(feedRoutes.getFeed.config.handler).not.toBeUndefined();
   });
 });
