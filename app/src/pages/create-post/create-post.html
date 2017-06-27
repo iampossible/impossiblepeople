@@ -1,18 +1,58 @@
-<!--
-  Generated template for the CreatePostPage page.
-
-  See http://ionicframework.com/docs/components/#navigation for more info on
-  Ionic pages and navigation.
--->
 <ion-header>
 
   <ion-navbar>
-    <ion-title>CreatePost</ion-title>
+    <ion-title>Create Post</ion-title>
   </ion-navbar>
 
 </ion-header>
 
 
-<ion-content padding>
+<ion-content class="create">
+  <form id="create-post-wrapper" [formGroup]="createPostForm">
 
+    <div id="top-half" padding>
+      <div class="create-post-toggle">
+        <ion-segment formControlName="postType" secondary-light (ionChange)="onPostTypeChanged($event)">
+          <ion-segment-button value="{{ AppConstants.OFFER }}" class="segment-button-offer" role="button">
+            Offer
+          </ion-segment-button>
+          <ion-segment-button value="{{ AppConstants.ASK }}" class="segment-button-ask" role="button">
+            Ask
+          </ion-segment-button>
+        </ion-segment>
+      </div>
+      <div class="create-post-input">
+        <div class="textarea-avatar">
+          <ion-avatar><img src="{{userIcon || 'assets/images/green-bean.png'}}"></ion-avatar>
+        </div>
+        <div class="textarea-wrapper">
+          <h1 id="new-post-help">
+            {{ createPostForm.value.postType == AppConstants.OFFER ? 'What would you like to share?' : 'What would you like a hand with?'
+            }}
+          </h1>
+          <textarea type="text" formControlName="content" placeholder="{{ createPostForm.value.postType == AppConstants.OFFER ? 'i.e. I can give drawing lessons' : 'i.e. Can anyone help me fix my bike?' }}"></textarea>
+        </div>
+      </div>
+    </div>
+
+    <div id="bottom-half">
+      <div class="sticky-bottom light-list">
+        <button-dropdown class="button-border-top" [data]="dropdownData" (selected)="onSelect($event)"></button-dropdown>
+
+        <button ion-button clear color="dark" full icon-left (click)="addLocation($event)">
+          <ion-icon name="pin"></ion-icon>
+          {{ currentLocation.location || 'Add your neighbourhood' }}
+        </button>
+
+        <button ion-button clear color="dark" full icon-left (click)="selectCategory($event)">
+          <ion-icon name="pricetag"></ion-icon>
+          {{ selectedCategory.name || 'Add category' }}
+        </button>
+
+        <button ion-button full primary (click)="createPost($event)" class="button-no-border-bottom" [disabled]="!createPostForm.valid">
+          Post
+        </button>
+      </div>
+    </div>
+  </form>
 </ion-content>

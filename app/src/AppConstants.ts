@@ -1,10 +1,10 @@
 export class AppConstants {
 
-  static OFFER: string = 'OFFERS'
-  static ASK: string = 'ASKS'
+  static OFFER: string = 'OFFERS';
+  static ASK: string = 'ASKS';
 
-  static REQUIRED_TIME_ASK_LABEL = 'How much time do you need?'
-  static REQUIRED_TIME_OFFER_LABEL = 'How much time can you give?'
+  static REQUIRED_TIME_ASK_LABEL = 'How much time do you need?';
+  static REQUIRED_TIME_OFFER_LABEL = 'How much time can you give?';
 
 
   static REQUIRED_TIME_OPTIONS = {
@@ -19,6 +19,6 @@ export class AppConstants {
         text: 'To be determined',
         optionValue: 0
       }]
-    }
+    };
 
 }

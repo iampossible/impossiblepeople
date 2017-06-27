@@ -19,6 +19,7 @@ import { SignupPage } from '../pages/signup/signup';
 import { ForgottenPasswordPage } from '../pages/forgotten-password/forgotten-password';
 import { TermsConditionsPage } from '../pages/terms-conditions/terms-conditions';
 import { PrivacyPolicyPage } from '../pages/privacy-policy/privacy-policy';
+import { TagInterestPage } from '../pages/tag-interest/tag-interest';
 
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
@@ -34,6 +35,9 @@ import { PostCardComponent } from '../components/post-card/post-card';
 import { PostService } from '../providers/post-service/post-service';
 import { FeedService } from '../providers/feed-service/feed-service';
 import { ScrollTopProvider } from '../providers/scroll-top/scroll-top';
+import { ProfileService } from '../providers/profile-service/profile-service';
+import { LocationModalComponent } from '../components/location-modal/location-modal';
+import { ButtonDropdownComponent } from '../components/button-dropdown/button-dropdown';
 
 @NgModule({
   declarations: [
@@ -52,7 +56,10 @@ import { ScrollTopProvider } from '../providers/scroll-top/scroll-top';
     PrivacyPolicyPage,
     TermsConditionsPage,
     PostCardComponent,
-    PostDetailsPage
+    PostDetailsPage,
+    TagInterestPage,
+    LocationModalComponent,
+    ButtonDropdownComponent
   ],
   imports: [
     HttpModule,
@@ -74,7 +81,9 @@ import { ScrollTopProvider } from '../providers/scroll-top/scroll-top';
     ForgottenPasswordPage,
     PrivacyPolicyPage,
     TermsConditionsPage,
-    PostDetailsPage
+    PostDetailsPage,
+    TagInterestPage,
+    LocationModalComponent
   ],
   providers: [
     StatusBar,
@@ -97,7 +106,8 @@ import { ScrollTopProvider } from '../providers/scroll-top/scroll-top';
     AuthService,
     PostService,
     FeedService,
-    ScrollTopProvider
+    ScrollTopProvider,
+    ProfileService
   ]
 })
 export class AppModule { }
