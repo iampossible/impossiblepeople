@@ -18,19 +18,32 @@
 
 <ion-content> 
   <div *ngIf="inExplore">
-    <h2>Explore Impossible</h2>
-    <div>
+    <ion-row center>
+      <ion-col class="header-text">
+        <h3>Explore Impossible</h3>
+      </ion-col>
+    </ion-row>
+    <div class="interest-picker">
+      <ion-slides pager>
+        <ion-slide>  
+          <ul class="picker">
+            <li *ngFor="let interest of interests" class="picker-item">
+              <button ion-button block full class="button button-outline-light"
+                      (click)="getExploreFeed($event)">
+                      <span class="button-inner">{{ interest.name }}</span>
+              </button>
+            </li>
+          </ul>
+
+          <div class="suggestion-block">
+            <button ion-button block large outline light class="suggest-interest button-outline-light" (click)="getExploreFeed($event)">
+              Surprise me
+            </button>
+          </div>
+        </ion-slide>
+      </ion-slides>
+
       <!--<ion-grid>
-        <ion-row  *ngFor="let interest of interests;">
-          <ion-col>
-            <button ion-button full color="light" (click)="getExploreFeed($event)">{{interest.name}}</button>
-          </ion-col>
-          <ion-col>
-             <button *ngIf="" ion-button full color="light" (click)="getExploreFeed($event)">{{(interests[i]).name}}</button>
-          </ion-col>
-        </ion-row>
-      </ion-grid>   -->
-      <ion-grid>
         <ion-row>
           <ion-col>
             <button ion-button full color="light" (click)="getExploreFeed($event)">Lifesyte</button>
@@ -68,7 +81,7 @@
             <button ion-button full color="light" (click)="getExploreFeed($event)">Surprise me</button>
           </ion-col>
         </ion-row>
-      </ion-grid>   
+      </ion-grid>   -->
     </div>
   </div>
   <div class="feed-tab background" *ngIf="inSearchExplore">
