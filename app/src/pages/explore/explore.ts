@@ -2,7 +2,6 @@ import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 
 import { ExploreService } from '../../providers/explore-service/explore-service';
-import { FeedService } from '../../providers/feed-service/feed-service';
 /**
  * Generated class for the ExplorePage page.
  *
@@ -51,6 +50,9 @@ export class ExplorePage {
       this.interests = response.json();
       console.log('we has interests', this.interests);
     });
+  }
+  getImage(interest){
+    return `url(${interest.image.replace('build','assets')})`;
   }
 
 }
