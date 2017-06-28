@@ -41,6 +41,7 @@ import { ButtonDropdownComponent } from '../components/button-dropdown/button-dr
 import { InterestPickerComponent } from '../components/interest-picker/interest-picker';
 import { InterestService } from '../providers/interest-service/interest-service';
 import { SuggestInterestModalComponent } from '../components/suggest-interest-modal/suggest-interest-modal';
+import { QuickFeedbackComponent } from '../components/quick-feedback/quick-feedback';
 
 @NgModule({
   declarations: [
@@ -64,7 +65,8 @@ import { SuggestInterestModalComponent } from '../components/suggest-interest-mo
     LocationModalComponent,
     ButtonDropdownComponent,
     InterestPickerComponent,
-    SuggestInterestModalComponent
+    SuggestInterestModalComponent,
+    QuickFeedbackComponent
   ],
   imports: [
     HttpModule,

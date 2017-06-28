@@ -88,6 +88,7 @@ export class FeedPage {
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad FeedPage');
+    this.events.publish('feedback:show', { msg: 'pissa' });
     this.getFeed();
   }
 
@@ -135,7 +136,7 @@ export class FeedPage {
 
   dismissIntroScreen() {
     this.showIntro = false;
-    document.getElementById('home-intro-state').style.display = 'none';
+    // document.getElementById('home-intro-state').style.display = 'none';
     window.localStorage.setItem('introSeen', 'true');
   }
 

@@ -13,4 +13,4 @@ import { FeedPage } from './feed';
     FeedPage
   ]
 })
-export class FeedPageModule {}
+export class FeedPageModule { }

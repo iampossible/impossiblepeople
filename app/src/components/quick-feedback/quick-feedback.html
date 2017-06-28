@@ -1,0 +1,9 @@
+<div class="container" [ngClass]="{'active': isVisible}">
+  <div class="backdrop"></div>
+  <div class="wrapper">
+    <div class="feedback-icon">
+      <ion-icon name="{{('ios-'+notification?.icon)||'ios-alert'}}"></ion-icon>
+    </div>
+    <div class="msg">{{notification?.msg}}</div>
+  </div>
+</div>
