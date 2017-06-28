@@ -1,12 +1,6 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, ViewController } from 'ionic-angular';
 
-/**
- * Generated class for the TagInterestPage page.
- *
- * See http://ionicframework.com/docs/components/#navigation for more info
- * on Ionic pages and navigation.
- */
 @IonicPage()
 @Component({
   selector: 'page-tag-interest',
@@ -14,7 +8,25 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
 })
 export class TagInterestPage {
 
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
+  private selectedInterests: Array<Object> = [];
+  private defaultInterests: Array<String> = [];
+
+  constructor(private nav: NavController,
+    private viewCtrl: ViewController,
+    private params: NavParams) {
+    this.defaultInterests = params.data.defaultInterests || [];
+  }
+
+  onSelectInterest(selected) {
+    this.selectedInterests = selected;
+  }
+
+  dismissModal() {
+    this.viewCtrl.dismiss([]);
+  }
+
+  submitInterests() {
+    this.viewCtrl.dismiss(this.selectedInterests);
   }
 
   ionViewDidLoad() {

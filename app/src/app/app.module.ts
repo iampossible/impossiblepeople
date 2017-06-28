@@ -38,6 +38,9 @@ import { ScrollTopProvider } from '../providers/scroll-top/scroll-top';
 import { ProfileService } from '../providers/profile-service/profile-service';
 import { LocationModalComponent } from '../components/location-modal/location-modal';
 import { ButtonDropdownComponent } from '../components/button-dropdown/button-dropdown';
+import { InterestPickerComponent } from '../components/interest-picker/interest-picker';
+import { InterestService } from '../providers/interest-service/interest-service';
+import { SuggestInterestModalComponent } from '../components/suggest-interest-modal/suggest-interest-modal';
 
 @NgModule({
   declarations: [
@@ -59,7 +62,9 @@ import { ButtonDropdownComponent } from '../components/button-dropdown/button-dr
     PostDetailsPage,
     TagInterestPage,
     LocationModalComponent,
-    ButtonDropdownComponent
+    ButtonDropdownComponent,
+    InterestPickerComponent,
+    SuggestInterestModalComponent
   ],
   imports: [
     HttpModule,
@@ -107,7 +112,8 @@ import { ButtonDropdownComponent } from '../components/button-dropdown/button-dr
     PostService,
     FeedService,
     ScrollTopProvider,
-    ProfileService
+    ProfileService,
+    InterestService
   ]
 })
 export class AppModule { }
