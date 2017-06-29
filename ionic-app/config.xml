@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<widget id="com.impossible.gnome.prod" version="2.2.4" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
-  <name>Impossible People</name>
+<widget id="com.impossible.gnome.cm" version="2.2.4" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+  <name>Creative Mornings London</name>
   <description>Discover your community</description>
   <author email="jonathan@impossible.com" href="http://impossible.com/">Gnome Team</author>
   <content src="index.html"/>
@@ -18,7 +18,7 @@
   <allow-intent href="mailto:*"/>
   <allow-intent href="geo:*"/>
   <allow-intent href="*"/>
-  <engine name="android" spec="~6.1.0"/>
+  <engine name="android" spec="~6.2.2"/>
   <platform name="android">
     <allow-intent href="market:*"/>
     <icon src="resources/android/icon/drawable-ldpi-icon.png" density="ldpi"/>
