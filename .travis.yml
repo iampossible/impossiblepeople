@@ -12,8 +12,8 @@ env:
   DOCKER_COMPOSE_VERSION: 1.7.1
 before_install:
   - travis_retry sudo apt-get update
-  - travis_retry sudo apt-get purge -y docker-engine
-  - travis_retry sudo apt-get install -y docker-engine
+  - travis_retry sudo apt-get purge -y docker-ce
+  - travis_retry sudo apt-get install -y docker-ce
   - travis_retry docker pull selenium/standalone-chrome
   - travis_retry docker pull rabbitmq
   - sudo rm /usr/local/bin/docker-compose & echo 1
