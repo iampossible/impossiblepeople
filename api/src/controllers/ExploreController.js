@@ -60,12 +60,8 @@ class ExploreController extends Controller {
   }
 
   searchExplore(request, reply){
-    return exploreModel.get(request.params.name).done((data) => {
-      reply.response(data.filter(function(element) {
-          if(element.post.content.search(request.params.search) !== -1){
-            return element;
-          }    
-        }).map(node => ({
+    return exploreModel.search(request.params.name,  '.*\\s('+request.params.search+')\\s.*|^('+request.params.search+')\\s.*|.*\\s('+request.params.search+')$').done((data) => {
+      reply.response(data.map(node => ({
         postID: node.post.postID, 
         postType: node.rel.type, 
         content: node.post.content, 
