@@ -19,6 +19,8 @@ export class ExplorePage {
   public inSearchExplore: Boolean = false;
   public feed: Array<Object> = [];
   public interests : Array<Object> = [];
+  private searchString : String = '';
+  private interest : String = '';
 
   constructor(private exploreService: ExploreService, 
   public navCtrl: NavController, 
@@ -29,10 +31,11 @@ export class ExplorePage {
   getExploreFeed(event?) {
     this.inExplore = false;
     this.inSearchExplore = true;
-    console.log('getExploreFeed for:', event.srcElement.textContent);
-    this.exploreService.getExploreFeed(event.srcElement.textContent, response => {
+    this.interest =  event.srcElement.textContent;
+    console.log('getExploreFeed for:', this.interest);
+    this.exploreService.getExploreFeed(this.interest, response => {
       this.feed = response.json();
-      console.log('we has feed', this.feed);
+      console.log('we has explore feed', this.feed);
     });
   }
   
@@ -54,5 +57,31 @@ export class ExplorePage {
   getImage(interest){
     return `url(${interest.image.replace('build','assets')})`;
   }
+  randomExplore(event){
+    this.inExplore = false;
+    this.inSearchExplore = true;
+    let idx = Math.floor(Math.random() * (this.interests.length - 0) + 0);
+    this.interest = (this.interests[idx]).name;
+    console.log('getExploreFeed for:', this.interest);
+    this.exploreService.getExploreFeed(this.interest, response => {
+      this.feed = response.json();
+      console.log('we has random feed', this.feed);
+    });
 
+  }
+
+  onSearch(event){
+    console.log('onSearch = ', this.searchString);
+    this.exploreService.getExploreSearch(this.interest, this.searchString, response => {
+      this.feed = response.json();
+      console.log('we has search feed', this.interests);
+    });
+  }
+
+  clearSearch($event){
+    this.exploreService.getExploreFeed(this.interest, response => {
+      this.feed = response.json();
+      console.log('we has explore feed', this.feed);
+    });
+  }
 }

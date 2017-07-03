@@ -27,4 +27,9 @@ export class ExploreService {
     let url: string = ApiService.getUrl('interest')
     this.http.get(url).subscribe(success, failure)
   }
+
+  public getExploreSearch(interest, search, success?: (Response) => void, failure?: (Response) => void): void {
+    let url: string = ApiService.getUrl('explore/'+interest + '/search/' + search)
+    this.http.get(url).subscribe(success, failure)
+  }
 }

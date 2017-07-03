@@ -6,15 +6,14 @@
 -->
 <ion-header>
   <ion-navbar>
-      <!--<ion-searchbar [(ngModel)]="myInput" [showCancelButton]="true" (ionInput)="onInput($event)" 
-      (ionCancel)="onCancel($event)" type="text" placeholder="Food, Art, Other">
-      </ion-searchbar>-->
-    <ion-title>
+    <ion-title *ngIf="inExplore">
       Explore
     </ion-title>
     <ion-buttons end>
       <button ion-button *ngIf="inSearchExplore" (click)="exitExploreFeed($event)">Back</button>
     </ion-buttons>
+    <ion-searchbar *ngIf="inSearchExplore" [(ngModel)]="searchString" (change)="onSearch($event)"  (ionClear)="clearSearch($event)" type="text" placeholder="Food, Art, Other">
+    </ion-searchbar>
   </ion-navbar>
 </ion-header>
 
@@ -40,7 +39,7 @@
           </ul>
 
           <div class="suggestion-block">
-            <button ion-button block large outline light class="suggest-interest button-outline-light" (click)="getExploreFeed($event)">
+            <button ion-button block large outline light class="suggest-interest button-outline-light" (click)="randomExplore($event)">
               Surprise me
             </button>
           </div>
