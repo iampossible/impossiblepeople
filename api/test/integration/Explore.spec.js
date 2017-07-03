@@ -100,11 +100,56 @@ describe('Explore endpoints', () => {
       });
     });
 
-    it('should evaluate the content of the post from Environment interest stored with the keyword If', (done) => {
+    it('should evaluate the content of the post from Music interest stored with the keyword Musician', (done) => {
+      helpers.logInTestUser((err, $request) => {
+        $request.get(`http://${Config.endpoint}/api/explore/Music/search/Musician`, (error, response) => {
+          let value = JSON.parse(response.body);
+          expect(value.length).toEqual(1);
+          //creator
+          expect(value[0].author.username).toEqual('Tom Harle');
+          //
+          expect(value[0].postType).toEqual('OFFERS');
+          expect(value[0].timeRequired).toEqual(0);
+          expect(value[0].location).toEqual('Greater London');
+          expect(value[0].postID).toEqual('46b047b4');
+          expect(value[0].content).toEqual('Musician? I\'m putting a show together in Herne Hill at the end of June. Only 2 bands confirmed so far. Come and perform!');
+          expect(value[0].commentCount).toEqual(0);
+          //category
+          expect(value[0].category.image).toEqual('build/images/interests/music.png');
+          expect(value[0].category.name).toEqual('Music');
+          
+          done();
+        });
+      });
+    });
+
+    it('should evaluate the content of the post from Music interest stored with the keyword perform', (done) => {
+      helpers.logInTestUser((err, $request) => {
+        $request.get(`http://${Config.endpoint}/api/explore/Music/search/perform`, (error, response) => {
+          let value = JSON.parse(response.body);
+          expect(value.length).toEqual(1);
+          //creator
+          expect(value[0].author.username).toEqual('Tom Harle');
+          //
+          expect(value[0].postType).toEqual('OFFERS');
+          expect(value[0].timeRequired).toEqual(0);
+          expect(value[0].location).toEqual('Greater London');
+          expect(value[0].postID).toEqual('46b047b4');
+          expect(value[0].content).toEqual('Musician? I\'m putting a show together in Herne Hill at the end of June. Only 2 bands confirmed so far. Come and perform!');
+          expect(value[0].commentCount).toEqual(0);
+          //category
+          expect(value[0].category.image).toEqual('build/images/interests/music.png');
+          expect(value[0].category.name).toEqual('Music');
+          
+          done();
+        });
+      });
+    });
+
+    it('should evaluate the content of the posts from Environment interest with the keyword If', (done) => {
       helpers.logInTestUser((err, $request) => {
         $request.get(`http://${Config.endpoint}/api/explore/Environment/search/If`, (error, response) => {
           let value = JSON.parse(response.body);
-          console.log(value);
           expect(value.length).toEqual(1);
           //creator
           expect(value[0].author.username).toEqual('Hans Muster');
@@ -124,7 +169,7 @@ describe('Explore endpoints', () => {
       });
     });
 
-    it('should evaluate the content of the post from Music interest stored with the keyword Her', (done) => {
+    it('should count all the post from Music interest stored with the keyword Her', (done) => {
       helpers.logInTestUser((err, $request) => {
         $request.get(`http://${Config.endpoint}/api/explore/Music/search/Her`, (error, response) => {
           let value = JSON.parse(response.body);
@@ -134,7 +179,7 @@ describe('Explore endpoints', () => {
       });
     });
 
-    it('should count all the posts from Muic interest stored with the keyword xpto', (done) => {
+    it('should count all the posts from Music interest with the keyword xpto', (done) => {
       helpers.logInTestUser((err, $request) => {
         $request.get(`http://${Config.endpoint}/api/explore/Music/search/xpto`, (error, response) => {
           let value = JSON.parse(response.body);

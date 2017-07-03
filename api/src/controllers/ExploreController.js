@@ -60,7 +60,9 @@ class ExploreController extends Controller {
   }
 
   searchExplore(request, reply){
-    return exploreModel.search(request.params.name,  '.*\\s('+request.params.search+')\\s.*|^('+request.params.search+')\\s.*|.*\\s('+request.params.search+')$').done((data) => {
+    //*\\stest\\s.*|^test\\s.*|.*\\stest$|.*test[^A-Za-z0-9].*|.*[^A-Za-z0-9]test$.*
+    let regex = '.*\\s('+request.params.search+')\\s.*|^('+request.params.search+')\\s.*|.*\\s('+request.params.search+')$|.*'+request.params.search+'[^A-Za-z0-9].*|.*[^A-Za-z0-9]'+request.params.search +'$.*';
+    return exploreModel.search(request.params.name, regex).done((data) => {
       reply.response(data.map(node => ({
         postID: node.post.postID, 
         postType: node.rel.type, 
