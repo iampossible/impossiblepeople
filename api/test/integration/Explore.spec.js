@@ -102,7 +102,7 @@ describe('Explore endpoints', () => {
 
     it('should evaluate the content of the post from Music interest stored with the keyword Musician', (done) => {
       helpers.logInTestUser((err, $request) => {
-        $request.get(`http://${Config.endpoint}/api/explore/Music/search/Musician`, (error, response) => {
+        $request.get(`http://${Config.endpoint}/api/explore/Music/search/musician`, (error, response) => {
           let value = JSON.parse(response.body);
           expect(value.length).toEqual(1);
           //creator
@@ -148,7 +148,7 @@ describe('Explore endpoints', () => {
 
     it('should evaluate the content of the posts from Environment interest with the keyword If', (done) => {
       helpers.logInTestUser((err, $request) => {
-        $request.get(`http://${Config.endpoint}/api/explore/Environment/search/If`, (error, response) => {
+        $request.get(`http://${Config.endpoint}/api/explore/Environment/search/if`, (error, response) => {
           let value = JSON.parse(response.body);
           expect(value.length).toEqual(1);
           //creator
