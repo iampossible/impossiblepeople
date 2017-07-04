@@ -2,12 +2,15 @@ import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 
 import { ExploreService } from '../../providers/explore-service/explore-service';
-/**
- * Generated class for the ExplorePage page.
- *
- * See http://ionicframework.com/docs/components/#navigation for more info
- * on Ionic pages and navigation.
- */
+
+interface Interest {
+  name: String;
+  featured: Boolean;
+  image: String;
+  interestID: String;
+  suggested: Boolean;
+}
+
 @IonicPage()
 @Component({
   selector: 'page-explore',
@@ -17,8 +20,9 @@ export class ExplorePage {
 
   public inExplore: Boolean = true;
   public inSearchExplore: Boolean = false;
+  public emptyFeed: Boolean = false;
   public feed: Array<Object> = [];
-  public interests : Array<Object> = [];
+  public interests : Array<Interest> = [];
   private searchString : String = '';
   private interest : String = '';
 
@@ -35,6 +39,10 @@ export class ExplorePage {
     console.log('getExploreFeed for:', this.interest);
     this.exploreService.getExploreFeed(this.interest, response => {
       this.feed = response.json();
+      if(this.feed.length == 0)
+        this.emptyFeed = true;
+      else
+        this.emptyFeed = false;
       console.log('we has explore feed', this.feed);
     });
   }
@@ -43,6 +51,7 @@ export class ExplorePage {
     console.log("exitExploreFeed");
     this.inExplore = true;
     this.inSearchExplore = false;
+    this.emptyFeed = false;
   }
 
   ionViewDidLoad() {
@@ -54,9 +63,11 @@ export class ExplorePage {
       console.log('we has interests', this.interests);
     });
   }
+
   getImage(interest){
     return `url(${interest.image.replace('build','assets')})`;
   }
+
   randomExplore(event){
     this.inExplore = false;
     this.inSearchExplore = true;
@@ -65,14 +76,18 @@ export class ExplorePage {
     console.log('getExploreFeed for:', this.interest);
     this.exploreService.getExploreFeed(this.interest, response => {
       this.feed = response.json();
+      if(this.feed.length == 0)
+        this.emptyFeed = true;
+      else
+        this.emptyFeed = false;
       console.log('we has random feed', this.feed);
     });
 
   }
 
   onSearch(event){
-    console.log('onSearch = ', this.searchString);
-    this.exploreService.getExploreSearch(this.interest, this.searchString, response => {
+    console.log('onSearch = ', this.searchString.toLowerCase());
+    this.exploreService.getExploreSearch(this.interest, this.searchString.toLowerCase(), response => {
       this.feed = response.json();
       console.log('we has search feed', this.interests);
     });

@@ -20,11 +20,7 @@
 
 <ion-content class="feed-tab background"> 
   <div *ngIf="inExplore">
-    <ion-row center>
-      <ion-col class="header-text">
-        <h3>Explore Impossible</h3>
-      </ion-col>
-    </ion-row>
+    <h3 class="title">Explore Impossible</h3>
     <div class="interest-picker">
       <ion-slides pager>
         <ion-slide>  
@@ -318,6 +314,11 @@
     </ion-refresher>-->
     
     <post-card *ngFor="let post of feed" [post]="post"></post-card>
+  </div>
+
+  <div *ngIf="emptyFeed" class="no-feed">
+    <h3 class="title">There are no posts for {{interest}}</h3>
+    <h3 class="title">Try another interest</h3>
   </div>
 
 </ion-content>
