@@ -19,7 +19,7 @@ export class FeedService {
   }
 
   public getFeed(success?: (Response) => void, failure?: (Response) => void): void {
-    let url: string = ApiService.getUrl('feed')
-    this.http.get(url).subscribe(success, failure)
+    let url: string = ApiService.getUrl('feed');
+    this.http.get(url).subscribe(success, failure);
   }
 }

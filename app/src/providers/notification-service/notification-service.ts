@@ -49,8 +49,10 @@ export class NotificationService {
   }
 
   unregister() {
-    this.pushNotification.unregister()
-      .catch(err => console.warn('failed to unregister notifications', err));
+    if (this.pushNotification) {
+      this.pushNotification.unregister()
+        .catch(err => console.warn('failed to unregister notifications', err));
+    }
   }
 
   setupOnLaunch() {

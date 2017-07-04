@@ -1,0 +1,22 @@
+button-dropdown {
+    .dropdown-value {
+        &:first-child {
+            background-color: map_get($colors, secondary-light);
+            &:active {
+                background: map_get($colors, secondary-light);
+            }
+        }
+        &:nth-child(2) {
+            background-color: map_get($colors, primary);
+            &:active {
+                background-color: map_get($colors, primary-dark);
+            }
+        }
+        &:nth-child(3) {
+            background-color: map_get($colors, gnome);
+            &:active {
+                background: map_get($colors, gnome-dark);
+            }
+        }
+    }
+}

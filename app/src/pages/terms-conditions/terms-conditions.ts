@@ -18,7 +18,7 @@ export class TermsConditionsPage {
   }
 
   ionViewDidLoad() {
-    //console.log('ionViewDidLoad TermsConditionsPage');
+    // console.log('ionViewDidLoad TermsConditionsPage');
   }
 
 }
