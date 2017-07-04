@@ -25,11 +25,11 @@
         <div class="textarea-wrapper">
           <h1 id="new-post-help">
             {{
-            createPostForm.value.postType == AppConstants.OFFER ? 'What would you like to share?' : 'What would you like a hand with?'
+            createPostForm.value.postType == AppConstants.OFFER ? 'What would you like to offer?' : 'What would you like a hand with?'
             }}
           </h1>
         <textarea type="text" formControlName="content"
-                  placeholder="{{ createPostForm.value.postType == AppConstants.OFFER ? 'i.e. I can give drawing lessons' : 'i.e. Can anyone help me fix my bike?' }}"
+                  placeholder="{{ createPostForm.value.postType == AppConstants.OFFER ? 'i.e. I can give photography lessons' : 'i.e. Can anyone help me with my community strategy?' }}"
         ></textarea>
         </div>
       </div>
