@@ -25,7 +25,7 @@ class ExploreModel extends Model {
     return new Sequence((accept, reject) => {
       this.db.query(
         `MATCH (creator:Person) -[rel:OFFERS|:ASKS]-> (post:Post) -[:IS_ABOUT]-> (category:Interest{name:{interest}}), (user:Person)
-         WHERE post.content =~ {keyword}
+         WHERE toLower(post.content) =~ {keyword}
          OPTIONAL MATCH (post) <-[comments:COMMENTS]- (:Person)
          RETURN creator, rel, post, category,
             COUNT( DISTINCT comments) AS commentCount,
