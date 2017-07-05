@@ -117,14 +117,10 @@ import { QuickFeedbackComponent } from '../components/quick-feedback/quick-feedb
     AuthService,
     PostService,
     FeedService,
-<<<<<<< HEAD
     ExploreService,
-    ScrollTopProvider
-=======
     ScrollTopProvider,
     ProfileService,
     InterestService
->>>>>>> fd37e1211c52470b0c3618fa652513fec667980a
   ]
 })
 export class AppModule { }

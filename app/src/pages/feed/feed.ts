@@ -88,7 +88,7 @@ export class FeedPage {
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad FeedPage');
-    this.events.publish('feedback:show', { msg: 'pissa' });
+    this.events.publish('feedback:show', { msg: 'Load Feed' });
     this.getFeed();
   }
 
