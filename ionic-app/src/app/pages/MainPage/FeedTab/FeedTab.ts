@@ -1,10 +1,10 @@
-import {Events, Tabs, AlertController} from 'ionic-angular'
-import {FeedService, UserService} from '../../../services/api/ApiService'
-import {ScrollTopService} from '../../../services/ScrollTopService'
-import {PostCard} from '../../../components/Components'
-import {Component, ElementRef} from '@angular/core'
-import {Response} from '@angular/http'
-import {Alert, NavController, ModalController} from 'ionic-angular/index'
+import { Events, Tabs, AlertController } from 'ionic-angular'
+import { FeedService, UserService } from '../../../services/api/ApiService'
+import { ScrollTopService } from '../../../services/ScrollTopService'
+import { PostCard } from '../../../components/Components'
+import { Component, ElementRef } from '@angular/core'
+import { Response } from '@angular/http'
+import { Alert, NavController, ModalController } from 'ionic-angular/index'
 
 @Component({
   templateUrl: 'build/pages/MainPage/FeedTab/FeedTab.html',
@@ -26,11 +26,11 @@ export class FeedTab {
   }
 
   constructor(private feedService: FeedService,
-              private events: Events,
-              private myElement: ElementRef,
-              private userService: UserService,
-              private alertCtrl: AlertController,
-              private nav: NavController) {
+    private events: Events,
+    private myElement: ElementRef,
+    private userService: UserService,
+    private alertCtrl: AlertController,
+    private nav: NavController) {
     this.events.subscribe('user:updated', () => {
       this.getFeed()
       this.isScrolling = false
@@ -89,29 +89,35 @@ export class FeedTab {
   }
 
   onPageWillLeave() {
-    document.getElementById('tab-0-0').removeEventListener('click', this._fireScrollTop)
+    const tab00 = document.getElementById('tab-0-0')
+    if (tab00) {
+      tab00.removeEventListener('click', this._fireScrollTop)
+    }
     window.localStorage.setItem('topBannerSeen', 'true')
     this.showBanner = false
   }
 
   onPageWillEnter() {
     this.getUserDetails()
-    document.getElementById('tab-0-0').addEventListener('click', this._fireScrollTop)
+    const tab00 = document.getElementById('tab-0-0')
+    if (tab00) {
+      tab00.addEventListener('click', this._fireScrollTop)
+    }
   }
 
   getUserDetails() {
     this.userService
       .getCurrentUser()
       .subscribe(
-        (response: Response) => this.user = response.json(),
-        () => {
-          let failAlert = this.alertCtrl.create({
-            title: 'Oops!',
-            subTitle: 'Failed to fetch user details',
-            buttons: ['OK']
-          })
-          failAlert.present()
-        }
+      (response: Response) => this.user = response.json(),
+      () => {
+        let failAlert = this.alertCtrl.create({
+          title: 'Oops!',
+          subTitle: 'Failed to fetch user details',
+          buttons: ['OK']
+        })
+        failAlert.present()
+      }
       )
   }
 
@@ -132,7 +138,10 @@ export class FeedTab {
 
   dismissIntroScreen() {
     this.showIntro = false
-    document.getElementById('home-intro-state').style.display = 'none';
+    const introScreen = document.getElementById('home-intro-state');
+    if (introScreen) {
+      introScreen.style.display = 'none';
+    }
     window.localStorage.setItem('introSeen', 'true')
   }
 

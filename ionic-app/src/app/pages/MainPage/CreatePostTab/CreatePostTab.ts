@@ -1,14 +1,14 @@
-import {NavController, AlertController, ModalController, Events} from 'ionic-angular/index'
-import {ControlGroup, Validators, FormBuilder, Control} from '@angular/common'
-import {PostService, ProfileService} from '../../../services/api/ApiService'
-import {Keyboard} from 'ionic-native'
-import {Component} from '@angular/core'
-import {Response} from '@angular/http'
-import {AppConstants} from '../../../AppConstants'
-import {AddLocationModal} from '../../../modals/Modals'
-import {ButtonDropdown} from '../../../components/Components'
-import {TagInterestPage} from './TagInterestPage/TagInterestPage'
-import {Environment} from '../../../Environment'
+import { NavController, AlertController, ModalController, Events } from 'ionic-angular/index'
+import { ControlGroup, Validators, FormBuilder, Control } from '@angular/common'
+import { PostService, ProfileService } from '../../../services/api/ApiService'
+import { Keyboard } from 'ionic-native'
+import { Component } from '@angular/core'
+import { Response } from '@angular/http'
+import { AppConstants } from '../../../AppConstants'
+import { AddLocationModal } from '../../../modals/Modals'
+import { ButtonDropdown } from '../../../components/Components'
+import { TagInterestPage } from './TagInterestPage/TagInterestPage'
+import { Environment } from '../../../Environment'
 
 declare const heap: any
 
@@ -29,12 +29,12 @@ export class CreatePostTab {
   private processing = false
 
   constructor(private nav: NavController,
-              private postService: PostService,
-              private formBuilder: FormBuilder,
-              private events: Events,
-              private modalCtrl: ModalController,
-              private alertCtrl: AlertController,
-              private profileService: ProfileService) {
+    private postService: PostService,
+    private formBuilder: FormBuilder,
+    private events: Events,
+    private modalCtrl: ModalController,
+    private alertCtrl: AlertController,
+    private profileService: ProfileService) {
     this.AppConstants = AppConstants
     this.createPostForm = this.formBuilder.group({
       postType: AppConstants.OFFER,
@@ -152,6 +152,20 @@ export class CreatePostTab {
     this.events.publish('feedback:show', { msg: 'Posted!', icon: 'checkmark' })
     this.events.publish('notifications:activate')
     this.events.publish('CreatePostTab:close')
+    this.resetForm()
+  }
+
+  resetForm() {
+    let control: Control = <Control>this.createPostForm.controls['postType']
+    control.updateValue(AppConstants.OFFER)
+    control = <Control>this.createPostForm.controls['content']
+    control.updateValue('')
+    control = <Control>this.createPostForm.controls['interestID']
+    control.updateValue('')
+    this.selectedCategory = false
+    this.selectedOption = { optionValue: 0 }
+    this.dropdownData = AppConstants.REQUIRED_TIME_OPTIONS
+    this.currentLocation = {}
   }
 
   onCreateFailure = (response: Response) => {
