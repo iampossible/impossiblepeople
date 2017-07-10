@@ -80,7 +80,7 @@
   <form [formGroup]="createCommentForm" (submit)="createComment()" *ngIf="post && !post.resolved">
     <ion-list class="post-reply">
         <ion-item>
-          <ion-label *ngIf="!isCommentMode" stacked>
+          <ion-label *ngIf="!isCommentMode" floating>
             <ion-icon name="person" item-left></ion-icon>
             <span class="add-comment-label">Add Comments</span>
           </ion-label>
