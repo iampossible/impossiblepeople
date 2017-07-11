@@ -82,7 +82,7 @@ class UserController extends Controller {
 
   updateUser(request, reply) {
     let payload = request.payload;
-    if (!/^https?:\/\//.test(request.payload.url)) {
+    if (request.payload.url && !/^https?:\/\//.test(request.payload.url)) {
       payload.url = `http://${request.payload.url}`;
     }
     userModel

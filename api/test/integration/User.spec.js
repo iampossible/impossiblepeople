@@ -280,6 +280,19 @@ describe('User', () => {
       });
     });
 
+    it('should clear the current user (url empty)', (done) => {
+      helpers.logInTestUser((err, request) => {
+        request.post(`${endpoint}`, (error, response) => {
+          let user = JSON.parse(response.body);
+
+          expect(response.statusCode).toBe(200);
+          expect(user.url).toBe('');
+
+          done();
+        }).form({ url: '' });
+      });
+    });
+
     it('should fail to update the current user (url)', (done) => {
       helpers.logInTestUser((err, request) => {
         request.post(`${endpoint}`, (error, response) => {
