@@ -1,17 +1,10 @@
-import { Component, Input, EventEmitter, Output } from '@angular/core';
+import { Component, Output, Input, EventEmitter } from '@angular/core';
 
-/**
- * Generated class for the ButtonDropdownComponent component.
- *
- * See https://angular.io/docs/ts/latest/api/core/index/ComponentMetadata-class.html
- * for more info on Angular Components.
- */
 @Component({
   selector: 'button-dropdown',
   templateUrl: 'button-dropdown.html'
 })
 export class ButtonDropdownComponent {
-
   @Input() data;
   @Output() selected = new EventEmitter();
 
@@ -48,5 +41,4 @@ export class ButtonDropdownComponent {
     this.data.label = option.text;
     this.toggleDropdown();
   }
-
 }

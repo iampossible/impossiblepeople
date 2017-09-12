@@ -4,23 +4,39 @@ import { IonicApp, IonicModule, IonicErrorHandler, Events } from 'ionic-angular'
 import { XHRBackend, RequestOptions, HttpModule } from '@angular/http';
 import { Push } from '@ionic-native/push';
 import { Facebook } from '@ionic-native/facebook';
+import { InAppBrowser } from '@ionic-native/in-app-browser';
+import { Contacts } from '@ionic-native/contacts';
+import { SocialSharing } from '@ionic-native/social-sharing';
+import { Camera } from '@ionic-native/camera';
+import { Diagnostic } from '@ionic-native/diagnostic';
+import { Geolocation } from '@ionic-native/geolocation';
+import { Badge } from '@ionic-native/badge';
+
+
 import { MyApp } from './app.component';
 
-import { AboutPage } from '../pages/about/about';
 import { AuthPage } from '../pages/auth/auth';
-import { ContactPage } from '../pages/contact/contact';
 import { FeedPage } from '../pages/feed/feed';
 import { ExplorePage } from '../pages/explore/explore';
 import { PostDetailsPage } from '../pages/post-details/post-details';
 import { CreatePostPage } from '../pages/create-post/create-post';
-import { HomePage } from '../pages/home/home';
 import { TabsPage } from '../pages/tabs/tabs';
 import { LandingPage } from '../pages/landing/landing';
 import { SignupPage } from '../pages/signup/signup';
+import { ProfilePage } from '../pages/profile/profile';
+import { SettingsPage } from '../pages/settings/settings';
+import { InterestsPage } from '../pages/interests/interests';
+import { MyPostsPage } from '../pages/my-posts/my-posts';
+import { MyFriendsPage } from '../pages/my-friends/my-friends';
+import { PreferencesPage } from '../pages/preferences/preferences';
+import { InviteFriendsPage } from '../pages/invite-friends/invite-friends';
+import { SelectContactsModalPage } from '../pages/select-contacts-modal/select-contacts-modal';
 import { ForgottenPasswordPage } from '../pages/forgotten-password/forgotten-password';
 import { TermsConditionsPage } from '../pages/terms-conditions/terms-conditions';
 import { PrivacyPolicyPage } from '../pages/privacy-policy/privacy-policy';
-import { TagInterestPage } from '../pages/tag-interest/tag-interest';
+import { SuggestInterestModalPage } from '../pages/suggest-interest-modal/suggest-interest-modal';
+import { EditProfileModalPage } from '../pages/edit-profile-modal/edit-profile-modal';
+import { AddLocationModalPage } from '../pages/add-location-modal/add-location-modal';
 
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
@@ -38,19 +54,24 @@ import { FeedService } from '../providers/feed-service/feed-service';
 import { ExploreService } from '../providers/explore-service/explore-service';
 import { ScrollTopProvider } from '../providers/scroll-top/scroll-top';
 import { ProfileService } from '../providers/profile-service/profile-service';
-import { LocationModalComponent } from '../components/location-modal/location-modal';
-import { ButtonDropdownComponent } from '../components/button-dropdown/button-dropdown';
 import { InterestPickerComponent } from '../components/interest-picker/interest-picker';
 import { InterestService } from '../providers/interest-service/interest-service';
-import { SuggestInterestModalComponent } from '../components/suggest-interest-modal/suggest-interest-modal';
-import { QuickFeedbackComponent } from '../components/quick-feedback/quick-feedback';
+import { ImageService } from '../providers/image-service/image-service';
+import { EmailPage } from '../pages/email/email';
+import { TagInterestPage } from '../pages/tag-interest/tag-interest';
+import { ButtonDropdownComponent } from '../components/button-dropdown/button-dropdown';
+import { ActivityPage } from '../pages/activity/activity';
+import { FindFriendsPage } from '../pages/find-friends/find-friends';
+import { InviteContactsComponent } from '../components/invite-contacts/invite-contacts';
+import { QuickFeedbackComponent } from "../components/quick-feedback/quick-feedback";
+
+export function interceptFactory(backend: XHRBackend, opts: RequestOptions, events: Events) {
+  return new InterceptedHttp(backend, opts, events);
+};
 
 @NgModule({
   declarations: [
     MyApp,
-    AboutPage,
-    ContactPage,
-    HomePage,
     FeedPage,
     ExplorePage,
     CreatePostPage,
@@ -64,11 +85,24 @@ import { QuickFeedbackComponent } from '../components/quick-feedback/quick-feedb
     TermsConditionsPage,
     PostCardComponent,
     PostDetailsPage,
-    TagInterestPage,
-    LocationModalComponent,
-    ButtonDropdownComponent,
+    ProfilePage,
+    SettingsPage,
+    InviteFriendsPage,
+    SelectContactsModalPage,
+    SuggestInterestModalPage,
+    EditProfileModalPage,
+    AddLocationModalPage,
+    InterestsPage,
+    MyFriendsPage,
+    MyPostsPage,
+    PreferencesPage,
     InterestPickerComponent,
-    SuggestInterestModalComponent,
+    EmailPage,
+    TagInterestPage,
+    ButtonDropdownComponent,
+    ActivityPage,
+    FindFriendsPage,
+    InviteContactsComponent,
     QuickFeedbackComponent
   ],
   imports: [
@@ -79,9 +113,6 @@ import { QuickFeedbackComponent } from '../components/quick-feedback/quick-feedb
   bootstrap: [IonicApp],
   entryComponents: [
     MyApp,
-    AboutPage,
-    ContactPage,
-    HomePage,
     FeedPage,
     ExplorePage,
     CreatePostPage,
@@ -93,8 +124,16 @@ import { QuickFeedbackComponent } from '../components/quick-feedback/quick-feedb
     PrivacyPolicyPage,
     TermsConditionsPage,
     PostDetailsPage,
+    ProfilePage,
+    SettingsPage,
+    InviteFriendsPage,
+    InterestsPage,
+    MyFriendsPage,
+    MyPostsPage,
+    PreferencesPage,
+    EmailPage,
     TagInterestPage,
-    LocationModalComponent
+    ActivityPage
   ],
   providers: [
     StatusBar,
@@ -103,11 +142,16 @@ import { QuickFeedbackComponent } from '../components/quick-feedback/quick-feedb
     Push,
     Facebook,
     FacebookService,
+    InAppBrowser,
+    Contacts,
+    SocialSharing,
+    Camera,
+    Diagnostic,
+    Geolocation,
+    Badge,
     {
       provide: InterceptedHttp,
-      useFactory: (backend: XHRBackend, opts: RequestOptions, events: Events) => {
-        return new InterceptedHttp(backend, opts, events);
-      },
+      useFactory: interceptFactory,
       deps: [XHRBackend, RequestOptions, Events]
     },
     ApiService,
@@ -117,10 +161,10 @@ import { QuickFeedbackComponent } from '../components/quick-feedback/quick-feedb
     AuthService,
     PostService,
     FeedService,
-    ExploreService,
     ScrollTopProvider,
     ProfileService,
-    InterestService
+    InterestService,
+    ImageService,
   ]
 })
 export class AppModule { }

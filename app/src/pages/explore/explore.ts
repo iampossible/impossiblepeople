@@ -11,7 +11,7 @@ interface Interest {
   suggested: Boolean;
 }
 
-@IonicPage()
+//@IonicPage()
 @Component({
   selector: 'page-explore',
   templateUrl: 'explore.html',

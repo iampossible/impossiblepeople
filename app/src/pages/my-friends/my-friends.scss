@@ -1,0 +1,21 @@
+page-my-friends {
+  .friends-list ion-item ion-avatar {
+    float: left;
+    margin-top: 0px;
+  }
+  .friends-list-item {
+    h2 {
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    button {
+      min-width: 9rem;
+    }
+
+    & > div.item-inner {
+      border-bottom: none;
+    }
+  }
+}

@@ -8,17 +8,17 @@ export class AppConstants {
 
 
   static REQUIRED_TIME_OPTIONS = {
-      label: AppConstants.REQUIRED_TIME_OFFER_LABEL,
-      values: [{
-        text: '1 hour',
-        optionValue: 3600
-      }, {
-        text: 'Half a day',
-        optionValue: 43200
-      }, {
-        text: 'To be determined',
-        optionValue: 0
-      }]
-    };
+    label: AppConstants.REQUIRED_TIME_OFFER_LABEL,
+    values: [{
+      text: '1 hour',
+      optionValue: 3600
+    }, {
+      text: 'Half a day',
+      optionValue: 43200
+    }, {
+      text: 'To be determined',
+      optionValue: 0
+    }]
+  };
 
 }

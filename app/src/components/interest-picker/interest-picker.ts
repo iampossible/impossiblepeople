@@ -1,22 +1,18 @@
-import { Component, EventEmitter, ViewChild } from '@angular/core';
+import { Component, ViewChild, EventEmitter, Input } from '@angular/core';
 import { Slides, Events, ModalController } from 'ionic-angular';
 import { InterestService } from '../../providers/interest-service/interest-service';
-import { SuggestInterestModalComponent } from '../suggest-interest-modal/suggest-interest-modal';
-
+import { SuggestInterestModalPage } from '../../pages/suggest-interest-modal/suggest-interest-modal';
 
 @Component({
   selector: 'interest-picker',
-  templateUrl: 'interest-picker.html',
-  inputs: ['isSingleMode', 'canSuggest', 'defaultInterests'],
-  outputs: ['pageChanged', 'selected']
+  templateUrl: 'interest-picker.html'
 })
 export class InterestPickerComponent {
-
   static bucketSize = 10;
 
-  defaultInterests: any;
-  canSuggest: boolean;
-  isSingleMode: boolean;
+  @Input() defaultInterests: any;
+  @Input() canSuggest: boolean;
+  @Input() isSingleMode: boolean;
 
   pageChanged: any = new EventEmitter();
   selected: any = new EventEmitter();
@@ -28,8 +24,8 @@ export class InterestPickerComponent {
   private selectedInterests: any = {};
 
   constructor(private interestService: InterestService,
-    private events: Events,
-    private modalCtrl: ModalController) {
+              private events: Events,
+              private modalCtrl: ModalController) {
   }
 
   ngOnInit() {
@@ -100,7 +96,7 @@ export class InterestPickerComponent {
   }
 
   public openModal() {
-    let suggestInterestModal = this.modalCtrl.create(SuggestInterestModalComponent);
+    let suggestInterestModal = this.modalCtrl.create(SuggestInterestModalPage);
     return suggestInterestModal.present();
   }
 }

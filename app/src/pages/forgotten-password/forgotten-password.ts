@@ -7,7 +7,7 @@ import { LandingPage } from '../landing/landing';
 import { AuthService } from '../../providers/auth-service/auth-service';
 
 
-@IonicPage()
+//@IonicPage()
 @Component({
   selector: 'page-forgotten-password',
   templateUrl: 'forgotten-password.html',

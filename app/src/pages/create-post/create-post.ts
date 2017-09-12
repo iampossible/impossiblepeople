@@ -1,27 +1,22 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, Events, ModalController, AlertController/* , Keyboard*/ } from 'ionic-angular';
+import { IonicPage, NavController, Events, ModalController, AlertController } from 'ionic-angular';
 import { FormGroup, FormBuilder, Validators, AbstractControl } from '@angular/forms';
 import { Response } from '@angular/http';
-
 import { AppConstants } from '../../AppConstants';
 import { PostService } from '../../providers/post-service/post-service';
 import { ProfileService } from '../../providers/profile-service/profile-service';
-import { TagInterestPage } from '../tag-interest/tag-interest';
+import { AddLocationModalPage } from '../add-location-modal/add-location-modal';
 import { Environment } from '../../Environment';
-import { LocationModalComponent } from '../../components/location-modal/location-modal';
+import { TagInterestPage } from '../tag-interest/tag-interest';
 
 declare const heap: any;
 
-@IonicPage()
+//@IonicPage()
 @Component({
   selector: 'page-create-post',
   templateUrl: 'create-post.html',
 })
 export class CreatePostPage {
-
-  ionViewDidLoad() {
-    console.log('ionViewDidLoad CreatePostPage');
-  }
 
   public createPostForm: FormGroup;
   public textArea: any;
@@ -31,7 +26,7 @@ export class CreatePostPage {
   private currentLocation: any = {};
   private userIcon: any;
   private selectedCategory: any = false;
-  // private hideUnfocus = true;
+  private hideUnfocus = true;
   private processing = false;
 
   constructor(private nav: NavController,
@@ -48,10 +43,8 @@ export class CreatePostPage {
       interestID: ['', Validators.required],
     });
 
-    /*
-    Keyboard.onKeyboardShow().subscribe(ev => this.keyboardShow(ev));
-    Keyboard.onKeyboardHide().subscribe(ev => this.keyboardHide(ev));
-    */
+    //Keyboard.onKeyboardShow().subscribe(ev => this.keyboardShow(ev))
+    //Keyboard.onKeyboardHide().subscribe(ev => this.keyboardHide(ev))
 
     this.dropdownData = AppConstants.REQUIRED_TIME_OPTIONS;
 
@@ -68,33 +61,32 @@ export class CreatePostPage {
       });
   }
 
-  /*
-    keyboardShow = (ev) => {
-      if (document.getElementsByClassName('platform-android').length !== 0) {
-        this.textArea = <HTMLElement>document.getElementById('create-post-wrapper');
-        this.textArea.style.height = 'auto';
-      }
-      this.hideUnfocus = false;
-    }
-  
-    keyboardHide = (ev) => {
+  keyboardShow = (ev) => {
+    if (document.getElementsByClassName('platform-android').length !== 0) {
       this.textArea = <HTMLElement>document.getElementById('create-post-wrapper');
-      this.textArea.style.height = '100%';
-      this.hideUnfocus = true;
-  
-      if (document.getElementsByClassName('platform-android').length !== 0) {
-        this.textArea = <HTMLElement>document.getElementById('create-post-wrapper');
-        this.textArea.style.height = 'auto';
-      }
+      this.textArea.style.height = 'auto';
     }
-    */
+    this.hideUnfocus = false;
+  }
+
+  keyboardHide = (ev) => {
+    this.textArea = <HTMLElement>document.getElementById('create-post-wrapper');
+    this.textArea.style.height = '100%';
+    this.hideUnfocus = true;
+
+    if (document.getElementsByClassName('platform-android').length !== 0) {
+      this.textArea = <HTMLElement>document.getElementById('create-post-wrapper');
+      this.textArea.style.height = 'auto';
+    }
+
+  }
 
   addLocation = (ev) => {
-    var modal = this.modalCtrl.create(LocationModalComponent);
+    var modal = this.modalCtrl.create(AddLocationModalPage);
     modal.onDidDismiss((result) => {
-      if (result.state === 'success') {
+      if (result.state == 'success') {
         this.currentLocation = result.data;
-      } else if (result.state === 'error') {
+      } else if (result.state == 'error') {
         let locationAlert = this.alertCtrl.create({
           title: 'Post location required',
           subTitle: 'Please go to your settings and allow Impossible to access your location.',
@@ -161,6 +153,20 @@ export class CreatePostPage {
     this.events.publish('feedback:show', { msg: 'Posted!', icon: 'checkmark' });
     this.events.publish('notifications:activate');
     this.events.publish('CreatePostTab:close');
+    this.resetForm();
+  }
+
+  resetForm() {
+    let control: AbstractControl = <AbstractControl>this.createPostForm.controls['postType'];
+    control.setValue(AppConstants.OFFER);
+    control = <AbstractControl>this.createPostForm.controls['content'];
+    control.setValue('');
+    control = <AbstractControl>this.createPostForm.controls['interestID'];
+    control.setValue('');
+    this.selectedCategory = false;
+    this.selectedOption = { optionValue: 0 };
+    this.dropdownData = AppConstants.REQUIRED_TIME_OPTIONS;
+    this.currentLocation = {};
   }
 
   onCreateFailure = (response: Response) => {
@@ -178,21 +184,22 @@ export class CreatePostPage {
   }
 
   onPostTypeChanged(event) {
-    if (event.value === AppConstants.ASK) {
+    if (event.value == AppConstants.ASK) {
       this.dropdownData.label = AppConstants.REQUIRED_TIME_ASK_LABEL;
     } else {
       this.dropdownData.label = AppConstants.REQUIRED_TIME_OFFER_LABEL;
     }
   }
 
-  /************************************* textarea behaviour work arounds 
+  /************************************* textarea behaviour work arounds
   onPageWillEnter() {
-    Keyboard.disableScroll(true);
+    Keyboard.disableScroll(true)
   }
 
   onPageWillLeave() {
-    Keyboard.disableScroll(false);
+    Keyboard.disableScroll(false)
   }
-  /*********************************/
+  /************************************* textarea behaviour work arounds */
+
 
 }

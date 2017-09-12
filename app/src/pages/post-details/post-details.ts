@@ -9,16 +9,12 @@ import { Environment } from '../../Environment';
 
 declare const heap: any;
 
-@IonicPage()
+//@IonicPage()
 @Component({
   selector: 'page-post-details',
   templateUrl: 'post-details.html',
 })
 export class PostDetailsPage {
-
-  ionViewDidLoad() {
-    console.log('ionViewDidLoad PostDetailsPage');
-  }
 
   private postID: string;
   public post: any;

@@ -1,13 +1,13 @@
-<button ion-button clear color="dark" full icon-left icon-right (click)="toggleDropdown()">
-  <ion-icon name="ios-time"></ion-icon>
- {{data.label}}
-  <ion-icon *ngIf="isExpanded" name="ios-arrow-up"></ion-icon>
-  <ion-icon *ngIf="!isExpanded" name="ios-arrow-down"></ion-icon>
+<button ion-button clear full medium-gray class="dropdown-button text-left" (click)="toggleDropdown()">
+  <ion-icon name="ios-time" class="dropdown-icon"></ion-icon>
+  {{data.label}}
+  <ion-icon *ngIf="isExpanded" name="ios-arrow-up" class="dropdown-arrow"></ion-icon>
+  <ion-icon *ngIf="!isExpanded" name="ios-arrow-down" class="dropdown-arrow"></ion-icon>
 </button>
 
-<div *ngIf="isExpanded">
-  <button ion-button full secondary *ngFor="let value of data.values" class="dropdown-value" [ngClass]="{active: value == selectedOption}"
-    (click)="selectOption(value)">
+<div class="dropdown-values" *ngIf="isExpanded">
+  <button ion-button full secondary *ngFor="let value of data.values" class="dropdown-value"
+          [ngClass]="{active: value == selectedOption}" (click)="selectOption(value)">
     {{value.text}}
   </button>
 </div>

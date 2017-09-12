@@ -12,7 +12,7 @@ import { NavigationService } from '../../providers/navigation-service/navigation
 
 declare const heap: any;
 
-@IonicPage()
+//@IonicPage()
 @Component({
   selector: 'page-landing',
   templateUrl: 'landing.html',

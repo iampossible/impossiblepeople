@@ -1,12 +1,9 @@
 import { Injectable } from '@angular/core';
-import { Response } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
-import 'rxjs/add/operator/map';
+import { Response } from '@angular/http';
 
-import { ApiService } from '../api-service/api-service';
 import { InterceptedHttp } from '../intercepted-http/intercepted-http';
-
-declare const heap: any;
+import { ApiService } from '../api-service/api-service';
 
 @Injectable()
 export class ProfileService {
@@ -41,5 +38,4 @@ export class ProfileService {
   block(userID: string): Observable<Response> {
     return this.http.get(ApiService.getUrl(`profile/${userID}/block`));
   }
-
 }

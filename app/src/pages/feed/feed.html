@@ -1,14 +1,8 @@
-<!--
-  Generated template for the FeedPage page.
-
-  See http://ionicframework.com/docs/components/#navigation for more info on
-  Ionic pages and navigation.
--->
 <ion-header>
 
   <ion-navbar>
     <ion-title>
-      <img src="../assets/images/logo-medium.png" alt="Impossible logo">
+      <img src="assets/images/logo-medium.png" alt="Impossible logo">
     </ion-title>
   </ion-navbar>
 
@@ -299,7 +293,9 @@
       </div>
     </div>
   </div>
-
-  <post-card *ngFor="let post of feed" [post]="post"></post-card>
-
+  <ion-list [virtualScroll]="feed" no-lines class="background">
+    <ion-item *virtualItem="let post" class="background" approxItemHeight="400px">
+      <post-card [post]="post"></post-card>
+    </ion-item>
+  </ion-list>
 </ion-content>

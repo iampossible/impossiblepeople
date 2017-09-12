@@ -31,6 +31,10 @@ post-card {
         height: 100%;
         margin: 10px 0;
     }
+    .post-title {
+        text-overflow: ellipsis;
+        overflow-x: hidden;
+    }
     h1 {
         .post-type {
             display: block;

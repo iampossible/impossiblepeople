@@ -11,7 +11,7 @@ import { Environment } from '../../Environment';
 
 declare const heap: any;
 
-@IonicPage()
+//@IonicPage()
 @Component({
   selector: 'page-signup',
   templateUrl: 'signup.html',

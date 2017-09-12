@@ -13,7 +13,7 @@ import { Environment } from '../../Environment';
 
 declare const heap: any;
 
-@IonicPage()
+//@IonicPage()
 @Component({
   selector: 'page-auth',
   templateUrl: 'auth.html',

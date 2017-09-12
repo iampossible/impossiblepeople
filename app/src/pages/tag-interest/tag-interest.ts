@@ -1,23 +1,23 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, ViewController } from 'ionic-angular';
 
-@IonicPage()
+//@IonicPage()
 @Component({
   selector: 'page-tag-interest',
   templateUrl: 'tag-interest.html',
 })
 export class TagInterestPage {
-
   private selectedInterests: Array<Object> = [];
   private defaultInterests: Array<String> = [];
 
   constructor(private nav: NavController,
-    private viewCtrl: ViewController,
-    private params: NavParams) {
+              private viewCtrl: ViewController,
+              private params: NavParams) {
     this.defaultInterests = params.data.defaultInterests || [];
   }
 
-  onSelectInterest(selected) {
+
+  onSelectInterest(selected){
     this.selectedInterests = selected;
   }
 
@@ -25,12 +25,7 @@ export class TagInterestPage {
     this.viewCtrl.dismiss([]);
   }
 
-  submitInterests() {
+  private submitInterests() {
     this.viewCtrl.dismiss(this.selectedInterests);
   }
-
-  ionViewDidLoad() {
-    console.log('ionViewDidLoad TagInterestPage');
-  }
-
 }

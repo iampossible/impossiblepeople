@@ -1,6 +1,6 @@
 <ion-card [ngClass]="{'offer-card': post.postType === 'OFFERS', 'ask-card': post.postType === 'ASKS'}" [attr.data-post-id]="post.postID"
   (click)="openPost($event, post.postID)" tappable class="post-card">
-  <svg height="63" width="63" style="position: absolute;right: 0;background: #F2F2F2;" *ngIf="post.resolved">
+  <svg height="63" width="63" style="float:right;background: #F2F2F2;" *ngIf="post.resolved">
     <polygon points="0,0 63,63 0,63" style="fill:#ffffff;stroke:#d6d7d8;stroke-width:1" />
   </svg>
   <ion-card-content class="post-content">

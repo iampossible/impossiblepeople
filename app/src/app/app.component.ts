@@ -1,15 +1,15 @@
-import { Component, enableProdMode, ViewChild } from '@angular/core';
-import { Platform, Events, NavController, AlertController } from 'ionic-angular';
+import { Component, enableProdMode } from '@angular/core';
+import { Platform, Events, AlertController } from 'ionic-angular';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 
 import { LandingPage } from '../pages/landing/landing';
 import { TabsPage } from '../pages/tabs/tabs';
+import { PostDetailsPage } from '../pages/post-details/post-details';
+import { ProfilePage } from '../pages/profile/profile';
 import { NotificationService } from '../providers/notification-service/notification-service';
 import { UserService } from '../providers/user-service/user-service';
 import { Environment } from '../Environment';
-import { PostDetailPage } from '../pages/post-detail/post-detail';
-import { ProfilePage } from '../pages/profile/profile';
 
 if (Environment.ENV === 'prod') {
   enableProdMode();
@@ -25,16 +25,15 @@ type RootPage = LandingPage | TabsPage;
   templateUrl: 'app.html'
 })
 export class MyApp {
-  @ViewChild('myNav') nav: NavController;
-  rootPage: any = LandingPage;
+  rootPage: any;
 
   constructor(platform: Platform,
     private alertCtrl: AlertController,
     private events: Events,
     private notificationService: NotificationService,
+    private userService: UserService,
     statusBar: StatusBar,
-    splashScreen: SplashScreen,
-    private userService: UserService) {
+    splashScreen: SplashScreen) {
 
     platform.ready().then(() => {
       // Okay, so the platform is ready and our plugins are available.
@@ -85,11 +84,13 @@ export class MyApp {
     });
   }
 
-  ngOnInit() {
+  ngAfterViewInit() {
     this.events.subscribe('unauthorised', () => {
       localStorage.removeItem('USER_ID');
       this.notificationService.unregister();
-      this.nav.popToRoot();
+      setTimeout(() => {
+        window.location.href = window.location.href.split('#').shift();
+      }, 333);
     });
 
     this.events.subscribe('notifications:receive', (args) => {
@@ -100,11 +101,11 @@ export class MyApp {
 
       } else { // Notification received while app closed
         if (data.hasOwnProperty('postID')) {
-          this.nav.push(PostDetailPage, { postID: data.postID });
+          this.rootPage.getActiveNav().push(PostDetailsPage, { postID: data.postID });
         }
 
         if (data.hasOwnProperty('userID')) {
-          this.nav.push(ProfilePage, { userID: data.userID });
+          this.rootPage.getActiveNav().push(ProfilePage, { userID: data.userID });
         }
 
       }
@@ -132,4 +133,5 @@ export class MyApp {
       failAlert.present();
     };
   }
+
 }

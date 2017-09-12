@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-import 'rxjs/add/operator/map';
 import { InterceptedHttp } from '../intercepted-http/intercepted-http';
 import { ApiService } from '../api-service/api-service';
 
@@ -25,5 +24,4 @@ export class InterestService {
     this.http.post(ApiService.getUrl('interest/suggestion'), JSON.stringify({ suggestion }))
       .subscribe(success, failure);
   }
-
 }
