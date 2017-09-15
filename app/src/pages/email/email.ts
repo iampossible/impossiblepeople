@@ -50,11 +50,11 @@ export class EmailPage {
   }
 
 /*
-  onPageWillEnter() {
+  ionViewWillEnter() {
     Keyboard.disableScroll(true);
   }
 
-  onPageWillLeave() {
+  ionViewWillLeave() {
     Keyboard.disableScroll(false);
   }
 */

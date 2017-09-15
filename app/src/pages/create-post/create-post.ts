@@ -192,11 +192,11 @@ export class CreatePostPage {
   }
 
   /************************************* textarea behaviour work arounds
-  onPageWillEnter() {
+  ionViewWillEnter() {
     Keyboard.disableScroll(true)
   }
 
-  onPageWillLeave() {
+  ionViewWillLeave() {
     Keyboard.disableScroll(false)
   }
   /************************************* textarea behaviour work arounds */

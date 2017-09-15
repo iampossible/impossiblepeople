@@ -38,12 +38,12 @@
       <div class="sticky-bottom light-list">
         <button-dropdown class="button-border-top" [data]="dropdownData" (selected)="onSelect($event)"></button-dropdown>
 
-        <button ion-button full medium-gray outline (click)="addLocation($event)" class="select-location text-left">
+        <button ion-button full medium-gray color="dark" outline (click)="addLocation($event)" class="select-location text-left">
           <ion-icon name="pin"></ion-icon>
           {{ currentLocation.location || 'Add your neighbourhood' }}
         </button>
 
-        <button ion-button medium-gray full outline (click)="selectCategory($event)" class="select-category text-left">
+        <button ion-button medium-gray color="dark" full outline (click)="selectCategory($event)" class="select-category text-left">
           <ion-icon name="pricetag"></ion-icon>
           {{ selectedCategory.name || 'Add category' }}
         </button>

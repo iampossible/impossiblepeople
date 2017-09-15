@@ -51,8 +51,8 @@ export class FeedPage {
     this.events.subscribe('CreatePostTab:close', () => {
       this.getFeed();
       this.dismissIntroScreen();
-      this.onPageWillLeave();
-      this.onPageWillEnter();
+      this.ionViewWillLeave();
+      this.ionViewWillEnter();
     });
 
     this.introSeen = window.localStorage.getItem('introSeen');
@@ -92,13 +92,13 @@ export class FeedPage {
     this.getFeed();
   }
 
-  onPageWillLeave() {
+  ionViewWillLeave() {
     // document.getElementById('tab-0-0').removeEventListener('click', this._fireScrollTop);
     window.localStorage.setItem('topBannerSeen', 'true');
     this.showBanner = false;
   }
 
-  onPageWillEnter() {
+  ionViewWillEnter() {
     this.getUserDetails();
     // document.getElementById('tab-0-0').addEventListener('click', this._fireScrollTop);
   }

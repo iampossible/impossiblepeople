@@ -39,7 +39,7 @@ export class ActivityPage {
     private badge: Badge) {
   }
 
-  public onPageWillEnter = () => {
+  public ionViewWillEnter = () => {
     this.fetch();
     this.badge.clear();
     if (this.platform.is('ios')) {

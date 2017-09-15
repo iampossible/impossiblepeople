@@ -19,7 +19,6 @@ export class PostDetailsPage {
   private postID: string;
   public post: any;
   private commentsCount: number;
-  private isCommentMode: boolean;
   private swipingComment: boolean;
   private createCommentForm;
 
@@ -112,9 +111,8 @@ export class PostDetailsPage {
     return 'To be determined';
   }
 
-  commentMode(ev, mode: boolean) {
+  updateCommentState() {
     this.isFormValid = this.createCommentForm.valid;
-    this.isCommentMode = mode || this.createCommentForm.valid;
   }
 
   privateButtons: Array<any> = [{
@@ -225,6 +223,10 @@ export class PostDetailsPage {
         this.isMyPost = (currentUserID === this.post.author.userID);
       }, () => setTimeout(() => this.onLoadError(), 999)
     );
+  }
+
+  testcicles(event?){
+    console.log('cenas', event);
   }
 
 }

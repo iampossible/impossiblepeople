@@ -45,8 +45,8 @@
   </ion-item>
 
 
-  <ion-list [virtualScroll]="user.posts" no-lines class="background">
-    <ion-item *virtualItem="let post" approxItemHeight="400px">
+  <ion-list [virtualScroll]="user.posts || []" no-lines class="background">
+    <ion-item *virtualItem="let post" approxItemHeight="400px" class="background">
       <post-card [post]="post"></post-card>
     </ion-item>
   </ion-list>

@@ -13,11 +13,11 @@
     <img src="assets/images/no-notifications.png">
     <span  *ngIf="notificationsEnabled==true">
       <label>You don't have any notifications</label>
-      <button (click)="createPost()">Create a post</button>
+      <button ion-button (click)="createPost()">Create a post</button>
     </span>
     <span *ngIf="notificationsEnabled==false">
       <label>Do you want to be notified when your friends post?</label>
-      <button (click)="referSettings()">Notify me!</button>
+      <button ion-button (click)="referSettings()">Notify me!</button>
     </span>
   </p>
 

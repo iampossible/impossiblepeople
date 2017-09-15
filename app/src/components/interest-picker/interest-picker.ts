@@ -1,4 +1,4 @@
-import { Component, ViewChild, EventEmitter, Input } from '@angular/core';
+import { Component, ViewChild, EventEmitter, Input, Output } from '@angular/core';
 import { Slides, Events, ModalController } from 'ionic-angular';
 import { InterestService } from '../../providers/interest-service/interest-service';
 import { SuggestInterestModalPage } from '../../pages/suggest-interest-modal/suggest-interest-modal';
@@ -14,8 +14,8 @@ export class InterestPickerComponent {
   @Input() canSuggest: boolean;
   @Input() isSingleMode: boolean;
 
-  pageChanged: any = new EventEmitter();
-  selected: any = new EventEmitter();
+  @Output() pageChanged: any = new EventEmitter();
+  @Output() selected: any = new EventEmitter();
 
   @ViewChild(Slides) slider: Slides;
 
@@ -24,8 +24,8 @@ export class InterestPickerComponent {
   private selectedInterests: any = {};
 
   constructor(private interestService: InterestService,
-              private events: Events,
-              private modalCtrl: ModalController) {
+    private events: Events,
+    private modalCtrl: ModalController) {
   }
 
   ngOnInit() {
@@ -53,6 +53,9 @@ export class InterestPickerComponent {
   }
 
   private emitSelectedInterests() {
+    console.log('emitting', this.interests.filter((interest: any) => {
+      return this.selectedInterests[interest.interestID] ? interest : false;
+    }));
     this.selected.emit(this.interests.filter((interest: any) => {
       return this.selectedInterests[interest.interestID] ? interest : false;
     }));
@@ -65,7 +68,7 @@ export class InterestPickerComponent {
           return interest;
         }
         return Object.assign(interest, {
-          imageUrl: `url(${interest.image.replace('/interests/', '/interestBackgrounds/')})`
+          imageUrl: `url(${interest.image.replace('/interests/', '/interestBackgrounds/').replace('build','assets')})`
         });
       });
       this.pages = this.paginate();

@@ -11,7 +11,7 @@ interface Interest {
   suggested: Boolean;
 }
 
-//@IonicPage()
+// @IonicPage()
 @Component({
   selector: 'page-explore',
   templateUrl: 'explore.html',
@@ -19,83 +19,82 @@ interface Interest {
 export class ExplorePage {
 
   public inExplore: Boolean = true;
-  public inSearchExplore: Boolean = false;
-  public emptyFeed: Boolean = false;
+  public loading: Boolean = false;
   public feed: Array<Object> = [];
-  public interests : Array<Interest> = [];
-  private searchString : String = '';
-  private interest : String = '';
+  public interests: Array<Interest> = [];
+  private searchString: String = '';
+  private interest: String = '';
 
-  constructor(private exploreService: ExploreService, 
-  public navCtrl: NavController, 
-  public navParams: NavParams) {
+  constructor(private exploreService: ExploreService,
+    public navCtrl: NavController,
+    public navParams: NavParams) {
 
   }
 
   getExploreFeed(event?) {
     this.inExplore = false;
-    this.inSearchExplore = true;
-    this.interest =  event.srcElement.textContent;
+    this.interest = event.srcElement.textContent;
+    this.loading = true;
+    this.feed = [];
     console.log('getExploreFeed for:', this.interest);
     this.exploreService.getExploreFeed(this.interest, response => {
       this.feed = response.json();
-      if(this.feed.length == 0)
-        this.emptyFeed = true;
-      else
-        this.emptyFeed = false;
+      this.loading = false;
       console.log('we has explore feed', this.feed);
     });
   }
-  
-  exitExploreFeed(event){
-    console.log("exitExploreFeed");
+
+  exitExploreFeed(event) {
+    console.log('exitExploreFeed');
     this.inExplore = true;
-    this.inSearchExplore = false;
-    this.emptyFeed = false;
+    this.feed = [];
   }
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad ExplorePage');
     this.inExplore = true;
-    this.inSearchExplore = false;
     this.exploreService.getInterests(response => {
       this.interests = response.json();
       console.log('we has interests', this.interests);
     });
   }
 
-  getImage(interest){
-    return `url(${interest.image.replace('build','assets')})`;
+  getImage(interest) {
+    return `url(${interest.image.replace('build', 'assets')})`;
   }
 
-  randomExplore(event){
+  randomExplore(event) {
     this.inExplore = false;
-    this.inSearchExplore = true;
+    this.loading = true;
+    this.feed = [];
     let idx = Math.floor(Math.random() * (this.interests.length - 0) + 0);
     this.interest = (this.interests[idx]).name;
-    console.log('getExploreFeed for:', this.interest);
+    console.log('randomExplore for:', this.interest);
     this.exploreService.getExploreFeed(this.interest, response => {
       this.feed = response.json();
-      if(this.feed.length == 0)
-        this.emptyFeed = true;
-      else
-        this.emptyFeed = false;
+      this.loading = false;
       console.log('we has random feed', this.feed);
     });
 
   }
 
-  onSearch(event){
+  onSearch(event) {
     console.log('onSearch = ', this.searchString.toLowerCase());
+    this.loading = true;
+    this.feed = [];
     this.exploreService.getExploreSearch(this.interest, this.searchString.toLowerCase(), response => {
       this.feed = response.json();
-      console.log('we has search feed', this.interests);
+      this.loading = false;
+      console.log('we has search feed', this.feed);
     });
   }
 
-  clearSearch($event){
+  clearSearch(event) {
+    this.loading = true;
+    this.feed = [];
     this.exploreService.getExploreFeed(this.interest, response => {
       this.feed = response.json();
+      this.loading = false;
       console.log('we has explore feed', this.feed);
     });
   }

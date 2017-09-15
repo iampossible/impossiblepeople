@@ -4,6 +4,7 @@ import 'rxjs/add/operator/map';
 
 import { PostDetailsPage } from '../../pages/post-details/post-details';
 import { TabsPage } from '../../pages/tabs/tabs';
+import { ProfilePage } from '../../pages/profile/profile';
 
 
 @Injectable()
@@ -43,24 +44,22 @@ export class NavigationService {
    * @param userID userID the post page to be opened
    */
   public static openProfile(nav: NavController, userID: string) {
-    // TODO
-    /*if (nav.getActive()) {
-      let params = nav.getActive().getNavParams()
-      if (NavigationService.getNavParamProperty(params, 'userID') == userID) return
+    if (nav.getActive()) {
+      let params = nav.getActive().getNavParams();
+      if (NavigationService.getNavParamProperty(params, 'userID') === userID) return;
     }
 
-    let lastPage = NavigationService.getPreviousPage(nav)
+    let lastPage = NavigationService.getPreviousPage(nav);
 
     if (lastPage) {
-      let params = lastPage.getNavParams()
-      if (NavigationService.getNavParamProperty(params, 'userID') == userID) {
-        nav.pop()
-        return
+      let params = lastPage.getNavParams();
+      if (NavigationService.getNavParamProperty(params, 'userID') === userID) {
+        nav.pop();
+        return;
       }
     }
 
-    nav.push(ProfilePage, { userID: userID })*/
-    nav.push(TabsPage);
+    nav.push(ProfilePage, { userID: userID });
   }
 
   private static getPreviousPage(nav: NavController) {

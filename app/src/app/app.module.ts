@@ -133,7 +133,12 @@ export function interceptFactory(backend: XHRBackend, opts: RequestOptions, even
     PreferencesPage,
     EmailPage,
     TagInterestPage,
-    ActivityPage
+    ActivityPage,
+    FindFriendsPage,
+    SelectContactsModalPage,
+    SuggestInterestModalPage,
+    EditProfileModalPage,
+    AddLocationModalPage
   ],
   providers: [
     StatusBar,
@@ -165,6 +170,7 @@ export function interceptFactory(backend: XHRBackend, opts: RequestOptions, even
     ProfileService,
     InterestService,
     ImageService,
+    ExploreService
   ]
 })
 export class AppModule { }

@@ -293,8 +293,8 @@
       </div>
     </div>
   </div>
-  <ion-list [virtualScroll]="feed" no-lines class="background">
-    <ion-item *virtualItem="let post" class="background" approxItemHeight="400px">
+  <ion-list [virtualScroll]="feed" no-lines class="background" approxItemHeight="400px">
+    <ion-item *virtualItem="let post" class="background">
       <post-card [post]="post"></post-card>
     </ion-item>
   </ion-list>

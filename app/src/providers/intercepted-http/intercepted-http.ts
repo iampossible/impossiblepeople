@@ -31,7 +31,7 @@ export class InterceptedHttp extends Http {
   _loadingStart(url) {
     if (/\/api\//.test(url)) {
       try {
-//        NProgress.inc();
+        //        NProgress.inc();
       } catch (err) {
         console.error(`Caught ${err}`);
       }
@@ -41,7 +41,7 @@ export class InterceptedHttp extends Http {
   _loadingDone(url) {
     if (/\/api\//.test(url)) {
       try {
-//        NProgress.done();
+        //        NProgress.done();
       } catch (err) {
         console.error(`Caught ${err}`);
       }
@@ -85,10 +85,13 @@ export class InterceptedHttp extends Http {
   }
 
   intercept(url: string, observable: Observable<Response>): Observable<any> {
+    let reqURL = url;
     return new Observable(obs => {
       observable.subscribe((response) => {
+        reqURL = response.url;
         obs.next(response);
       }, (err) => {
+        reqURL = null;
         console.log(err);
         let errorResponse = JSON.parse(err._body || '{}');
         console.log('err');
@@ -111,17 +114,19 @@ export class InterceptedHttp extends Http {
         if (window.hasOwnProperty('__karma__')) {
           return;
         }
-        setTimeout(() => {
-          // activity stuff
-          super.get(ApiService.getUrl('user/activity/count'), this.getRequestOptionArgs())
-            .subscribe((response: Response) => {
-              if (response.status === 200) {
-                let json = response.json();
-                this._events.publish('activity:count', json);
-              }
-            }, () => {
-            });
-        }, 99);
+        if (reqURL !== null && reqURL !== ApiService.getUrl('user/activity/count')) {
+          setTimeout(() => {
+            // activity stuff
+            super.get(ApiService.getUrl('user/activity/count'), this.getRequestOptionArgs())
+              .subscribe((response: Response) => {
+                if (response.status === 200) {
+                  let json = response.json();
+                  this._events.publish('activity:count', json);
+                }
+              }, () => {
+              });
+          }, 99);
+        }
       });
     });
   }

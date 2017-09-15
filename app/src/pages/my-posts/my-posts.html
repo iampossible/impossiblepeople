@@ -7,7 +7,7 @@
 
 <ion-content class="my-posts-page background">
   <ion-list [virtualScroll]="posts" no-lines class="background">
-    <ion-item *virtualItem="let post" approxItemHeight="400px">
+    <ion-item *virtualItem="let post" approxItemHeight="400px" class="background">
       <post-card [post]="post"></post-card>
     </ion-item>
   </ion-list>

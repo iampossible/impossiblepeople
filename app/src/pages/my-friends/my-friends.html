@@ -19,7 +19,7 @@
         <h2>{{ friend.username }}</h2>
         <p>{{ friend.location }}</p>
       </div>
-      <button item-right class="follow-toggle"
+      <button ion-button item-right class="follow-toggle"
               (click)="followToggle(friend)"
               [ngClass]="{ 'button-outline button-outline-secondary-light': friend.unfollowed, 'button-secondary-light': !friend.unfollowed }">
         {{ friend.unfollowed ? 'Follow' : 'Unfollow' }}

@@ -6,6 +6,7 @@ import { CreatePostPage } from '../create-post/create-post';
 import { FeedPage } from '../feed/feed';
 import { ProfilePage } from '../profile/profile';
 import { Badge } from '@ionic-native/badge';
+import { ExplorePage } from '../explore/explore';
 
 @Component({
   templateUrl: 'tabs.html'
@@ -16,6 +17,7 @@ export class TabsPage {
   tab2Root = CreatePostPage;
   tab3Root = ActivityPage;
   tab4Root = ProfilePage;
+  tab5Root = ExplorePage;
 
   public activityCount: number = 0;
   public tabsIndex: number = 0;

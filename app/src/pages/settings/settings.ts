@@ -37,7 +37,7 @@ private user: any = {
     });
   }
 
-  onPageWillEnter() {
+  ionViewWillEnter() {
     this.getUserDetails();
   }
 

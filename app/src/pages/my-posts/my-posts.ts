@@ -10,7 +10,7 @@ import {Response} from '@angular/http';
 })
 export class MyPostsPage {
 
-  posts: Array<any>;
+  posts: Array<any> = [];
 
   constructor(private nav: NavController,
               private userService: UserService,
