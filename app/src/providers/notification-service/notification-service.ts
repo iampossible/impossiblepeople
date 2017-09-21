@@ -29,19 +29,19 @@ export class NotificationService {
         .on('notification')
         .subscribe((data) => {
           this.events.publish('notifications:receive', data);
-        });
+        }, console.error);
 
       this.pushNotification
         .on('registration')
         .subscribe((data) => {
           this.events.publish('notifications:register', data);
-        });
+        }, console.error);
 
       this.pushNotification
         .on('error')
         .subscribe((err) => {
           console.warn('failed to initialise notifications', err.message);
-        });
+        }, console.error);
 
     } catch (err) {
       console.warn('failed to initialise notifications', err);
@@ -56,7 +56,9 @@ export class NotificationService {
   }
 
   setupOnLaunch() {
+    // console.log('setupOnLaunch');
     this.userService.getCurrentUserPosts().subscribe((data) => {
+      // console.log('setupOnLaunch', 'this.userService.getCurrentUserPosts()', data.json());
       if (data.json().posts.length > 0) {
         this.register();
       }

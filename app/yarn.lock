@@ -427,6 +427,10 @@ babel-messages@^6.23.0:
   dependencies:
     babel-runtime "^6.22.0"
 
+babel-plugin-add-header-comment@^1.0.3:
+  version "1.0.3"
+  resolved "https://registry.yarnpkg.com/babel-plugin-add-header-comment/-/babel-plugin-add-header-comment-1.0.3.tgz#511c4901062640d5a480b4ac3edd6944195850ec"
+
 babel-plugin-minify-constant-folding@^0.0.3:
   version "0.0.3"
   resolved "https://registry.yarnpkg.com/babel-plugin-minify-constant-folding/-/babel-plugin-minify-constant-folding-0.0.3.tgz#a511e839562489811987a7a503c43c312c40138a"
@@ -1025,9 +1029,21 @@ cordova-common@^2.0.1:
     underscore "^1.8.3"
     unorm "^1.3.3"
 
+cordova-plugin-badge@~0.8.2:
+  version "0.8.2"
+  resolved "https://registry.yarnpkg.com/cordova-plugin-badge/-/cordova-plugin-badge-0.8.2.tgz#1c836766358b36feb8d8732f90a62cbd607459d8"
+
+cordova-plugin-camera@~2.4.1:
+  version "2.4.1"
+  resolved "https://registry.yarnpkg.com/cordova-plugin-camera/-/cordova-plugin-camera-2.4.1.tgz#195e34e12db64f1c49e764f7d4e3f261aa3d94c1"
+
 cordova-plugin-console@^1.0.5:
   version "1.0.7"
   resolved "https://registry.yarnpkg.com/cordova-plugin-console/-/cordova-plugin-console-1.0.7.tgz#89b7a92ed1c335888dfc00d902dc417201cf3b0b"
+
+cordova-plugin-contacts@~2.3.1:
+  version "2.3.1"
+  resolved "https://registry.yarnpkg.com/cordova-plugin-contacts/-/cordova-plugin-contacts-2.3.1.tgz#3d143685857120af89731ba9a1b73d50079259d2"
 
 cordova-plugin-device@^1.1.4:
   version "1.1.6"
@@ -1036,6 +1052,14 @@ cordova-plugin-device@^1.1.4:
 cordova-plugin-facebook4@^1.9.1:
   version "1.9.1"
   resolved "https://registry.yarnpkg.com/cordova-plugin-facebook4/-/cordova-plugin-facebook4-1.9.1.tgz#60acb3a026b5eaceb1160e97ab28be6c68192e4f"
+
+cordova-plugin-geolocation@~2.4.3:
+  version "2.4.3"
+  resolved "https://registry.yarnpkg.com/cordova-plugin-geolocation/-/cordova-plugin-geolocation-2.4.3.tgz#1dd00023d1f1a2ce330f8767ed08f7b738fe7184"
+
+cordova-plugin-inappbrowser@~1.7.1:
+  version "1.7.1"
+  resolved "https://registry.yarnpkg.com/cordova-plugin-inappbrowser/-/cordova-plugin-inappbrowser-1.7.1.tgz#435b43f591fe7bfa95ea98dbe0004841fe59ba51"
 
 cordova-plugin-splashscreen@^4.0.3:
   version "4.0.3"
@@ -1049,9 +1073,17 @@ cordova-plugin-whitelist@^1.3.1:
   version "1.3.2"
   resolved "https://registry.yarnpkg.com/cordova-plugin-whitelist/-/cordova-plugin-whitelist-1.3.2.tgz#5b6335feb9f5301f3c013b9096cb8885bdbd5076"
 
+cordova-plugin-x-socialsharing@~5.1.8:
+  version "5.1.8"
+  resolved "https://registry.yarnpkg.com/cordova-plugin-x-socialsharing/-/cordova-plugin-x-socialsharing-5.1.8.tgz#439a1d2f4736627628826e5195ae539b54e6248a"
+
 cordova-registry-mapper@^1.1.8:
   version "1.1.15"
   resolved "https://registry.yarnpkg.com/cordova-registry-mapper/-/cordova-registry-mapper-1.1.15.tgz#e244b9185b8175473bff6079324905115f83dc7c"
+
+cordova.plugins.diagnostic@~3.6.7:
+  version "3.6.7"
+  resolved "https://registry.yarnpkg.com/cordova.plugins.diagnostic/-/cordova.plugins.diagnostic-3.6.7.tgz#5f69ee0900d5f9b23dc307d205c1b2e0ddbe03ee"
 
 core-js@^2.4.0:
   version "2.4.1"
@@ -1774,6 +1806,10 @@ inline-process-browser@^1.0.0:
   dependencies:
     falafel "^1.0.1"
     through2 "^0.6.5"
+
+install@^0.8.2:
+  version "0.8.9"
+  resolved "https://registry.yarnpkg.com/install/-/install-0.8.9.tgz#9f4b5c0d1851ef872e9df85e4f7162d4e5dcdbed"
 
 interpret@^1.0.0:
   version "1.0.3"
@@ -2662,9 +2698,12 @@ performance-now@^0.2.0:
   version "0.2.0"
   resolved "https://registry.yarnpkg.com/performance-now/-/performance-now-0.2.0.tgz#33ef30c5c77d4ea21c5a53869d91b56d8f2555e5"
 
-phonegap-plugin-push@^1.10.4:
-  version "1.10.4"
-  resolved "https://registry.yarnpkg.com/phonegap-plugin-push/-/phonegap-plugin-push-1.10.4.tgz#1c005a5b7af3830cfc6d14f5ac14ccc4e0372925"
+phonegap-plugin-push@^2.0.0:
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/phonegap-plugin-push/-/phonegap-plugin-push-2.0.0.tgz#161289b4fdebd0b52a4d5a10520d156083eecf73"
+  dependencies:
+    babel-plugin-add-header-comment "^1.0.3"
+    install "^0.8.2"
 
 pify@^2.0.0:
   version "2.3.0"

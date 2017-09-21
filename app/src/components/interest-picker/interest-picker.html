@@ -3,7 +3,7 @@
     <ion-slide *ngFor="let page of pages; let lastPage = last; let firstPage = first">
       <ul class="picker">
         <li *ngFor="let interest of page" class="picker-item">
-          <button ion-button block large outline
+          <button ion-button block large outline color="light"
                   class="featured-interest"
                   [ngStyle]="{'background-image': selectedInterests[interest.interestID] ? interest.imageUrl : none }"
                   [ngClass]="{'button-outline-light button-outline not-selected': !selectedInterests[interest.interestID], selected: selectedInterests[interest.interestID]}"

@@ -10,6 +10,7 @@ import { ProfilePage } from '../pages/profile/profile';
 import { NotificationService } from '../providers/notification-service/notification-service';
 import { UserService } from '../providers/user-service/user-service';
 import { Environment } from '../Environment';
+import { RegistrationEventResponse, NotificationEventResponse } from "@ionic-native/push";
 
 if (Environment.ENV === 'prod') {
   enableProdMode();
@@ -93,9 +94,9 @@ export class MyApp {
       }, 333);
     });
 
-    this.events.subscribe('notifications:receive', (args) => {
-      console.info('Notification received', JSON.stringify(args));
-      let data = args[0].additionalData;
+    this.events.subscribe('notifications:receive', (e: NotificationEventResponse) => {
+      console.info('Notification received', JSON.stringify(e));
+      let data = e.additionalData;
 
       if (data.foreground) { // Notification received while app is open
 
@@ -111,8 +112,8 @@ export class MyApp {
       }
     });
 
-    this.events.subscribe('notifications:register', (args) => {
-      let data = args[0];
+    this.events.subscribe('notifications:register', (data: RegistrationEventResponse) => {
+      console.log('notifications:register', data);
       this.userService.registerNotifications(data.registrationId).subscribe(() => {
         console.info('Registered device ' + data.registrationId);
       }, (err) => {

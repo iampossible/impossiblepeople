@@ -51,7 +51,7 @@ export class ProfilePage {
         return;
       }
 
-      let updated = dataArray[0];
+      let updated = Array.isArray(dataArray) ? dataArray[0] : dataArray;
       if (updated) {
         this.user = Object.assign(this.user, updated);
       } else {
