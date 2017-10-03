@@ -22,21 +22,21 @@
   </ion-item>
 
   <div class="light-list">
-    <button ion-button full outline medium-gray class="menu-button text-left my-friends-button" (click)="viewFriends()">
+    <button ion-button full outline color="medium-gray" class="menu-button text-left my-friends-button" (click)="viewFriends()">
       Following ({{ user.friends ? user.friends.length : 0 }})
     </button>
-    <button ion-button full outline medium-gray class="menu-button text-left my-posts" (click)="viewPosts()">
+    <button ion-button full outline color="medium-gray" class="menu-button text-left my-posts" (click)="viewPosts()">
       Posts ({{ user.posts ? user.posts.length : 0 }})
     </button>
-    <button ion-button full outline medium-gray class="menu-button text-left" (click)="editInterests()">
+    <button ion-button full outline color="medium-gray" class="menu-button text-left" (click)="editInterests()">
       Interests ({{ user.interests ? user.interests.length : 0 }})
     </button>
-    <button ion-button full outline medium-gray class="menu-button text-left" (click)="findFriends()">
+    <button ion-button full outline color="medium-gray" class="menu-button text-left" (click)="findFriends()">
       Find and invite friends
     </button>
   </div>
 
   <div class="light-list">
-    <button ion-button full outline medium-gray class="menu-button text-left" (click)="editSettings()">Settings</button>
+    <button ion-button full outline color="medium-gray" class="menu-button text-left" (click)="editSettings()">Settings</button>
   </div>
 </ion-content>

@@ -21,9 +21,9 @@
         </ion-segment>
       </div>
       <div class="create-post-input">
-        <div class="textarea-avatar">
-          <ion-avatar><img src="{{userIcon || 'assets/images/green-bean.png'}}"></ion-avatar>
-        </div>
+        <ion-item class="textarea-avatar">
+          <ion-avatar item-left><img src="{{userIcon || 'assets/images/green-bean.png'}}"></ion-avatar>
+        </ion-item>
         <div class="textarea-wrapper">
           <h1 id="new-post-help">
             {{ createPostForm.value.postType == AppConstants.OFFER ? 'What would you like to offer?' : 'What would you like a hand with?'
@@ -38,12 +38,12 @@
       <div class="sticky-bottom light-list">
         <button-dropdown class="button-border-top" [data]="dropdownData" (selected)="onSelect($event)"></button-dropdown>
 
-        <button ion-button full medium-gray color="dark" outline (click)="addLocation($event)" class="select-location text-left">
+        <button ion-button full color="medium-gray" outline (click)="addLocation($event)" class="select-location text-left">
           <ion-icon name="pin"></ion-icon>
           {{ currentLocation.location || 'Add your neighbourhood' }}
         </button>
 
-        <button ion-button medium-gray color="dark" full outline (click)="selectCategory($event)" class="select-category text-left">
+        <button ion-button color="medium-gray" full outline (click)="selectCategory($event)" class="select-category text-left">
           <ion-icon name="pricetag"></ion-icon>
           {{ selectedCategory.name || 'Add category' }}
         </button>

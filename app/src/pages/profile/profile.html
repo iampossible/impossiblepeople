@@ -38,15 +38,15 @@
   </ion-item>
 
 
-  <ion-item no-lines class="guest-profile-options " [hidden]="myProfile" (click)="openPublicSettings($event)" tappable>
+  <ion-item no-lines class="background" class="guest-profile-options " [hidden]="myProfile" (click)="openPublicSettings($event)" tappable>
     <ion-note primary clear item-right class="post-options">
       <ion-icon name="more"></ion-icon>
     </ion-note>
   </ion-item>
 
 
-  <ion-list [virtualScroll]="user.posts || []" no-lines class="background">
-    <ion-item *virtualItem="let post" approxItemHeight="400px" class="background">
+  <ion-list [virtualScroll]="user.posts || []" no-lines class="background" approxItemHeight="300px" >
+    <ion-item *virtualItem="let post" class="background">
       <post-card [post]="post"></post-card>
     </ion-item>
   </ion-list>

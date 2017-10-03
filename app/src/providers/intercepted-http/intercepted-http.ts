@@ -99,7 +99,7 @@ export class InterceptedHttp extends Http {
         if (err && err.status === 400) {
           obs.error(errorResponse);
         } else if (err && err.status === 401 && !this.isAuthEndpoint(err.url)) {
-          console.log('MERDA');
+          console.log('unauthorised');
           this._events.publish('unauthorised');
           obs.error(err);
         } else if (err && err.status === 0) {

@@ -1,10 +1,10 @@
 <ion-header>
   <ion-navbar>
     <ion-buttons start>
-      <button ion-button block secondary (click)="dismissModal()" type="reset" class="button-light">Cancel</button>
+      <button ion-button block color="secondary" (click)="dismissModal()" type="reset" class="button-light">Cancel</button>
     </ion-buttons>
     <ion-buttons end>
-      <button ion-button block (click)="submitInterests()" [hidden]="selectedInterests.length===0"> Save</button>
+      <button ion-button block color="secondary" (click)="submitInterests()" [hidden]="selectedInterests.length===0">Save</button>
     </ion-buttons>
   </ion-navbar>
 </ion-header>

@@ -41,12 +41,12 @@
       </span> "{{ post.content }}"
     </h1>
 
-    <div class="post-author" class="post-author" [attr.data-post-author-id]="post.author.userID">
+    <ion-item class="post-author" class="post-author" [attr.data-post-author-id]="post.author.userID">
       <ion-avatar item-left class="post-author-image" (click)="goToProfile($event, post.author.userID)" tappable>
         <img src="{{post.author.imageSource || 'assets/images/green-bean.png'}}" />
       </ion-avatar>
       <span class="post-author-name" (click)="goToProfile($event, post.author.userID)">{{ post.author.username }}</span>
-    </div>
+    </ion-item>
 
     <div class="flex-list post-details" no-lines>
       <div class="flex-list-item requested-time">

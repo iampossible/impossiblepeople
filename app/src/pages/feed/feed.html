@@ -293,9 +293,13 @@
       </div>
     </div>
   </div>
-  <ion-list [virtualScroll]="feed" no-lines class="background" approxItemHeight="400px">
+  
+  <ion-list no-lines class="background">
+    <post-card *ngFor="let post of feed" [post]="post"></post-card>
+  </ion-list>
+  <!--<ion-list [virtualScroll]="feed" no-lines class="background" approxItemHeight="400px">
     <ion-item *virtualItem="let post" class="background">
       <post-card [post]="post"></post-card>
     </ion-item>
-  </ion-list>
+  </ion-list>-->
 </ion-content>
