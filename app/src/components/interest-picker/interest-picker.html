@@ -1,0 +1,22 @@
+<div class="interest-picker">
+  <ion-slides pager (ionDidChange)="onSlideChanged($event)">
+    <ion-slide *ngFor="let page of pages; let lastPage = last; let firstPage = first">
+      <ul class="picker">
+        <li *ngFor="let interest of page" class="picker-item">
+          <button ion-button block outline color="light"
+                  class="featured-interest"
+                  [ngStyle]="{'background-image': selectedInterests[interest.interestID] ? interest.imageUrl : none }"
+                  [ngClass]="{'button-outline-light button-outline not-selected': !selectedInterests[interest.interestID], selected: selectedInterests[interest.interestID]}"
+                  (click)="toggleInterest($event, interest)">{{ interest.name.toUpperCase() }}
+          </button>
+        </li>
+      </ul>
+
+      <div class="suggestion-block" *ngIf="canSuggest && lastPage">
+        <button ion-button block large outline light class="suggest-interest featured-interest" (click)="openModal()">Suggest
+          something...
+        </button>
+      </div>
+    </ion-slide>
+  </ion-slides>
+</div>

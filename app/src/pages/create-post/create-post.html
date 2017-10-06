@@ -1,0 +1,57 @@
+<ion-header>
+
+  <ion-navbar>
+    <ion-title>Create Post</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+<ion-content class="create">
+  <form id="create-post-wrapper" [formGroup]="createPostForm">
+
+    <div id="top-half">
+      <div class="create-post-toggle">
+        <ion-segment formControlName="postType" secondary-light (ionChange)="onPostTypeChanged($event)">
+          <ion-segment-button value="{{ AppConstants.OFFER }}" class="segment-button-offer" role="button">
+            Offer
+          </ion-segment-button>
+          <ion-segment-button value="{{ AppConstants.ASK }}" class="segment-button-ask" role="button">
+            Ask
+          </ion-segment-button>
+        </ion-segment>
+      </div>
+      <div class="create-post-input">
+        <ion-item class="textarea-avatar">
+          <ion-avatar item-left><img src="{{userIcon || 'assets/images/green-bean.png'}}"></ion-avatar>
+        </ion-item>
+        <div class="textarea-wrapper">
+          <h1 id="new-post-help">
+            {{ createPostForm.value.postType == AppConstants.OFFER ? 'What would you like to offer?' : 'What would you like a hand with?'
+            }}
+          </h1>
+          <textarea type="text" formControlName="content" placeholder="{{ createPostForm.value.postType == AppConstants.OFFER ? 'i.e. I can give photography lessons' : 'i.e. Can anyone help me with my community strategy?' }}"></textarea>
+        </div>
+      </div>
+    </div>
+
+    <div id="bottom-half">
+      <div class="sticky-bottom light-list">
+        <button-dropdown class="button-border-top" [data]="dropdownData" (selected)="onSelect($event)"></button-dropdown>
+
+        <button ion-button full color="medium-gray" outline (click)="addLocation($event)" class="select-location text-left">
+          <ion-icon name="pin"></ion-icon>
+          {{ currentLocation.location || 'Add your neighbourhood' }}
+        </button>
+
+        <button ion-button color="medium-gray" full outline (click)="selectCategory($event)" class="select-category text-left">
+          <ion-icon name="pricetag"></ion-icon>
+          {{ selectedCategory.name || 'Add category' }}
+        </button>
+
+        <button ion-button full primary (click)="createPost($event)" class="button-no-border-bottom" [disabled]="!createPostForm.valid">
+          Post
+        </button>
+      </div>
+    </div>
+  </form>
+</ion-content>

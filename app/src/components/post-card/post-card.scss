@@ -1,0 +1,100 @@
+ion-avatar {
+    img {
+        height: 80px;
+    }
+}
+
+post-card {
+    ion-card {
+        margin: 18px 0;
+        width: 100%;
+        .post-content {
+            /*box-shadow: 0 2px 2px 0 rgba(170,170,170, 0.1), 0 1px 10px 0px rgba(170, 170, 170, 0.1), 0 1px 10px 0 rgba(170, 170, 170, 0.1);*/
+            border-bottom: 1px solid map_get($colors, border-gray);
+            border-top: 1px solid map_get($colors, border-gray);
+        }
+        .post-author-name {
+            white-space: normal;
+        }
+    }
+    .post-card-header {
+        display: flex;
+        .post-category-name {
+            width: 50%;
+        }
+        .post-created-at {
+            width: 50%;
+            text-align: right;
+        }
+    }
+    img.post-category-image {
+        height: 100%;
+        margin: 10px 0;
+    }
+    .post-title {
+        text-overflow: ellipsis;
+        overflow-x: hidden;
+    }
+    h1 {
+        .post-type {
+            display: block;
+            color: map_get($colors, medium-gray);
+            font-weight: normal;
+            font-size: 1.4rem;
+            margin-bottom: 3px;
+        }
+    }
+    .post-author-relationship {
+        color: map_get($colors, medium-gray);
+        text-transform: uppercase;
+    }
+    ion-avatar[item-left] {
+        margin: 8px 16px 0 0;
+        &>img {
+            border-radius: 50%;
+            max-height: 5rem;
+            max-width: 5rem;
+        }
+    }
+    .card-footer {
+        border-top: 1px solid map_get($colors, light-gray);
+        .input-wrapper {
+            display: none;
+        }
+        .post-location {
+            width: 100%;
+            .post-location-label {
+                width: calc(100% - 30px);
+                float: left;
+                padding: 10px;
+            }
+        }
+        .comment-count-label {
+            position: relative;
+            top: 12px;
+        }
+        ion-note.post-comment-count {
+            min-width: 50px;
+            position: relative;
+        }
+        ion-note {
+            color: map_get($colors, secondary-light);
+            font-size: 1.4rem;
+            ion-icon {
+                color: map_get($colors, secondary-light);
+                font-size: 1.8rem;
+                margin-right: 0;
+                float: left;
+                padding: 10px 10px 10px 0;
+                cursor: pointer;
+                position: relative;
+                top: 2px;
+            }
+        }
+        ion-note.post-options {
+            ion-icon {
+                font-size: 2.1em;
+            }
+        }
+    }
+}

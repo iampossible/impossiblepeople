@@ -1,0 +1,14 @@
+<ion-header>
+  <ion-navbar>
+    <ion-title>Your Posts</ion-title>
+  </ion-navbar>
+</ion-header>
+
+
+<ion-content class="my-posts-page background">
+  <ion-list [virtualScroll]="posts" no-lines class="background" approxItemHeight="300px">
+    <ion-item *virtualItem="let post" class="background">
+      <post-card [post]="post"></post-card>
+    </ion-item>
+  </ion-list>
+</ion-content>

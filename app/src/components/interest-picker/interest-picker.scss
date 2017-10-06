@@ -1,0 +1,59 @@
+interest-picker {
+  .interest-picker {
+    .swiper-pagination.hide {
+      display: block !important;
+    }
+    .picker {
+      margin: 0;
+      padding: 0;
+
+      .picker-item {
+        display: inline-block;
+        list-style-type: none;
+        padding: 2px 5px;
+        width: 50%;
+
+        button.button {
+          &.button-outline-light {
+            border-color: map_get($colors, medium-gray);
+            color: map_get($colors, medium-gray);
+            font-weight: normal;
+          }
+
+          &.featured-interest {
+            font-size: 1.6rem;
+            height: 5rem;
+            margin: 0.3rem 0;
+
+            &.selected {
+              background-position: center;
+              background-size: 200%;
+              border: solid 0.55px #FFFFFF;
+            }
+          }
+        }
+      }
+    }
+  }
+
+  .suggestion-block {
+    padding: 5px;
+
+    button {
+      font-size: 1.6rem;
+      height: 5rem;
+      margin: 0;
+    }
+
+    button.suggest-interest {
+      border-color: map_get($colors, medium-gray);
+      color: map_get($colors, medium-gray);
+      font-weight: normal;
+    }
+  }
+
+  ion-slide {
+    padding-bottom: 50px;
+  }
+
+}

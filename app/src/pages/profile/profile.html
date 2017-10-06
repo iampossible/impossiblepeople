@@ -1,0 +1,54 @@
+<ion-header>
+
+  <ion-navbar>
+    <ion-title>Profile</ion-title>
+
+    <ion-buttons end>
+      <button ion-button block (click)="setFollowing()" [hidden]="myProfile" class="follow-user" [ngClass]="{'follow-user-follow': !user.following, 'follow-user-unfollow': user.following}">
+      {{ user.following ? 'Unfollow': 'Follow' }}
+      </button>
+      <button ion-button block color="secondary" [hidden]="!myProfile" (click)="openSettings()" class="user-settings" alt="Settings">
+      <ion-icon color="secondary" name="settings"></ion-icon>
+    </button>
+    </ion-buttons>
+  </ion-navbar>
+
+</ion-header>
+
+
+
+<ion-content class="public-profile-page background">
+
+  <ion-item no-lines class="user-headline">
+    <div class="user-headline-banner">
+      <ion-thumbnail>
+        <img src="{{ user.imageSource || 'assets/images/green-bean-3x.png' }}" class="profile-picture round">
+      </ion-thumbnail>
+      <h2 class="user-name" *ngIf="user.firstName && user.lastName">{{ user.firstName + " " + user.lastName }}</h2>
+      <p class="user-location" *ngIf="user.location">
+        <ion-icon name="pin"></ion-icon>
+        {{ user.location }}
+      </p>
+      <p class="user-url" *ngIf="user.url">
+        <ion-icon name="link"></ion-icon>
+        <a href="#" (click)="openProfileWeblink()">{{ user.url }}</a>
+      </p>
+    </div>
+    <p class="user-biography" *ngIf="user.biography">{{ user.biography }}</p>
+  </ion-item>
+
+
+  <ion-item no-lines class="background" class="guest-profile-options " [hidden]="myProfile" (click)="openPublicSettings($event)" tappable>
+    <ion-note primary clear item-right class="post-options">
+      <ion-icon name="more"></ion-icon>
+    </ion-note>
+  </ion-item>
+
+
+  <ion-list [virtualScroll]="user.posts || []" no-lines class="background" approxItemHeight="300px" >
+    <ion-item *virtualItem="let post" class="background">
+      <post-card [post]="post"></post-card>
+    </ion-item>
+  </ion-list>
+
+</ion-content>

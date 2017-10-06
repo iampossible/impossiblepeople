@@ -1,0 +1,52 @@
+<ion-header>
+
+  <ion-navbar>
+    <ion-title>Activity</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content class="activity-tab background">
+
+  <p class="empty-state" *ngIf="activities && activities.length==0">
+    <img src="assets/images/no-notifications.png">
+    <span  *ngIf="notificationsEnabled==true">
+      <label>You don't have any notifications</label>
+      <button ion-button (click)="createPost()">Create a post</button>
+    </span>
+    <span *ngIf="notificationsEnabled==false">
+      <label>Do you want to be notified when your friends post?</label>
+      <button ion-button full (click)="referSettings()">Notify me!</button>
+    </span>
+  </p>
+
+  <ion-list *ngIf="activities && activities.length>0">
+
+    <ion-item *ngFor="let activity of activities" class="activity type-comment">
+      <ion-card class="post-card offer-card" tappable (click)="dispatch($event, activity)">
+        <ion-card-content class="post-content" [ngClass]="{unread:!activity.isRead}">
+          <div class="post-card-header">
+            <ion-avatar item-left>
+              <img src="{{ activity.actor.imageSource || 'assets/images/green-bean.png' }}"/>
+            </ion-avatar>
+            <h2 class="post-title">{{ activity.actor.username }}</h2>
+            <h3 class="post-activity">{{ activity.text }}</h3>
+            <div class="post-created-at">
+              <ion-icon name="time-outline" role="img" class="ion-md-time-outline" aria-label="time outline"></ion-icon>
+              {{ activity.time }}
+            </div>
+          </div>
+          <div class="input-wrapper" *ngIf="activity.target && activity.target?.Comment">
+            "{{ activity.target?.Comment?.content }}"
+          </div>
+          <div class="source-post" *ngIf="activity.target && activity.target?.Post">
+            "{{ activity.target?.Post?.content }}"
+          </div>
+        </ion-card-content>
+      </ion-card>
+    </ion-item>
+
+  </ion-list>
+
+</ion-content>

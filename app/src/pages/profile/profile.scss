@@ -1,0 +1,46 @@
+page-profile {
+.public-profile-page {
+  border-bottom: 1px solid rgba(215, 216, 214, 0.7);
+
+  .user-name {
+    font-size: 2rem;
+    margin: 15px 0 5px 0;
+    white-space: normal;
+    text-align: center;
+  }
+
+
+  .profile-picture {
+    max-width: none;
+    max-height: none;
+    width: 12rem;
+    height: 12rem;
+    min-height: 120px;
+    min-width: 120px;
+  }
+
+  .post-options ion-icon {
+    font-size: 2.1em;
+  }
+
+  .guest-profile-options {
+    clear: both;
+    height: 30px;
+    text-align: right;
+    border-top: 1px solid rgba(215, 216, 214, 0.7);
+    border-bottom: 1px solid rgba(215, 216, 214, 0.7);
+    margin: 0;
+    background-color: #FFFFFF;
+    ion-note {
+      margin-right: 15px;
+      margin-top: 5px;
+      clear: both;
+    }
+    ion-icon {
+      line-height: 1.4em;
+      color: #424242;
+    }
+  }
+}
+
+}

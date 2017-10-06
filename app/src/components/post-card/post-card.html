@@ -1,0 +1,58 @@
+<ion-card [ngClass]="{'offer-card': post.postType === 'OFFERS', 'ask-card': post.postType === 'ASKS'}" [attr.data-post-id]="post.postID"
+  (click)="openPost($event, post.postID)" tappable class="post-card">
+  <svg height="63" width="63" style="float:right;background: #F2F2F2;" *ngIf="post.resolved">
+    <polygon points="0,0 63,63 0,63" style="fill:#ffffff;stroke:#d6d7d8;stroke-width:1" />
+  </svg>
+  <ion-card-content class="post-content">
+    <div class="post-card-header">
+      <div class="post-category-name">
+        {{ (post.category ? post.category.name : '') | uppercase }}
+      </div>
+      <div class="post-created-at" *ngIf="!post.resolved">
+        <ion-icon name="ios-time-outline"></ion-icon>
+        {{ post.createdAtSince }}
+      </div>
+    </div>
+
+    <img class="post-category-image" src="{{post.category.image.replace('build','assets')}}" *ngIf="post.category.image">
+
+    <h1 class="post-title">
+      <span class="post-type">
+        {{ post.postType === 'OFFERS' ? 'Offer' : 'Ask' }}:
+      </span> "{{ post.content }}"
+    </h1>
+
+    <ion-item class="post-creator kill-padding-left" [attr.data-post-author-id]="post.author.userID">
+      <ion-avatar item-left>
+        <img class="post-author-photo" src="{{post.author.imageSource || 'assets/images/green-bean.png'}}" (click)="goToProfile($event, post.author.userID)"
+          tappable>
+      </ion-avatar>
+      <div>
+        <div class="post-author-name" (click)="goToProfile($event, post.author.userID)" tappable>
+          {{ post.author.username }}
+        </div>
+        <small class="post-author-relationship" *ngIf="!post.author.isFriend && post.author.commonFriends && post.author.commonFriends.length"
+          (click)="noOp($event)" tappable>
+          friends with {{ post.author.commonFriends[0].username }}
+        </small>
+      </div>
+    </ion-item>
+  </ion-card-content>
+
+  <ion-item class="card-footer">
+    <ion-note primary clear item-right class="post-location">
+      <ion-icon [hidden]="!post.location" name="ios-pin"></ion-icon>
+      <div [hidden]="!post.location" class="post-location-label">{{ post.location }}</div>
+    </ion-note>
+    <ion-note primary clear item-right class="post-comment-count">
+      <ion-icon name="ios-chatbubbles"></ion-icon>
+      <span class="comment-count-label">
+        {{ post.commentCount }}
+      </span>
+    </ion-note>
+    <ion-note primary clear item-right class="post-options {{ isMyPost ? 'private' : 'public' }}" (click)="openOptions($event)"
+      tappable>
+      <ion-icon name="ios-more"></ion-icon>
+    </ion-note>
+  </ion-item>
+</ion-card>

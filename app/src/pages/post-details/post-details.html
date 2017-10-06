@@ -1,0 +1,94 @@
+<ion-header>
+  <ion-navbar>
+    <ion-title>Post Details</ion-title>
+
+    <ion-buttons end>
+      <button ion-button small icon-only class="post-options {{ isMyPost ? 'private' : 'public' }}" (click)="openOptions($event)">
+        <ion-icon name="more"></ion-icon>
+      </button>
+    </ion-buttons>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content [attr.data-post-id]="postID" class="post-detail-page background" id="post-detail-page">
+  <svg height="63" width="63" style="position: absolute;right: 0;background: #ffffff;" *ngIf="post && post.resolved">
+    <polygon points="0,0 63,63 0,63" style="fill:#ffffff;stroke:#d6d7d8;stroke-width:1" />
+  </svg>
+  <div block *ngIf="post && post.category.image">
+    <img class="post-category-image" src="{{post.category.image.replace('build','assets')}}">
+  </div>
+
+  <div class="post post-pane" padding block *ngIf="post">
+    <div class="post-pane-header">
+      <div class="uppercase">
+        <span class="post-category-name">
+            {{ (post.category ? post.category.name : '') | uppercase }}
+        </span>
+      </div>
+      <div class="align-right">
+        <span class="post-created-at">
+          <ion-icon name="time-outline"></ion-icon>
+          {{ post.createdAtSince }}
+          </span>
+      </div>
+    </div>
+
+    <h1 class="content">
+      <span class="post-type">
+        {{ post.postType === 'OFFERS' ? 'Offer' : ( post.postType === 'ASKS' ? 'Ask' : post.postType) }}:
+      </span> "{{ post.content }}"
+    </h1>
+
+    <ion-item class="post-author" class="post-author" [attr.data-post-author-id]="post.author.userID">
+      <ion-avatar item-left class="post-author-image" (click)="goToProfile($event, post.author.userID)" tappable>
+        <img src="{{post.author.imageSource || 'assets/images/green-bean.png'}}" />
+      </ion-avatar>
+      <span class="post-author-name" (click)="goToProfile($event, post.author.userID)">{{ post.author.username }}</span>
+    </ion-item>
+
+    <div class="flex-list post-details" no-lines>
+      <div class="flex-list-item requested-time">
+        <ion-icon name="time" class="margin-right"></ion-icon>
+        {{ formatTimeRequired(post.timeRequired) }}
+      </div>
+      <div class="flex-list-item post-location" *ngIf="post.location">
+        <ion-icon name="pin" class="margin-right"></ion-icon>
+        {{ post.location }}
+      </div>
+    </div>
+
+
+  </div>
+
+  <ion-list class="post-comments" *ngIf="post">
+    <ion-list-header id="commentsHeader">
+      <ion-icon name="chatbubbles"></ion-icon>
+      Comments <span *ngIf="commentsCount>0" class="comment-count">({{commentsCount}})</span>
+    </ion-list-header>
+
+    <ion-item class="comment" *ngFor="let comment of post.comments">
+      <ion-avatar item-left (click)="goToProfile($event, comment.authorID)" tappable>
+        <img class="comment-author-image" src="{{comment.imageSource || 'assets/images/green-bean.png'}}">
+      </ion-avatar>
+      <h2 class="comment-author" (click)="goToProfile($event, comment.authorID)">{{comment.author}}</h2>
+      <p class="comment-content" (swipe)="openCommentOptions($event, comment.commentID, comment.authorID)">{{comment.content}}</p>
+      <small class="comment-created-at-since" clear item-right>
+        {{comment.createdAtSince}}
+      </small>
+    </ion-item>
+  </ion-list>
+
+  <form [formGroup]="createCommentForm" (submit)="createComment()" *ngIf="post && !post.resolved">
+    <ion-item>
+      <ion-label floating>
+        <ion-icon name="person" item-left></ion-icon>
+        Add Comments
+      </ion-label>
+      <ion-textarea name="content" formControlName="content" (input)="updateCommentState()" autocorrect id="commentFormInput"></ion-textarea>
+    </ion-item>
+    <button ion-button full [disabled]="!isFormValid" type="submit">Create comment</button>
+  </form>
+
+</ion-content>

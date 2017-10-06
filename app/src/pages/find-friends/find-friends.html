@@ -1,0 +1,26 @@
+<ion-header>
+
+  <ion-navbar>
+    <ion-title>Find Friends</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content padding>
+
+  <ion-item no-lines>
+    <img src="assets/images/find-friends.png">
+
+    <h2>Find and invite friends!</h2>
+
+    <p class="invitation">Feeling lonely? Find and invite your friends, and you will see their posts and unlock friends
+      of friends' posts!</p>
+  </ion-item>
+
+  <invite-contacts (onConnect)="inviteSuccess($event)" (onError)="inviteError($event)"
+                   buttonText="Invite friends by email"></invite-contacts>
+
+  <facebook-connect (onConnect)="fbConnect($event)" (onError)="fbError($event)"
+                    [buttonText]="'Find friends on Facebook'"></facebook-connect>
+</ion-content>

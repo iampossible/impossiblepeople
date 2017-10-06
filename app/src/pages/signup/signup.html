@@ -1,0 +1,41 @@
+<ion-header>
+
+  <ion-navbar>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content padding class="create-account background">
+  <p padding class="kill-padding-top">Quickly create an account</p>
+
+  <form [formGroup]="signUpForm">
+    <ion-list>
+      <ion-item class="email-input" [ngClass]="{ 'has-error': controlError.email }">
+        <ion-input type="email" formControlName="email" placeholder="Email address" required></ion-input>
+      </ion-item>
+
+      <ion-item class="password-input" [ngClass]="{ 'has-error': controlError.password }">
+        <ion-input type="password" formControlName="password" placeholder="Password" required></ion-input>
+      </ion-item>
+    </ion-list>
+
+    <ion-list>
+      <ion-item class="first-name-input" [ngClass]="{ 'has-error': controlError.firstName }">
+        <ion-input type="text" formControlName="firstName" placeholder="First name" required></ion-input>
+      </ion-item>
+
+      <ion-item class="last-name-input" [ngClass]="{ 'has-error': controlError.lastName }">
+        <ion-input type="text" formControlName="lastName" placeholder="Last name" required></ion-input>
+      </ion-item>
+      <ion-item class="disclaimer item-text-wrap">
+        <p>By signing up you agree to our <br> <a (click)="showTerms()" class="terms-link">Terms</a> and <a (click)="showPrivacy()"
+            class="privacy-link">Privacy Policy</a></p>
+      </ion-item>
+    </ion-list>
+
+    <p class="error-message" *ngIf="controlError.message">{{ controlError.message }}</p>
+
+  </form>
+  <button ion-button full (click)="signUp($event)">Create account</button>
+</ion-content>

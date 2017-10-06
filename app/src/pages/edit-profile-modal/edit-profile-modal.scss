@@ -1,0 +1,42 @@
+page-edit-profile-modal {
+  ion-content.edit-profile-modal {
+
+    .user-edit-list{
+      margin-bottom: 8rem;
+    }
+
+    ion-avatar.profile-picture img {
+      max-width: 6rem;
+      max-height: 6rem;
+      width: 80px;
+    }
+
+    .location-item ion-label {
+      margin-bottom: 0;
+    }
+
+    button.location-button {
+      font-size: 1.6rem;
+      height: 22px;
+      overflow: visible;
+    }
+
+    ion-list ion-item {
+      border-bottom: 1px solid #dedede !important;
+    }
+
+    ion-list .item .item-inner {
+      border-bottom: none !important;
+    }
+
+    div.spacer{
+      height: 150px;
+    }
+
+    .item-input.ng-valid.input-has-value:not(.input-has-focus) .item-inner,
+    ion-list .item-input {
+      box-shadow: none !important;
+      border: none !important;
+    }
+  }
+}

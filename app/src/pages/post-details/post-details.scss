@@ -1,0 +1,167 @@
+.post-detail-page {
+
+  img.post-category-image {
+    width:100%;
+  }
+
+  .post-pane {
+    border-bottom: 1px solid map_get($colors, light-gray);
+    background: #fff;
+    margin: -5px 0 10px 0;
+    padding-bottom: 0px;
+
+    .post-pane-header {
+      display: flex;
+      flex-grow: 1;
+
+      & > div {
+        font-size: 1.4rem;
+        flex-grow: 1;
+      }
+    }
+  }
+
+  .post-type {
+    font-size: 1.4rem;
+    font-weight: normal;
+    color: map-get($colors, medium-gray);
+    display: block;
+    margin-bottom: 0.5rem;
+  }
+
+  h1 {
+    font-size: 1.8rem;
+    color: map-get($colors, dark-night);
+  }
+
+  .post-author {
+    display: flex;
+    align-items: center;
+    padding: 0;
+  }
+
+  .post-details {
+    ion-item {
+      padding: 0
+    }
+
+    .requested-time, .post-location, .post-location ion-label {
+      color: map_get($colors, dark-gray);
+      padding: 1.4rem 0;
+    }
+
+    .post-location {
+      border-top: 1px solid map_get($colors, light-gray);
+    }
+
+    ion-icon {
+      width: 15px;
+    }
+  }
+
+  .flex-list {
+    display: flex;
+    flex-direction: column;
+
+    .flex-list-item {
+      padding-top: 1.4rem;
+    }
+  }
+
+  #commentsHeader {
+    border-bottom: 1px solid map_get($colors, light-gray);
+
+    .ion-md-chatbubbles:before {
+      margin: 0 5px 0 0;
+      position: relative;
+      top: 2px;
+    }
+  }
+
+  ion-item.comment {
+    border-bottom: 1px solid map-get($colors, light-gray);
+    padding-left: 16px;
+    .item-inner {
+      border-bottom: none;
+    }
+    h2.comment-author {
+      white-space: normal;
+    }
+    p{
+      white-space: normal;
+    }
+    ion-avatar ion-icon {
+      color: map-get($colors, light-gray);
+      font-size: 4rem;
+      margin: 0;
+      border-radius: 55px;
+      border: 1px solid;
+      display: block;
+      width: 4rem;
+      text-align: center;
+    }
+  }
+
+  ion-list.post-comments {
+    margin: -1px 0 0px 0;
+
+    ion-list-header {
+      padding: 10px 16px 18px 16px;
+
+    }
+  }
+
+  ion-list.post-reply {
+    margin: 0;
+    margin-bottom: 250px;
+
+    ion-item {
+      border-bottom: 1px solid map-get($colors, light-gray);
+      border-top: 1px solid map-get($colors, light-gray);
+    }
+
+    .item-inner {
+      border: none;
+    }
+
+    ion-icon {
+      color: map-get($colors, light-gray);
+      font-size: 3rem;
+      margin: 0;
+      border-radius: 33px;
+      border: 1px solid;
+      display: inline-block;
+      width: 3rem;
+      text-align: center;
+      margin-right: 12px;
+    }
+
+    .add-comment-label {
+      font-size: 1.6rem;
+      position: relative;
+      top: -5px;
+    }
+
+    ion-textarea textarea {
+      height: 3.6rem !important;
+    }
+
+    ion-textarea textarea:focus {
+      height: 8.6rem !important;
+    }
+  }
+
+  .post-comments-submit {
+    border: none;
+    margin: 0 0;
+  }
+
+  .post-options {
+    padding: 9px 8px 9px 20px;
+    margin: 0;
+    cursor: pointer;
+    position: absolute;
+    top: 10px;
+    right: 10px;
+  }
+}

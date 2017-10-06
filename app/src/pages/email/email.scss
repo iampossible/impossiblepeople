@@ -1,0 +1,21 @@
+page-email {
+  .email-page {
+    p {
+      margin: 30px 20px;
+    }
+
+    input {
+      background: map_get($colors, snow);
+      border: none;
+      height: 5rem;
+      padding-left: 15px;
+      width: 100%;
+    }
+    .save-button {
+      margin: 0;
+      position: absolute;
+      bottom: 0 !important;
+    }
+
+  }
+}
