@@ -7,8 +7,8 @@
       <button ion-button block (click)="setFollowing()" [hidden]="myProfile" class="follow-user" [ngClass]="{'follow-user-follow': !user.following, 'follow-user-unfollow': user.following}">
       {{ user.following ? 'Unfollow': 'Follow' }}
       </button>
-      <button ion-button block [hidden]="!myProfile" (click)="openSettings()" class="user-settings" alt="Settings">
-      <ion-icon name="settings"></ion-icon>
+      <button ion-button block color="secondary" [hidden]="!myProfile" (click)="openSettings()" class="user-settings" alt="Settings">
+      <ion-icon color="secondary" name="settings"></ion-icon>
     </button>
     </ion-buttons>
   </ion-navbar>
