@@ -1,5 +1,5 @@
 import { Component, ElementRef } from '@angular/core';
-import { IonicPage, NavController, NavParams, Events, AlertController, Tabs } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, Events, AlertController, Tabs, Platform } from 'ionic-angular';
 import { Response } from '@angular/http';
 
 import { FeedService } from '../../providers/feed-service/feed-service';
@@ -14,6 +14,7 @@ import { UserService } from '../../providers/user-service/user-service';
 export class FeedPage {
 
   public isScrolling: Boolean = false;
+  public isAndroid: Boolean = false;
   public scrollElement: Element;
   public feed: Array<Object> = [];
   public showIntro: Boolean = false;
@@ -32,7 +33,10 @@ export class FeedPage {
     private userService: UserService,
     private alertCtrl: AlertController,
     private nav: NavController,
-    public navParams: NavParams) {
+    public navParams: NavParams,
+    public platform: Platform) {
+
+    this.isAndroid = platform.is('android');
     this.events.subscribe('user:updated', () => {
       this.getFeed();
       this.isScrolling = false;

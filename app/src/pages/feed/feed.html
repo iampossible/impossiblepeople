@@ -1,7 +1,9 @@
 <ion-header>
 
   <ion-navbar>
-      <img src="assets/images/logo-medium.png" alt="Impossible logo">
+      <ion-title mode="ios">
+        <img src="assets/images/logo-medium.png" alt="Impossible logo" height="40">
+      </ion-title>
   </ion-navbar>
 
 </ion-header>
@@ -292,12 +294,12 @@
     </div>
   </div>
   
-  <ion-list no-lines class="background">
+  <ion-list *ngIf="!isAndroid" no-lines class="background">
     <post-card *ngFor="let post of feed" [post]="post"></post-card>
   </ion-list>
-  <!--<ion-list [virtualScroll]="feed" no-lines class="background" approxItemHeight="400px">
+  <ion-list *ngIf="isAndroid" [virtualScroll]="feed" no-lines class="background" approxItemHeight="100px">
     <ion-item *virtualItem="let post" class="background">
       <post-card [post]="post"></post-card>
     </ion-item>
-  </ion-list>-->
+  </ion-list>
 </ion-content>
