@@ -4,6 +4,12 @@
       <ion-title mode="ios">
         <img src="assets/images/logo-medium.png" alt="Impossible logo" height="40">
       </ion-title>
+      <ion-buttons end>
+        <ion-spinner *ngIf="loadingLocation"></ion-spinner>
+        <button *ngIf="!loadingLocation" ion-button block color="secondary" (click)="updateLocation()" alt="Location">
+          <ion-icon color="secondary" name="locate"></ion-icon>
+        </button>
+      </ion-buttons>
   </ion-navbar>
 
 </ion-header>

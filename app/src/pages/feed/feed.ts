@@ -1,6 +1,8 @@
 import { Component, ElementRef } from '@angular/core';
 import { IonicPage, NavController, NavParams, Events, AlertController, Tabs, Platform } from 'ionic-angular';
 import { Response } from '@angular/http';
+import { Geolocation } from '@ionic-native/geolocation';
+import { Diagnostic } from '@ionic-native/diagnostic';
 
 import { FeedService } from '../../providers/feed-service/feed-service';
 import { UserService } from '../../providers/user-service/user-service';
@@ -15,6 +17,7 @@ export class FeedPage {
 
   public isScrolling: Boolean = false;
   public isAndroid: Boolean = false;
+  public loadingLocation: Boolean = false;
   public scrollElement: Element;
   public feed: Array<Object> = [];
   public showIntro: Boolean = false;
@@ -34,7 +37,9 @@ export class FeedPage {
     private alertCtrl: AlertController,
     private nav: NavController,
     public navParams: NavParams,
-    public platform: Platform) {
+    public platform: Platform,
+    private geolocation: Geolocation,
+    private diagnostic: Diagnostic) {
 
     this.isAndroid = platform.is('android');
     this.events.subscribe('user:updated', () => {
@@ -168,5 +173,46 @@ export class FeedPage {
     window.localStorage.setItem('topBannerSeen', 'true');
     this.showBanner = false;
   }
-
+  public updateLocation() {
+    this.loadingLocation = true;
+    this.diagnostic.isLocationEnabled().then((resp) => {
+      if (resp !== false) {
+        this.geolocation.getCurrentPosition()
+          .then((resp: Position) => {
+            this.userService
+              .getFriendlyLocation(resp.coords.latitude, resp.coords.longitude, resp.coords.accuracy)
+              .subscribe(
+              (response: Response) => {
+                const friendlyName = response.json().friendlyName;
+                let data = {
+                  location: friendlyName,
+                  latitude: resp.coords.latitude,
+                  longitude: resp.coords.longitude,
+                };
+                this.events.publish('feedback:show', { msg: 'Location set to ' + friendlyName + '!', icon: 'checkmark' });
+                this.loadingLocation = false;
+              },
+              (response: Response) => {
+                console.warn(response);
+                this.events.publish('feedback:show', { msg: 'Couldn\'t find location', icon: 'alert' });
+                this.loadingLocation = false;
+              }
+              );
+          })
+          .catch((error) => {
+            console.warn(error);
+            this.events.publish('feedback:show', { msg: error.message, icon: 'alert' });
+            this.loadingLocation = false;
+          })
+      } else {
+        console.log('Location services are disabled on the device');
+        this.events.publish('feedback:show', { msg: 'Location services are disabled on the device', icon: 'alert' });
+        this.loadingLocation = false;
+      }
+    }).catch((error) => {
+      console.log(error);
+      this.events.publish('feedback:show', { msg: 'Couldn\'t find location', icon: 'alert' });
+      this.loadingLocation = false;
+    })
+  }
 }
