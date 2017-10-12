@@ -33,6 +33,7 @@
         "@ionic-native/splash-screen": "3.10.2",
         "@ionic-native/status-bar": "3.10.2",
         "@ionic/storage": "2.0.1",
+        "android-versions": "^1.2.1",
         "cordova-android": "^6.2.3",
         "cordova-ios": "^4.5.1",
         "cordova-plugin-badge": "^0.8.2",

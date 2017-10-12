@@ -79,17 +79,27 @@ export class ExplorePage {
   }
 
   onSearch(event) {
-    console.log('onSearch = ', this.searchString.toLowerCase());
+    const searchText = this.searchString.toLowerCase();
+    console.debug('onSearch = ', searchText);
     this.loading = true;
     this.feed = [];
-    this.exploreService.getExploreSearch(this.interest, this.searchString.toLowerCase(), response => {
+    const successFn = response => {
       this.feed = response.json();
       this.loading = false;
       console.log('we has search feed', this.feed);
-    });
+    };
+    if (!searchText) {
+      this.exploreService.getExploreFeed(this.interest, successFn);
+    } else {
+      this.exploreService.getExploreSearch(this.interest, this.searchString.toLowerCase(), successFn);
+    }
   }
 
   clearSearch(event) {
+    if (!this.searchString) {
+      return;
+    }
+    this.searchString = '';
     this.loading = true;
     this.feed = [];
     this.exploreService.getExploreFeed(this.interest, response => {

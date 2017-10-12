@@ -6,8 +6,8 @@
     <ion-buttons end>
       <button ion-button *ngIf="!inExplore" (click)="exitExploreFeed($event)">Back</button>
     </ion-buttons>
-    <ion-searchbar *ngIf="!inExplore" [(ngModel)]="searchString" (change)="onSearch($event)" (ionClear)="clearSearch($event)"
-      type="text" placeholder="Food, Art, Other">
+    <ion-searchbar *ngIf="!inExplore" [(ngModel)]="searchString" (ionInput)="onSearch($event)" (ionClear)="clearSearch($event)"
+      animated debounce=600 showCancelButton=false type="search" [placeholder]="interest">
     </ion-searchbar>
   </ion-navbar>
 </ion-header>
@@ -36,7 +36,7 @@
       </ion-slides>
     </div>
   </div>
-  
+
   <div *ngIf="!inExplore && !loading && feed.length === 0" class="no-feed">
     <h3 class="title">There are no posts for {{interest}}</h3>
     <h3 class="title">Try another interest</h3>

@@ -193,6 +193,10 @@ amdefine@>=0.0.4:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/amdefine/-/amdefine-1.0.1.tgz#4a5282ac164729e93619bcfd3ad151f817ce91f5"
 
+android-versions@^1.2.1:
+  version "1.2.1"
+  resolved "https://registry.yarnpkg.com/android-versions/-/android-versions-1.2.1.tgz#3f50baf693e73a512c3c5403542291cead900063"
+
 ansi-regex@^2.0.0:
   version "2.1.1"
   resolved "https://registry.yarnpkg.com/ansi-regex/-/ansi-regex-2.1.1.tgz#c3b33ab5ee360d86e0e628f0468ae7ef27d654df"
@@ -1061,12 +1065,12 @@ cordova-common@^2.0.1:
     underscore "^1.8.3"
     unorm "^1.3.3"
 
-cordova-ios@^4.5.0:
-  version "4.5.0"
-  resolved "https://registry.yarnpkg.com/cordova-ios/-/cordova-ios-4.5.0.tgz#ca7621760dda876175458077c927eaa7eb645285"
+cordova-ios@^4.5.1:
+  version "4.5.1"
+  resolved "https://registry.yarnpkg.com/cordova-ios/-/cordova-ios-4.5.1.tgz#d17b21048c782e75190f8d05a7983c7af34cb585"
   dependencies:
     cordova-common "2.1.0"
-    ios-sim "^6.0.0"
+    ios-sim "^6.1.2"
     nopt "^3.0.6"
     plist "^1.2.0"
     q "^1.4.1"
@@ -1890,7 +1894,7 @@ ionicons@3.0.0:
   version "3.0.0"
   resolved "https://registry.yarnpkg.com/ionicons/-/ionicons-3.0.0.tgz#40b8daf4fd7a31150bd002160f66496e22a98c3c"
 
-ios-sim@^6.0.0:
+ios-sim@^6.1.2:
   version "6.1.2"
   resolved "https://registry.yarnpkg.com/ios-sim/-/ios-sim-6.1.2.tgz#7b9df7c35abd5b9d4c014248174e8b9e5b97ecc4"
   dependencies:
