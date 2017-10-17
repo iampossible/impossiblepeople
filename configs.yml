@@ -41,6 +41,8 @@ api:
     - penalty # [OPTIONAL] defaults to ?
     - limit # [OPTIONAL] defaults to ?
     - timeout # [OPTIONAL] defaults to ?
+  settings:
+    - feed_use_location # [OPTIONAL] defaults to false
 app:
   - api # [MANDATORY]
   - heap # [OPTIONAL]

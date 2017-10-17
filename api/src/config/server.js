@@ -70,6 +70,9 @@ let config = {
     limit: rawConfig.login && rawConfig.login.limit || 5,
     timeout: rawConfig.login && rawConfig.login.timeout || 30 * 60 * 1000,
   },
+  settings: {
+    feed_use_location: rawConfig.settings && rawConfig.settings.feed_use_location || false,
+  }
 };
 
 module.exports = config;

@@ -2,14 +2,15 @@
 
 const Sequence = require('impossible-promise');
 const Model = require('core/Model');
+const config = require('../config/server');
 
 const maxDistance = 25;  // km
 
-const locationSearch = `(
+const locationSearch = config.settings.feed_use_location ? `(
   post.location = user.location 
   OR
   2 * 6371 * ASIN(SQRT(HAVERSIN(RADIANS(user.latitude - post.latitude)) + COS(RADIANS(user.latitude))* COS(RADIANS(post.latitude)) * HAVERSIN(RADIANS(user.longitude - post.longitude)))) < {maxDistance}
-)`;
+)` : '(false)';
 
 
 class FeedModel extends Model {

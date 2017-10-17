@@ -23,5 +23,8 @@
     "penalty": 1,
     "limit": 99999,
     "timeout": 1
+  },
+  "settings": {
+    "feed_use_location": false
   }
 }
