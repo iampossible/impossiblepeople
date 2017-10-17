@@ -29,11 +29,6 @@ export class LandingPage {
     public alertCtrl: AlertController) {
   }
 
-
-  ionViewDidLoad() {
-    console.log('ionViewDidLoad LandingPage');
-  }
-
   goToAuthPage(event) {
     this.navCtrl.push(AuthPage);
   }
@@ -41,7 +36,6 @@ export class LandingPage {
   goToSignUpPage(event) {
     this.navCtrl.push(SignupPage);
   }
-
 
   fbConnect(auth) {
     // noinspection TypeScriptUnresolvedVariable
@@ -53,8 +47,8 @@ export class LandingPage {
           if (Environment.HEAP && 'heap' in window) {
             heap.track('LOGIN_FACEBOOK');
           }
-          this.notificationService.setupOnLaunch();
           this.navCtrl.setRoot(NavigationService.nextOnboardingPage(response.json()));
+          this.notificationService.setupOnLaunch();
         } else if (response.status === 403) {
 
           let oppsAlert = this.alertCtrl.create({

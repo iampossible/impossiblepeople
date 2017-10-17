@@ -31,10 +31,6 @@ export class FindFriendsPage {
     });
   }
 
-  ionViewDidLoad() {
-    console.log('ionViewDidLoad FindFriendsPage');
-  }
-
   inviteSuccess(contacts) {
     let modal = this.modalCtrl.create(SelectContactsModalPage, { contacts });
     modal.onDidDismiss((contacts) => {

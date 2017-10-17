@@ -91,10 +91,14 @@ export class InterceptedHttp extends Http {
         reqURL = response.url;
         obs.next(response);
       }, (err) => {
+        console.debug('err', err);
         reqURL = null;
-        console.log(err);
-        let errorResponse = JSON.parse(err._body || '{}');
-        console.log('err');
+        let errorResponse = {};
+        try {
+          errorResponse = JSON.parse(err._body);
+        } catch (error) {
+         console.debug('Error is not a JSON object', err) 
+        }
         this._loadingDone(url);
         if (err && err.status === 400) {
           obs.error(errorResponse);

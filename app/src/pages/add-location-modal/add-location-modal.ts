@@ -34,7 +34,7 @@ export class AddLocationModalPage {
         this.dismissModal();
       }
     }).catch((error) => {
-      console.log(error);
+      console.error('diagnostic.isLocationEnabled', error);
       this.viewCtrl.dismiss({ state: 'error' });
     }),
       { timeout: 3000 };
@@ -55,17 +55,22 @@ export class AddLocationModalPage {
             this.viewCtrl.dismiss({ state: 'success', data });
           },
           (response: Response) => {
-            console.log(response);
+            console.error('userService.getFriendlyLocation', response);
+            let errorMsg = response.statusText;
+            try {
+              errorMsg = JSON.stringify(response.json());
+            } catch (error) {
+              console.warn(error);
+            }
             this.viewCtrl.dismiss({
               state: 'error',
               code: response.status,
-              message: JSON.stringify(response.json()),
+              message: errorMsg,
             });
-          }
-          );
+          });
       })
       .catch((error) => {
-        console.log(Geolocation);
+        console.log('geolocation.getCurrentPosition', error);
         this.viewCtrl.dismiss({ state: 'error', code: error.code, message: error.message });
       }),
       { timeout: 3000 };

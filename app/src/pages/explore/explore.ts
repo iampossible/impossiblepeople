@@ -48,7 +48,7 @@ export class ExplorePage {
     this.exploreService.getInterests(response => {
       this.interests = response.json();
       this.pages = this.paginate();
-      console.log('we has interests', this.interests);
+      console.debug('we has interests', this.interests);
     }, (failureResponse: Response) => {
       console.warn(failureResponse.statusText, failureResponse);
       this.inExplore = false;
@@ -60,11 +60,11 @@ export class ExplorePage {
     this.interest = event.srcElement.textContent;
     this.loading = true;
     this.feed = [];
-    console.log('getExploreFeed for:', this.interest);
+    console.debug('getExploreFeed for:', this.interest);
     this.exploreService.getExploreFeed(this.interest, response => {
       this.feed = response.json();
       this.loading = false;
-      console.log('we has explore feed', this.feed);
+      console.debug('we has explore feed', this.feed);
     }, (failureResponse: Response) => {
       console.warn(failureResponse.statusText, failureResponse);
       this.inExplore = true;
@@ -75,17 +75,16 @@ export class ExplorePage {
   }
 
   exitExploreFeed(event) {
-    console.log('exitExploreFeed');
+    console.debug('exitExploreFeed');
     this.inExplore = true;
     this.feed = [];
     this.searchString = '';
     this.interest = '';
   }
 
-  ionViewDidLoad() {
-    console.log('ionViewDidLoad ExplorePage');
-    this.inExplore = false;
-    //this.resetPage();
+  ionViewWillEnter() {
+    console.debug('ionViewWillEnter ExplorePage');
+    this.resetPage();
   }
 
   private paginate(): Array<Array<Interest>> {
@@ -108,11 +107,11 @@ export class ExplorePage {
     this.feed = [];
     let idx = Math.floor(Math.random() * (this.interests.length - 0) + 0);
     this.interest = (this.interests[idx]).name;
-    console.log('randomExplore for:', this.interest);
+    console.debug('randomExplore for:', this.interest);
     this.exploreService.getExploreFeed(this.interest, response => {
       this.feed = response.json();
       this.loading = false;
-      console.log('we has random feed', this.feed);
+      console.debug('we has random ', this.interest, ' feed', this.feed);
     }, (failureResponse: Response) => {
       console.warn(failureResponse.statusText, failureResponse);
       this.inExplore = true;
@@ -132,7 +131,7 @@ export class ExplorePage {
     const successFn = response => {
       this.feed = response.json();
       this.loading = false;
-      console.log('we has search feed', this.feed);
+      console.debug('we has search feed', this.feed);
     };
     const failFn = (failureResponse: Response) => {
       console.warn(failureResponse.statusText, failureResponse);
@@ -164,9 +163,8 @@ export class ExplorePage {
     this.feed = [];
     this.exploreService.getExploreFeed(this.interest, response => {
       this.feed = response.json();
-      this.events.publish('feedback:show', { msg: 'feedlength:' + this.feed.length, icon: 'alert' });
       this.loading = false;
-      console.log('we has explore feed', this.feed);
+      console.debug('we has explore feed', this.feed);
     }, (failureResponse: Response) => {
       console.warn(failureResponse.statusText, failureResponse);
       this.inExplore = true;

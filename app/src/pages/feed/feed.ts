@@ -97,8 +97,6 @@ export class FeedPage {
 
   ionViewDidLoad() {
     //console.log('ionViewDidLoad FeedPage');
-    //this.events.publish('feedback:show', { msg: 'Load Feed' });
-    this.getFeed();
   }
 
   ionViewWillLeave() {
@@ -108,6 +106,8 @@ export class FeedPage {
   }
 
   ionViewWillEnter() {
+    //this.events.publish('feedback:show', { msg: 'Load Feed' });
+    this.getFeed();
     this.getUserDetails();
     // document.getElementById('tab-0-0').addEventListener('click', this._fireScrollTop);
   }

@@ -36,7 +36,6 @@ export class ProfilePage {
       this.viewing = current;
     }
     this.myProfile = (this.viewing === current);
-    this.loadProfileData();
 
     this.events.subscribe('user:posts:updated', (post) => {
       if (this.user.userID !== post[0].author.userID) {
@@ -60,8 +59,9 @@ export class ProfilePage {
     });
   }
 
-  ionViewDidLoad() {
-    console.log('ionViewDidLoad ProfilePage');
+  ionViewWillEnter() {
+    console.log('ionViewWillEnter ProfilePage');
+    this.loadProfileData();
   }
 
 

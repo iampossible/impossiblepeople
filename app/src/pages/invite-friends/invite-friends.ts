@@ -15,10 +15,6 @@ export class InviteFriendsPage {
     private socialSharing: SocialSharing) {
   }
 
-  ionViewDidLoad() {
-    console.log('ionViewDidLoad InviteFriendsPage');
-  }
-
   accessContacts() {
     this.contacts.pickContact();
   }

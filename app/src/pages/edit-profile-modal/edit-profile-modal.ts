@@ -106,6 +106,7 @@ export class EditProfileModalPage {
       if (result.state === 'success') {
         Object.assign(this.user, result.data);
       } else {
+        console.log(result);
         let failAlert = this.alertCtrl.create({
           title: 'Failed to update location',
           subTitle: 'Please go to your settings and allow Impossible to access your location.',

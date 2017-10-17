@@ -10,7 +10,6 @@ export class SelectContactsModalPage {
   contacts: Array<any>;
 
   contactsHolder: Array<any>;
-  ionViewLoaded = false;
   private invitees;
 
   constructor(private navParams: NavParams, private viewCtrl: ViewController) {
@@ -18,15 +17,9 @@ export class SelectContactsModalPage {
     this.invitees = {};
   }
 
-  ionViewDidLoad() {
-    this.contacts = this.contactsHolder;
-    this.ionViewLoaded = true;
-  }
-
   ionViewDidEnter() {
-    if (!this.ionViewLoaded) {
-      this.ionViewLoaded = true;
-      this.ionViewDidLoad();
+    if (this.contacts.length === 0) {
+      this.contacts = this.contactsHolder;
     }
   }
 

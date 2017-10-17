@@ -61,25 +61,27 @@ export class CreatePostPage {
       });
   }
 
-  keyboardShow = (ev) => {
-    if (document.getElementsByClassName('platform-android').length !== 0) {
-      this.textArea = <HTMLElement>document.getElementById('create-post-wrapper');
-      this.textArea.style.height = 'auto';
+  /*  
+    keyboardShow = (ev) => {
+      if (document.getElementsByClassName('platform-android').length !== 0) {
+        this.textArea = <HTMLElement>document.getElementById('create-post-wrapper');
+        this.textArea.style.height = 'auto';
+      }
+      this.hideUnfocus = false;
     }
-    this.hideUnfocus = false;
-  }
-
-  keyboardHide = (ev) => {
-    this.textArea = <HTMLElement>document.getElementById('create-post-wrapper');
-    this.textArea.style.height = '100%';
-    this.hideUnfocus = true;
-
-    if (document.getElementsByClassName('platform-android').length !== 0) {
+  
+    keyboardHide = (ev) => {
       this.textArea = <HTMLElement>document.getElementById('create-post-wrapper');
-      this.textArea.style.height = 'auto';
+      this.textArea.style.height = '100%';
+      this.hideUnfocus = true;
+  
+      if (document.getElementsByClassName('platform-android').length !== 0) {
+        this.textArea = <HTMLElement>document.getElementById('create-post-wrapper');
+        this.textArea.style.height = 'auto';
+      }
+  
     }
-
-  }
+  */
 
   addLocation = (ev) => {
     var modal = this.modalCtrl.create(AddLocationModalPage);
