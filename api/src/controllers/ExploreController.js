@@ -62,7 +62,8 @@ class ExploreController extends Controller {
   searchExplore(request, reply){
     //(?ism).*term.*
     let regex = '(?ism).*'+request.params.search+'.*';
-    return exploreModel.search(request.params.name, regex).done((data) => {
+    const searchFn = request.params.name !== '_' ? exploreModel.searchInterest(request.params.name, regex): exploreModel.search(regex);
+    return searchFn.done((data) => {
       reply.response(data.map(node => ({
         postID: node.post.postID, 
         postType: node.rel.type, 

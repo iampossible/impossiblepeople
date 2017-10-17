@@ -130,8 +130,8 @@ describe('Feed algorithm', () => {
         done();
       });
     });
-
-    xit('posts matching my interests but not location', (done) => {
+    const lit = Config.settings.feed_use_location ? xit : it;
+    lit('posts matching my interests but not location', (done) => {
       logInAndGetFeed().then(body => {
         var notSameLocationPost = ['23cadce2', 'f5caf1ea'];
         expect_feedNotToContainPostIDs(body, notSameLocationPost);

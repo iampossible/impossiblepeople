@@ -10,7 +10,7 @@ const locationSearch = config.settings.feed_use_location ? `(
   post.location = user.location 
   OR
   2 * 6371 * ASIN(SQRT(HAVERSIN(RADIANS(user.latitude - post.latitude)) + COS(RADIANS(user.latitude))* COS(RADIANS(post.latitude)) * HAVERSIN(RADIANS(user.longitude - post.longitude)))) < {maxDistance}
-)` : '(false)';
+)` : '(true)';
 
 
 class FeedModel extends Model {
@@ -44,7 +44,7 @@ class FeedModel extends Model {
           creator = user 
           OR creator = friend       
           OR (user) -[:FOLLOWS]-> (friend) -[:FOLLOWS]-> (creator) -[:FOLLOWS]-> (friend) -[:FOLLOWS]-> (user)
-          OR (${locationSearch} OR (user) -[:INTERESTED_IN]-> (category))
+          OR (${locationSearch} AND (user) -[:INTERESTED_IN]-> (category))
          ) 
             
        OPTIONAL MATCH (post)<-[comments:COMMENTS]-(commenter:Person)
@@ -74,7 +74,7 @@ class FeedModel extends Model {
        WHERE NOT (user)-[:BLOCKED]-(creator)
          AND ( 
           creator = user 
-          OR (${locationSearch} OR (user) -[:INTERESTED_IN]-> (category))
+          OR (${locationSearch} AND (user) -[:INTERESTED_IN]-> (category))
          ) 
           
        OPTIONAL MATCH (post) <-[comments:COMMENTS]- (:Person)

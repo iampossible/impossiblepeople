@@ -21,17 +21,35 @@ class ExploreModel extends Model {
       );
     });
   }
-  search(interest, keyword){
+  searchInterest(interest, keyword) {
     return new Sequence((accept, reject) => {
       this.db.query(
-        `MATCH (creator:Person) -[rel:OFFERS|:ASKS]-> (post:Post) -[:IS_ABOUT]-> (category:Interest{name:{interest}})
+        `MATCH (creator:Person)-[rel:OFFERS|:ASKS]->(post:Post)-[:IS_ABOUT]->(category:Interest{name:{interest}})
          WHERE toLower(post.content) =~ toLower({keyword})
-         OPTIONAL MATCH (post) <-[comments:COMMENTS]- (:Person)
+         OPTIONAL MATCH (post)<-[comments:COMMENTS]-(:Person)
          RETURN creator, rel, post, category,
             COUNT( DISTINCT comments) AS commentCount,
             [] AS commonFriends
          ORDER BY rel.at DESC`,
-        { interest, keyword},
+        { interest, keyword },
+        (err, response) => {
+          if (err) return reject(err);
+          return accept(response);
+        }
+      );
+    });
+  }
+  search(keyword) {
+    return new Sequence((accept, reject) => {
+      this.db.query(
+        `MATCH (creator:Person)-[rel:OFFERS|:ASKS]->(post:Post)-[:IS_ABOUT]->(category:Interest)
+         WHERE toLower(post.content) =~ toLower({keyword})
+         OPTIONAL MATCH (post)<-[comments:COMMENTS]-(:Person)
+         RETURN creator, rel, post, category,
+            COUNT( DISTINCT comments) AS commentCount,
+            [] AS commonFriends
+         ORDER BY rel.at DESC`,
+        { keyword },
         (err, response) => {
           if (err) return reject(err);
           return accept(response);

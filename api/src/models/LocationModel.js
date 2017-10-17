@@ -19,6 +19,7 @@ class LocationModel extends Model {
         next(response);
       });
     })
+      // JSON.parse may throw an exception, but it will be absorbed by the Promise
       .done((response) => this._parseAddressResponse(JSON.parse(response.body)))
       .error(err => console.warn('error parsing google maps response', JSON.stringify(err)));
   }

@@ -84,8 +84,8 @@ describe('Feed endpoints', () => {
     helpers.logInAlice((err, $request) => {
       $request.get(`http://${Config.endpoint}/api/feed`, (error, response) => {
         let postCount = JSON.parse(response.body);
-
-        expect(postCount.length).toBe(5); // 2 if interest AND location is turned on
+        
+        expect(postCount.length).toBe(2); 
         done();
       });
     });

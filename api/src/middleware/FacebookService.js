@@ -26,11 +26,15 @@ class FacebookService {
           if (error) {
             reject(error);
           } else {
-            let data = JSON.parse(response.body).data;
-            if (data && data.is_valid && data.app_id === this.appID) {
-              accept(data);
-            } else {
-              reject(data);
+            try {
+              let data = JSON.parse(response.body).data;
+              if (data && data.is_valid && data.app_id === this.appID) {
+                accept(data);
+              } else {
+                reject(data);
+              }
+            } catch (err) {
+              reject(response.body);
             }
           }
         }
@@ -51,19 +55,22 @@ class FacebookService {
             reject(error);
           } else {
             console.debug('FacebookService@getUserDetails:', `/user reply: ${response.body}`);
-
-            let facebookData = JSON.parse(response.body);
-            accept({
-              friends: (facebookData.friends || {}).data || [],
-              user: {
-                fromFacebook: facebookData.id,
-                email: facebookData.email,
-                firstName: facebookData.first_name,
-                lastName: facebookData.last_name,
-                biography: facebookData.bio,
-                imageSource: `https://graph.facebook.com/${facebookData.id}/picture?type=large`,
-              },
-            });
+            try {
+              let facebookData = JSON.parse(response.body);
+              accept({
+                friends: (facebookData.friends || {}).data || [],
+                user: {
+                  fromFacebook: facebookData.id,
+                  email: facebookData.email,
+                  firstName: facebookData.first_name,
+                  lastName: facebookData.last_name,
+                  biography: facebookData.bio,
+                  imageSource: `https://graph.facebook.com/${facebookData.id}/picture?type=large`,
+                },
+              });
+            } catch (err) {
+              reject(response.body);
+            }
           }
         }
       );
