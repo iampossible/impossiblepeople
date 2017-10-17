@@ -53,9 +53,6 @@
     "requestretry": "^1.8.0",
     "vision": "4.1.1"
   },
-  "engines": {
-    "node": "4.3"
-  },
   "jshintConfig": {
     "browser": true,
     "jquery": true,
