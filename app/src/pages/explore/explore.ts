@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, Platform, Events } from 'ionic-angular';
 
 import { ExploreService } from '../../providers/explore-service/explore-service';
 
@@ -17,18 +17,42 @@ interface Interest {
   templateUrl: 'explore.html',
 })
 export class ExplorePage {
+  static bucketSize = 10;
 
+  public isAndroid: Boolean = false;
   public inExplore: Boolean = true;
   public loading: Boolean = false;
   public feed: Array<Object> = [];
   public interests: Array<Interest> = [];
+  public pages: Array<Array<Interest>> = [];
   private searchString: String = '';
   private interest: String = '';
 
   constructor(private exploreService: ExploreService,
     public navCtrl: NavController,
+    public platform: Platform,
+    private events: Events,
     public navParams: NavParams) {
+    this.isAndroid = platform.is('android');
+  }
 
+  // To be used when something unexpected goes wrong
+  resetPage() {
+    this.inExplore = true;
+    this.loading = false;
+    this.feed = [];
+    this.interests = [];
+    this.pages = [];
+    this.interest = '';
+    this.searchString = '';
+    this.exploreService.getInterests(response => {
+      this.interests = response.json();
+      this.pages = this.paginate();
+      console.log('we has interests', this.interests);
+    }, (failureResponse: Response) => {
+      console.warn(failureResponse.statusText, failureResponse);
+      this.inExplore = false;
+    });
   }
 
   getExploreFeed(event?) {
@@ -41,6 +65,12 @@ export class ExplorePage {
       this.feed = response.json();
       this.loading = false;
       console.log('we has explore feed', this.feed);
+    }, (failureResponse: Response) => {
+      console.warn(failureResponse.statusText, failureResponse);
+      this.inExplore = true;
+      this.events.publish('feedback:show', { msg: 'Couldn\'t show ' + this.interest, icon: 'alert' });
+      this.interest = '';
+      this.loading = false;
     });
   }
 
@@ -48,15 +78,24 @@ export class ExplorePage {
     console.log('exitExploreFeed');
     this.inExplore = true;
     this.feed = [];
+    this.searchString = '';
+    this.interest = '';
   }
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad ExplorePage');
-    this.inExplore = true;
-    this.exploreService.getInterests(response => {
-      this.interests = response.json();
-      console.log('we has interests', this.interests);
-    });
+    this.inExplore = false;
+    //this.resetPage();
+  }
+
+  private paginate(): Array<Array<Interest>> {
+    let buckets: Array<Array<Interest>> = [];
+
+    for (let i = 0; i < this.interests.length; i += ExplorePage.bucketSize) {
+      buckets.push(this.interests.slice(i, i + ExplorePage.bucketSize));
+    }
+
+    return buckets;
   }
 
   getImage(interest) {
@@ -74,6 +113,12 @@ export class ExplorePage {
       this.feed = response.json();
       this.loading = false;
       console.log('we has random feed', this.feed);
+    }, (failureResponse: Response) => {
+      console.warn(failureResponse.statusText, failureResponse);
+      this.inExplore = true;
+      this.events.publish('feedback:show', { msg: 'Couldn\'t show ' + this.interest, icon: 'alert' });
+      this.interest = '';
+      this.loading = false;
     });
 
   }
@@ -82,16 +127,31 @@ export class ExplorePage {
     const searchText = this.searchString.toLowerCase();
     console.debug('onSearch = ', searchText);
     this.loading = true;
+    const fallbackFeed = this.feed;
     this.feed = [];
     const successFn = response => {
       this.feed = response.json();
       this.loading = false;
       console.log('we has search feed', this.feed);
     };
+    const failFn = (failureResponse: Response) => {
+      console.warn(failureResponse.statusText, failureResponse);
+      if (!searchText) {
+        this.inExplore = true;
+        this.events.publish('feedback:show', { msg: 'Couldn\'t show ' + this.interest, icon: 'alert' });
+        this.interest = '';
+        this.loading = false;
+      } else {
+        this.events.publish('feedback:show', { msg: 'Couldn\'t get ' + this.searchString || this.interest, icon: 'alert' });
+        this.searchString = '';
+        this.feed = fallbackFeed;
+        this.loading = false;
+      }
+    };
     if (!searchText) {
-      this.exploreService.getExploreFeed(this.interest, successFn);
+      this.exploreService.getExploreFeed(this.interest, successFn, failFn);
     } else {
-      this.exploreService.getExploreSearch(this.interest, this.searchString.toLowerCase(), successFn);
+      this.exploreService.getExploreSearch(this.interest || '_', this.searchString.toLowerCase(), successFn, failFn);
     }
   }
 
@@ -104,8 +164,15 @@ export class ExplorePage {
     this.feed = [];
     this.exploreService.getExploreFeed(this.interest, response => {
       this.feed = response.json();
+      this.events.publish('feedback:show', { msg: 'feedlength:' + this.feed.length, icon: 'alert' });
       this.loading = false;
       console.log('we has explore feed', this.feed);
+    }, (failureResponse: Response) => {
+      console.warn(failureResponse.statusText, failureResponse);
+      this.inExplore = true;
+      this.events.publish('feedback:show', { msg: 'Couldn\'t show ' + this.interest, icon: 'alert' });
+      this.interest = '';
+      this.loading = false;
     });
   }
 }
