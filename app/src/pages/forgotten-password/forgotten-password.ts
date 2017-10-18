@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, Events } from 'ionic-angular';
+import { NavController, NavParams, Events } from 'ionic-angular';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Response } from '@angular/http';
 
@@ -7,7 +7,7 @@ import { LandingPage } from '../landing/landing';
 import { AuthService } from '../../providers/auth-service/auth-service';
 
 
-//@IonicPage()
+// @IonicPage()
 @Component({
   selector: 'page-forgotten-password',
   templateUrl: 'forgotten-password.html',

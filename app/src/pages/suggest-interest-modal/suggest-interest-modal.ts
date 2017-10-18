@@ -1,9 +1,9 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, ViewController, AlertController } from 'ionic-angular';
+import { NavController, ViewController, AlertController } from 'ionic-angular';
 import { InterestService } from '../../providers/interest-service/interest-service';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 
-//@IonicPage()
+// @IonicPage()
 @Component({
   selector: 'page-suggest-interest-modal',
   templateUrl: 'suggest-interest-modal.html',

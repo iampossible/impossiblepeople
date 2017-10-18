@@ -68,7 +68,7 @@ export class InterestPickerComponent {
           return interest;
         }
         return Object.assign(interest, {
-          imageUrl: `url(${interest.image.replace('/interests/', '/interestBackgrounds/').replace('build','assets')})`
+          imageUrl: `url(${interest.image.replace('/interests/', '/interestBackgrounds/').replace('build', 'assets')})`
         });
       });
       this.pages = this.paginate();

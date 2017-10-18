@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, ActionSheet, Events, AlertController, ActionSheetController } from 'ionic-angular';
+import { NavController, NavParams, ActionSheet, Events, AlertController, ActionSheetController } from 'ionic-angular';
 import { Response } from '@angular/http';
 import { InAppBrowser } from '@ionic-native/in-app-browser';
 
@@ -9,7 +9,7 @@ import { SettingsPage } from '../settings/settings';
 
 declare const heap: any;
 
-//@IonicPage()
+// @IonicPage()
 @Component({
   selector: 'page-profile',
   templateUrl: 'profile.html',
@@ -53,6 +53,9 @@ export class ProfilePage {
       let updated = Array.isArray(dataArray) ? dataArray[0] : dataArray;
       if (updated) {
         this.user = Object.assign(this.user, updated);
+        if (this.myProfile) {
+          window.localStorage.setItem('profileUserCache', JSON.stringify(this.user));
+        }
       } else {
         this.loadProfileData();
       }
@@ -60,28 +63,42 @@ export class ProfilePage {
   }
 
   ionViewWillEnter() {
-    console.log('ionViewWillEnter ProfilePage');
+    console.debug('ionViewWillEnter ProfilePage');
     this.loadProfileData();
   }
 
 
   private onLoadError() {
     this.navCtrl.pop().then(() => {
-      let loadErrorAlert = this.alertCtrl.create({
-        title: 'Could not load profile data',
-        subTitle: '',
-        buttons: ['OK']
-      });
-      loadErrorAlert.present();
+      if (!this.myProfile || window.localStorage.getItem('profileUserCache') === null) {
+        let loadErrorAlert = this.alertCtrl.create({
+          title: 'Could not load profile data',
+          subTitle: '',
+          buttons: ['OK']
+        });
+        loadErrorAlert.present();
+      }
     });
   }
 
 
   private loadProfileData() {
+    if (this.myProfile) {
+      try {
+        this.user = JSON.parse(window.localStorage.getItem('profileUserCache') || 'boom');
+      } catch (_) {
+        // not cached
+      }
+    }
     this.profileService
       .getProfile(this.viewing)
       .subscribe((response: Response) => {
-        this.user = response.json();
+        if (JSON.stringify(this.user) !== response.text()) { // don't update the UI unnecessarily
+          this.user = response.json();
+          if (this.myProfile) {
+            window.localStorage.setItem('profileUserCache', JSON.stringify(this.user));
+          }
+        }
       }, () => this.onLoadError());
   }
 

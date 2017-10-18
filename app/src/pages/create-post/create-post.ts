@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, Events, ModalController, AlertController } from 'ionic-angular';
+import { NavController, Events, ModalController, AlertController } from 'ionic-angular';
 import { FormGroup, FormBuilder, Validators, AbstractControl } from '@angular/forms';
 import { Response } from '@angular/http';
 import { AppConstants } from '../../AppConstants';
@@ -11,7 +11,7 @@ import { TagInterestPage } from '../tag-interest/tag-interest';
 
 declare const heap: any;
 
-//@IonicPage()
+// @IonicPage()
 @Component({
   selector: 'page-create-post',
   templateUrl: 'create-post.html',
@@ -47,21 +47,34 @@ export class CreatePostPage {
     //Keyboard.onKeyboardHide().subscribe(ev => this.keyboardHide(ev))
 
     this.dropdownData = AppConstants.REQUIRED_TIME_OPTIONS;
-
+    try {
+      const user = JSON.parse(window.localStorage.getItem('profileUserCache') || 'boom');
+      this.userIcon = user.imageSource;
+      this.currentLocation = {
+        latitude: user.latitude,
+        longitude: user.longitude,
+        location: user.location,
+      };
+    } catch (_) {
+      // not cached
+    }
     this.profileService
       .getProfile(localStorage.getItem('USER_ID'))
       .subscribe((response: Response) => {
-        let user = response.json();
-        this.userIcon = user.imageSource;
-        this.currentLocation = {
-          latitude: user.latitude,
-          longitude: user.longitude,
-          location: user.location,
-        };
+        if (window.localStorage.getItem('profileUserCache') !== response.text()) {
+          let user = response.json();
+          window.localStorage.setItem('profileUserCache', JSON.stringify(user));
+          this.userIcon = user.imageSource;
+          this.currentLocation = {
+            latitude: user.latitude,
+            longitude: user.longitude,
+            location: user.location,
+          };
+        }
       });
   }
 
-  /*  
+  /*
     keyboardShow = (ev) => {
       if (document.getElementsByClassName('platform-android').length !== 0) {
         this.textArea = <HTMLElement>document.getElementById('create-post-wrapper');
@@ -69,26 +82,26 @@ export class CreatePostPage {
       }
       this.hideUnfocus = false;
     }
-  
+
     keyboardHide = (ev) => {
       this.textArea = <HTMLElement>document.getElementById('create-post-wrapper');
       this.textArea.style.height = '100%';
       this.hideUnfocus = true;
-  
+
       if (document.getElementsByClassName('platform-android').length !== 0) {
         this.textArea = <HTMLElement>document.getElementById('create-post-wrapper');
         this.textArea.style.height = 'auto';
       }
-  
+
     }
   */
 
   addLocation = (ev) => {
     var modal = this.modalCtrl.create(AddLocationModalPage);
     modal.onDidDismiss((result) => {
-      if (result.state == 'success') {
+      if (result.state === 'success') {
         this.currentLocation = result.data;
-      } else if (result.state == 'error') {
+      } else if (result.state === 'error') {
         let locationAlert = this.alertCtrl.create({
           title: 'Post location required',
           subTitle: 'Please go to your settings and allow Impossible to access your location.',
@@ -186,7 +199,7 @@ export class CreatePostPage {
   }
 
   onPostTypeChanged(event) {
-    if (event.value == AppConstants.ASK) {
+    if (event.value === AppConstants.ASK) {
       this.dropdownData.label = AppConstants.REQUIRED_TIME_ASK_LABEL;
     } else {
       this.dropdownData.label = AppConstants.REQUIRED_TIME_OFFER_LABEL;

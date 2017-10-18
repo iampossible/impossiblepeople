@@ -1,14 +1,16 @@
 import { Component, ElementRef } from '@angular/core';
-import { IonicPage, NavController, NavParams, Events, AlertController, Tabs, Platform } from 'ionic-angular';
+import { NavController, NavParams, Events, AlertController, Tabs, Platform } from 'ionic-angular';
 import { Response } from '@angular/http';
 import { Geolocation } from '@ionic-native/geolocation';
 import { Diagnostic } from '@ionic-native/diagnostic';
+import { Network } from '@ionic-native/network';
 
 import { FeedService } from '../../providers/feed-service/feed-service';
 import { UserService } from '../../providers/user-service/user-service';
+import { Subscription } from 'rxjs/Subscription';
 // import { ScrollTopProvider } from '../../providers/scroll-top/scroll-top';
 
-//@IonicPage()
+// @IonicPage()
 @Component({
   selector: 'page-feed',
   templateUrl: 'feed.html',
@@ -17,6 +19,8 @@ export class FeedPage {
 
   public isScrolling: Boolean = false;
   public isAndroid: Boolean = false;
+  public isOnline: Boolean = true;
+  private disconnectSubscription: Subscription;
   public loadingLocation: Boolean = false;
   public scrollElement: Element;
   public feed: Array<Object> = [];
@@ -39,9 +43,11 @@ export class FeedPage {
     public navParams: NavParams,
     public platform: Platform,
     private geolocation: Geolocation,
-    private diagnostic: Diagnostic) {
+    private diagnostic: Diagnostic,
+    private network: Network) {
 
     this.isAndroid = platform.is('android');
+
     this.events.subscribe('user:updated', () => {
       this.getFeed();
       this.isScrolling = false;
@@ -96,17 +102,30 @@ export class FeedPage {
    }*/
 
   ionViewDidLoad() {
-    //console.log('ionViewDidLoad FeedPage');
+    //console.debug('ionViewDidLoad FeedPage');
   }
 
   ionViewWillLeave() {
     // document.getElementById('tab-0-0').removeEventListener('click', this._fireScrollTop);
     window.localStorage.setItem('topBannerSeen', 'true');
     this.showBanner = false;
+    this.disconnectSubscription.unsubscribe();
   }
 
   ionViewWillEnter() {
     //this.events.publish('feedback:show', { msg: 'Load Feed' });
+    this.isOnline = this.network.type !== 'none';
+    this.disconnectSubscription = this.network.onchange().subscribe(() => {
+      this.isOnline = this.network.type !== 'none';
+    });
+    if (this.feed.length === 0) {
+      try {
+        this.feed = JSON.parse(window.localStorage.getItem('feedCache') || '[]');
+        this.user = JSON.parse(window.localStorage.getItem('feedUserCache') || 'boom');
+      } catch (err) {
+        console.warn('failed to get cached data', err);
+      }
+    }
     this.getFeed();
     this.getUserDetails();
     // document.getElementById('tab-0-0').addEventListener('click', this._fireScrollTop);
@@ -116,21 +135,26 @@ export class FeedPage {
     this.userService
       .getCurrentUser()
       .subscribe(
-      (response: Response) => this.user = response.json(),
+      (response: Response) => {
+        this.user = response.json();
+        window.localStorage.setItem('feedUserCache', JSON.stringify(this.user));
+      },
       () => {
-        let failAlert = this.alertCtrl.create({
-          title: 'Oops!',
-          subTitle: 'Failed to fetch user details',
-          buttons: ['OK']
-        });
-        failAlert.present();
+        if (window.localStorage.getItem('feedUserCache') === null) {
+          let failAlert = this.alertCtrl.create({
+            title: 'Oops!',
+            subTitle: 'Failed to fetch user details',
+            buttons: ['OK']
+          });
+          failAlert.present();
+        }
       }
       );
   }
 
   openProfile() {
     const tabs: Tabs = this.nav.parent;
-    tabs.select(3);
+    tabs.select(4);
     window.localStorage.setItem('topBannerSeen', 'true');
     this.showBanner = false;
   }
@@ -150,26 +174,37 @@ export class FeedPage {
   }
 
   getFeed(event?) {
-    console.log('getFeed');
+    console.debug('getFeed');
     let date: Date = new Date(Date.now());
     let hours = date.getHours();
     this.isDay = (hours > 6) && (hours < 19);
-    this.feedService.getFeed(response => {
-      this.feed = response.json();
-      console.log('we has feed', this.feed);
+    this.feedService.getFeed((response: Response) => {
+      if (response.text() !== JSON.stringify(this.feed)) {
+        this.feed = response.json();
+        window.localStorage.setItem('feedCache', JSON.stringify(this.feed));
+        console.debug('we has feed', this.feed);
+      }
       if (event) {
         event.complete();
+      }
+    }, failureResponse => {
+      if (window.localStorage.getItem('feedCache') === null) {
+        this.events.publish('feedback:show', { msg: 'Couldn\'t get feed', icon: 'alert' });
       }
     });
   }
 
   public released(event) {
-    this.getFeed(event);
+    if (this.isOnline) {
+      this.getFeed(event);
+    } else if (event) {
+      event.complete();
+    }
   }
 
   public openModal() {
     const tabs: Tabs = this.nav.parent;
-    tabs.select(1);
+    tabs.select(2);
     window.localStorage.setItem('topBannerSeen', 'true');
     this.showBanner = false;
   }
@@ -193,26 +228,26 @@ export class FeedPage {
                 this.loadingLocation = false;
               },
               (response: Response) => {
-                console.warn(response);
+                console.warn('userService.getFriendlyLocation', response);
                 this.events.publish('feedback:show', { msg: 'Couldn\'t find location', icon: 'alert' });
                 this.loadingLocation = false;
               }
               );
           })
           .catch((error) => {
-            console.warn(error);
+            console.warn('geolocation.getCurrentPosition', error);
             this.events.publish('feedback:show', { msg: error.message, icon: 'alert' });
             this.loadingLocation = false;
-          })
+          });
       } else {
-        console.log('Location services are disabled on the device');
+        console.debug('Location services are disabled on the device');
         this.events.publish('feedback:show', { msg: 'Location services are disabled on the device', icon: 'alert' });
         this.loadingLocation = false;
       }
     }).catch((error) => {
-      console.log(error);
+      console.debug('diagnostic.isLocationEnabled', error);
       this.events.publish('feedback:show', { msg: 'Couldn\'t find location', icon: 'alert' });
       this.loadingLocation = false;
-    })
+    });
   }
 }

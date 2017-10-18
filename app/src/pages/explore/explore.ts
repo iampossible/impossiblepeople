@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, Platform, Events } from 'ionic-angular';
+import { NavController, NavParams, Platform, Events } from 'ionic-angular';
 
 import { ExploreService } from '../../providers/explore-service/explore-service';
 
@@ -42,12 +42,20 @@ export class ExplorePage {
     this.loading = false;
     this.feed = [];
     this.interests = [];
-    this.pages = [];
+    try {
+      this.interests = JSON.parse(window.localStorage.getItem('interestCache') || 'boom');
+    } catch (_) {
+      // no cache
+    }
+    this.pages = this.paginate();
     this.interest = '';
     this.searchString = '';
     this.exploreService.getInterests(response => {
-      this.interests = response.json();
-      this.pages = this.paginate();
+      if (JSON.stringify(this.interests) !== response.text()) {
+        this.interests = response.json();
+        window.localStorage.setItem('interestCache', JSON.stringify(this.interests));
+        this.pages = this.paginate();
+      }
       console.debug('we has interests', this.interests);
     }, (failureResponse: Response) => {
       console.warn(failureResponse.statusText, failureResponse);

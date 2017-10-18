@@ -1,9 +1,8 @@
 import { Component } from '@angular/core';
-import { IonicPage } from 'ionic-angular';
 import { Contacts } from '@ionic-native/contacts';
 import { SocialSharing } from '@ionic-native/social-sharing';
 
-//@IonicPage()
+// @IonicPage()
 @Component({
   selector: 'page-invite-friends',
   templateUrl: 'invite-friends.html',

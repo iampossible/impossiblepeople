@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavParams, ViewController } from 'ionic-angular';
+import { NavParams, ViewController } from 'ionic-angular';
 
-//@IonicPage()
+// @IonicPage()
 @Component({
   selector: 'page-select-contacts-modal',
   templateUrl: 'select-contacts-modal.html',

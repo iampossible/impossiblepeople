@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, ModalController, AlertController, Events } from 'ionic-angular';
+import { NavController, ModalController, AlertController, Events } from 'ionic-angular';
 import { Response } from '@angular/http';
 
 import { UserService } from '../../providers/user-service/user-service';
@@ -11,26 +11,27 @@ import { InterestsPage } from '../interests/interests';
 import { MyPostsPage } from '../my-posts/my-posts';
 import { EditProfileModalPage } from '../edit-profile-modal/edit-profile-modal';
 
-//@IonicPage()
+// @IonicPage()
 @Component({
   selector: 'page-settings',
   templateUrl: 'settings.html',
 })
 export class SettingsPage {
-private user: any = {
+  private user: any = {
     interests: [],
     posts: [],
   };
 
   constructor(private nav: NavController,
-              private modalCtrl: ModalController,
-              private alertCtrl: AlertController,
-              private userService: UserService,
-              private events: Events) {
+    private modalCtrl: ModalController,
+    private alertCtrl: AlertController,
+    private userService: UserService,
+    private events: Events) {
     events.subscribe('user:updated', (dataArray) => {
       let updated = Array.isArray(dataArray) ? dataArray[0] : dataArray;
       if (updated) {
         this.user = Object.assign(this.user, updated);
+        window.localStorage.setItem('feedUserCache', JSON.stringify(this.user));
       } else {
         this.getUserDetails();
       }
@@ -54,18 +55,30 @@ private user: any = {
   }
 
   getUserDetails() {
+    try {
+      this.user = JSON.parse(window.localStorage.getItem('feedUserCache') || 'boom');
+    } catch (_) {
+      // no cache available
+    }
     this.userService
       .getCurrentUser()
       .subscribe(
-        (response: Response) => this.user = response.json(),
-        () => {
+      (response: Response) => {
+        if (window.localStorage.getItem('feedUserCache') !== response.text()) {
+          this.user = response.json();
+          window.localStorage.setItem('feedUserCache', JSON.stringify(this.user));
+        }
+      },
+      () => {
+        if (window.localStorage.getItem('feedUserCache') === null) {
           let failAlert = this.alertCtrl.create({
             title: 'Oops!',
             subTitle: 'Failed to fetch user details',
             buttons: ['OK']
           });
           failAlert.present();
-        });
+        }
+      });
   }
 
   inviteFriends() {

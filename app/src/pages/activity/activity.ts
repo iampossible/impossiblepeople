@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, Platform, AlertController, Tabs } from 'ionic-angular';
+import { NavController, Platform, AlertController, Tabs } from 'ionic-angular';
 import { Diagnostic } from '@ionic-native/diagnostic';
 import { Badge } from '@ionic-native/badge';
 import { Response } from '@angular/http';
@@ -21,7 +21,7 @@ export class ActivityItem {
   timeAt: number;
 }
 
-//@IonicPage()
+// @IonicPage()
 @Component({
   selector: 'page-activity',
   templateUrl: 'activity.html',
@@ -72,16 +72,33 @@ export class ActivityPage {
   }
 
   fetch() {
+    try {
+      this.activities = JSON.parse(window.localStorage.getItem('activityCache') || 'boom');
+    } catch (_) {
+      // no cache
+    }
     this.userService.getActivities()
       .subscribe((response: Response) => {
-        this.activities = response.json().activities;
-        this.userService.markActivityAsSeen();
+        if (JSON.stringify(this.activities) !== response.text()) {
+          this.activities = response.json().activities;
+          window.localStorage.setItem('activityCache', JSON.stringify(this.activities));
+          this.userService.markActivityAsSeen();
+        }
+      }, failureResponse => {
+        if (window.localStorage.getItem('activityCache') === null) {
+          let failAlert = this.alertCtrl.create({
+            title: 'Oops!',
+            subTitle: 'Failed to fetch activity',
+            buttons: ['OK']
+          });
+          failAlert.present();
+        }
       });
   }
 
   public createPost() {
     let tabs: Tabs = this.nav.parent;
-    tabs.select(1);
+    tabs.select(2);
   }
 
   public referSettings() {

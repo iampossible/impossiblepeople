@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, Events, AlertController, ModalController, Alert } from 'ionic-angular';
+import { NavController, Events, AlertController, ModalController, Alert } from 'ionic-angular';
 import { Response } from '@angular/http';
 
 import { FacebookService } from '../../providers/facebook-service/facebook-service';
@@ -9,7 +9,7 @@ import { SelectContactsModalPage } from '../select-contacts-modal/select-contact
 
 declare const heap: any;
 
-//@IonicPage()
+// @IonicPage()
 @Component({
   selector: 'page-find-friends',
   templateUrl: 'find-friends.html',
@@ -75,7 +75,7 @@ export class FindFriendsPage {
           }
           this.events.publish('feedback:show', { msg: 'Success!', icon: 'checkmark' });
           this.nav.parent.select(0);
-        } else if (response.status == 422) {
+        } else if (response.status === 422) {
           // TODO which side does this actually happen?
           this.alreadyLinked.present();
         } else {
@@ -88,7 +88,7 @@ export class FindFriendsPage {
         }
       },
       (response: Response) => {
-        if (response.status == 422) {
+        if (response.status === 422) {
           // TODO which side does this actually happen?
           this.alreadyLinked.present();
         } else {

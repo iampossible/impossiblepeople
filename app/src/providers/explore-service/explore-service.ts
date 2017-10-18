@@ -18,18 +18,18 @@ export class ExploreService {
     }
   }
 
-  public getExploreFeed(interest,success?: (Response) => void, failure?: (Response) => void): void {
-    let url: string = ApiService.getUrl('explore/'+ interest)
-    this.http.get(url).subscribe(success, failure)
+  public getExploreFeed(interest, success?: (Response) => void, failure?: (Response) => void): void {
+    let url: string = ApiService.getUrl('explore/' + interest);
+    this.http.get(url).subscribe(success, failure);
   }
 
   public getInterests(success?: (Response) => void, failure?: (Response) => void): void {
-    let url: string = ApiService.getUrl('interest')
-    this.http.get(url).subscribe(success, failure)
+    let url: string = ApiService.getUrl('interest');
+    this.http.get(url).subscribe(success, failure);
   }
 
   public getExploreSearch(interest, search, success?: (Response) => void, failure?: (Response) => void): void {
-    let url: string = ApiService.getUrl('explore/'+interest + '/search/' + search)
-    this.http.get(url).subscribe(success, failure)
+    let url: string = ApiService.getUrl('explore/' + interest + '/search/' + search);
+    this.http.get(url).subscribe(success, failure);
   }
 }

@@ -76,6 +76,10 @@
   version "4.2.1"
   resolved "https://registry.yarnpkg.com/@ionic-native/in-app-browser/-/in-app-browser-4.2.1.tgz#a1fed3ea095b75733563250ac48edbfec4830b99"
 
+"@ionic-native/network@^4.3.1":
+  version "4.3.1"
+  resolved "https://registry.yarnpkg.com/@ionic-native/network/-/network-4.3.1.tgz#7ada8332f0324dff1eb494299793a7a23f301ec0"
+
 "@ionic-native/push@^3.12.1":
   version "3.12.1"
   resolved "https://registry.yarnpkg.com/@ionic-native/push/-/push-3.12.1.tgz#a40783e4ea9a030783748c952d65aa6136c8a301"
@@ -1113,6 +1117,10 @@ cordova-plugin-geolocation@^2.4.3:
 cordova-plugin-inappbrowser@^1.7.1:
   version "1.7.1"
   resolved "https://registry.yarnpkg.com/cordova-plugin-inappbrowser/-/cordova-plugin-inappbrowser-1.7.1.tgz#435b43f591fe7bfa95ea98dbe0004841fe59ba51"
+
+cordova-plugin-network-information@^1.3.3:
+  version "1.3.3"
+  resolved "https://registry.yarnpkg.com/cordova-plugin-network-information/-/cordova-plugin-network-information-1.3.3.tgz#0ea9aa5c1124cf7cbd6f84f828a542cbd24a8518"
 
 cordova-plugin-splashscreen@^4.0.3:
   version "4.0.3"

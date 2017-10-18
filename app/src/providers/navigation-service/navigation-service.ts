@@ -5,18 +5,19 @@ import 'rxjs/add/operator/map';
 import { PostDetailsPage } from '../../pages/post-details/post-details';
 import { TabsPage } from '../../pages/tabs/tabs';
 import { ProfilePage } from '../../pages/profile/profile';
+import { InterestsPage } from '../../pages/interests/interests';
+import { AddLocationContextPage } from '../../pages/add-location-context/add-location-context';
 
 
 @Injectable()
 export class NavigationService {
 
   public static nextOnboardingPage(user: any): any {
-    // TODO
-    /* if (!user.interests || !user.interests.length) {
-          return InterestsPage
-        } else if (!user.location) {
-          return AddLocationContextPage
-        }*/
+    if (!user.interests || !user.interests.length) {
+      return InterestsPage;
+    } else if (!user.location) {
+      return AddLocationContextPage;
+    }
     return TabsPage;
   }
 

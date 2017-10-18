@@ -1,9 +1,9 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, AlertController, Events } from 'ionic-angular';
+import { NavController, AlertController, Events } from 'ionic-angular';
 import { UserService } from '../../providers/user-service/user-service';
 import {Response} from '@angular/http';
 
-//@IonicPage()
+// @IonicPage()
 @Component({
   selector: 'page-my-posts',
   templateUrl: 'my-posts.html',

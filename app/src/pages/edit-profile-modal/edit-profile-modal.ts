@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, ViewController, ModalController, AlertController, Events } from 'ionic-angular';
+import { NavController, NavParams, ViewController, ModalController, AlertController, Events } from 'ionic-angular';
 import { Camera } from '@ionic-native/camera';
 import { DomSanitizer } from '@angular/platform-browser';
 import { Response } from '@angular/http';
@@ -8,7 +8,7 @@ import { UserService } from '../../providers/user-service/user-service';
 import { ImageService } from '../../providers/image-service/image-service';
 import { AddLocationModalPage } from '../add-location-modal/add-location-modal';
 
-//@IonicPage()
+// @IonicPage()
 @Component({
   selector: 'page-edit-profile-modal',
   templateUrl: 'edit-profile-modal.html',

@@ -1,11 +1,11 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, ViewController } from 'ionic-angular';
+import { NavController, ViewController } from 'ionic-angular';
 import { Response } from '@angular/http';
 import { UserService } from '../../providers/user-service/user-service';
 import { Diagnostic } from '@ionic-native/diagnostic';
 import { Geolocation } from '@ionic-native/geolocation';
 
-//@IonicPage()
+// @IonicPage()
 @Component({
   selector: 'page-add-location-modal',
   templateUrl: 'add-location-modal.html',

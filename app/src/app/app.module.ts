@@ -11,7 +11,7 @@ import { Camera } from '@ionic-native/camera';
 import { Diagnostic } from '@ionic-native/diagnostic';
 import { Geolocation } from '@ionic-native/geolocation';
 import { Badge } from '@ionic-native/badge';
-
+import { Network } from '@ionic-native/network';
 
 import { MyApp } from './app.component';
 
@@ -63,11 +63,12 @@ import { ButtonDropdownComponent } from '../components/button-dropdown/button-dr
 import { ActivityPage } from '../pages/activity/activity';
 import { FindFriendsPage } from '../pages/find-friends/find-friends';
 import { InviteContactsComponent } from '../components/invite-contacts/invite-contacts';
-import { QuickFeedbackComponent } from "../components/quick-feedback/quick-feedback";
+import { QuickFeedbackComponent } from '../components/quick-feedback/quick-feedback';
+import { AddLocationContextPage } from '../pages/add-location-context/add-location-context';
 
 export function interceptFactory(backend: XHRBackend, opts: RequestOptions, events: Events) {
   return new InterceptedHttp(backend, opts, events);
-};
+}
 
 @NgModule({
   declarations: [
@@ -103,7 +104,8 @@ export function interceptFactory(backend: XHRBackend, opts: RequestOptions, even
     ActivityPage,
     FindFriendsPage,
     InviteContactsComponent,
-    QuickFeedbackComponent
+    QuickFeedbackComponent,
+    AddLocationContextPage
   ],
   imports: [
     HttpModule,
@@ -138,7 +140,8 @@ export function interceptFactory(backend: XHRBackend, opts: RequestOptions, even
     SelectContactsModalPage,
     SuggestInterestModalPage,
     EditProfileModalPage,
-    AddLocationModalPage
+    AddLocationModalPage,
+    AddLocationContextPage
   ],
   providers: [
     StatusBar,
@@ -154,6 +157,7 @@ export function interceptFactory(backend: XHRBackend, opts: RequestOptions, even
     Diagnostic,
     Geolocation,
     Badge,
+    Network,
     {
       provide: InterceptedHttp,
       useFactory: interceptFactory,

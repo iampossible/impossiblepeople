@@ -1,0 +1,30 @@
+page-add-location-context {
+    .navbar-top.background {
+        border: none;
+        .toolbar-background {
+            background: map_get($colors, background-gray);
+            border: none;
+        }
+    }
+    ion-content {
+        text-align: center;
+        button.share-location {
+            bottom: 0;
+            margin-bottom: 0;
+            position: absolute;
+        }
+        h2 {
+            font-size: 2rem;
+            font-weight: bold;
+        }
+        img.location-context-image {
+            display: block;
+            margin: 50px auto;
+            max-width: 50%;
+        }
+        p {
+            line-height: 2.2rem;
+            margin: 13px 23px;
+        }
+    }
+}

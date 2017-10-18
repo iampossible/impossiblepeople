@@ -1,5 +1,5 @@
 import { Component, ViewChild } from '@angular/core';
-import { IonicPage, NavController, NavParams, AlertController, Slides } from 'ionic-angular';
+import { NavController, NavParams, AlertController, Slides } from 'ionic-angular';
 import { Response } from '@angular/http';
 
 import { ApiService } from '../../providers/api-service/api-service';
@@ -12,7 +12,7 @@ import { NavigationService } from '../../providers/navigation-service/navigation
 
 declare const heap: any;
 
-//@IonicPage()
+// @IonicPage()
 @Component({
   selector: 'page-landing',
   templateUrl: 'landing.html',

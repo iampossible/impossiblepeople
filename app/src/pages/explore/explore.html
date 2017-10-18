@@ -4,7 +4,7 @@
       showCancelButton=false type="search" [placeholder]="interest|| 'Search'">
     </ion-searchbar>
     <ion-buttons end>
-      <button ion-button *ngIf="!inExplore" (click)="exitExploreFeed($event)">Back</button>
+      <button ion-button *ngIf="!inExplore && interest" (click)="exitExploreFeed($event)">Back</button>
     </ion-buttons>
   </ion-navbar>
 </ion-header>

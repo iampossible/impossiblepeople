@@ -70,4 +70,14 @@ page-feed {
         line-height: 21px;
         font-size: 0.8em;
     }
+    .nointernet-banner {
+        background-color: rgb(73, 139, 157);
+        font-size: 16px;
+        padding: 10px 10px;
+        text-align: center;
+        display: flex;
+        align-content: center;
+        justify-content: space-around;
+        color: #FFFFFF;
+    }
 }

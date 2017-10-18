@@ -10,7 +10,7 @@ import { ProfilePage } from '../pages/profile/profile';
 import { NotificationService } from '../providers/notification-service/notification-service';
 import { UserService } from '../providers/user-service/user-service';
 import { Environment } from '../Environment';
-import { RegistrationEventResponse, NotificationEventResponse } from "@ionic-native/push";
+import { RegistrationEventResponse, NotificationEventResponse } from '@ionic-native/push';
 
 if (Environment.ENV === 'prod') {
   enableProdMode();
@@ -38,7 +38,7 @@ export class MyApp {
       // Okay, so the platform is ready and our plugins are available.
       // Here you can do any higher level native things you might need.
       statusBar.styleDefault();
-      //statusBar.styleBlackTranslucent();
+      // statusBar.styleBlackTranslucent();
       splashScreen.hide();
 
       try {

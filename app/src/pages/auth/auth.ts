@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { NavController, NavParams } from 'ionic-angular';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Response } from '@angular/http';
 
@@ -13,7 +13,7 @@ import { Environment } from '../../Environment';
 
 declare const heap: any;
 
-//@IonicPage()
+// @IonicPage()
 @Component({
   selector: 'page-auth',
   templateUrl: 'auth.html',

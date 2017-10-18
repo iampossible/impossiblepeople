@@ -1,15 +1,15 @@
 <ion-header>
 
   <ion-navbar>
-      <ion-title mode="ios">
-        <img src="assets/images/logo-medium.png" alt="Impossible logo" height="40">
-      </ion-title>
-      <ion-buttons end>
-        <ion-spinner *ngIf="loadingLocation"></ion-spinner>
-        <button *ngIf="!loadingLocation" ion-button block color="secondary" (click)="updateLocation()" alt="Location">
+    <ion-title mode="ios">
+      <img src="assets/images/logo-medium.png" alt="Impossible logo" height="40">
+    </ion-title>
+    <ion-buttons hidden end>
+      <ion-spinner *ngIf="loadingLocation"></ion-spinner>
+      <button *ngIf="!loadingLocation" ion-button block color="secondary" (click)="updateLocation()" alt="Location">
           <ion-icon color="secondary" name="locate"></ion-icon>
         </button>
-      </ion-buttons>
+    </ion-buttons>
   </ion-navbar>
 
 </ion-header>
@@ -289,6 +289,10 @@
     Here are posts from our London Community.<br> You can edit your interests in <span id="profile-link">your profile.</span>
   </div>
 
+  <div class="nointernet-banner" *ngIf="!isOnline">
+    Check your internet connection
+  </div>
+
   <div id="home-intro-state" class="empty-state" *ngIf="showIntro">
     <div class="welcome">
       <div class="dismiss-welcome" (click)="dismissIntroScreen()"></div>
@@ -299,7 +303,7 @@
       </div>
     </div>
   </div>
-  
+
   <ion-list *ngIf="!isAndroid" no-lines class="background">
     <post-card *ngFor="let post of feed" [post]="post"></post-card>
   </ion-list>

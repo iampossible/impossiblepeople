@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, ActionSheet, Events, ActionSheetController } from 'ionic-angular';
+import { NavController, NavParams, ActionSheet, Events, ActionSheetController } from 'ionic-angular';
 import { AuthService } from '../../providers/auth-service/auth-service';
 import { Environment } from '../../Environment';
 import { PrivacyPolicyPage } from '../privacy-policy/privacy-policy';
@@ -9,7 +9,7 @@ import { EmailPage } from '../email/email';
 
 declare var heap: any;
 
-//@IonicPage()
+// @IonicPage()
 @Component({
   selector: 'page-preferences',
   templateUrl: 'preferences.html',
@@ -68,6 +68,7 @@ export class PreferencesPage {
               } else {
                 this._doLogout();
               }
+              window.localStorage.clear();
             });
           },
           role: 'destructive',

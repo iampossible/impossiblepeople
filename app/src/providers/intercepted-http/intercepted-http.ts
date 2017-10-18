@@ -13,7 +13,6 @@ import { Observable } from 'rxjs/Observable';
 import { ApiService } from '../api-service/api-service';
 import 'rxjs/add/operator/map';
 
-// TODO [CRITICAL] bring back NProgress
 declare const NProgress: any;
 
 @Injectable()
@@ -31,7 +30,7 @@ export class InterceptedHttp extends Http {
   _loadingStart(url) {
     if (/\/api\//.test(url)) {
       try {
-        //        NProgress.inc();
+        NProgress.inc();
       } catch (err) {
         console.error(`Caught ${err}`);
       }
@@ -41,7 +40,7 @@ export class InterceptedHttp extends Http {
   _loadingDone(url) {
     if (/\/api\//.test(url)) {
       try {
-        //        NProgress.done();
+        NProgress.done();
       } catch (err) {
         console.error(`Caught ${err}`);
       }
@@ -73,10 +72,10 @@ export class InterceptedHttp extends Http {
   }
 
   getRequestOptionArgs(options?: RequestOptionsArgs): RequestOptionsArgs {
-    if (options == null) {
+    if (!options) {
       options = new RequestOptions();
     }
-    if (options.headers == null) {
+    if (!options.headers) {
       options.headers = new Headers();
     }
     options.headers.append('Content-Type', 'application/json');
@@ -90,6 +89,7 @@ export class InterceptedHttp extends Http {
       observable.subscribe((response) => {
         reqURL = response.url;
         obs.next(response);
+        this._loadingDone(url);
       }, (err) => {
         console.debug('err', err);
         reqURL = null;
@@ -97,7 +97,7 @@ export class InterceptedHttp extends Http {
         try {
           errorResponse = JSON.parse(err._body);
         } catch (error) {
-         console.debug('Error is not a JSON object', err) 
+          console.debug('Error is not a JSON object', err);
         }
         this._loadingDone(url);
         if (err && err.status === 400) {

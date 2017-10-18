@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, Events, AlertController } from 'ionic-angular';
+import { NavController, NavParams, Events, AlertController } from 'ionic-angular';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import {Response} from '@angular/http';
 import { UserService } from '../../providers/user-service/user-service';
@@ -7,7 +7,7 @@ import { Environment } from '../../Environment';
 
 declare const heap: any;
 
-//@IonicPage()
+// @IonicPage()
 @Component({
   selector: 'page-email',
   templateUrl: 'email.html',

@@ -17,10 +17,10 @@ export class QuickFeedbackComponent {
   }
 
   show = (evOptions: NotificationOptions) => {
-    console.log('show event', evOptions);
+    console.debug('show event', evOptions);
     this.isVisible = true;
     this.notification = evOptions;
-    console.log(this.isVisible, this.notification);
+    console.debug('notification is visible', this.isVisible, this.notification);
 
     clearTimeout(this.toggleTimeout);
     this.toggleTimeout = setTimeout(this.hide, this.durationTimeout);

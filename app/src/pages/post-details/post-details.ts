@@ -1,5 +1,5 @@
 import { Component, ElementRef } from '@angular/core';
-import { IonicPage, NavController, NavParams, ActionSheet, AlertController, ActionSheetController, Events } from 'ionic-angular';
+import { NavController, NavParams, ActionSheet, AlertController, ActionSheetController, Events } from 'ionic-angular';
 
 import { NavigationService } from '../../providers/navigation-service/navigation-service';
 import { PostService } from '../../providers/post-service/post-service';
@@ -9,7 +9,7 @@ import { Environment } from '../../Environment';
 
 declare const heap: any;
 
-//@IonicPage()
+// @IonicPage()
 @Component({
   selector: 'page-post-details',
   templateUrl: 'post-details.html',

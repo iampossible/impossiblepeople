@@ -1,10 +1,10 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, AlertController, Events } from 'ionic-angular';
+import { NavController, NavParams, AlertController, Events } from 'ionic-angular';
 import { UserService } from '../../providers/user-service/user-service';
 import { NavigationService } from '../../providers/navigation-service/navigation-service';
 import { InterestPickerComponent } from '../../components/interest-picker/interest-picker';
 
-//@IonicPage()
+// @IonicPage()
 @Component({
   selector: 'page-interests',
   templateUrl: 'interests.html',
