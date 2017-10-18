@@ -11,7 +11,7 @@
 
 
 <ion-content class="feed-tab background">
-  <div *ngIf="inExplore">
+  <div *ngIf="inExplore && !searchString">
     <h3 class="title">Explore</h3>
     <div class="interest-picker">
       <ion-slides [pager]="pages.length > 1">
@@ -44,10 +44,14 @@
     <h3 class="title">Try another interest</h3>
   </div>
 
-  <ion-list *ngIf="!isAndroid" [hidden]="inExplore || loading || feed.length === 0" no-lines class="background">
+  <div *ngIf="inExplore && searchString && !loading && !interest && feed.length === 0" class="no-feed">
+    <h3 class="title">There are no posts matching your search</h3>
+  </div>
+
+  <ion-list *ngIf="!isAndroid" [hidden]="(inExplore && !searchString) || loading || feed.length === 0" no-lines class="background">
     <post-card *ngFor="let post of feed" [post]="post"></post-card>
   </ion-list>
-  <ion-list *ngIf="isAndroid" [virtualScroll]="feed" [hidden]="inExplore || loading || feed.length === 0" no-lines class="background"
+  <ion-list *ngIf="isAndroid" [virtualScroll]="feed" [hidden]="(inExplore && !searchString) || loading || feed.length === 0" no-lines class="background"
     approxItemHeight="100px">
     <ion-item *virtualItem="let post" class="background">
       <post-card [post]="post"></post-card>

@@ -156,7 +156,9 @@ export class ExplorePage {
       }
     };
     if (!searchText) {
-      this.exploreService.getExploreFeed(this.interest, successFn, failFn);
+      if (this.interest) {
+        this.exploreService.getExploreFeed(this.interest, successFn, failFn);
+      }
     } else {
       this.exploreService.getExploreSearch(this.interest || '_', this.searchString.toLowerCase(), successFn, failFn);
     }
@@ -164,6 +166,10 @@ export class ExplorePage {
 
   clearSearch(event) {
     if (!this.searchString) {
+      return;
+    }
+    if (!this.interest) {
+      this.resetPage();
       return;
     }
     this.searchString = '';
