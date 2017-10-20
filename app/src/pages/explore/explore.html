@@ -1,9 +1,12 @@
 <ion-header>
   <ion-navbar>
-    <ion-searchbar [(ngModel)]="searchString" (ionInput)="onSearch($event)" (ionClear)="clearSearch($event)" animated debounce=600
+    <ion-title *ngIf="interest">
+      {{ interest }}
+    </ion-title>
+    <ion-searchbar *ngIf="!interest" [(ngModel)]="searchString" (ionInput)="onSearch($event)" (ionClear)="clearSearch($event)" animated debounce=600
       showCancelButton=false type="search" [placeholder]="interest|| 'Search'">
     </ion-searchbar>
-    <ion-buttons end>
+    <ion-buttons left>
       <button ion-button *ngIf="!inExplore && interest" (click)="exitExploreFeed($event)">Back</button>
     </ion-buttons>
   </ion-navbar>
@@ -17,10 +20,8 @@
       <ion-slides [pager]="pages.length > 1">
         <ion-slide *ngFor="let page of pages;">
           <ul class="picker">
-            <li *ngFor="let interest of page;" class="picker-item">
-              <button ion-button block full class="button suggest-interest" [ngStyle]="{'background-image': getImage(interest)}" (click)="getExploreFeed($event)">
-                      <span class="button-inner">{{ interest.name }}</span>
-              </button>
+            <li *ngFor="let interestObj of page;" class="picker-item">
+              <interest-button [interest]="interestObj" (click)="getExploreFeed(interestObj.name, $event)"></interest-button>
             </li>
           </ul>
 
@@ -33,7 +34,7 @@
       </ion-slides>
     </div>
   </div>
-  
+
   <div *ngIf="!inExplore && !loading && !interest && feed.length === 0" class="no-feed">
     <h3 class="title">Something went wrong!</h3>
     <button ion-button full (click)="resetPage()">Try again</button>
@@ -51,8 +52,8 @@
   <ion-list *ngIf="!isAndroid" [hidden]="(inExplore && !searchString) || loading || feed.length === 0" no-lines class="background">
     <post-card *ngFor="let post of feed" [post]="post"></post-card>
   </ion-list>
-  <ion-list *ngIf="isAndroid" [virtualScroll]="feed" [hidden]="(inExplore && !searchString) || loading || feed.length === 0" no-lines class="background"
-    approxItemHeight="100px">
+  <ion-list *ngIf="isAndroid" [virtualScroll]="feed" [hidden]="(inExplore && !searchString) || loading || feed.length === 0"
+    no-lines class="background" approxItemHeight="100px">
     <ion-item *virtualItem="let post" class="background">
       <post-card [post]="post"></post-card>
     </ion-item>

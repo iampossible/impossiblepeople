@@ -2,17 +2,9 @@ page-explore {
   ion-card ion-card-content {
       padding: 14px;
   }
-  ion-refresher {
-      height: 200px;
-      /* FIX TO BE NOT HARDCODED ... or use variable */
-      .animation {
-          height: 200px;
-          text-align: center;
-      }
-  }
-  .has-refresher>scroll-content {
-      border-top: none;
-  }
+    .searchbar-clear-icon {
+      margin: 0px;  
+    }
   .tab-button-icon {
       position: relative;
   }

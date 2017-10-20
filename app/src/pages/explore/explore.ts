@@ -63,9 +63,9 @@ export class ExplorePage {
     });
   }
 
-  getExploreFeed(event?) {
+  getExploreFeed(interest, event?) {
     this.inExplore = false;
-    this.interest = event.srcElement.textContent;
+    this.interest = interest;
     this.loading = true;
     this.feed = [];
     console.debug('getExploreFeed for:', this.interest);

@@ -65,6 +65,7 @@ import { FindFriendsPage } from '../pages/find-friends/find-friends';
 import { InviteContactsComponent } from '../components/invite-contacts/invite-contacts';
 import { QuickFeedbackComponent } from '../components/quick-feedback/quick-feedback';
 import { AddLocationContextPage } from '../pages/add-location-context/add-location-context';
+import { InterestButtonComponent } from '../components/interest-button/interest-button';
 
 export function interceptFactory(backend: XHRBackend, opts: RequestOptions, events: Events) {
   return new InterceptedHttp(backend, opts, events);
@@ -105,7 +106,8 @@ export function interceptFactory(backend: XHRBackend, opts: RequestOptions, even
     FindFriendsPage,
     InviteContactsComponent,
     QuickFeedbackComponent,
-    AddLocationContextPage
+    AddLocationContextPage,
+    InterestButtonComponent
   ],
   imports: [
     HttpModule,

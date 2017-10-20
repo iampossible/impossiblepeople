@@ -1,0 +1,13 @@
+interest-button {
+    color: white;
+    .featured-interest {
+        padding: 0px;
+    }
+    button.featured-interest img {
+        position: absolute;
+        object-fit: cover;
+        z-index: -1;
+        width: 100%;
+        filter: brightness(0.6);
+    }
+}
