@@ -42,6 +42,12 @@ export class MyApp {
       splashScreen.hide();
 
       try {
+        cordova.plugins.Keyboard.hideKeyboardAccessoryBar(false);
+      } catch (ex) {
+        console.warn('Could not set show accessory bar property');
+      }
+
+      try {
         cordova.plugins.certificates.trustUnsecureCerts(true);
       } catch (ex) {
         console.warn('Could not set trustUnsecureCerts');
