@@ -192,7 +192,7 @@ describe('Explore endpoints', () => {
       });
     });
 
-    it('should count all the post from Music interest stored with the keyword apples', (done) => {
+    it('should count all the posts from Music interest stored with the keyword apples', (done) => {
       helpers.logInTestUser((err, $request) => {
         $request.get(`http://${Config.endpoint}/api/explore/Music/search/AppLes`, (error, response) => {
           let value = JSON.parse(response.body);
@@ -264,6 +264,37 @@ describe('Explore endpoints', () => {
           expect(value[0].category.image).toEqual('build/images/interests/environment.png');
           expect(value[0].category.name).toEqual('Environment');
           
+          done();
+        });
+      });
+    });
+
+
+    it('should count all the posts from any interest near the logged user', (done) => {
+      helpers.logInTestUser((err, $request) => {
+        $request.get(`http://${Config.endpoint}/api/explore/_/nearme`, (error, response) => {
+          let value = JSON.parse(response.body);
+          expect(value.length).toEqual(0);
+          done();
+        });
+      });
+    });
+
+    it('should count all the posts from any interest near the logged user', (done) => {
+      helpers.logInAlice((err, $request) => {
+        $request.get(`http://${Config.endpoint}/api/explore/_/nearme`, (error, response) => {
+          let value = JSON.parse(response.body);
+          expect(value.length).toEqual(5);
+          done();
+        });
+      });
+    });
+
+    it('should count all the posts from Food interest near the logged user', (done) => {
+      helpers.logInAlice((err, $request) => {
+        $request.get(`http://${Config.endpoint}/api/explore/Food/nearme`, (error, response) => {
+          let value = JSON.parse(response.body);
+          expect(value.length).toEqual(3);
           done();
         });
       });
