@@ -66,6 +66,8 @@ import { InviteContactsComponent } from '../components/invite-contacts/invite-co
 import { QuickFeedbackComponent } from '../components/quick-feedback/quick-feedback';
 import { AddLocationContextPage } from '../pages/add-location-context/add-location-context';
 import { InterestButtonComponent } from '../components/interest-button/interest-button';
+import { NearMePage } from "../pages/near-me/near-me";
+import { ExploreInterestPage } from "../pages/explore-interest/explore-interest";
 
 export function interceptFactory(backend: XHRBackend, opts: RequestOptions, events: Events) {
   return new InterceptedHttp(backend, opts, events);
@@ -107,7 +109,9 @@ export function interceptFactory(backend: XHRBackend, opts: RequestOptions, even
     InviteContactsComponent,
     QuickFeedbackComponent,
     AddLocationContextPage,
-    InterestButtonComponent
+    InterestButtonComponent,
+    NearMePage,
+    ExploreInterestPage
   ],
   imports: [
     HttpModule,
@@ -143,7 +147,9 @@ export function interceptFactory(backend: XHRBackend, opts: RequestOptions, even
     SuggestInterestModalPage,
     EditProfileModalPage,
     AddLocationModalPage,
-    AddLocationContextPage
+    AddLocationContextPage,
+    NearMePage,
+    ExploreInterestPage
   ],
   providers: [
     StatusBar,
