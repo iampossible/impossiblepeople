@@ -62,6 +62,12 @@ export class ProfilePage {
     });
   }
 
+  ionViewWillLeave() {
+    if (!this.navCtrl.isTransitioning() && this.navCtrl.canGoBack()) {
+      this.navCtrl.pop();
+    }
+  }
+
   ionViewWillEnter() {
     console.debug('ionViewWillEnter ProfilePage');
     this.loadProfileData();

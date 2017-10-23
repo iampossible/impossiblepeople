@@ -47,6 +47,12 @@ export class PostDetailsPage {
 
   }
 
+  ionViewWillLeave() {
+    if (!this.nav.isTransitioning()) {
+      this.nav.pop();
+    }
+  }
+
   goToProfile(event, userID) {
     NavigationService.goToProfile(this.nav, event, userID);
   }
@@ -224,9 +230,4 @@ export class PostDetailsPage {
       }, () => setTimeout(() => this.onLoadError(), 999)
     );
   }
-
-  testcicles(event?){
-    console.log('cenas', event);
-  }
-
 }
