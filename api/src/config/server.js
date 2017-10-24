@@ -49,6 +49,9 @@ let config = {
     appID: process.env.FACEBOOK_APP_ID || rawConfig.facebook.appID,
     appSecret: process.env.FACEBOOK_APP_SECRET || rawConfig.facebook.appSecret,
   },
+  google: {
+    apiKey: process.env.GOOGLE_API_KEY || (rawConfig.google && rawConfig.google.apiKey) || ''
+  },
   neo4j: {
     host: process.env.NEO4J_HOST || rawConfig.neo4j.host,
     user: neo4jUser || rawConfig.neo4j.user,

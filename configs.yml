@@ -24,6 +24,8 @@ api:
   facebook:
     - appID # [MANDATORY] [ENV_OVERRIDES]
     - appSecret # [MANDATORY] [ENV_OVERRIDES]
+  google:
+    - apiKey # [OPTIONAL] [ENV_OVERRIDES]
   neo4j:
     - host # [MANDATORY] [ENV_OVERRIDES]
     - user # [MANDATORY] [ENV_OVERRIDES]

@@ -34,7 +34,7 @@ class NockStubs {
   googleLocationScope(location, code, response) {
     return nock('https://maps.googleapis.com')
       .get('/maps/api/geocode/json')
-      .query({ address: location })
+      .query({ address: location, key: Config.google.apiKey })
       .reply(code, response);
   }
 

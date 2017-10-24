@@ -1,6 +1,7 @@
 'use strict';
 
-var locationModel = require('models/LocationModel');
+let locationModel = require('models/LocationModel');
+const config = require('config/server')
 
 beforeAll(() => {
   // reset postModel object and all spies
@@ -18,7 +19,7 @@ describe('Location Model', () => {
       locationModel
         .getFriendlyLocation([1.234, 5.678])
         .done(() => {
-          let url = 'https://maps.googleapis.com/maps/api/geocode/json?address=1.234%2C5.678';
+          let url = 'https://maps.googleapis.com/maps/api/geocode/json?key=' + config.google.apiKey + '&address=1.234%2C5.678';
           expect(locationModel.request.get).toHaveBeenCalledWith(url, jasmine.any(Function));
           done();
         });
