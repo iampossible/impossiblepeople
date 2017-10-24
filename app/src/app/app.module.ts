@@ -66,8 +66,9 @@ import { InviteContactsComponent } from '../components/invite-contacts/invite-co
 import { QuickFeedbackComponent } from '../components/quick-feedback/quick-feedback';
 import { AddLocationContextPage } from '../pages/add-location-context/add-location-context';
 import { InterestButtonComponent } from '../components/interest-button/interest-button';
-import { NearMePage } from "../pages/near-me/near-me";
-import { ExploreInterestPage } from "../pages/explore-interest/explore-interest";
+import { NearMePage } from '../pages/near-me/near-me';
+import { ExploreInterestPage } from '../pages/explore-interest/explore-interest';
+import { GoogleMapsProvider } from '../providers/google-maps/google-maps';
 
 export function interceptFactory(backend: XHRBackend, opts: RequestOptions, events: Events) {
   return new InterceptedHttp(backend, opts, events);
@@ -182,7 +183,8 @@ export function interceptFactory(backend: XHRBackend, opts: RequestOptions, even
     ProfileService,
     InterestService,
     ImageService,
-    ExploreService
+    ExploreService,
+    GoogleMapsProvider
   ]
 })
 export class AppModule { }

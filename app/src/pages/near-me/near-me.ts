@@ -1,11 +1,11 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, Events, Platform } from 'ionic-angular';
+import { NavController, NavParams, Events, Platform } from 'ionic-angular';
 import { Response } from '@angular/http';
 import { Geolocation } from '@ionic-native/geolocation';
 import { Diagnostic } from '@ionic-native/diagnostic';
 
 import { ExploreService } from '../../providers/explore-service/explore-service';
-import { UserService } from "../../providers/user-service/user-service";
+import { UserService } from '../../providers/user-service/user-service';
 
 //@ IonicPage()
 @Component({
@@ -72,16 +72,21 @@ export class NearMePage {
                   latitude: resp.coords.latitude,
                   longitude: resp.coords.longitude,
                 };
-                this.events.publish('feedback:show', { msg: 'Location set to ' + friendlyName + '!', icon: 'checkmark' });
-                this.loadingLocation = false;
-                this.getNearMeFeed();
+                this.userService.updateUser(data).subscribe((response) => {
+                  this.events.publish('user:updated', response.json());
+                  this.events.publish('feedback:show', { msg: 'Location set to ' + friendlyName + '!', icon: 'checkmark' }); this.loadingLocation = false;
+                  this.getNearMeFeed();
+                }, (response: Response) => {
+                  console.warn('userService.updateUser', response);
+                  this.events.publish('feedback:show', { msg: 'Couldn\'t update location', icon: 'alert' });
+                  this.loadingLocation = false;
+                });
               },
               (response: Response) => {
                 console.warn('userService.getFriendlyLocation', response);
                 this.events.publish('feedback:show', { msg: 'Couldn\'t find location', icon: 'alert' });
                 this.loadingLocation = false;
-              }
-              );
+              });
           })
           .catch((error) => {
             console.warn('geolocation.getCurrentPosition', error);

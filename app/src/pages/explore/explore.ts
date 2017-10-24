@@ -1,9 +1,9 @@
-import { Component, ViewChild } from '@angular/core';
-import { NavController, NavParams, Platform, Events, Navbar } from 'ionic-angular';
+import { Component } from '@angular/core';
+import { NavController, NavParams, Platform, Events } from 'ionic-angular';
 
 import { ExploreService } from '../../providers/explore-service/explore-service';
-import { NearMePage } from "../near-me/near-me";
-import { ExploreInterestPage } from "../explore-interest/explore-interest";
+import { NearMePage } from '../near-me/near-me';
+import { ExploreInterestPage } from '../explore-interest/explore-interest';
 
 interface Interest {
   name: String;

@@ -101,6 +101,8 @@ export class CreatePostPage {
     modal.onDidDismiss((result) => {
       if (result.state === 'success') {
         this.currentLocation = result.data;
+      } else if (result.state === 'noop') {
+        // do nothing, the user "skipped"
       } else if (result.state === 'error') {
         let locationAlert = this.alertCtrl.create({
           title: 'Post location required',

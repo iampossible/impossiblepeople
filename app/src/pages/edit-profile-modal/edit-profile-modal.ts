@@ -105,6 +105,8 @@ export class EditProfileModalPage {
     modal.onDidDismiss((result) => {
       if (result.state === 'success') {
         Object.assign(this.user, result.data);
+      } else if (result.state === 'noop') {
+        // do nothing, the user "skipped"
       } else {
         console.log(result);
         let failAlert = this.alertCtrl.create({

@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, Platform, Events } from 'ionic-angular';
-import { ExploreService } from "../../providers/explore-service/explore-service";
+import { NavController, NavParams, Platform, Events } from 'ionic-angular';
+import { ExploreService } from '../../providers/explore-service/explore-service';
 
 //@ IonicPage()
 @Component({
