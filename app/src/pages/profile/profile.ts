@@ -114,12 +114,12 @@ export class ProfilePage {
     }
   }
 
-  private openSettings() {
+  openSettings() {
     this.navCtrl.push(SettingsPage);
   }
 
-  private openPublicSettings() {
-    event.stopPropagation();
+  openPublicSettings($event) {
+    $event.stopPropagation();
     this.actionSheet = this.actionSheetCtrl.create({
       title: 'Profile actions',
       buttons: [
@@ -148,7 +148,7 @@ export class ProfilePage {
     this.actionSheet.present();
   }
 
-  private setFollowing() {
+  setFollowing() {
     if (this.user.following) {
       this.profileService.unfollow(this.user.userID).subscribe(() => {
         if (Environment.HEAP && 'heap' in window) {

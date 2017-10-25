@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NavController, ViewController } from 'ionic-angular';
+import { ViewController } from 'ionic-angular';
 import { Response } from '@angular/http';
 import { UserService } from '../../providers/user-service/user-service';
 import { Diagnostic } from '@ionic-native/diagnostic';
@@ -32,7 +32,6 @@ export class AddLocationModalPage {
   private myLocationAvailable: boolean = false;
 
   constructor(
-    private nav: NavController,
     private viewCtrl: ViewController,
     private userService: UserService,
     private geolocation: Geolocation,

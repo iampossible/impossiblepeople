@@ -25,7 +25,7 @@ export class PreferencesPage {
     private actionSheetCtrl: ActionSheetController,
     private authService: AuthService,
     private facebook: Facebook) {
-    this.user = params.data;
+    this.user = this.params.data;
     this.version = Environment.version;
     this.events.subscribe('user:updated', (dataArray) => {
       let updated = Array.isArray(dataArray) ? dataArray[0] : dataArray;

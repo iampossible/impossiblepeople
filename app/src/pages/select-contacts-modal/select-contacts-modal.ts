@@ -13,7 +13,7 @@ export class SelectContactsModalPage {
   private invitees;
 
   constructor(private navParams: NavParams, private viewCtrl: ViewController) {
-    this.contactsHolder = navParams.data.contacts;
+    this.contactsHolder = this.navParams.data.contacts;
     this.invitees = {};
   }
 

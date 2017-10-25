@@ -22,7 +22,7 @@ export class ForgottenPasswordPage {
     private authService: AuthService,
     private form: FormBuilder,
     private events: Events) {
-    this.recoverPasswordForm = form.group({
+    this.recoverPasswordForm = this.form.group({
       email: ['', Validators.required],
     });
     this.controlError = {};

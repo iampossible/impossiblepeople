@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NavController, Events, ModalController, AlertController } from 'ionic-angular';
+import { Events, ModalController, AlertController } from 'ionic-angular';
 import { FormGroup, FormBuilder, Validators, AbstractControl } from '@angular/forms';
 import { Response } from '@angular/http';
 import { AppConstants } from '../../AppConstants';
@@ -26,10 +26,9 @@ export class CreatePostPage {
   private currentLocation: any = {};
   private userIcon: any;
   private selectedCategory: any = false;
-  private hideUnfocus = true;
   private processing = false;
 
-  constructor(private nav: NavController,
+  constructor(
     private postService: PostService,
     private formBuilder: FormBuilder,
     private events: Events,
@@ -42,9 +41,6 @@ export class CreatePostPage {
       content: ['', Validators.required],
       interestID: ['', Validators.required],
     });
-
-    //Keyboard.onKeyboardShow().subscribe(ev => this.keyboardShow(ev))
-    //Keyboard.onKeyboardHide().subscribe(ev => this.keyboardHide(ev))
 
     this.dropdownData = AppConstants.REQUIRED_TIME_OPTIONS;
     try {
@@ -73,28 +69,6 @@ export class CreatePostPage {
         }
       });
   }
-
-  /*
-    keyboardShow = (ev) => {
-      if (document.getElementsByClassName('platform-android').length !== 0) {
-        this.textArea = <HTMLElement>document.getElementById('create-post-wrapper');
-        this.textArea.style.height = 'auto';
-      }
-      this.hideUnfocus = false;
-    }
-
-    keyboardHide = (ev) => {
-      this.textArea = <HTMLElement>document.getElementById('create-post-wrapper');
-      this.textArea.style.height = '100%';
-      this.hideUnfocus = true;
-
-      if (document.getElementsByClassName('platform-android').length !== 0) {
-        this.textArea = <HTMLElement>document.getElementById('create-post-wrapper');
-        this.textArea.style.height = 'auto';
-      }
-
-    }
-  */
 
   addLocation = (ev) => {
     var modal = this.modalCtrl.create(AddLocationModalPage);

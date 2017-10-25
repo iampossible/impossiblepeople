@@ -14,7 +14,7 @@ export class InviteContactsComponent {
 
   constructor(private contacts: Contacts) { }
 
-  private accessContacts = () => {
+  accessContacts = () => {
     this.contacts
       .find(['emails'], { desiredFields: ['emails', 'name'], multiple: true, filter: '@' })
       .then((contacts) => {

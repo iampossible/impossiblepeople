@@ -7,7 +7,7 @@ import { Diagnostic } from '@ionic-native/diagnostic';
 import { ExploreService } from '../../providers/explore-service/explore-service';
 import { UserService } from '../../providers/user-service/user-service';
 
-//@ IonicPage()
+// @IonicPage()
 @Component({
   selector: 'page-near-me',
   templateUrl: 'near-me.html',

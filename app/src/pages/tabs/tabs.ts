@@ -1,5 +1,5 @@
 import { Component, ViewChild, ChangeDetectorRef } from '@angular/core';
-import { Tabs, NavController, Events } from 'ionic-angular';
+import { Tabs, Events } from 'ionic-angular';
 
 import { ActivityPage } from '../activity/activity';
 import { CreatePostPage } from '../create-post/create-post';
@@ -22,7 +22,7 @@ export class TabsPage {
   public activityCount: number = 0;
   public tabsIndex: number = 0;
   @ViewChild('myTabs') tabRef: Tabs;
-  constructor(private nav: NavController,
+  constructor(
     private events: Events,
     private _detector: ChangeDetectorRef,
     private badge: Badge) {

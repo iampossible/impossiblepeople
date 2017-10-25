@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { NavController, NavParams, Platform, Events } from 'ionic-angular';
 import { ExploreService } from '../../providers/explore-service/explore-service';
 
-//@ IonicPage()
+// @IonicPage()
 @Component({
   selector: 'page-explore-interest',
   templateUrl: 'explore-interest.html',
