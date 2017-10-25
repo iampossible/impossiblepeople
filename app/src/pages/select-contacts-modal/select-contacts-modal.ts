@@ -17,8 +17,8 @@ export class SelectContactsModalPage {
     this.invitees = {};
   }
 
-  ionViewDidEnter() {
-    if (this.contacts.length === 0) {
+  ionViewWillEnter() {
+    if (!this.contacts || this.contacts.length === 0) {
       this.contacts = this.contactsHolder;
     }
   }

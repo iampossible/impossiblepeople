@@ -10,7 +10,7 @@
 
 
 <ion-content class="feed-tab background">
-  <ion-refresher (ionRefresh)="released($event)" pullMin="200" pullMax="260">
+  <ion-refresher (ionRefresh)="released($event)" pullMin="270" pullMax="300">
     <div #animationWrapper class="animation day" *ngIf="isDay">
       <svg height="270" width="100%" id="animation">
         <style type="text/css">
@@ -295,6 +295,18 @@
       <div id="welcome-offer-button" full (click)="openModal()">
         Offer something!
       </div>
+    </div>
+  </div>
+
+  <div class="noPosts" *ngIf="feed.length === 0">
+    <img src="assets/images/imp-illustration.png" height=250 padding>
+    <div>
+      <h2>Nobody here but me...</h2>
+      <p>Feeling lonely? Find or invite friends to join!</p>
+    </div>
+    <div class="btns-find-friends">
+      <invite-contacts (onConnect)="inviteSuccess($event)" (onError)="inviteError($event)" buttonText="Find friends from contacts"></invite-contacts>
+      <facebook-connect *ngIf="!user.fromFacebook" (onConnect)="fbConnect($event)" (onError)="fbError($event)" [buttonText]="'Find friends on Facebook'"></facebook-connect>
     </div>
   </div>
 
