@@ -65,7 +65,7 @@ export class FindFriendsPage {
   }
 
   fbConnect(auth) {
-    //noinspection TypeScriptUnresolvedVariable
+    // noinspection TypeScriptUnresolvedVariable
     this.facebookService.findFriends(auth.authResponse.accessToken)
       .subscribe(
       (response: Response) => {

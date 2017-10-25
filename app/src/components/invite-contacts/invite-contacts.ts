@@ -26,7 +26,7 @@ export class InviteContactsComponent {
   private getEmailList = (contacts) => {
     return contacts
       .filter(item => {
-        return item.hasOwnProperty('emails') && item.emails.length > 0;
+        return item && item.emails && item.emails.length > 0;
       })
       .map(contact => {
         let email = '', name = '';
