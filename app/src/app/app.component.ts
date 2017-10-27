@@ -50,7 +50,7 @@ export class MyApp {
       try {
         cordova.plugins.certificates.trustUnsecureCerts(true);
       } catch (ex) {
-        console.warn('Could not set trustUnsecureCerts');
+        console.warn('Could not set trustUnsecureCerts', ex);
       }
 
       if (Environment.HEAP && 'heap' in window) {
