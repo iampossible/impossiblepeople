@@ -20,6 +20,7 @@
         "@angular/http": "4.1.2",
         "@angular/platform-browser": "4.1.2",
         "@angular/platform-browser-dynamic": "4.1.2",
+        "@ionic-native/app-version": "^4.3.2",
         "@ionic-native/badge": "^4.2.1",
         "@ionic-native/camera": "^4.2.1",
         "@ionic-native/contacts": "^4.2.1",
@@ -37,6 +38,7 @@
         "android-versions": "^1.2.1",
         "cordova-android": "^6.2.3",
         "cordova-ios": "^4.5.1",
+        "cordova-plugin-app-version": "^0.1.8",
         "cordova-plugin-badge": "^0.8.2",
         "cordova-plugin-camera": "^2.4.1",
         "cordova-plugin-compat": "^1.2.0",
@@ -95,7 +97,8 @@
             "cordova-plugin-x-socialsharing": {},
             "cordova.plugins.diagnostic": {},
             "phonegap-plugin-push": {},
-            "cordova-plugin-network-information": {}
+            "cordova-plugin-network-information": {},
+            "cordova-plugin-app-version": {}
         },
         "platforms": [
             "android",

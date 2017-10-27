@@ -12,6 +12,9 @@ import { Diagnostic } from '@ionic-native/diagnostic';
 import { Geolocation } from '@ionic-native/geolocation';
 import { Badge } from '@ionic-native/badge';
 import { Network } from '@ionic-native/network';
+import { StatusBar } from '@ionic-native/status-bar';
+import { SplashScreen } from '@ionic-native/splash-screen';
+import { AppVersion } from '@ionic-native/app-version';
 
 import { MyApp } from './app.component';
 
@@ -38,8 +41,6 @@ import { SuggestInterestModalPage } from '../pages/suggest-interest-modal/sugges
 import { EditProfileModalPage } from '../pages/edit-profile-modal/edit-profile-modal';
 import { AddLocationModalPage } from '../pages/add-location-modal/add-location-modal';
 
-import { StatusBar } from '@ionic-native/status-bar';
-import { SplashScreen } from '@ionic-native/splash-screen';
 import { FacebookConnectComponent } from '../components/facebook-connect/facebook-connect';
 import { FacebookService } from '../providers/facebook-service/facebook-service';
 import { InterceptedHttp } from '../providers/intercepted-http/intercepted-http';
@@ -167,6 +168,7 @@ export function interceptFactory(backend: XHRBackend, opts: RequestOptions, even
     Geolocation,
     Badge,
     Network,
+    AppVersion,
     {
       provide: InterceptedHttp,
       useFactory: interceptFactory,
