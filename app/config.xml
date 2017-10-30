@@ -95,8 +95,8 @@
     </plugin>
     <plugin name="cordova-plugin-device" spec="^1.1.6" />
     <plugin name="cordova-plugin-facebook4" spec="^1.9.1">
-        <variable name="APP_ID" value="1608711046118075" />
-        <variable name="APP_NAME" value="Impossible" />
+        <variable name="APP_ID" value="133088487346292" />
+        <variable name="APP_NAME" value="We Are One" />
     </plugin>
     <plugin name="cordova-plugin-geolocation" spec="^2.4.3">
         <variable name="GEOLOCATION_USAGE_DESCRIPTION" value=" " />

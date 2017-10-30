@@ -23,7 +23,7 @@
         "@ionic-native/badge": "^4.2.1",
         "@ionic-native/camera": "^4.2.1",
         "@ionic-native/contacts": "^4.2.1",
-        "@ionic-native/core": "3.10.2",
+        "@ionic-native/core": "^4.2.0",
         "@ionic-native/diagnostic": "^4.2.1",
         "@ionic-native/facebook": "^3.12.1",
         "@ionic-native/geolocation": "^4.2.1",
@@ -77,8 +77,8 @@
             "cordova-plugin-whitelist": {},
             "ionic-plugin-keyboard": {},
             "cordova-plugin-facebook4": {
-                "APP_ID": "1608711046118075",
-                "APP_NAME": "Impossible"
+                "APP_ID": "133088487346292",
+                "APP_NAME": "We Are One"
             },
             "cordova-plugin-badge": {},
             "cordova-plugin-camera": {
@@ -97,9 +97,6 @@
             "phonegap-plugin-push": {},
             "cordova-plugin-network-information": {}
         },
-        "platforms": [
-            "android",
-            "ios"
-        ]
+        "platforms": ["android", "ios"]
     }
 }

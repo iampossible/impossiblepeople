@@ -1,34 +1,32 @@
-'use strict';
+"use strict";
 
-const Joi = require('joi');
+const Joi = require("joi");
 
-const Controller = require('core/Controller');
-const facebookService = require('middleware/FacebookService');
-const userModel = require('models/UserModel');
-const cookieHelper = require('middleware/CookieHelper');
+const Controller = require("core/Controller");
+const facebookService = require("middleware/FacebookService");
+const userModel = require("models/UserModel");
+const cookieHelper = require("middleware/CookieHelper");
 
 class FacebookController extends Controller {
-
   constructor() {
     super();
 
-    this.route('check', {
-      method: 'GET',
-      path: '/api/facebook/check',
+    this.route("check", {
+      method: "GET",
+      path: "/api/facebook/check",
       handler: this.checkHandler,
       validateQuery: {
-        token: Joi.string().required(),
-      },
+        token: Joi.string().required()
+      }
     });
-
-    this.route('link', {
-      method: 'GET',
-      path: '/api/facebook/link',
-      auth: 'session',
+    this.route("link", {
+      method: "GET",
+      path: "/api/facebook/link",
+      auth: "session",
       handler: this.linkHandler,
       validateQuery: {
-        token: Joi.string().required(),
-      },
+        token: Joi.string().required()
+      }
     });
   }
 
@@ -36,10 +34,13 @@ class FacebookController extends Controller {
     facebookService
       .verifyToken(request.query.token)
       .then((accept, reject, facebookData) => {
-        facebookService.getUserDetails(facebookData.user_id).done(accept).error(reject);
+        facebookService
+          .getUserDetails(facebookData.user_id)
+          .done(accept)
+          .error(reject);
       })
       .then((accept, reject, facebookData) => {
-        var userToCreate = Object.assign(facebookData.user, { password: '' });
+        var userToCreate = Object.assign(facebookData.user, { password: "" });
         userModel
           .createUser(userToCreate)
           .then((acc, rej, newUser) => {
@@ -58,8 +59,8 @@ class FacebookController extends Controller {
                 .error(rej);
             }
           })
-          .error((err) => {
-            if (err.msg === 'user already exists' && err.user.fromFacebook) {
+          .error(err => {
+            if (err.msg === "user already exists" && err.user.fromFacebook) {
               userModel
                 .getAuthUser({ fromFacebook: err.user.fromFacebook })
                 .done(user => {
@@ -72,44 +73,58 @@ class FacebookController extends Controller {
                   });
                 })
                 .error(() => {
-                  reject('Could not match facebook user');
+                  reject("Could not match facebook user");
                 });
             } else {
-              reject('Not a Facebook user');
+              reject("Not a Facebook user");
             }
           });
       })
-      .error((err) => reply({ msg: err }).code(403));
+      .error(err => reply({ msg: err }).code(403));
   }
 
   linkHandler(request, reply) {
     facebookService
       .verifyToken(request.query.token)
       .then((accept, reject, facebookData) => {
-        facebookService.getUserDetails(facebookData.user_id).done(accept).error(reject);
+        facebookService
+          .getUserDetails(facebookData.user_id)
+          .done(accept)
+          .error(reject);
       })
       .then((accept, reject, facebookData) => {
-        if (request.auth.credentials.fromFacebook === facebookData.user.fromFacebook) {
+        if (
+          request.auth.credentials.fromFacebook ===
+          facebookData.user.fromFacebook
+        ) {
           accept(facebookData.friends);
         } else {
-          userModel.getUser({ fromFacebook: facebookData.user.fromFacebook }).done(user => {
-            if (user) {
-              reject('account linked to another user');
-            } else {
-              userModel
-                .updateUser(request.auth.credentials.userID, { fromFacebook: facebookData.user.fromFacebook })
-                .done(() => accept(facebookData.friends))
-                .error(reject);
-            }
-          }).error(reject);
+          userModel
+            .getUser({ fromFacebook: facebookData.user.fromFacebook })
+            .done(user => {
+              if (user) {
+                reject("account linked to another user");
+              } else {
+                userModel
+                  .updateUser(request.auth.credentials.userID, {
+                    fromFacebook: facebookData.user.fromFacebook
+                  })
+                  .done(() => accept(facebookData.friends))
+                  .error(reject);
+              }
+            })
+            .error(reject);
         }
       })
       .then((accept, reject, friends) => {
-        userModel.addFacebookFriends(request.auth.credentials, friends).done(accept).error(reject);
+        userModel
+          .addFacebookFriends(request.auth.credentials, friends)
+          .done(accept)
+          .error(reject);
       })
       .done(() => reply().code(204))
-      .error((msg) => {
-        if (msg === 'account linked to another user') {
+      .error(msg => {
+        if (msg === "account linked to another user") {
           reply({ msg }).code(422);
         } else {
           reply({ msg }).code(500);
