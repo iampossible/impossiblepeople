@@ -3,11 +3,13 @@
 const request = require("request");
 const Sequence = require("impossible-promise");
 
-const Config = require("config/server");
+const Config = require("../config/server");
 const baseUrl = "https://graph.facebook.com/v2.6";
 
 class FacebookService {
   constructor(appID, appSecret) {
+    // this.accessToken = `133088487346292|7922d3fd803b524876e6ef6d16ad8cea`;
+    // this.appID = "133088487346292";
     this.accessToken = `${appID}|${appSecret}`;
     this.appID = appID;
   }
