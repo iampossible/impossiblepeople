@@ -1,12 +1,12 @@
-'use strict';
+"use strict";
 
-const btoa = require('btoa');
-const moment = require('core/AppMoment');
-const Sequence = require('impossible-promise');
+const btoa = require("btoa");
+const moment = require("core/AppMoment");
+const Sequence = require("impossible-promise");
 
-const profileModel = require('models/ProfileModel');
-const Model = require('core/Model');
-const passwordHelper = require('middleware/PasswordHelper');
+const profileModel = require("models/ProfileModel");
+const Model = require("core/Model");
+const passwordHelper = require("middleware/PasswordHelper");
 
 class UserModel extends Model {
   getUser(user) {
@@ -38,7 +38,7 @@ class UserModel extends Model {
       RETURN p`,
       {
         email: user.email || null,
-        userID: user.userID || null,
+        userID: user.userID || null
       }
     );
   }
@@ -46,14 +46,16 @@ class UserModel extends Model {
   getAuthUser(predicate) {
     return this.getUser(predicate)
       .then((accept, reject, user) => {
-        if (!user) return reject('user not found');
-        this.getInterests(user).done(accept).error(reject);
+        if (!user) return reject("user not found");
+        this.getInterests(user)
+          .done(accept)
+          .error(reject);
       })
       .done((user, interests) => {
-        let interestMap = interests.map((interest) => {
+        let interestMap = interests.map(interest => {
           delete interest.id;
           return interest;
-        })
+        });
         return Object.assign(user, { interests: interestMap });
       });
   }
@@ -71,103 +73,151 @@ class UserModel extends Model {
   }
 
   createInvite(user, email) {
-    return this.db.getOne('MATCH (n:Invitee { email: {email} }) return n', { email })
+    return this.db
+      .getOne("MATCH (n:Invitee { email: {email} }) return n", { email })
       .then((accept, reject, invitee) => {
         if (invitee) {
           accept(invitee);
         } else {
-          this.db.save({ email, at: Date.now() }, ['Person', 'Invitee'], (error, newUser) => {
-            if (error) return reject(error);
-            this.db.save(Object.assign(newUser, { userID: this.db.encodeID(newUser.id, newUser.at) }), (innerErr, finalUser) => {
-              if (innerErr) return reject(innerErr);
-              return accept(finalUser);
-            });
-          });
+          this.db.save(
+            { email, at: Date.now() },
+            ["Person", "Invitee"],
+            (error, newUser) => {
+              if (error) return reject(error);
+              this.db.save(
+                Object.assign(newUser, {
+                  userID: this.db.encodeID(newUser.id, newUser.at)
+                }),
+                (innerErr, finalUser) => {
+                  if (innerErr) return reject(innerErr);
+                  return accept(finalUser);
+                }
+              );
+            }
+          );
         }
       })
       .then((accept, reject, newInvitee) => {
-        this.db.relate(user, 'INVITES', newInvitee, { at: Date.now() }, (err, rel) => {
-          if (err) return reject(err);
-          accept(newInvitee);
-        });
-      }).then((accept, reject, newInvitee) => {
-        profileModel.connectProfiles(user.userID, newInvitee.userID).done(accept).error(reject);
-      }).done((foundInvitee, newInvitee) => newInvitee);
+        this.db.relate(
+          user,
+          "INVITES",
+          newInvitee,
+          { at: Date.now() },
+          (err, rel) => {
+            if (err) return reject(err);
+            accept(newInvitee);
+          }
+        );
+      })
+      .then((accept, reject, newInvitee) => {
+        profileModel
+          .connectProfiles(user.userID, newInvitee.userID)
+          .done(accept)
+          .error(reject);
+      })
+      .done((foundInvitee, newInvitee) => newInvitee);
   }
 
   _upgradeInvitee(InviteeNode, newUserData) {
-    return this.updateUser(InviteeNode.userID, newUserData)
-      .then((accept, reject, finalUser) => {
-        this.db.query('MATCH (i:Invitee) WHERE i.userID = {userID} REMOVE i:Invitee RETURN i', { userID: finalUser.userID }, (err, result) => {
-
+    return this.updateUser(
+      InviteeNode.userID,
+      newUserData
+    ).then((accept, reject, finalUser) => {
+      this.db.query(
+        "MATCH (i:Invitee) WHERE i.userID = {userID} REMOVE i:Invitee RETURN i",
+        { userID: finalUser.userID },
+        (err, result) => {
           if (err) return reject(err);
           accept(result.pop());
-        });
-      });
+        }
+      );
+    });
   }
 
   _createNewUser(userData) {
     userData.email = userData.email.toLowerCase();
     return new Sequence((accept, reject) => {
-      this.db.save(userData, 'Person', (error, newUser) => {
+      this.db.save(userData, "Person", (error, newUser) => {
         if (error) return reject(error);
-        this.db.save(Object.assign(newUser, { userID: this.db.encodeID(newUser.id, newUser.at) }), (innerErr, finalUser) => {
-          if (innerErr) return reject(innerErr);
-          return accept(finalUser);
-        });
+        this.db.save(
+          Object.assign(newUser, {
+            userID: this.db.encodeID(newUser.id, newUser.at)
+          }),
+          (innerErr, finalUser) => {
+            if (innerErr) return reject(innerErr);
+            return accept(finalUser);
+          }
+        );
       });
     });
   }
 
   createUser(user) {
     user.email = user.email.toLowerCase();
-    return this
-      .getUser({ email: user.email, fromFacebook: user.fromFacebook })
+    return this.getUser({ email: user.email, fromFacebook: user.fromFacebook })
       .then((accept, reject, userNode) => {
-        if (userNode) return reject({
-          msg: 'user already exists',
-          user: { fromFacebook: userNode.fromFacebook, userID: userNode.userID },
-        })
+        if (userNode)
+          return reject({
+            msg: "user already exists",
+            user: {
+              fromFacebook: userNode.fromFacebook,
+              userID: userNode.userID
+            }
+          });
         if (user.password) {
-          passwordHelper.hashPassword(user.password).done(accept).error(reject);
+          passwordHelper
+            .hashPassword(user.password)
+            .done(accept)
+            .error(reject);
         } else {
           // don't hash empty Facebook user password
-          accept('');
+          accept("");
         }
       })
       .then((accept, reject, hashedPassword) => {
-
-        this
-          .getInvitee({ email: user.email })
-          .done((InviteeNode) => {
-            let newUser = Object.assign(user, { at: Date.now(), password: hashedPassword });
-            if (InviteeNode) {
-              this._upgradeInvitee(InviteeNode, newUser).done(accept).error(reject);
-            } else {
-              this._createNewUser(newUser).done(accept).error(reject);
-            }
+        this.getInvitee({ email: user.email }).done(InviteeNode => {
+          let newUser = Object.assign(user, {
+            at: Date.now(),
+            password: hashedPassword
           });
-      }).done((userNode, hashedPassword, finalUser) => finalUser);
+          if (InviteeNode) {
+            this._upgradeInvitee(InviteeNode, newUser)
+              .done(accept)
+              .error(reject);
+          } else {
+            this._createNewUser(newUser)
+              .done(accept)
+              .error(reject);
+          }
+        });
+      })
+      .done((userNode, hashedPassword, finalUser) => finalUser);
   }
 
   updateUser(userID, data) {
     return new Sequence((accept, reject) => {
       this.db.query(
-        'MATCH (p:Person { userID: {userID} }) SET p += {data} RETURN p',
+        "MATCH (p:Person { userID: {userID} }) SET p += {data} RETURN p",
         { userID, data },
         (err, node) => {
           if (err) return reject(err);
           accept(node[0]);
-        });
+        }
+      );
     });
   }
 
   updateUserPassword(user, newPassword) {
-    return passwordHelper.hashPassword(newPassword)
+    return passwordHelper
+      .hashPassword(newPassword)
       .then((accept, reject, newHashPassword) => {
         let resets = user.resetCount || 0;
-        this.updateUser(user.userID, { password: newHashPassword, resetCount: resets + 1 }).then(accept);
-      }).done(() => true);
+        this.updateUser(user.userID, {
+          password: newHashPassword,
+          resetCount: resets + 1
+        }).then(accept);
+      })
+      .done(() => true);
   }
 
   getUserPosts(userID) {
@@ -269,8 +319,9 @@ class UserModel extends Model {
 
   addFacebookFriends(user, friends) {
     return new Sequence((accept, reject) => {
-      Promise
-        .all(friends.map((friend) => this._addFacebookFriend(user.userID, friend.id)))
+      Promise.all(
+        friends.map(friend => this._addFacebookFriend(user.userID, friend.id))
+      )
         .then(accept)
         .catch(reject);
     });
@@ -313,7 +364,7 @@ class UserModel extends Model {
         `MATCH (:Person {userID: {uID}}) -[r:INTERESTED_IN]-> (:Interest {interestID: {iID}}) 
         DELETE r`,
         { uID: user.userID, iID: interest.interestID },
-        (err) => {
+        err => {
           if (err) return reject(err);
           resolve();
         }
@@ -323,8 +374,7 @@ class UserModel extends Model {
 
   addInterests(user, interests) {
     return new Sequence((accept, reject) => {
-      Promise
-        .all(interests.map((interest) => this._addInterest(user, interest)))
+      Promise.all(interests.map(interest => this._addInterest(user, interest)))
         .then(accept)
         .catch(reject);
     });
@@ -332,8 +382,9 @@ class UserModel extends Model {
 
   removeInterests(user, interests) {
     return new Sequence((accept, reject) => {
-      Promise
-        .all(interests.map((interest) => this._removeInterest(user, interest)))
+      Promise.all(
+        interests.map(interest => this._removeInterest(user, interest))
+      )
         .then(accept)
         .catch(reject);
     });
@@ -345,11 +396,11 @@ class UserModel extends Model {
         let currentInterestMap = {};
         let toAdd = [];
 
-        interests.forEach((interest) => {
+        interests.forEach(interest => {
           currentInterestMap[interest.interestID] = interest;
         });
 
-        newInterests.forEach((interest) => {
+        newInterests.forEach(interest => {
           if (currentInterestMap[interest.interestID]) {
             delete currentInterestMap[interest.interestID];
           } else {
@@ -357,14 +408,21 @@ class UserModel extends Model {
           }
         });
 
-        let toDelete = Object.keys(currentInterestMap).map(k => ({ interestID: k }));
+        let toDelete = Object.keys(currentInterestMap).map(k => ({
+          interestID: k
+        }));
         accept({ toAdd, toDelete });
       })
       .then((accept, reject, interestMap) => {
-        this.addInterests(user, interestMap.toAdd).then(() => {
-          this.removeInterests(user, interestMap.toDelete).then(accept).error(reject);
-        }).error(reject);
-      }).done(() => true);
+        this.addInterests(user, interestMap.toAdd)
+          .then(() => {
+            this.removeInterests(user, interestMap.toDelete)
+              .then(accept)
+              .error(reject);
+          })
+          .error(reject);
+      })
+      .done(() => true);
   }
 
   blockUser(userID, blockedUserID) {
@@ -380,18 +438,20 @@ class UserModel extends Model {
           accept(result);
         }
       );
-    }).then((accept, reject, result) => {
-      this.db.query(
-        `MATCH (u:Person {userID: {userID}})-[f:FOLLOWS]-(b:Person {userID: {blockedUserID}}) 
+    })
+      .then((accept, reject, result) => {
+        this.db.query(
+          `MATCH (u:Person {userID: {userID}})-[f:FOLLOWS]-(b:Person {userID: {blockedUserID}}) 
         DELETE f`,
-        { userID, blockedUserID },
-        (error, result) => {
-          console.log(error)
-          if (error) return reject(error);
-          accept(result);
-        }
-      );
-    }).done((result) => result);
+          { userID, blockedUserID },
+          (error, result) => {
+            console.log(error);
+            if (error) return reject(error);
+            accept(result);
+          }
+        );
+      })
+      .done(result => result);
   }
 
   reportUser(userID, reportedUserID) {
@@ -417,7 +477,6 @@ class UserModel extends Model {
       { userID, blockedUserID }
     );
   }
-
 }
 
 module.exports = new UserModel();
