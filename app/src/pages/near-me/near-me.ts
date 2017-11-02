@@ -32,7 +32,7 @@ export class NearMePage {
 
   ionViewWillEnter() {
     console.debug('ionViewWillEnter NearMePage');
-    this.getNearMeFeed();
+    this.updateLocation();
   }
 
   ionViewWillLeave() {
@@ -41,7 +41,7 @@ export class NearMePage {
     }
   }
 
-  getNearMeFeed() {
+  private getNearMeFeed() {
     this.loading = true;
     console.debug('getNearMeFeed');
     this.exploreService.getExploreNearMeFeed('_', (response: Response) => {

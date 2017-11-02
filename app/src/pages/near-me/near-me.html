@@ -14,7 +14,7 @@
 
 
 <ion-content class="feed-tab background">
-  <div *ngIf="!loading && feed.length === 0" class="no-feed">
+  <div *ngIf="!loading && !loadingLocation && feed.length === 0" class="no-feed">
     <h3 class="title">There are no posts near you</h3>
   </div>
 
