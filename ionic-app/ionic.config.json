@@ -1,6 +1,9 @@
 {
   "name": "gnome-app",
   "app_id": "com.impossible.gnome.prod",
-  "v2": true,
-  "typescript": true
+  "integrations": {
+    "cordova": {},
+    "gulp": {}
+  },
+  "type": "ionic-angular"
 }

@@ -9,7 +9,7 @@ curl ${SQS_HOST} -d "Action=CreateQueue&QueueName=gnome-email-dev"
 
 password="${NEO4J_AUTH#neo4j/}"
 echo "Waiting for neo4j...."
-echo ${NEO4J_HOST:=http://localhost:7474}
+echo ${NEO4J_HOST:=http://192.168.99.100:7474}
 while true; do
     curl -X GET ${NEO4J_HOST}/db/data/ --user "neo4j:${password}"
     if [ $? -eq 0 ]; then

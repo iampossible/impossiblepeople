@@ -1,0 +1,5 @@
+api/**
+app/**
+ionic-app/**
+web/**
+web/api/node_modules/**
