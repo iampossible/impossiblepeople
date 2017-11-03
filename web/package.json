@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "availity-reactstrap-validation": "^1.4.3",
     "bootstrap": "^4.0.0-beta",
     "react": "^16.0.0",
     "react-dom": "^16.0.0",
@@ -15,5 +16,5 @@
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject"
   },
-  "proxy": "http://192.168.99.100:3000/"
+  "proxy": "http://localhost:3000/"
 }

@@ -1,6 +1,6 @@
 import React, { Component } from "react";
-import { Button, ListGroup, ListGroupItem } from "reactstrap";
-
+import { Button, ListGroup, ListGroupItem, Row, Col } from "reactstrap";
+import { UserType } from "../UserType";
 export default class Interest extends Component {
   constructor(props) {
     super(props);
@@ -11,6 +11,7 @@ export default class Interest extends Component {
       interests: []
     };
   }
+
   //to handle the selection when the button is clicked
   handleSelection(evt) {
     //get the interestID from the button selected/clicked
@@ -58,59 +59,67 @@ export default class Interest extends Component {
   render() {
     const { featuredInterest } = this.state;
     return (
-      <ListGroup
-        id="lists"
-        className="d-flex flex-row flex-wrap align-content-center"
-      >
-        {featuredInterest.map((interest, index) => {
-          if (index % 3 === 0) {
-            return (
-              <ListGroupItem key={index}>
-                <Button
-                  color="info"
-                  size="sm"
-                  onClick={e => {
-                    this.handleSelection(e);
-                  }}
-                  value={interest.interestID}
-                >
-                  {interest.name}
-                </Button>
-              </ListGroupItem>
-            );
-          } else if (index % 2 === 0) {
-            return (
-              <ListGroupItem key={index}>
-                <Button
-                  color="success"
-                  size="sm"
-                  onClick={e => {
-                    this.handleSelection(e);
-                  }}
-                  value={interest.interestID}
-                >
-                  {interest.name}
-                </Button>
-              </ListGroupItem>
-            );
-          } else {
-            return (
-              <ListGroupItem key={index}>
-                <Button
-                  color="danger"
-                  size="sm"
-                  onClick={e => {
-                    this.handleSelection(e);
-                  }}
-                  value={interest.interestID}
-                >
-                  {interest.name}
-                </Button>
-              </ListGroupItem>
-            );
-          }
-        })}
-      </ListGroup>
+      <div>
+        <Row>
+          <Col className="sm-12">
+            <ListGroup
+              id="lists"
+              className="d-flex flex-row flex-wrap align-content-center"
+            >
+              {featuredInterest.map((interest, index) => {
+                if (index % 3 === 0) {
+                  return (
+                    <ListGroupItem key={index}>
+                      <Button
+                        color="info"
+                        size="sm"
+                        onClick={e => {
+                          this.handleSelection(e);
+                        }}
+                        value={interest.interestID}
+                      >
+                        {interest.name}
+                      </Button>
+                    </ListGroupItem>
+                  );
+                } else if (index % 2 === 0) {
+                  return (
+                    <ListGroupItem key={index}>
+                      <Button
+                        color="success"
+                        size="sm"
+                        onClick={e => {
+                          this.handleSelection(e);
+                        }}
+                        value={interest.interestID}
+                      >
+                        {interest.name}
+                      </Button>
+                    </ListGroupItem>
+                  );
+                } else {
+                  return (
+                    <ListGroupItem key={index}>
+                      <Button
+                        color="danger"
+                        size="sm"
+                        onClick={e => {
+                          this.handleSelection(e);
+                        }}
+                        value={interest.interestID}
+                      >
+                        {interest.name}
+                      </Button>
+                    </ListGroupItem>
+                  );
+                }
+              })}
+            </ListGroup>
+            <hr />
+          </Col>
+        </Row>
+        <UserType />
+      </div>
     );
   }
 }

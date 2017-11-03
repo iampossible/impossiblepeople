@@ -47,6 +47,23 @@
     cursor: pointer;
 }
 
+#selectUserType {
+    color: cornsilk;
+    line-height: 1.5;
+}
+
+#selectUserType p {
+    padding-left: 10px;
+}
+
+#dropdownUserType {
+    padding: 0 5em;
+}
+
+hr {
+    background: #fec85d;
+}
+
 @keyframes App-logo-spin {
     from {
         transform: rotate(0deg);
