@@ -1,420 +1,377 @@
 {
-  "interests": [
-    {
-      "suggested": false,
-      "featured": true,
-      "name": "Art & Design",
-      "image": "build/images/interests/artdesign.png"
-    },
-    {
-      "suggested": false,
-      "featured": true,
-      "name": "Environment",
-      "image": "build/images/interests/environment.png"
-    },
-    {
-      "suggested": false,
-      "featured": true,
-      "name": "Events",
-      "image": "build/images/interests/events.png"
-    },
-    {
-      "suggested": false,
-      "featured": true,
-      "name": "Fitness",
-      "image": "build/images/interests/fitness.png"
-    },
-    {
-      "suggested": false,
-      "featured": true,
-      "name": "Family",
-      "image": "build/images/interests/family.png"
-    },
-    {
-      "suggested": false,
-      "featured": true,
-      "name": "Learning",
-      "image": "build/images/interests/learning.png"
-    },
-    {
-      "suggested": false,
-      "featured": true,
-      "name": "Film & Photo",
-      "image": "build/images/interests/filmphoto.png"
-    },
-    {
-      "suggested": false,
-      "featured": true,
-      "name": "Food",
-      "image": "build/images/interests/food.png"
-    },
-    {
-      "suggested": false,
-      "featured": true,
-      "name": "Wellness",
-      "image": "build/images/interests/wellness.png"
-    },
-    {
-      "suggested": false,
-      "featured": true,
-      "name": "Home & DIY",
-      "image": "build/images/interests/homediy.png"
-    },
-    {
-      "suggested": false,
-      "featured": true,
-      "name": "Languages",
-      "image": "build/images/interests/languages.png"
-    },
-    {
-      "suggested": false,
-      "featured": true,
-      "name": "Music",
-      "image": "build/images/interests/music.png"
-    },
-    {
-      "suggested": false,
-      "featured": true,
-      "name": "Social Good",
-      "image": "build/images/interests/social.png"
-    },
-    {
-      "suggested": false,
-      "featured": true,
-      "name": "Spirituality",
-      "image": "build/images/interests/spirituality.png"
-    },
-    {
-      "suggested": false,
-      "featured": true,
-      "name": "Business",
-      "image": "build/images/interests/business.png"
-    },
-    {
-      "suggested": false,
-      "featured": true,
-      "name": "Technology",
-      "image": "build/images/interests/technology.png"
-    },
-    {
-      "suggested": false,
-      "featured": true,
-      "name": "Travel",
-      "image": "build/images/interests/travel.png"
-    },
-    {
-      "suggested": false,
-      "featured": true,
-      "name": "Writing",
-      "image": "build/images/interests/writing.png"
-    },
-    {
-      "suggested": false,
-      "featured": false,
-      "name": "Programming"
-    },
-    {
-      "suggested": true,
-      "featured": false,
-      "name": "Sci-Fi"
-    },
-    {
-      "suggested" : true,
-      "featured" : false,
-      "name" : "Vexillology"
-    }
-  ],
-  "people": [
-    {
-      "Person": {
-        "firstName": "Demo",
-        "lastName": "User",
-        "email": "user@example.com",
-        "_password": "somepassword",
-        "biography": "Just some user, you know?",
-        "latitude": 39.83864,
-        "longitude": -85.98698,
-        "location": "Lawrence Township",
-        "url": "http://township.me/",
-        "imageSource": "http://www.fillmurray.com/100/100",
-        "notificationEndpoint": "irrelevant"
-      },
-      "Interests": [
-        "Music",
-        "Food"
-      ],
-      "Follows": [
-        "White",
-        "Alice"
-      ],
-      "Posts": [
-        {
-          "postType": "ASKS",
-          "interest": "Languages",
-          "timeRequired": 0,
-          "content": "Some dumb ask",
-          "location": "London"
-        }
-      ]
-    },
-    {
-      "Person": {
-        "firstName": "Alice",
-        "lastName": "Liddell",
-        "email": "alice@wonderland.com",
-        "_password": "somewhere",
-        "latitude": 39.83864,
-        "longitude": -85.98698,
-        "location": "Wonderland and far far beyond",
-        "biography": "Fallen down the rabbit hole.",
-        "imageSource": "http://i.imgur.com/c1yVfSk.png"
-      },
-      "Posts": [
-        {
-          "postType": "OFFERS",
-          "interest": "Travel",
-          "timeRequired": 0,
-          "content": "How long is forever?",
-          "location": "Wonderland and far far beyond",
-          "comments": [
-            {
-              "by": "The Mad",
-              "content": "How long is a piece of string?"
-            },
-            {
-              "by": "White",
-              "content": "Sometimes, just one second"
-            }
-          ]
+    "interests": [{
+            "suggested": false,
+            "featured": true,
+            "name": "Art & Design",
+            "image": "build/images/interests/artdesign.png"
         },
         {
-          "postType": "ASKS",
-          "interest": "Food",
-          "timeRequired": 0,
-          "content": "which way i ought to go?",
-          "location": "Wonderland and far far beyond",
-          "resolved": true,
-          "comments": [
-            {
-              "by": "Cheshire",
-              "content": "Lose something?"
+            "suggested": false,
+            "featured": true,
+            "name": "Environment",
+            "image": "build/images/interests/environment.png"
+        },
+        {
+            "suggested": false,
+            "featured": true,
+            "name": "Events",
+            "image": "build/images/interests/events.png"
+        },
+        {
+            "suggested": false,
+            "featured": true,
+            "name": "Fitness",
+            "image": "build/images/interests/fitness.png"
+        },
+        {
+            "suggested": false,
+            "featured": true,
+            "name": "Family",
+            "image": "build/images/interests/family.png"
+        },
+        {
+            "suggested": false,
+            "featured": true,
+            "name": "Learning",
+            "image": "build/images/interests/learning.png"
+        },
+        {
+            "suggested": false,
+            "featured": true,
+            "name": "Film & Photo",
+            "image": "build/images/interests/filmphoto.png"
+        },
+        {
+            "suggested": false,
+            "featured": true,
+            "name": "Food",
+            "image": "build/images/interests/food.png"
+        },
+        {
+            "suggested": false,
+            "featured": true,
+            "name": "Wellness",
+            "image": "build/images/interests/wellness.png"
+        },
+        {
+            "suggested": false,
+            "featured": true,
+            "name": "Home & DIY",
+            "image": "build/images/interests/homediy.png"
+        },
+        {
+            "suggested": false,
+            "featured": true,
+            "name": "Languages",
+            "image": "build/images/interests/languages.png"
+        },
+        {
+            "suggested": false,
+            "featured": true,
+            "name": "Music",
+            "image": "build/images/interests/music.png"
+        },
+        {
+            "suggested": false,
+            "featured": true,
+            "name": "Social Good",
+            "image": "build/images/interests/social.png"
+        },
+        {
+            "suggested": false,
+            "featured": true,
+            "name": "Spirituality",
+            "image": "build/images/interests/spirituality.png"
+        },
+        {
+            "suggested": false,
+            "featured": true,
+            "name": "Business",
+            "image": "build/images/interests/business.png"
+        },
+        {
+            "suggested": false,
+            "featured": true,
+            "name": "Technology",
+            "image": "build/images/interests/technology.png"
+        },
+        {
+            "suggested": false,
+            "featured": true,
+            "name": "Travel",
+            "image": "build/images/interests/travel.png"
+        },
+        {
+            "suggested": false,
+            "featured": true,
+            "name": "Writing",
+            "image": "build/images/interests/writing.png"
+        },
+        {
+            "suggested": false,
+            "featured": false,
+            "name": "Programming"
+        },
+        {
+            "suggested": true,
+            "featured": false,
+            "name": "Sci-Fi"
+        },
+        {
+            "suggested": true,
+            "featured": false,
+            "name": "Vexillology"
+        }
+    ],
+    "people": [{
+            "Person": {
+                "firstName": "Demo",
+                "lastName": "User",
+                "email": "user@example.com",
+                "_password": "somepassword",
+                "biography": "Just some user, you know?",
+                "latitude": 39.83864,
+                "longitude": -85.98698,
+                "location": "Lawrence Township",
+                "url": "http://township.me/",
+                "imageSource": "http://www.fillmurray.com/100/100",
+                "notificationEndpoint": "irrelevant",
+                "userType": "volunteer"
             },
-            {
-              "by": "Alice",
-              "content": "Oh my! oh, no no, I was just... uh never mind. "
+            "Interests": ["Music", "Food"],
+            "Follows": ["White", "Alice"],
+            "Posts": [{
+                "postType": "ASKS",
+                "interest": "Languages",
+                "timeRequired": 0,
+                "content": "Some dumb ask",
+                "location": "London"
+            }]
+        },
+        {
+            "Person": {
+                "firstName": "Alice",
+                "lastName": "Liddell",
+                "email": "alice@wonderland.com",
+                "_password": "somewhere",
+                "latitude": 39.83864,
+                "longitude": -85.98698,
+                "location": "Wonderland and far far beyond",
+                "biography": "Fallen down the rabbit hole.",
+                "imageSource": "http://i.imgur.com/c1yVfSk.png",
+                "userType": "organisation"
             },
-            {
-              "by": "Cheshire",
-              "content": "Oh, that's quite all right."
+            "Posts": [{
+                    "postType": "OFFERS",
+                    "interest": "Travel",
+                    "timeRequired": 0,
+                    "content": "How long is forever?",
+                    "location": "Wonderland and far far beyond",
+                    "comments": [{
+                            "by": "The Mad",
+                            "content": "How long is a piece of string?"
+                        },
+                        {
+                            "by": "White",
+                            "content": "Sometimes, just one second"
+                        }
+                    ]
+                },
+                {
+                    "postType": "ASKS",
+                    "interest": "Food",
+                    "timeRequired": 0,
+                    "content": "which way i ought to go?",
+                    "location": "Wonderland and far far beyond",
+                    "resolved": true,
+                    "comments": [{
+                            "by": "Cheshire",
+                            "content": "Lose something?"
+                        },
+                        {
+                            "by": "Alice",
+                            "content": "Oh my! oh, no no, I was just... uh never mind. "
+                        },
+                        {
+                            "by": "Cheshire",
+                            "content": "Oh, that's quite all right."
+                        },
+                        {
+                            "by": "Alice",
+                            "content": "Why, why you're a cat!"
+                        },
+                        {
+                            "by": "Cheshire",
+                            "content": "A *Cheshire* Cat."
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "Person": {
+                "firstName": "The Mad",
+                "lastName": "Hatter",
+                "email": "im.not.mad@example.com",
+                "_password": "muchmoremuchier",
+                "latitude": 39.83864,
+                "longitude": -85.98698,
+                "location": "Wonderland and far far beyond",
+                "biography": "I'm not mad, I just love hats!",
+                "url": "https://en.wikipedia.org/wiki/The_Hatter",
+                "imageSource": "http://i.imgur.com/aG8ppnA.png",
+                "userType": "organisation"
             },
-            {
-              "by": "Alice",
-              "content": "Why, why you're a cat!"
+            "Interests": ["Travel"],
+            "Follows": ["White"],
+            "Posts": [{
+                "postType": "OFFERS",
+                "interest": "Food",
+                "timeRequired": 0,
+                "content": "Would you like a little more tea?",
+                "location": "Wonderland and far far beyond",
+                "comments": [{
+                        "by": "Alice",
+                        "content": "Well, I haven't had any yet, so I can't very well take more"
+                    },
+                    {
+                        "by": "White",
+                        "content": "Ah, you mean you can't very well take less"
+                    },
+                    {
+                        "by": "White",
+                        "content": "Yes. You can always take more than nothing."
+                    }
+                ]
+            }]
+        },
+        {
+            "Person": {
+                "firstName": "Cheshire",
+                "lastName": "Cat",
+                "email": "miaumiau@example.com",
+                "_password": "smiles",
+                "latitude": 39.83864,
+                "longitude": -85.98698,
+                "location": "Wonderland and far far beyond",
+                "imageSource": "http://i.imgur.com/Guxhpb5.png",
+                "userType": "volunteer"
             },
-            {
-              "by": "Cheshire",
-              "content": "A *Cheshire* Cat."
+            "Interests": ["Travel"],
+            "Posts": [{
+                "postType": "OFFERS",
+                "interest": "Food",
+                "timeRequired": 0,
+                "content": "I'm a cat and I can offer you a mouse!",
+                "location": "Wonderland and far far beyond",
+                "comments": [{
+                    "by": "Alice",
+                    "content": "Well, I haven't had any mouse yet, so I can't very well take one"
+                }]
+            }]
+        },
+        {
+            "Person": {
+                "firstName": "White",
+                "lastName": "Rabbit",
+                "email": "follow.me@example.com",
+                "_password": "clocks",
+                "latitude": 39.83864,
+                "longitude": -85.98698,
+                "location": "Wonderland and far far beyond and far far beyond",
+                "imageSource": "http://i.imgur.com/kEgDduG.jpg",
+                "notificationEndpoint": "white-rabbit-arn",
+                "userType": "volunteer"
+            },
+            "Follows": ["Demo", "The Mad"],
+            "Posts": [{
+                "postType": "OFFERS",
+                "interest": "Travel",
+                "timeRequired": 0,
+                "content": "I´M LATE! I`m late, I`m late! I`m LATE!",
+                "location": "Wonderland and far far beyond"
+            }]
+        },
+        {
+            "Person": {
+                "firstName": "Queen of",
+                "lastName": "Hearts",
+                "email": "queen@hearts.cards",
+                "_password": "offwiththeirheads",
+                "imageSource": "http://i.imgur.com/zmCVGyw.jpg",
+                "userType": "volunteer"
+            },
+            "Interests": ["Travel"]
+        },
+        {
+            "Person": {
+                "firstName": "Bill the",
+                "lastName": "Lizard",
+                "email": "monster@chimney.sweep",
+                "fromFacebook": 123456789,
+                "imageSource": "http://i.imgur.com/LGZHeT1.png",
+                "userType": "volunteer"
+            },
+            "Interests": ["Travel"]
+        },
+        {
+            "Person": {
+                "firstName": "Mock",
+                "lastName": "Turtle",
+                "email": "mock.turtle@soup.com",
+                "_password": "inb4facebook",
+                "fromFacebook": 234567890,
+                "imageSource": "https://upload.wikimedia.org/wikipedia/commons/9/9a/Alice_par_John_Tenniel_34.png",
+                "userType": "volunteer"
+            },
+            "Follows": ["Hans"],
+            "Interests": ["Travel"]
+        },
+        {
+            "Person": {
+                "firstName": "Hans",
+                "lastName": "Muster",
+
+                "email": "hans@muster.io",
+                "_password": "switzerland4eva",
+                "fromFacebook": 135792468,
+                "imageSource": "https://gnome-assets.s3-eu-west-1.amazonaws.com/21xsa8nzrvbr",
+                "userType": "organisation"
+            },
+            "Follows": ["Tom", "Mock"],
+            "Interests": ["Travel"],
+            "Posts": [{
+                "postType": "OFFERS",
+                "interest": "Environment",
+                "timeRequired": 43200,
+                "content": "If anyone needs a helping hand in his/her garden, I'm willing to help you out on a sunny Saturday afternoon! Provide me with sunshine and water and I'll mow that lawn of yours!",
+                "location": "Greater London"
+            }]
+        },
+        {
+            "Person": {
+                "firstName": "Tom",
+                "lastName": "Harle",
+                "email": "testing@impossible.com",
+                "_password": "justatest",
+                "imageSource": "https://gnome-assets.s3-eu-west-1.amazonaws.com/oyVU6aL3p1Km",
+                "userType": "organisation"
+            },
+            "Follows": ["Hans"],
+            "Interests": ["Travel"],
+            "Posts": [{
+                "postType": "OFFERS",
+                "interest": "Music",
+                "timeRequired": 0,
+                "content": "Musician? I'm putting a show together in Herne Hill at the end of June. Only 2 bands confirmed so far. Come and perform!",
+                "location": "Greater London"
+            }]
+        },
+        {
+            "Person": {
+                "email": "invitee@impossible.com",
+                "_invitedBy": ["Alice"]
             }
-          ]
         }
-      ]
-    },
-    {
-      "Person": {
-        "firstName": "The Mad",
-        "lastName": "Hatter",
-        "email": "im.not.mad@example.com",
-        "_password": "muchmoremuchier",
-        "latitude": 39.83864,
-        "longitude": -85.98698,
-        "location": "Wonderland and far far beyond",
-        "biography": "I'm not mad, I just love hats!",
-        "url": "https://en.wikipedia.org/wiki/The_Hatter",
-        "imageSource": "http://i.imgur.com/aG8ppnA.png"
-      },
-      "Interests": [
-        "Travel"
-      ],
-      "Follows": [
-        "White"
-      ],
-      "Posts": [
-        {
-          "postType": "OFFERS",
-          "interest": "Food",
-          "timeRequired": 0,
-          "content": "Would you like a little more tea?",
-          "location": "Wonderland and far far beyond",
-          "comments": [
-            {
-              "by": "Alice",
-              "content": "Well, I haven't had any yet, so I can't very well take more"
-            },
-            {
-              "by": "White",
-              "content": "Ah, you mean you can't very well take less"
-            },
-            {
-              "by": "White",
-              "content": "Yes. You can always take more than nothing."
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "Person": {
-        "firstName": "Cheshire",
-        "lastName": "Cat",
-        "email": "miaumiau@example.com",
-        "_password": "smiles",
-        "latitude": 39.83864,
-        "longitude": -85.98698,
-        "location": "Wonderland and far far beyond",
-        "imageSource": "http://i.imgur.com/Guxhpb5.png"
-      },
-      "Interests": [
-        "Travel"
-      ],
-      "Posts": [
-        {
-          "postType": "OFFERS",
-          "interest": "Food",
-          "timeRequired": 0,
-          "content": "I'm a cat and I can offer you a mouse!",
-          "location": "Wonderland and far far beyond",
-          "comments": [
-            {
-              "by": "Alice",
-              "content": "Well, I haven't had any mouse yet, so I can't very well take one"
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "Person": {
-        "firstName": "White",
-        "lastName": "Rabbit",
-        "email": "follow.me@example.com",
-        "_password": "clocks",
-        "latitude": 39.83864,
-        "longitude": -85.98698,
-        "location": "Wonderland and far far beyond and far far beyond",
-        "imageSource": "http://i.imgur.com/kEgDduG.jpg",
-        "notificationEndpoint": "white-rabbit-arn"
-      },
-      "Follows": [
-        "Demo",
-        "The Mad"
-      ],
-      "Posts": [
-        {
-          "postType": "OFFERS",
-          "interest": "Travel",
-          "timeRequired": 0,
-          "content": "I´M LATE! I`m late, I`m late! I`m LATE!",
-          "location": "Wonderland and far far beyond"
-        }
-      ]
-    },
-    {
-      "Person": {
-        "firstName": "Queen of",
-        "lastName": "Hearts",
-        "email": "queen@hearts.cards",
-        "_password": "offwiththeirheads",
-        "imageSource": "http://i.imgur.com/zmCVGyw.jpg"
-      },
-      "Interests": [
-        "Travel"
-      ]
-    },
-    {
-      "Person": {
-        "firstName": "Bill the",
-        "lastName": "Lizard",
-        "email": "monster@chimney.sweep",
-        "fromFacebook": 123456789,
-        "imageSource": "http://i.imgur.com/LGZHeT1.png"
-      },
-      "Interests": [
-        "Travel"
-      ]
-    },
-    {
-      "Person": {
-        "firstName": "Mock",
-        "lastName": "Turtle",
-        "email": "mock.turtle@soup.com",
-        "_password": "inb4facebook",
-        "fromFacebook": 234567890,
-        "imageSource": "https://upload.wikimedia.org/wikipedia/commons/9/9a/Alice_par_John_Tenniel_34.png"
-      },
-      "Follows": [
-        "Hans"
-      ],
-      "Interests": [
-        "Travel"
-      ]
-    },
-    {
-      "Person": {
-        "firstName": "Hans",
-        "lastName": "Muster",
-        "email": "hans@muster.io",
-        "_password": "switzerland4eva",
-        "fromFacebook": 135792468,
-        "imageSource": "https://gnome-assets.s3-eu-west-1.amazonaws.com/21xsa8nzrvbr"
-      },
-      "Follows": [
-        "Tom",
-        "Mock"
-      ],
-      "Interests": [
-        "Travel"
-      ],
-      "Posts": [
-        {
-          "postType": "OFFERS",
-          "interest": "Environment",
-          "timeRequired": 43200,
-          "content": "If anyone needs a helping hand in his/her garden, I'm willing to help you out on a sunny Saturday afternoon! Provide me with sunshine and water and I'll mow that lawn of yours!",
-          "location": "Greater London"
-        }
-      ]
-    },
-    {
-      "Person": {
-        "firstName": "Tom",
-        "lastName": "Harle",
-        "email": "testing@impossible.com",
-        "_password": "justatest",
-        "imageSource": "https://gnome-assets.s3-eu-west-1.amazonaws.com/oyVU6aL3p1Km"
-      },
-      "Follows": [
-        "Hans"
-      ],
-      "Interests": [
-        "Travel"
-      ],
-      "Posts": [
-        {
-          "postType": "OFFERS",
-          "interest": "Music",
-          "timeRequired": 0,
-          "content": "Musician? I'm putting a show together in Herne Hill at the end of June. Only 2 bands confirmed so far. Come and perform!",
-          "location": "Greater London"
-        }
-      ]
-    },
-    {
-      "Person": {
-        "email": "invitee@impossible.com",
-        "_invitedBy": [
-          "Alice"
-        ]
-      }
-    }
-  ]
+    ]
 }

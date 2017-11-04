@@ -27,22 +27,6 @@ export default class Interest extends Component {
     this.setState({
       interests: selectedInterests
     });
-    //the parameter needs to be a JSON
-    let interests = JSON.stringify({ interests: this.state.interests });
-    //add users interest
-    fetch(`/api/user/interest`, {
-      credentials: "same-origin",
-      method: "PUT",
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json"
-      },
-      body: interests
-    })
-      //just for see the result of the operation...needs to be removed
-      .then(response => response.json())
-      .then(response => console.log(response))
-      .catch(err => console.error(err));
   }
   componentWillMount() {
     //load all the featured interests from the DB
@@ -118,7 +102,7 @@ export default class Interest extends Component {
             <hr />
           </Col>
         </Row>
-        <UserType />
+        <UserType interests={this.state.interests} />
       </div>
     );
   }
