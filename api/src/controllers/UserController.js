@@ -75,6 +75,14 @@ class UserController extends Controller {
           .max(180)
       }
     });
+
+    //route to update user type
+    this.route("updateUserType", {
+      method: "PUT",
+      path: "/api/user/userType",
+      auth: "session",
+      handler: this.updateUserType
+    });
   }
 
   getUser(request, reply) {
@@ -219,6 +227,37 @@ class UserController extends Controller {
         reply({ posts, userID: request.auth.credentials.userID }).code(200);
       })
       .error(err => reply({ msg: err }).code(400));
+  }
+
+  //to update user type
+  updateUserType(request, reply) {
+    let userType = request.payload.typeOfUser;
+
+    //the value of typeOfUser should only be one of the two
+    let schema = Joi.string().valid(["volunteer", "organisation"]);
+    let validated = Joi.validate(userType.toLowerCase(), schema, {
+      abortEarly: true
+    });
+    if (!validated.value || validated.error) {
+      reply().code(400);
+    } else {
+      userType = validated.value;
+
+      userModel
+        .updateUserType(request.auth.credentials, userType)
+        .then(accept =>
+          userModel.getUser(request.auth.credentials).done(accept)
+        )
+        .done((rel, user) => {
+          reply({
+            //just fo checking no need to be returned in production
+            userID: request.auth.credentials.userID,
+            userType: user.userType
+          }).code(200);
+        })
+        .error(err => reply({ msg: err }).code(500));
+    }
+    return;
   }
 }
 

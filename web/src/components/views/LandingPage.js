@@ -53,7 +53,6 @@ export default class LandingPage extends Component {
               autoLoad={false}
               icon="fa-facebook fa-lg"
               fields="name,email,picture,friends"
-              scope="public_profile,user_friends"
               callback={this.responseFacebook}
             />
           </Col>
