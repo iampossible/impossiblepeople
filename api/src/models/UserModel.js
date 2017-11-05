@@ -136,6 +136,8 @@ class UserModel extends Model {
 
   _createNewUser(userData) {
     userData.email = userData.email.toLowerCase();
+    //added for distinguishing between a volunteer and an organisation
+    userData.userType = "";
     return new Sequence((accept, reject) => {
       this.db.save(userData, "Person", (error, newUser) => {
         if (error) return reject(error);
@@ -476,6 +478,12 @@ class UserModel extends Model {
         RETURN a.userID, c, b.userID`,
       { userID, blockedUserID }
     );
+  }
+  //to add type of user
+  updateUserType(user, typeOfUser) {
+    return this.updateUser(user.userID, {
+      userType: typeOfUser
+    });
   }
 }
 
