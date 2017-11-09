@@ -8,7 +8,7 @@ class Feed extends Component {
       input: "",
       feed: [],
       submit: false,
-      loadCommenets: []
+      loadCommenets: [],
     };
   }
   componentWillMount() {
@@ -28,14 +28,51 @@ class Feed extends Component {
         this.setState({
           feed: response
         });
+        let allPostsData = []        
+        response.map(id =>{
+          return fetch(`/api/post/${id.postID}`, {
+            method: "GET",
+            headers: {
+              Accept: "application/json",
+              "Content-Type": "application/json"
+            },
+            credentials: "same-origin"
+          })
+            .then(resp => resp.json())
+            .then(resp => {
+              allPostsData.push(resp)
+            });              
+            })
+            this.setState({
+              loadCommenets: allPostsData
+            },()=> {console.log(this.state.loadCommenets)})
       })
-      .catch(err => console.error(err));
   }
 
   handleChange = event => {
     // input is the Comment
     this.setState({ input: event.target.value });
   };
+
+  getComments = (event) => {
+    let postID = event.target.value;
+    
+    fetch(`/api/post/${postID}`, {
+      method: "GET",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json"
+      },
+      credentials: "same-origin"
+    })
+      .then(resp => resp.json())
+      .then(resp => {
+        // console.log(resp);
+        this.setState({
+          loadCommenets: resp
+        });
+      });
+  }
 
   handleClick(event) {
     //I retriving the postId to write the comment on the database
@@ -56,23 +93,9 @@ class Feed extends Component {
       },
       credentials: "same-origin"
     });
-    fetch(`/api/post/${postID}`, {
-      method: "GET",
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json"
-      },
-      credentials: "same-origin"
-    })
-      .then(resp => resp.json())
-      .then(resp => {
-        console.log(resp);
-        this.setState({
-          loadCommenets: resp
-        });
-      });
+    
 
-    console.log(this.state.input, postID);
+  
   }
 
   render() {
@@ -109,13 +132,21 @@ class Feed extends Component {
             </div>
           </Row>
           <InputGroup className="comment">
+          <Button
+            className="input-group-addon"
+            onClick={e => {
+              this.getComments(e);
+            }}
+            value={feedData.postID}
+            >
+            See all the comments
+            </Button>
             <Input
               className="input"
               placeholder="write your comment"
               input={this.state.input}
               onChange={this.handleChange}
-              //I tried to clear the input after submitting the test but it was unsuccessful
-              /* value={this.state.submit ? '' : this.state.input} */
+              //I tried to clear the input after submitting the test but it was unsuccessful 
             />
             <Button
               className="input-group-addon"
