@@ -11,3 +11,5 @@ To find out more about the mobile app, [check this](https://github.com/iampossib
 ## Contribute
 If you are a developer and you would like to know more about how to contribute, check [this](https://github.com/iampossible/gnome/blob/master/DEVELOPER.md) out.
 
+
+If you have any questions or issues in using this code please feel free to contact us and we’d be happy to help
