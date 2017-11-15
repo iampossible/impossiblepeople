@@ -8,7 +8,7 @@ class Feed extends Component {
       input: "",
       feed: [],
       submit: false,
-      loadComments: []
+      loadLastComments: []
     };
   }
   componentWillMount() {
@@ -43,7 +43,8 @@ class Feed extends Component {
           })
         );
         this.setState({
-          feed: response
+          feed: response,
+          loadLastComments:[]
         });
       });
   }
@@ -71,7 +72,7 @@ class Feed extends Component {
         "Content-Type": "application/json"
       },
       credentials: "same-origin"
-    }).then(response => {
+    }).then( resp => {
       fetch(`/api/post/${postID}`, {
         method: "GET",
         headers: {
@@ -82,16 +83,22 @@ class Feed extends Component {
       })
         .then(resp => resp.json())
         .then(resp => {
-          this.state.feed
+          let lastCommnet = this.state.feed
             .filter(p => p.postID === postID)[0]
             .comments.push(resp.comments[resp.comments.length - 1]);
-          console.log(this.state.feed.filter(p => p.postID === postID));
-        });
+          // let lastCommnet = []
+          // lastCommnet.push(resp.comments[resp.comments.length - 1])
+          this.setState({
+            fed: lastCommnet
+          })
+        })
     });
+    this.setState({
+      input:""
+    })
   }
 
   render() {
-    console.log(this.state.feed);
     return this.state.feed.map((feedData, i) => {
       return (
         <div key={feedData.postID} className="feed">
@@ -108,7 +115,6 @@ class Feed extends Component {
               <p className="feedColor"> {feedData.author.username}</p>
             </div>
             <div className="feedBody col-lg-9 col-xs-6 col-sm-6 col-md-6">
-              {" "}
               {feedData.content}
             </div>
           </Row>
@@ -130,6 +136,7 @@ class Feed extends Component {
               placeholder="write your comment"
               input={this.state.input}
               onChange={this.handleChange}
+              value={this.state.input}
               //I tried to clear the input after submitting the test but it was unsuccessful
             />
             <Button
@@ -152,6 +159,7 @@ class Feed extends Component {
                     <div className="feedColor">{comment.author}</div>
                     <div className="feedComment">{comment.content}</div>
                   </Row>
+                  
                 );
               })}
             </div>
