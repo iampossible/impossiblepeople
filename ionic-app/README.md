@@ -1,3 +1,4 @@
+#DEPRECATED - use [the new app](https://github.com/iampossible/gnome/blob/master/app)
 # gnome-app mobile client
 
 We used ionic 2 for implementing a hybrid mobile client for the gnome-app. 
