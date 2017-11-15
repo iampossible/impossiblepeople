@@ -6,7 +6,9 @@
     "bootstrap": "^4.0.0-beta",
     "react": "^16.0.0",
     "react-dom": "^16.0.0",
+    "react-facebook-login": "^3.6.2",
     "react-fontawesome": "^1.6.1",
+    "react-router-dom": "^4.2.2",
     "react-scripts": "1.0.14",
     "reactstrap": "^5.0.0-alpha.3"
   },

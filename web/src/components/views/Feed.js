@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { Row, Col, InputGroup, Input, Button } from "reactstrap";
-
+import Post from "./Post";
 class Feed extends Component {
   constructor(props) {
     super(props);
@@ -8,7 +8,7 @@ class Feed extends Component {
       input: "",
       feed: [],
       submit: false,
-      loadCommenets: [],
+      loadComments: []
     };
   }
   componentWillMount() {
@@ -22,57 +22,36 @@ class Feed extends Component {
       credentials: "same-origin"
     })
       .then(response => response.json())
-      .then(response => {
+      .then(async response => {
         //response is the outcome of the fetch for feed
-        console.log(response);
+        //then I will get the comments from the another fetch
+        await Promise.all(
+          response.map(async post => {
+            post.comments = [];
+
+            let resp = await fetch(`/api/post/${post.postID}`, {
+              method: "GET",
+              headers: {
+                Accept: "application/json",
+                "Content-Type": "application/json"
+              },
+              credentials: "same-origin"
+            });
+            resp = await resp.json();
+            post.comments.push(...resp.comments);
+            return post;
+          })
+        );
         this.setState({
           feed: response
         });
-        let allPostsData = []        
-        response.map(id =>{
-          return fetch(`/api/post/${id.postID}`, {
-            method: "GET",
-            headers: {
-              Accept: "application/json",
-              "Content-Type": "application/json"
-            },
-            credentials: "same-origin"
-          })
-            .then(resp => resp.json())
-            .then(resp => {
-              allPostsData.push(resp)
-            });              
-            })
-            this.setState({
-              loadCommenets: allPostsData
-            },()=> {console.log(this.state.loadCommenets)})
-      })
+      });
   }
 
   handleChange = event => {
     // input is the Comment
     this.setState({ input: event.target.value });
   };
-
-  getComments = (event) => {
-    let postID = event.target.value;
-    
-    fetch(`/api/post/${postID}`, {
-      method: "GET",
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json"
-      },
-      credentials: "same-origin"
-    })
-      .then(resp => resp.json())
-      .then(resp => {
-        // console.log(resp);
-        this.setState({
-          loadCommenets: resp
-        });
-      });
-  }
 
   handleClick(event) {
     //I retriving the postId to write the comment on the database
@@ -92,90 +71,102 @@ class Feed extends Component {
         "Content-Type": "application/json"
       },
       credentials: "same-origin"
+    }).then(response => {
+      fetch(`/api/post/${postID}`, {
+        method: "GET",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json"
+        },
+        credentials: "same-origin"
+      })
+        .then(resp => resp.json())
+        .then(resp => {
+          this.state.feed
+            .filter(p => p.postID === postID)[0]
+            .comments.push(resp.comments[resp.comments.length - 1]);
+          console.log(this.state.feed.filter(p => p.postID === postID));
+        });
     });
-    
-
-  
   }
 
   render() {
-    return this.state.feed.map((feedData, i) => {
-      return (
-        <div
-          key={feedData.postID}
-          className="feed"
-        >
-          <Row className="">
-            <div className=" col-lg-3 col-xs-6 col-sm-6 col-md-6">
-              <img
-                className="img-fluid feedPhoto"
-                src={
-                  feedData.author.imageSource ||
-                  "../assets/images/profile-icon.png"
-                }
-                alt="profile"
-              />
-              <p className="feedColor"> {feedData.author.username}</p>
-            </div>
-            <div className="feedBody col-lg-9 col-xs-6 col-sm-6 col-md-6"> {feedData.content}</div>
-          </Row>
-          <Row className="interest">
-            <div className="col-sm-6 col-md-6 col-lg-6 location">
-              <span className="feedColor">location: </span>
-              <br />
-              {feedData.location}
-            </div>
-            <div className="col-sm-6 col-md-4 col-lg-3 location">
-              <span className="feedColor">interest: </span>
-              <br />
-              {feedData.category.name}
-            </div>
-          </Row>
-          <InputGroup className="comment">
-          <Button
-            className="input-group-addon"
-            onClick={e => {
-              this.getComments(e);
-            }}
-            value={feedData.postID}
-            >
-            See all the comments
-            </Button>
-            <Input
-              className="input"
-              placeholder="write your comment"
-              input={this.state.input}
-              onChange={this.handleChange}
-              //I tried to clear the input after submitting the test but it was unsuccessful 
-            />
-            <Button
-              className="input-group-addon"
-              onClick={e => {
-                this.handleClick(e);
-              }}
-              value={feedData.postID}
-            >
-              Post
-            </Button>
-          </InputGroup>
-          <Col>
-            <div className="red">
-              {/* here I'm showing comments and the author of the comments  */}
-              {feedData.postID === this.state.loadCommenets.postID
-                ? this.state.loadCommenets.comments.map((comment, index) => {
+    //getting the user type that is passed from the landingPage redirect
+    const { user } = this.props.location.state;
+
+    return (
+      <div>
+        {/* if user is an organisation display the post component at the top */}
+        {user && user.userType === "organisation" ? <Post user={user} /> : ""}
+        {this.state.feed.map((feedData, i) => {
+          return (
+            <div key={feedData.postID} className="feed">
+              <Row className="">
+                <div className=" col-lg-3 col-xs-6 col-sm-6 col-md-6">
+                  <img
+                    className="img-fluid feedPhoto"
+                    src={
+                      feedData.author.imageSource ||
+                      "../assets/images/profile-icon.png"
+                    }
+                    alt="profile"
+                  />
+                  <p className="feedColor"> {feedData.author.username}</p>
+                </div>
+                <div className="feedBody col-lg-9 col-xs-6 col-sm-6 col-md-6">
+                  {" "}
+                  {feedData.content}
+                </div>
+              </Row>
+              <Row className="interest">
+                <div className="col-sm-6 col-md-6 col-lg-6 location">
+                  <span className="feedColor">location: </span>
+                  <br />
+                  {feedData.location}
+                </div>
+                <div className="col-sm-6 col-md-4 col-lg-3 location">
+                  <span className="feedColor">interest: </span>
+                  <br />
+                  {feedData.category.name}
+                </div>
+              </Row>
+              <InputGroup className="comment">
+                <Input
+                  className="input"
+                  placeholder="write your comment"
+                  input={this.state.input}
+                  onChange={this.handleChange}
+                  //I tried to clear the input after submitting the test but it was unsuccessful
+                />
+                <Button
+                  className="input-group-addon"
+                  onClick={e => {
+                    this.handleClick(e);
+                  }}
+                  value={feedData.postID}
+                >
+                  Post
+                </Button>
+              </InputGroup>
+              <Col>
+                <div className="red">
+                  {/* here I'm showing comments and the author of the comments  */}
+
+                  {feedData.comments.map((comment, index) => {
                     return (
                       <Row key={index}>
                         <div className="feedColor">{comment.author}</div>
                         <div className="feedComment">{comment.content}</div>
                       </Row>
                     );
-                  })
-                : ""}
+                  })}
+                </div>
+              </Col>
             </div>
-          </Col>
-        </div>
-      );
-    });
+          );
+        })};
+      </div>
+    );
   }
 }
 export default Feed;

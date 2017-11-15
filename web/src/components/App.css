@@ -1,3 +1,13 @@
+@import url("https://fonts.googleapis.com/css?family=Felipa");
+@import url("https://fonts.googleapis.com/css?family=Roboto");
+body {
+    background-color: #0f0f1b;
+    margin: 0;
+    padding: 0;
+    font-family: "Roboto", sans-serif;
+    overflow-x: hidden;
+}
+
 .App {
     height: 100vh;
     background: transparent !important;
@@ -11,7 +21,7 @@
 }
 
 .App-header h1 {
-    font-size: 5em;
+    font-size: 4em;
     font-weight: 900;
     color: #e6e7e9;
     font-family: "Felipa", cursive;
@@ -38,13 +48,28 @@
     margin: 0 1em;
 }
 
-#lists button {
-    color: cornsilk;
+.buttons {
+    position: relative;
+    left: -23px;
+}
+
+.btn {
+    color: rgb(255, 255, 255);
     text-align: center;
     font-size: 1em;
+    font-weight: 900;
     box-sizing: content-box;
-    width: 100%;
     cursor: pointer;
+    text-transform: lowercase;
+    background-color: rgb(162, 103, 0);
+}
+
+.interest {
+    margin: 10px;
+}
+
+.btn::first-letter {
+    text-transform: capitalize;
 }
 
 #selectUserType {
@@ -62,13 +87,85 @@
 
 hr {
     background: #fec85d;
+    margin: 1em;
 }
 
-@keyframes App-logo-spin {
-    from {
-        transform: rotate(0deg);
-    }
-    to {
-        transform: rotate(360deg);
-    }
+.feed {
+    font-family: "Roboto", sans-serif;
+    color: rgba(255, 255, 255, 0.6);
+    background-color: rgba(255, 255, 255, 0.05);
+    border: 1px solid #d4d4d4;
+    border-radius: 5px;
+    padding: 20px;
+    -webkit-box-shadow: 0 1px 6px rgba(0, 0, 0, 0.175);
+    box-shadow: 0 1px 6px rgba(0, 0, 0, 0.175);
+}
+
+.feedPhoto {
+    max-width: 200px;
+    height: auto;
+    color: rgb(162, 103, 0);
+    font-size: 1em;
+}
+
+.feedPhoto p {
+    padding: 5px 5px 5px 10px;
+}
+
+.feedBody {
+    /* padding-left: 100px; */
+    font-size: 1.2em;
+}
+
+.feedColor {
+    color: rgb(162, 103, 0);
+}
+
+.comment {
+    padding-top: 10px;
+}
+
+.comment .input {
+    background-color: rgba(255, 255, 255, 0.077);
+    color: white;
+}
+
+.input-group-addon {
+    background-color: rgb(162, 103, 0);
+    color: white;
+}
+
+.red {
+    color: white;
+    padding: 20px;
+}
+
+.feedComment {
+    padding-left: 50px;
+}
+
+
+/* css for the post */
+
+#post {
+    color: cornsilk;
+    margin-top: 2em;
+    padding: 2em 1.5em 1em 1.5em;
+    opacity: 0.9;
+}
+
+.submitPost {
+    text-align: center;
+}
+
+#organisationAvatar {
+    text-align: center;
+}
+
+#organisationAvatar img {
+    border-radius: 50%;
+    border: 2px solid #fff;
+    margin-top: 50%;
+    width: 100px;
+    height: 100px;
 }
