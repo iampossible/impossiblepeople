@@ -21,7 +21,8 @@ before_install:
   - chmod +x docker-compose
   - sudo mv docker-compose /usr/local/bin
   - npm install -g typescript
-  - cd report-server && tsc
+  - tsc -v
+  - cd report-server && tsc -p .
 install:
   - travis_retry docker-compose build
 script:
