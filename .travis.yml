@@ -24,7 +24,7 @@ install:
   - travis_retry docker-compose build
 script:
   - npm run api:test
-  - npm run app:test
+#  - npm run app:test
 #  - npm run app:e2e
   - docker-compose ps -q | xargs docker inspect -f '{{ .Name }} exited with {{ .State.ExitCode }}'
 #  - docker-compose ps -q | xargs docker inspect -f '{{ .Name }}_{{ .State.ExitCode }}' | grep client_1_0
