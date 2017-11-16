@@ -3,7 +3,7 @@ import { Switch, Route, BrowserRouter as Router } from "react-router-dom";
 import LandingPage from "./views/LandingPage";
 import Interest from "./views/Interest";
 import Feed from "./views/Feed";
-import Post from './views/Post'
+import Post from "./views/Post";
 import "bootstrap/dist/css/bootstrap.css";
 import "./App.css";
 
@@ -24,7 +24,6 @@ const Main = ({ match }) => {
         <Route path="/interest" component={Interest} />
         <Route path="/feed" component={Feed} />
         <Route path="/post" component={Post} />
-
       </Switch>
     </Router>
   );
@@ -44,8 +43,7 @@ class App extends Component {
             <Header />
           </Col>
         </Row>
-
-          <Main />
+        <Main />
       </Container>
     );
   }

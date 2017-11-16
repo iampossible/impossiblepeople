@@ -2,13 +2,13 @@ import React, { Component } from "react";
 import FacebookLogin from "react-facebook-login";
 import { Redirect } from "react-router-dom";
 import { Container, Row, Col } from "reactstrap";
+
 export default class LandingPage extends Component {
   constructor() {
     super();
     this.state = {
       user: {},
-      token: "",
-      redirect: false
+      token: ""
     };
   }
   responseFacebook = response => {
@@ -29,8 +29,7 @@ export default class LandingPage extends Component {
         .then(response => response.json())
         .then(response => {
           this.setState({
-            user: response,
-            redirect: true
+            user: response
           });
           return response;
         })
@@ -38,10 +37,24 @@ export default class LandingPage extends Component {
     );
   };
   render() {
-    const { redirect } = this.state;
+    const { user } = this.state;
+
     //once the user is authenticated redirect him/her to the interest page
-    if (redirect) {
-      return <Redirect to="/interest" interest={this.state.interest} />;
+    if (user && user.userType && user.userType === "organisation") {
+      return (
+        <Redirect
+          to={{
+            pathname: "/feed",
+            state: {
+              user: this.state.user,
+              input: "",
+              feed: [],
+              submit: false,
+              loadCommenets: []
+            }
+          }}
+        />
+      );
     }
     return (
       <Container id="btnFacebook">

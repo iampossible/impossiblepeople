@@ -1,13 +1,11 @@
 @import url("https://fonts.googleapis.com/css?family=Felipa");
 @import url("https://fonts.googleapis.com/css?family=Roboto");
-
 body {
     background-color: #0f0f1b;
     margin: 0;
     padding: 0;
     font-family: 'Roboto', sans-serif;
     overflow-x: hidden
-    
 }
 
 .App {
@@ -49,10 +47,12 @@ body {
     border: none;
     margin: 0 1em;
 }
-.buttons{
+
+.buttons {
     position: relative;
     left: 50px
 }
+
 .btn {
     color: rgb(255, 255, 255);
     text-align: center;
@@ -63,12 +63,15 @@ body {
     text-transform: lowercase;
     background-color: rgb(162, 103, 0);
 }
-.interest{
+
+.interest {
     margin: 10px
 }
-.btn::first-letter{
+
+.btn::first-letter {
     text-transform: capitalize
 }
+
 #selectUserType {
     color: cornsilk;
     line-height: 1.5;
@@ -96,7 +99,7 @@ hr {
     }
 }
 
-.feed{
+.feed {
     font-family: 'Roboto', sans-serif;
     color: rgba(255, 255, 255, 0.6);
     background-color: rgba(255, 255, 255, 0.05);
@@ -108,51 +111,54 @@ hr {
     box-shadow: 0 1px 6px rgba(0, 0, 0, 0.175);
 }
 
-.feedPhoto{
+.feedPhoto {
     max-width: 200px;
     height: auto;
     color: rgb(162, 103, 0);
     font-size: 1em;
 }
-.feedPhoto p{
+
+.feedPhoto p {
     padding: 5px 5px 5px 10px;
 }
 
-
-.feedBody{
+.feedBody {
     /* padding-left: 100px; */
     font-size: 1.2em
 }
 
-
-.feedColor{
-    color:rgb(162, 103, 0)
+.feedColor {
+    color: rgb(162, 103, 0)
 }
-.comment{
+
+.comment {
     padding-top: 10px;
 }
-.comment .input{
+
+.comment .input {
     background-color: rgba(255, 255, 255, 0.077);
     color: white
 }
-.input-group-addon{
-    background-color:rgb(162, 103, 0);
+
+.input-group-addon {
+    background-color: rgb(162, 103, 0);
     color: white
 }
 
-.red{
-    color:white;
+.red {
+    color: white;
     padding: 20px;
 }
 
-.feedComment{
+.feedComment {
     padding-left: 50px;
 }
-#post{
-    color:white
+
+#post {
+    color: white
 }
 
-.inputBG{
+.inputBG {
     background-color: rgba(255, 255, 255, 0.077);
     color: white
 }

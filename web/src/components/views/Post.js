@@ -1,32 +1,23 @@
 import React, { Component } from "react";
 import { PostInterestTags } from "../PostInterestTags";
 import { Row, Col, Button, Form, FormGroup, Label, Input } from "reactstrap";
-import { Redirect } from "react-router-dom";
 
 export default class Post extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      content: "",
-      postType: "",
-      location: "",
-      latitude: "",
-      longitude: "",
-      timeRequired: "",
-      //to hold the selected interests ID for the post
-      interestID: [],
-      redirect: false
-    };
-    this.handleSubmitRequest = this.handleSubmitRequest.bind(this);
-    this.handleChange = this.handleChange.bind(this);
-    this.getLocation = this.getLocation.bind(this);
-    this.onFocus = this.onFocus.bind(this);
-  }
+  state = {
+    content: "",
+    postType: "",
+    location: "",
+    latitude: "",
+    longitude: "",
+    timeRequired: "",
+    //to hold the selected interests ID for the post
+    interestID: []
+  };
 
-  onFocus(e) {
+  onFocus = e => {
     this.getLocation();
-  }
-  handleChange(event) {
+  };
+  handleChange = event => {
     const target = event.target;
     const name = target.name;
     //if it is a select-multi type since multiple options can be selected
@@ -44,11 +35,11 @@ export default class Post extends Component {
         [name]: target.value
       });
     }
-  }
-  handleSubmitRequest(e) {
+  };
+  handleSubmitRequest = e => {
     //implement post
     //remove the redirect state when constructing the body of the request
-    let { redirect, ...post } = this.state;
+    let { ...post } = this.state;
     fetch(`/api/post/create`, {
       credentials: "same-origin",
       method: "POST",
@@ -60,17 +51,10 @@ export default class Post extends Component {
     })
       //just for see the result of the operation...needs to be removed
       .then(response => response.json())
-      .then(response => {
-        if (response) {
-          this.setState({
-            redirect: true
-          });
-        }
-      })
       .catch(err => console.error(err));
-  }
+  };
 
-  getLocation() {
+  getLocation = () => {
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(position => {
         this.setState({
@@ -81,19 +65,13 @@ export default class Post extends Component {
     } else {
       alert("Geolocation is not supported by this browser.");
     }
-  }
+  };
   render() {
-    return this.state.redirect ? (
-      <Redirect to="/feed" />
-    ) : (
+    return (
       <div id="post">
         <Row>
           <Col sm={3} xs={12} id="organisationAvatar">
-            {/* <img
-              src={this.props.currentUser.imageSource}
-              width="100%"
-              alt={""}
-            /> */}
+            <img src={this.props.user.imageSource} width="100%" alt={""} />
           </Col>
 
           <Col sm={8} xs={12} id="postForm">
@@ -110,7 +88,6 @@ export default class Post extends Component {
                     id="postContent"
                     placeholder="Have something to Ask or Offer?"
                     onChange={this.handleChange}
-                    className="inputBG"
                   />
                 </Col>
               </FormGroup>
@@ -147,8 +124,7 @@ export default class Post extends Component {
               </FormGroup>
               <FormGroup row>
                 <Label for="location" sm={2} xs={12}>
-                  {" "}
-                  Location{" "}
+                  &nbsp;Location&nbsp;
                 </Label>
                 <Col sm={5} xs={12}>
                   <Input
@@ -157,15 +133,13 @@ export default class Post extends Component {
                     id="location"
                     placeholder="e.g. London"
                     onChange={this.handleChange}
-                    className="inputBG"
                   />
                 </Col>
               </FormGroup>
               <FormGroup row>
                 {/* will be replaced by detecting user Geolocation */}
                 <Label for="latitude" sm={{ size: 2 }} xs={12}>
-                  {" "}
-                  Latitude{" "}
+                  &nbsp; Latitude&nbsp;
                 </Label>
                 <Col sm={5} xs={12}>
                   <Input
@@ -176,15 +150,13 @@ export default class Post extends Component {
                     onChange={this.handleChange}
                     onFocus={e => this.onFocus(e)}
                     value={this.state.latitude}
-                    className="inputBG"
                   />
                 </Col>
               </FormGroup>
               <FormGroup row>
                 {/* will be replaced by detecting user Geolocation */}
                 <Label for="longitude" sm={2} xs={12}>
-                  {" "}
-                  Longitude{" "}
+                  &nbsp; Longitude&nbsp;
                 </Label>
                 <Col sm={5} xs={12}>
                   <Input
@@ -195,14 +167,12 @@ export default class Post extends Component {
                     onChange={this.handleChange}
                     onFocus={e => this.onFocus(e)}
                     value={this.state.longitude}
-                    className="inputBG"
                   />
                 </Col>
               </FormGroup>
               <FormGroup row>
                 <Label for="timeRequired" sm={{ size: 2 }}>
-                  {" "}
-                  Duration{" "}
+                  &nbsp; Duration&nbsp;
                 </Label>
                 <Col sm={5} xs={12}>
                   <Input
@@ -211,7 +181,6 @@ export default class Post extends Component {
                     id="timeRequired"
                     placeholder="e.g. 10"
                     onChange={this.handleChange}
-                    className="inputBG"
                   />
                 </Col>
               </FormGroup>

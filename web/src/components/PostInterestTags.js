@@ -37,7 +37,6 @@ export class PostInterestTags extends Component {
             id="interestID"
             multiple={true}
             onChange={this.handleChange}
-            className="inputBG"
           >
             {featuredInterest.map((interest, index) => {
               return (
@@ -47,6 +46,21 @@ export class PostInterestTags extends Component {
               );
             })}
           </Input>
+          <span
+            style={{
+              fontSize: "12px",
+              color: "#ECEDEE"
+            }}
+          >
+            <i
+              className="text-info fa fa-info-circle"
+              aria-hidden="true"
+            />&nbsp;&nbsp; Hold{" "}
+            <b>
+              <u>Ctrl</u>
+            </b>{" "}
+            key to select multiple tags
+          </span>
         </Col>
       </FormGroup>
     );
