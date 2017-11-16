@@ -8,8 +8,7 @@ export default class LandingPage extends Component {
     super();
     this.state = {
       user: {},
-      token: "",
-      redirect: false
+      token: ""
     };
   }
   responseFacebook = response => {
@@ -30,8 +29,7 @@ export default class LandingPage extends Component {
         .then(response => response.json())
         .then(response => {
           this.setState({
-            user: response,
-            redirect: true
+            user: response
           });
           return response;
         })
@@ -39,7 +37,7 @@ export default class LandingPage extends Component {
     );
   };
   render() {
-    const { user, redirect } = this.state;
+    const { user } = this.state;
 
     //once the user is authenticated redirect him/her to the interest page
     if (user && user.userType && user.userType === "organisation") {

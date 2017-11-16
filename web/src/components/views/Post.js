@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import { PostInterestTags } from "../PostInterestTags";
 import { Row, Col, Button, Form, FormGroup, Label, Input } from "reactstrap";
-import { Redirect } from "react-router-dom";
 
 export default class Post extends Component {
   state = {
@@ -12,8 +11,7 @@ export default class Post extends Component {
     longitude: "",
     timeRequired: "",
     //to hold the selected interests ID for the post
-    interestID: [],
-    redirect: false
+    interestID: []
   };
 
   onFocus = e => {
@@ -41,7 +39,7 @@ export default class Post extends Component {
   handleSubmitRequest = e => {
     //implement post
     //remove the redirect state when constructing the body of the request
-    let { redirect, ...post } = this.state;
+    let { ...post } = this.state;
     fetch(`/api/post/create`, {
       credentials: "same-origin",
       method: "POST",
@@ -53,13 +51,6 @@ export default class Post extends Component {
     })
       //just for see the result of the operation...needs to be removed
       .then(response => response.json())
-      .then(response => {
-        if (response) {
-          this.setState({
-            redirect: true
-          });
-        }
-      })
       .catch(err => console.error(err));
   };
 

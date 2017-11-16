@@ -1,20 +1,15 @@
 import React, { Component } from "react";
-import { Row, Col, InputGroup, Input, Button } from "reactstrap";
+import { Row, Col } from "reactstrap";
 
 import Comment from "./Comment";
 import Post from "./Post";
 
 class Feed extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      input: this.props.input,
-      feed: [],
-      submit: false,
-      loadComments: [],
-      loadLastComments: []
-    };
-  }
+  state = {
+    feed: [],
+    submit: false,
+    loadLastComments: []
+  };
 
   componentWillMount() {
     //this will load the feed to the page and then will load all the comments for each post
@@ -68,48 +63,6 @@ class Feed extends Component {
       });
   }
 
-  handleChange = event => {
-    // input is the Comment
-    this.setState({ input: event.target.value });
-  };
-
-  handleClick(event) {
-    //I retriving the postId to write the comment on the database
-    let postID = event.target.value;
-    this.setState({
-      submit: true
-    });
-    // here we have two fetch :first one  is for writing the comment on the database  and the second one will load the posts to retrive the comments
-
-    //main peoblem here is that the API writen for the app and it is understanable to bind the comment to the post but for website we nieed to show all the comments and posts in the feed page.
-
-    fetch(`/api/post/${postID}/comment`, {
-      method: "POST",
-      body: JSON.stringify({ content: this.state.input }),
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json"
-      },
-      credentials: "same-origin"
-    }).then(response => {
-      fetch(`/api/post/${postID}`, {
-        method: "GET",
-        headers: {
-          Accept: "application/json",
-          "Content-Type": "application/json"
-        },
-        credentials: "same-origin"
-      })
-        .then(resp => resp.json())
-        .then(resp => {
-          this.state.feed
-            .filter(p => p.postID === postID)[0]
-            .comments.push(resp.comments[resp.comments.length - 1]);
-          console.log(this.state.feed.filter(p => p.postID === postID));
-        });
-    });
-  }
-
   render() {
     //getting the user type that is passed from the landingPage redirect
     const { user } = this.props.location.state;
@@ -144,7 +97,7 @@ class Feed extends Component {
                   <br />
                   {feedData.location}
                 </div>
-                <div className="col-sm-6 col-md-4 col-lg-3 location">
+                <div className="col-sm-2 col-md-4 col-lg-6 location">
                   <span className="feedColor">interest: </span>
                   {feedData.category.map(
                     (category, i) =>
@@ -154,24 +107,7 @@ class Feed extends Component {
                   )}
                 </div>
               </Row>
-              <InputGroup className="comment">
-                <Input
-                  className="input"
-                  placeholder="write your comment"
-                  input={this.state.input}
-                  onChange={this.handleChange}
-                  //I tried to clear the input after submitting the test but it was unsuccessful
-                />
-                <Button
-                  className="input-group-addon"
-                  onClick={e => {
-                    this.handleClick(e);
-                  }}
-                  value={feedData.postID}
-                >
-                  Post
-                </Button>
-              </InputGroup>
+              <Comment post={feedData} update={this.upDateComments} />
               <Col>
                 <div className="red">
                   {/* here I'm showing comments and the author of the comments  */}
