@@ -43,7 +43,6 @@ class App extends Component {
             <Header />
           </Col>
         </Row>
-
         <Main />
       </Container>
     );

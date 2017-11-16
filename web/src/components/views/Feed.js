@@ -1,18 +1,23 @@
 import React, { Component } from "react";
 import { Row, Col, InputGroup, Input, Button } from "reactstrap";
+
+import Comment from "./Comment";
 import Post from "./Post";
+
 class Feed extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      input: "",
+      input: this.props.input,
       feed: [],
       submit: false,
-      loadComments: []
+      loadComments: [],
+      loadLastComments: []
     };
   }
+
   componentWillMount() {
-    //this will load the feed to the page
+    //this will load the feed to the page and then will load all the comments for each post
     fetch("/api/feed", {
       method: "GET",
       headers: {
@@ -30,8 +35,6 @@ class Feed extends Component {
                 response[i].category.push(response[j].category[0]);
                 delete response[j];
               }
-            } else {
-              console.info("oopsies", i, j);
             }
           }
         }
@@ -59,7 +62,8 @@ class Feed extends Component {
           })
         );
         this.setState({
-          feed: response
+          feed: response,
+          loadLastComments: []
         });
       });
   }
