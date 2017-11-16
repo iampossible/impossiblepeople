@@ -1,18 +1,19 @@
 import React, { Component } from "react";
-import { Row, Col, InputGroup, Input, Button } from "reactstrap";
+import { Row, Col} from "reactstrap";
+import Comment from "./Comment.js";
 
 class Feed extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      input: "",
+      input: props.input,
       feed: [],
       submit: false,
       loadLastComments: []
     };
   }
   componentWillMount() {
-    //this will load the feed to the page
+    //this will load the feed to the page and then will load all the comments for each post
     fetch("/api/feed", {
       method: "GET",
       headers: {
@@ -44,59 +45,29 @@ class Feed extends Component {
         );
         this.setState({
           feed: response,
-          loadLastComments:[]
+          loadLastComments: []
         });
       });
   }
-
-  handleChange = event => {
-    // input is the Comment
-    this.setState({ input: event.target.value });
-  };
-
-  handleClick(event) {
-    //I retriving the postId to write the comment on the database
-    let postID = event.target.value;
-    this.setState({
-      submit: true
-    });
-    // here we have two fetch :first one  is for writing the comment on the database  and the second one will load the posts to retrive the comments
-
-    //main peoblem here is that the API writen for the app and it is understanable to bind the comment to the post but for website we nieed to show all the comments and posts in the feed page.
-
-    fetch(`/api/post/${postID}/comment`, {
-      method: "POST",
-      body: JSON.stringify({ content: this.state.input }),
+  upDateComments = postID => {
+    fetch(`/api/post/${postID}`, {
+      method: "GET",
       headers: {
         Accept: "application/json",
         "Content-Type": "application/json"
       },
       credentials: "same-origin"
-    }).then( resp => {
-      fetch(`/api/post/${postID}`, {
-        method: "GET",
-        headers: {
-          Accept: "application/json",
-          "Content-Type": "application/json"
-        },
-        credentials: "same-origin"
-      })
-        .then(resp => resp.json())
-        .then(resp => {
-          let lastCommnet = this.state.feed
-            .filter(p => p.postID === postID)[0]
-            .comments.push(resp.comments[resp.comments.length - 1]);
-          // let lastCommnet = []
-          // lastCommnet.push(resp.comments[resp.comments.length - 1])
-          this.setState({
-            fed: lastCommnet
-          })
-        })
-    });
-    this.setState({
-      input:""
     })
-  }
+      .then(resp => resp.json())
+      .then(resp => {
+        let lastCommnet = this.state.feed
+          .filter(p => p.postID === postID)[0]
+          .comments.push(resp.comments[resp.comments.length - 1]);
+        this.setState({
+          loadLastComments: lastCommnet
+        });
+      });
+  };
 
   render() {
     return this.state.feed.map((feedData, i) => {
@@ -130,25 +101,7 @@ class Feed extends Component {
               {feedData.category.name}
             </div>
           </Row>
-          <InputGroup className="comment">
-            <Input
-              className="input"
-              placeholder="write your comment"
-              input={this.state.input}
-              onChange={this.handleChange}
-              value={this.state.input}
-              //I tried to clear the input after submitting the test but it was unsuccessful
-            />
-            <Button
-              className="input-group-addon"
-              onClick={e => {
-                this.handleClick(e);
-              }}
-              value={feedData.postID}
-            >
-              Post
-            </Button>
-          </InputGroup>
+          <Comment post={feedData} update={this.upDateComments} />
           <Col>
             <div className="red">
               {/* here I'm showing comments and the author of the comments  */}
@@ -159,9 +112,17 @@ class Feed extends Component {
                     <div className="feedColor">{comment.author}</div>
                     <div className="feedComment">{comment.content}</div>
                   </Row>
-                  
                 );
               })}
+              {/* this ROW is a last comment loaded in the page */}
+              <Row>
+                <div className="feedColor">
+                  {this.state.loadLastComments.author}
+                </div>
+                <div className="feedComment">
+                  {this.state.loadLastComments.content}
+                </div>
+              </Row>
             </div>
           </Col>
         </div>
