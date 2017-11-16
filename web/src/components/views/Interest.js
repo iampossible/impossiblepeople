@@ -35,37 +35,36 @@ export default class Interest extends Component {
     })
       .then(response => response.json())
       .then(response => {
-        console.log(response)
         this.setState({
           featuredInterest: response
         });
       });
+  }
+  redirectOnSubmit = (userType) => {
+    let user = Object.assign({}, this.props.location.state.user, {userType: userType}); 
+    this.props.history.push("/feed",  { user } );
   }
   render() {
     const { featuredInterest } = this.state;
   
     return (
       <div className={'buttons'}>
-              {featuredInterest.map((interest, index) => {
-                
-                  return (
-                      <Button
-                      className ={'col-sm-6 col-xs-12 col-lg-3 col-md-3' }
-                        onClick={e => {
-                          this.handleSelection(e);
-                        }}
-                        value={interest.interestID}
-                      >
-                        {interest.name}
-                      </Button>
-                   
-                  );
-                
-              })}
-            
-            <hr />
-          
-        <UserType interests={this.state.interests} />
+        {featuredInterest.map((interest, index) => {
+          return (
+            <Button
+              className ={'col-sm-6 col-xs-12 col-lg-3 col-md-3' }
+              onClick={e => {
+                this.handleSelection(e);
+              }}
+              value={interest.interestID}
+              key={interest.interestID}
+            >
+              {interest.name}
+            </Button>
+          );
+        })}
+        <hr />
+        <UserType interests={this.state.interests} redirectOnSubmit={this.redirectOnSubmit} />
       </div>
     );
   }

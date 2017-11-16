@@ -6,7 +6,8 @@ export class UserType extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      typeOfUser: ""
+      typeOfUser: "",
+      redirect: false
     };
     this.handleSelection = this.handleSelection.bind(this);
     this.handleSubmitRequest = this.handleSubmitRequest.bind(this);
@@ -39,7 +40,6 @@ export class UserType extends Component {
       //just for see the result of the operation...needs to be removed
       .then(response => response.json())
       .then(response => {
-        console.log(response);
         this.updateUserType();
       })
       .catch(err => console.error(err));
@@ -61,7 +61,7 @@ export class UserType extends Component {
     })
       //just for see the result of the operation...needs to be removed
       .then(response => response.json())
-      .then(response => console.log(response))
+      .then(response => this.props.redirectOnSubmit(this.state.typeOfUser))
       .catch(err => console.error(err));
   }
   render() {
