@@ -9,7 +9,6 @@ class Comment extends Component{
         super(props)
         this.state={
             input: "",
-            loadLastComments:[],
             submit:false
         }
     }
