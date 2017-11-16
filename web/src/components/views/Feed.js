@@ -22,9 +22,25 @@ class Feed extends Component {
       credentials: "same-origin"
     })
       .then(response => response.json())
+      .then(response => {
+        for (let i = 0; i < response.length - 1; i++) {
+          for (let j = i + 1; j < response.length; j++) {
+            if (response[i] && response[j]) {
+              if (response[i].postID === response[j].postID) {
+                response[i].category.push(response[j].category[0]);
+                delete response[j];
+              }
+            } else {
+              console.info("oopsies", i, j);
+            }
+          }
+        }
+        return response;
+      })
       .then(async response => {
         //response is the outcome of the fetch for feed
         //then I will get the comments from the another fetch
+
         await Promise.all(
           response.map(async post => {
             post.comments = [];
@@ -126,8 +142,12 @@ class Feed extends Component {
                 </div>
                 <div className="col-sm-6 col-md-4 col-lg-3 location">
                   <span className="feedColor">interest: </span>
-                  <br />
-                  {feedData.category.name}
+                  {feedData.category.map(
+                    (category, i) =>
+                      i > 0
+                        ? category.name.toLowerCase() + " / "
+                        : category.name.toLowerCase()
+                  )}
                 </div>
               </Row>
               <InputGroup className="comment">
