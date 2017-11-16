@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Button, ListGroup, ListGroupItem, Row, Col } from "reactstrap";
+import { Button } from "reactstrap";
 import { UserType } from "../UserType";
 export default class Interest extends Component {
   constructor(props) {
@@ -35,6 +35,7 @@ export default class Interest extends Component {
     })
       .then(response => response.json())
       .then(response => {
+        console.log(response)
         this.setState({
           featuredInterest: response
         });
@@ -42,21 +43,14 @@ export default class Interest extends Component {
   }
   render() {
     const { featuredInterest } = this.state;
+  
     return (
-      <div>
-        <Row>
-          <Col className="sm-12">
-            <ListGroup
-              id="lists"
-              className="d-flex flex-row flex-wrap align-content-center"
-            >
+      <div className={'buttons'}>
               {featuredInterest.map((interest, index) => {
-                if (index % 3 === 0) {
+                
                   return (
-                    <ListGroupItem key={index}>
                       <Button
-                        color="info"
-                        size="sm"
+                      className ={'col-sm-6 col-xs-12 col-lg-3 col-md-3' }
                         onClick={e => {
                           this.handleSelection(e);
                         }}
@@ -64,44 +58,13 @@ export default class Interest extends Component {
                       >
                         {interest.name}
                       </Button>
-                    </ListGroupItem>
+                   
                   );
-                } else if (index % 2 === 0) {
-                  return (
-                    <ListGroupItem key={index}>
-                      <Button
-                        color="success"
-                        size="sm"
-                        onClick={e => {
-                          this.handleSelection(e);
-                        }}
-                        value={interest.interestID}
-                      >
-                        {interest.name}
-                      </Button>
-                    </ListGroupItem>
-                  );
-                } else {
-                  return (
-                    <ListGroupItem key={index}>
-                      <Button
-                        color="danger"
-                        size="sm"
-                        onClick={e => {
-                          this.handleSelection(e);
-                        }}
-                        value={interest.interestID}
-                      >
-                        {interest.name}
-                      </Button>
-                    </ListGroupItem>
-                  );
-                }
+                
               })}
-            </ListGroup>
+            
             <hr />
-          </Col>
-        </Row>
+          
         <UserType interests={this.state.interests} />
       </div>
     );
