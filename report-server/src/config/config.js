@@ -28,6 +28,7 @@ if (process.env.NEO4J_AUTH) {
 
 let config = {
   workdir: process.env.GNOME_REPORTS_PWD || path.resolve(`${__dirname}/../../`),
+  api: rawConfig.api,
   logging: (process.env.GNOME_LOG == 1) || rawConfig.logging || false,
   neo4j: {
     host: process.env.NEO4J_HOST || rawConfig.neo4j.host,
@@ -43,7 +44,8 @@ let config = {
   slack: {
     token: process.env.SLACK_TOKEN || rawConfig.slack && rawConfig.slack.token || false,
     room: rawConfig.slack && rawConfig.slack.room || 'impossiblepeople-bug'
-  }
+  },
+  newsletter_key: rawConfig.newsletter_key
 };
 
 module.exports = config;

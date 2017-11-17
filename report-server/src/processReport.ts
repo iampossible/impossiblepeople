@@ -4,6 +4,7 @@ import * as nodemailer from 'nodemailer';
 import * as seraph from 'seraph';
 import * as inlineCss from 'inline-css';
 import * as moment from 'moment';
+import * as crypto from 'crypto';
 
 import * as config from './config/config';
 
@@ -30,6 +31,9 @@ const db = seraph({
 declare const __dirname: string;
 
 mu.root = __dirname + '/../templates'
+
+const unsubscribeDate = Date.now().valueOf();
+const cipherAlgo = 'aes256';
 
 const userQuery = (userID: string) => new Promise((resolve, reject) => {
   promisify(db.query, 'MATCH (p:Person {userID: {userID}}) RETURN p', { userID })
@@ -110,6 +114,13 @@ const processUser = (userID: string, globalAsks: any[], globalOffers: any[]): Pr
     userQuery(userID)
       .then((userData: any) => {
         templateData.user = userData
+
+        const d = crypto.createCipher(cipherAlgo, config.newsletter_key);
+
+        let code = d.update(`${userData.userID};${userData.email};${unsubscribeDate}`, 'utf8', 'hex');
+        code += d.final('hex');
+        templateData.unsubscribeLink = `${config.api}/api/newsletter/unsubscribe?code=${code}`;
+
         return friendCount(userID)
       })
       .then((count: number) => {
@@ -158,13 +169,6 @@ const mailReport = (data: any, htmlContent: string): Promise<any> => {
       path: __dirname + '/../assets/interests/' + s + '.png',
       cid: 'interest/' + s
     }))
-  let transporter = nodemailer.createTransport({
-    service: config.smtp.service,
-    auth: {
-      user: config.smtp.user,
-      pass: config.smtp.pass
-    }
-  })
 
   const attachmentList = [{
     filename: 'doll.png',
@@ -180,10 +184,17 @@ const mailReport = (data: any, htmlContent: string): Promise<any> => {
     cid: 'bottomdoll' //same cid value as in the html img src
   },
   ...interestPics]
+  let transporter = nodemailer.createTransport({
+    service: config.smtp.service,
+    auth: {
+      user: config.smtp.user,
+      pass: config.smtp.pass
+    }
+  })
 
   let email = {
     from: config.smtp.from,
-    to: 'filipe+test@impossible.com',//data.user.email,
+    to: data.user.email,
     subject: 'Weekly highlights ' + data.weekDate,
     html: htmlContent,
     attachments: attachmentList
