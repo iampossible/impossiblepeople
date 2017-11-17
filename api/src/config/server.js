@@ -75,6 +75,7 @@ let config = {
   },
   settings: {
     feed_use_location: rawConfig.settings && rawConfig.settings.feed_use_location || false,
+    newsletter_key: rawConfig.settings && rawConfig.settings.newsletter_key,
   }
 };
 

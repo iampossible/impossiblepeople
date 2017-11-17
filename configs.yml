@@ -45,6 +45,7 @@ api:
     - timeout # [OPTIONAL] defaults to ?
   settings:
     - feed_use_location # [OPTIONAL] defaults to false
+    - newsletter_key # [MANDATORY]
 app:
   - api # [MANDATORY]
   - heap # [OPTIONAL]

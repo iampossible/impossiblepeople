@@ -1,7 +1,7 @@
 'use strict';
 
 let locationModel = require('models/LocationModel');
-const config = require('config/server')
+const config = require('config/server');
 
 beforeAll(() => {
   // reset postModel object and all spies
