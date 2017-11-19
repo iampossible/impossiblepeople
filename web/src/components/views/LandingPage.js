@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import FacebookLogin from "react-facebook-login";
-import { Redirect } from "react-router-dom";
 import { Container, Row, Col } from "reactstrap";
 
 export default class LandingPage extends Component {
@@ -28,15 +27,23 @@ export default class LandingPage extends Component {
         //if it is valid create the user and return some of his/her data
         .then(response => response.json())
         .then(response => {
+          let user = response;
           this.setState({
             user: response
           });
+          if (user && user.hasOwnProperty("userType") && user.userType === "") {
+            this.props.history.push("/interest", { user });
+          }
+          if (user && user.userType && user.userType !== "") {
+            this.props.history.push("/feed",  { user } );
+          }
           return response;
         })
         .catch(err => console.log(err))
     );
   };
   render() {
+<<<<<<< HEAD
     const { user } = this.state;
     console.log(user)
 
@@ -57,6 +64,8 @@ export default class LandingPage extends Component {
         />
       );
     }
+=======
+>>>>>>> 659fe3b3c772ca6cbcf6b10b54f64ca2956b62b5
     return (
       <Container id="btnFacebook">
         <Row>
