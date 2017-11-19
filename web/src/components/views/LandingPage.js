@@ -38,6 +38,7 @@ export default class LandingPage extends Component {
   };
   render() {
     const { user } = this.state;
+    console.log(user)
 
     //once the user is authenticated redirect him/her to the interest page
     if (user && user.userType && user.userType === "organisation") {

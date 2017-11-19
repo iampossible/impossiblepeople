@@ -40,6 +40,7 @@ class DataHelper {
     return this.populateFrom("./seed.json");
   }
 
+
   wipe() {
     return new Sequence(next => {
       const json = {
