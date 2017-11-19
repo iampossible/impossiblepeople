@@ -49,7 +49,7 @@ export default class LandingPage extends Component {
           <Col className="sm-4" />
           <Col className="sm-4">
             <FacebookLogin
-              appId="138462666798513"
+              appId="133088487346292"
               autoLoad={false}
               icon="fa-facebook fa-lg"
               fields="name,email,picture,friends"
