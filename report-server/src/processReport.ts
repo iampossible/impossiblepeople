@@ -35,6 +35,14 @@ mu.root = __dirname + '/../templates'
 const unsubscribeDate = Date.now().valueOf();
 const cipherAlgo = 'aes256';
 
+const weekStart = moment().subtract(1, 'week').startOf('week');
+const weekEnd = moment().subtract(1, 'week').endOf('week');
+
+if (config.logging) {
+  console.log('weekStart', weekStart.format('MMM. D YYYY'), weekStart.format('x'))
+  console.log('weekEnd', weekEnd.format('MMM. D YYYY'), weekEnd.format('x'))
+}
+
 const userQuery = (userID: string) => new Promise((resolve, reject) => {
   promisify(db.query, 'MATCH (p:Person {userID: {userID}}) RETURN p', { userID })
     .then((result: Array<any>) => resolve(result.pop()))
@@ -49,7 +57,7 @@ const friendCount = (userID: string) => new Promise((resolve, reject) => {
 
 const platformHighlights = () =>
   promisify(db.query, `MATCH (creator:Person) -[rel:OFFERS|:ASKS]-> (post:Post) -[:IS_ABOUT]-> (category:Interest)
-       
+       WHERE rel.at < ${weekEnd.format('x')} AND rel.at > ${weekStart.format('x')}
        OPTIONAL MATCH (post) <-[comments:COMMENTS]- (:Person)
        
        RETURN creator, rel, post, category,
@@ -65,7 +73,8 @@ const friendlessHighlights = (userID: string) =>
          AND ( 
           creator = user 
           OR (user) -[:INTERESTED_IN]-> (category)
-         ) 
+         )
+         AND rel.at < ${weekEnd.format('x')} AND rel.at > ${weekStart.format('x')}
           
        OPTIONAL MATCH (post) <-[comments:COMMENTS]- (:Person)
        
@@ -86,6 +95,7 @@ const friendfulHighlights = (userID: string) =>
           OR (user) -[:FOLLOWS]-> (friend) -[:FOLLOWS]-> (creator) -[:FOLLOWS]-> (friend) -[:FOLLOWS]-> (user)
           OR (user) -[:INTERESTED_IN]-> (category)
          )
+         AND rel.at < ${weekEnd.format('x')} AND rel.at > ${weekStart.format('x')}
             
        OPTIONAL MATCH (post)<-[comments:COMMENTS]-(commenter:Person)
             WHERE NOT (user) -[:BLOCKED]- (commenter)
@@ -105,8 +115,6 @@ const cidify = (category: { image: string }) =>
 
 const processUser = (userID: string, globalAsks: any[], globalOffers: any[]): Promise<{ id: string, failed: boolean, error: undefined | any }> =>
   new Promise((resolve, reject) => {
-    const weekStart = moment().subtract(1, 'week').startOf('week');
-    const weekEnd = moment().subtract(1, 'week').endOf('week');
     let templateData: any = {
       weekDate: weekStart.format('MMM. D') + ' - ' + weekEnd.format('MMM. D YYYY'),
       cidify: cidify
@@ -205,54 +213,57 @@ const mailReport = (data: any, htmlContent: string): Promise<any> => {
   return promisify(transporter.sendMail.bind(transporter), email);
 };
 
+const main = () => {
+  console.time(`Process ${config.workdir}/reports/unprocessed`)
+  Promise.all([platformHighlights(), promisify(fs.readdir, `${config.workdir}/reports/unprocessed`)])
+    .then((result: any[]) => {
+      const globalFeed: any[] = result[0];
+      const globalOffers: any[] = globalFeed.filter(p => p.rel.type === 'OFFERS').slice(0, 2).map(x => Object.assign(x, { categoryCID: cidify(x.category) }))
+      const globalAsks: any[] = globalFeed.filter(p => p.rel.type === 'ASKS').slice(0, 2).map(x => Object.assign(x, { categoryCID: cidify(x.category) }))
 
-console.time(`Process ${config.workdir}/reports/unprocessed`)
-Promise.all([platformHighlights(), promisify(fs.readdir, `${config.workdir}/reports/unprocessed`)])
-  .then((result: any[]) => {
-    const globalFeed: any[] = result[0];
-    const globalOffers: any[] = globalFeed.filter(p => p.rel.type === 'OFFERS').slice(0, 2).map(x => Object.assign(x, { categoryCID: cidify(x.category) }))
-    const globalAsks: any[] = globalFeed.filter(p => p.rel.type === 'ASKS').slice(0, 2).map(x => Object.assign(x, { categoryCID: cidify(x.category) }))
+      const files: string[] = result[1];
 
-    const files: string[] = result[1];
-
-    if (globalAsks.length < 2 || globalOffers.length < 2) {
-      // Not enough data for the newsletter, skip it
-      if (config.logging) {
-        console.log("Not enough posts for the newsletter, nothing sent");
-      }
-      return Promise.resolve(files.map((userID: string) =>
-        ({
-          id: userID, failed: false, error: undefined
-        })));
-    }
-    return Promise.all(files.map((userID: string) =>
-      processUser(userID, globalOffers, globalAsks)
-    ))
-  })
-  .then((allResults: Array<{ id: string, failed: boolean, error: undefined | any }>) => {
-    let processed = {
-      success: allResults.filter(x => !x.failed),
-      failed: allResults.filter(x => x.failed)
-    }
-    for (let result of processed.success) {
-      if (config.logging) {
-        console.log(`Successfully sent report to ${result.id}`)
-      }
-      promisify(fs.unlink, `${config.workdir}/reports/unprocessed/${result.id}`)
-        .catch(console.error)
-    }
-    for (let result of processed.failed) {
-      if (/* TODO: move onto failed queue if we're facing a permanent failure, ignore otherwise to retry */true) {
+      if (globalAsks.length < 2 || globalOffers.length < 2) {
+        // Not enough data for the newsletter, skip it
         if (config.logging) {
-          console.log(`Failed to sent report to ${result.id}: ${result.error}`)
+          console.log("Not enough posts for the newsletter, nothing sent");
         }
-        touch(`${config.workdir}/reports/failed/${result.id}`)
-          .catch((err) => {
-            console.error(`Failed to add ${result.id} to failed queue: ${err}`)
-          })
+        return Promise.resolve(files.map((userID: string) =>
+          ({
+            id: userID, failed: false, error: undefined
+          })));
+      }
+      return Promise.all(files.map((userID: string) =>
+        processUser(userID, globalOffers, globalAsks)
+      ))
+    })
+    .then((allResults: Array<{ id: string, failed: boolean, error: undefined | any }>) => {
+      let processed = {
+        success: allResults.filter(x => !x.failed),
+        failed: allResults.filter(x => x.failed)
+      }
+      for (let result of processed.success) {
+        if (config.logging) {
+          console.log(`Successfully sent report to ${result.id}`)
+        }
         promisify(fs.unlink, `${config.workdir}/reports/unprocessed/${result.id}`)
           .catch(console.error)
       }
-    }
-    console.timeEnd(`Process ${config.workdir}/reports/unprocessed`)
-  }).catch(console.error)
+      for (let result of processed.failed) {
+        if (/* TODO: move onto failed queue if we're facing a permanent failure, ignore otherwise to retry */true) {
+          if (config.logging) {
+            console.log(`Failed to sent report to ${result.id}: ${result.error}`)
+          }
+          touch(`${config.workdir}/reports/failed/${result.id}`)
+            .catch((err) => {
+              console.error(`Failed to add ${result.id} to failed queue: ${err}`)
+            })
+          promisify(fs.unlink, `${config.workdir}/reports/unprocessed/${result.id}`)
+            .catch(console.error)
+        }
+      }
+      console.timeEnd(`Process ${config.workdir}/reports/unprocessed`)
+    }).catch(console.error)
+}
+
+main();
