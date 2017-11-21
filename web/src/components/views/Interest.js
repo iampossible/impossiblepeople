@@ -17,7 +17,12 @@ export default class Interest extends Component {
     //get the interestID from the button selected/clicked
     let interestID = evt.target.value;
     //make the button disabled once it is selected
-    evt.target.disabled = true;
+    if (evt.target.disabled) {
+      evt.target.disabled = false;
+    } else {
+      evt.target.disabled = true;
+    }
+
     //may not be needed as the button with the id is disabled
     //but in case
     let selectedInterests = this.state.interests;
@@ -35,7 +40,7 @@ export default class Interest extends Component {
     })
       .then(response => response.json())
       .then(response => {
-        console.log(response)
+        console.log(response);
         this.setState({
           featuredInterest: response
         });
@@ -43,28 +48,26 @@ export default class Interest extends Component {
   }
   render() {
     const { featuredInterest } = this.state;
-  
+
     return (
-      <div className={'buttons'}>
-              {featuredInterest.map((interest, index) => {
-                
-                  return (
-                      <Button
-                      className ={'col-sm-6 col-xs-12 col-lg-3 col-md-3' }
-                        onClick={e => {
-                          this.handleSelection(e);
-                        }}
-                        value={interest.interestID}
-                      >
-                        {interest.name}
-                      </Button>
-                   
-                  );
-                
-              })}
-            
-            <hr />
-          
+      <div className={"buttons"}>
+        {featuredInterest.map((interest, index) => {
+          return (
+            <Button
+              className={"col-sm-6 col-xs-12 col-lg-3 col-md-3"}
+              onClick={e => {
+                this.handleSelection(e);
+              }}
+              value={interest.interestID}
+              disabled={this.state.buttonDisabled}
+            >
+              {interest.name}
+            </Button>
+          );
+        })}
+
+        <hr />
+
         <UserType interests={this.state.interests} />
       </div>
     );

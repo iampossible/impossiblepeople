@@ -139,6 +139,7 @@ class PostController extends Controller {
         .getPost(request.params.id, userID)
         .error(reject)
         .done(accept);
+      console.log(accept);
     })
       .then((accept, reject, postNode) => {
         if (!postNode) {
