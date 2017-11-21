@@ -40,12 +40,17 @@ export default class Interest extends Component {
     })
       .then(response => response.json())
       .then(response => {
-        console.log(response);
         this.setState({
           featuredInterest: response
         });
       });
   }
+  redirectOnSubmit = userType => {
+    let user = Object.assign({}, this.props.location.state.user, {
+      userType: userType
+    });
+    this.props.history.push("/feed", { user });
+  };
   render() {
     const { featuredInterest } = this.state;
 
