@@ -1,11 +1,11 @@
 @import url("https://fonts.googleapis.com/css?family=Felipa");
 @import url("https://fonts.googleapis.com/css?family=Roboto");
 body {
-    background-color: #0f0f1b;
+    background-color: #ededed;
     margin: 0;
     padding: 0;
-    font-family: 'Roboto', sans-serif;
-    overflow-x: hidden
+    font-family: "Roboto", sans-serif;
+    overflow-x: hidden;
 }
 
 .App {
@@ -23,7 +23,7 @@ body {
 .App-header h1 {
     font-size: 4em;
     font-weight: 900;
-    color: #e6e7e9;
+    color: black;
     font-family: "Felipa", cursive;
     line-height: 2;
     border-bottom: 3px solid #fec85d;
@@ -50,7 +50,12 @@ body {
 
 .buttons {
     position: relative;
-    left: 50px
+    left: 75px;
+}
+
+.interestButton {
+    padding: 10px;
+    margin: 10px;
 }
 
 .btn {
@@ -61,15 +66,27 @@ body {
     box-sizing: content-box;
     cursor: pointer;
     text-transform: lowercase;
-    background-color: rgb(162, 103, 0);
+    background-color: rgb(49, 164, 0);
+}
+
+.selectedButton {
+    background-color: rgb(67, 67, 67);
+    color: black;
+    text-align: center;
+    font-size: 1em;
+    font-weight: 900;
+    box-sizing: content-box;
+    cursor: pointer;
+    text-transform: lowercase;
 }
 
 .interest {
-    margin: 10px
+    margin: 10px;
 }
 
-.btn::first-letter {
-    text-transform: capitalize
+.btn::first-letter,
+.selectedButton::first-letter {
+    text-transform: capitalize;
 }
 
 #selectUserType {
@@ -99,36 +116,42 @@ hr {
     }
 }
 
-.feed {
-    font-family: 'Roboto', sans-serif;
-    color: rgba(255, 255, 255, 0.6);
-    background-color: rgba(255, 255, 255, 0.05);
-    border: 1px solid #d4d4d4;
+.feed,
+#post {
+    font-family: "Roboto", sans-serif;
+    color: black;
+    background-color: rgb(255, 255, 255);
+    border: 1px solid #acacac;
     border-radius: 5px;
     padding: 20px;
     margin: 20px;
     -webkit-box-shadow: 0 1px 6px rgba(0, 0, 0, 0.175);
-    box-shadow: 0 1px 6px rgba(0, 0, 0, 0.175);
+    box-shadow: 0 3px 5px rgba(0, 0, 0, 0.454);
 }
 
 .feedPhoto {
-    max-width: 200px;
+    max-width: 150px;
     height: auto;
-    color: rgb(162, 103, 0);
+    color: rgb(49, 164, 0);
     font-size: 1em;
+    border-radius: 7%;
+}
+
+.profileName {
+    margin-top: 5px;
 }
 
 .feedPhoto p {
-    padding: 5px 5px 5px 10px;
+    padding: 5px 5px 5px 300px;
+    text-align: center;
 }
 
 .feedBody {
-    /* padding-left: 100px; */
-    font-size: 1.2em
+    font-size: 1.6em;
 }
 
 .feedColor {
-    color: rgb(162, 103, 0)
+    color: rgb(49, 164, 0);
 }
 
 .comment {
@@ -136,29 +159,67 @@ hr {
 }
 
 .comment .input {
-    background-color: rgba(255, 255, 255, 0.077);
-    color: white
+    -webkit-box-shadow: 0 1px 6px rgba(0, 0, 0, 0.175);
+    box-shadow: inset 1px 5px 5px rgba(0, 0, 0, 0.166);
+    border: 1px solid #acacac;
+    font-family: "Roboto", sans-serif;
+    font-size: 1.2em;
+}
+
+.commentPhoto {
+    max-width: 50px;
+    height: auto;
+    border-radius: 50%;
 }
 
 .input-group-addon {
-    background-color: rgb(162, 103, 0);
-    color: white
+    background-color: rgb(49, 164, 0);
 }
 
 .red {
-    color: white;
     padding: 20px;
 }
 
-.feedComment {
-    padding-left: 50px;
+#post {
+    margin-top: 1.5rem;
 }
 
-#post {
-    color: white
+#organisationAvatar {
+    max-width: 200px;
+    height: auto;
+    margin-top: 100px;
+}
+
+#organisationAvatar img {
+    border-radius: 7%;
+}
+
+#post input,
+#post textarea,
+#post select {
+    -webkit-box-shadow: 0 1px 6px rgba(0, 0, 0, 0.175);
+    box-shadow: inset 1px 5px 5px rgba(0, 0, 0, 0.166);
+    border: 1px solid #acacac;
+    font-family: "Roboto", sans-serif;
+}
+
+#selectInfo {
+    font-size: 12px;
+    margin-left: 30px;
+}
+
+.submitPost {
+    text-align: center;
 }
 
 .inputBG {
     background-color: rgba(255, 255, 255, 0.077);
-    color: white
+}
+
+a {
+    color: white;
+}
+
+.center-loading {
+    margin-left: 20%;
 }
