@@ -63,6 +63,7 @@ export default class Interest extends Component {
               onClick={e => {
                 this.handleSelection(e);
               }}
+              key={interest.interestID}
               value={interest.interestID}
               disabled={this.state.buttonDisabled}
             >
@@ -73,7 +74,10 @@ export default class Interest extends Component {
 
         <hr />
 
-        <UserType interests={this.state.interests} />
+        <UserType
+          interests={this.state.interests}
+          redirectOnSubmit={this.redirectOnSubmit}
+        />
       </div>
     );
   }
