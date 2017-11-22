@@ -12,6 +12,10 @@ class Feed extends Component {
   };
 
   componentWillMount() {
+    this.getFeeds();
+  }
+  getFeeds = () => {
+    console.log("I run");
     //this will load the feed to the page and then will load all the comments for each post
     fetch("/api/feed", {
       method: "GET",
@@ -60,17 +64,21 @@ class Feed extends Component {
           feed: response,
           loadLastComments: []
         });
+        this.forceUpdate();
       });
-  }
-
+  };
   render() {
-    //getting the user type that is passed from the landingPage redirect
+    //getting the user that is passed from the landingPage redirect
     const { user } = this.props.location.state;
 
     return (
       <div>
         {/* if user is an organisation display the post component at the top */}
-        {user && user.userType === "organisation" ? <Post user={user} /> : ""}
+        {user && user.userType === "organisation" ? (
+          <Post user={user} updateFeeds={this.getFeeds} />
+        ) : (
+          ""
+        )}
         {this.state.feed.map((feedData, i) => {
           return (
             <div key={feedData.postID} className="feed">
@@ -99,10 +107,13 @@ class Feed extends Component {
                 </div>
                 <div className="col-sm-2 col-md-4 col-lg-6 location">
                   <span className="feedColor">interest: </span>
+                  {/* to format the list of interests / tags 
+                    if there is more than one interest separet them with /
+                  */}
                   {feedData.category.map(
                     (category, i) =>
                       i > 0
-                        ? category.name.toLowerCase() + " / "
+                        ? " / " + category.name.toLowerCase()
                         : category.name.toLowerCase()
                   )}
                 </div>

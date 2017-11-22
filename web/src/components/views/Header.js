@@ -25,7 +25,6 @@ class Header extends Component {
     })
       .then(response => response.json())
       .then(response => {
-        console.log(response);
         response.status === "logged Out" ? this.props.history.push("/") : null;
       });
   };
@@ -54,7 +53,7 @@ class Header extends Component {
           <Col xs={1}>
             {location.pathname === "/interest" ||
             location.pathname === "/feed" ? (
-              <Button onClick={this.handlelogOut}>Logout</Button>
+              <Button onClick={this.handlelogout}>Logout</Button>
             ) : null}
           </Col>
         </Row>

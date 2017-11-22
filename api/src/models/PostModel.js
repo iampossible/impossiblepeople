@@ -32,16 +32,20 @@ class PostModel extends Model {
         });
       })
       .then((next, reject, postNode) => {
-        this.db.query(
-          `MATCH (p:Post {postID: {postID}}), (i:Interest {interestID: {interestID}})
-           MERGE (p) -[r:IS_ABOUT]-> (i)
-           ON CREATE SET r.at = timestamp()`,
-          { postID: postNode.postID, interestID: post.interestID },
-          (error, postInterestEdge) => {
-            if (error) return reject(error);
-            next({ postNode, postInterestEdge });
-          }
-        );
+        //modified it to create the relationship for each interest
+        //initially it was for single interest
+        postNode.interestID.forEach(interestID => {
+          this.db.query(
+            `MATCH (p:Post {postID: {postID}}), (i:Interest {interestID: {interestID}})
+             MERGE (p) -[r:IS_ABOUT]-> (i)
+             ON CREATE SET r.at = timestamp()`,
+            { postID: postNode.postID, interestID: interestID },
+            (error, postInterestEdge) => {
+              if (error) return reject(error);
+              next({ postNode, postInterestEdge });
+            }
+          );
+        });
       })
       .done((createdNode, creatorObj, finalNode, interestObj) => {
         //asign user to interest
@@ -49,7 +53,6 @@ class PostModel extends Model {
         setTimeout(() => {
           userModel.addInterests(userNode, [{ interestID: post.interestID }]);
         }, 333);
-
         return finalNode;
       })
       .error(e => {

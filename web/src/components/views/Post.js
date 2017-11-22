@@ -51,6 +51,21 @@ export default class Post extends Component {
     })
       //just for see the result of the operation...needs to be removed
       .then(response => response.json())
+      .then(response => {
+        if (response) {
+          this.props.updateFeeds();
+          this.radio.checked = false;
+          this.setState({
+            content: "",
+            postType: "",
+            location: "",
+            latitude: "",
+            longitude: "",
+            timeRequired: "",
+            interestID: []
+          });
+        }
+      })
       .catch(err => console.error(err));
   };
 
@@ -88,6 +103,7 @@ export default class Post extends Component {
                     id="postContent"
                     placeholder="Have something to Ask or Offer?"
                     onChange={this.handleChange}
+                    value={this.state.content}
                   />
                 </Col>
               </FormGroup>
@@ -104,6 +120,9 @@ export default class Post extends Component {
                         type="radio"
                         name="postType"
                         value="ASKS"
+                        ref={radio => {
+                          this.radio = radio;
+                        }}
                         onChange={this.handleChange}
                       />&nbsp;&nbsp;&nbsp;&nbsp;ASK
                     </Label>
@@ -116,6 +135,9 @@ export default class Post extends Component {
                         type="radio"
                         name="postType"
                         value="OFFERS"
+                        ref={radio => {
+                          this.radio = radio;
+                        }}
                         onChange={this.handleChange}
                       />&nbsp;&nbsp;&nbsp;&nbsp;OFFER
                     </Label>
@@ -133,6 +155,7 @@ export default class Post extends Component {
                     id="location"
                     placeholder="e.g. London"
                     onChange={this.handleChange}
+                    value={this.state.location}
                   />
                 </Col>
               </FormGroup>
@@ -181,6 +204,7 @@ export default class Post extends Component {
                     id="timeRequired"
                     placeholder="e.g. 10"
                     onChange={this.handleChange}
+                    value={this.state.timeRequired}
                   />
                 </Col>
               </FormGroup>

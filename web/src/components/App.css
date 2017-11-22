@@ -107,15 +107,6 @@ hr {
     margin: 1em;
 }
 
-@keyframes App-logo-spin {
-    from {
-        transform: rotate(0deg);
-    }
-    to {
-        transform: rotate(360deg);
-    }
-}
-
 .feed,
 #post {
     font-family: "Roboto", sans-serif;
@@ -147,7 +138,8 @@ hr {
 }
 
 .feedBody {
-    font-size: 1.6em;
+    font-size: 1.2em;
+    line-height: 1.7;
 }
 
 .feedColor {

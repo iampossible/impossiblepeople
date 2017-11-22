@@ -127,7 +127,8 @@ class PostController extends Controller {
       .error(e => reply({ msg: e }).code(400))
       .done(postNode => {
         QueueWorkers.activity("CREATE_POST_EVENT", { postID: postNode.postID });
-        reply(postNode).code(200);
+        // reply(postNode).code(200);
+        reply(true).code(200);
       });
   }
 
