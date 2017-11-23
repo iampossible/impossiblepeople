@@ -62,5 +62,7 @@ class DataHelper {
     });
   }
 }
+let myDataHelper = new DataHelper();
+myDataHelper.populate();
 
 module.exports = new DataHelper();

@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import FacebookLogin from "react-facebook-login";
 import { Container, Row, Col } from "reactstrap";
+import {Redirect} from 'react-router-dom'
 
 export default class LandingPage extends Component {
   constructor() {
@@ -43,7 +44,6 @@ export default class LandingPage extends Component {
     );
   };
   render() {
-<<<<<<< HEAD
     const { user } = this.state;
     console.log(user)
 
@@ -64,8 +64,6 @@ export default class LandingPage extends Component {
         />
       );
     }
-=======
->>>>>>> 659fe3b3c772ca6cbcf6b10b54f64ca2956b62b5
     return (
       <Container id="btnFacebook">
         <Row>
