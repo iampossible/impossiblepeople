@@ -112,7 +112,7 @@ export class UserType extends Component {
             </FormGroup>
           </Col>
           <Col sm={{ size: 3 }}>
-            <Button color="warning" onClick={this.handleSubmitRequest}>
+            <Button  onClick={this.handleSubmitRequest}>
               &nbsp;&nbsp;&nbsp;Submit&nbsp;&nbsp;&nbsp;
             </Button>
           </Col>
