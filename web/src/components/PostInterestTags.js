@@ -47,10 +47,7 @@ export class PostInterestTags extends Component {
             })}
           </Input>
           <span
-            style={{
-              fontSize: "12px",
-              color: "#ECEDEE"
-            }}
+          id={'selectInfo'}
           >
             <i
               className="text-info fa fa-info-circle"

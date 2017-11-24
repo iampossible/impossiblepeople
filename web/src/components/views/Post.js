@@ -70,11 +70,12 @@ export default class Post extends Component {
     return (
       <div id="post">
         <Row>
+          <Col sm={2}/>
           <Col sm={3} xs={12} id="organisationAvatar">
             <img src={this.props.user.imageSource} width="100%" alt={""} />
           </Col>
 
-          <Col sm={8} xs={12} id="postForm">
+          <Col sm={7} xs={12} id="postForm">
             <Form>
               <FormGroup row>
                 <Label for="content" sm={{ size: 2 }} xs={12}>
@@ -189,7 +190,7 @@ export default class Post extends Component {
                 <Col sm={2} />
                 <Col sm={5} xs={12} className="submitPost">
                   <hr />
-                  <Button color="warning" onClick={this.handleSubmitRequest}>
+                  <Button  onClick={this.handleSubmitRequest}>
                     &nbsp;&nbsp;&nbsp;Submit&nbsp;&nbsp;&nbsp;
                   </Button>
                 </Col>

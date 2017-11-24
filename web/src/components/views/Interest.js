@@ -8,7 +8,9 @@ export default class Interest extends Component {
       //to hold all the featured interests from the DB
       featuredInterest: [],
       //to hold the interests that the user picks
-      interests: []
+      interests: [],
+      selected:false
+
     };
   }
 
@@ -17,17 +19,28 @@ export default class Interest extends Component {
     //get the interestID from the button selected/clicked
     let interestID = evt.target.value;
     //make the button disabled once it is selected
-    evt.target.disabled = true;
+    if(this.state.selected){
+      this.setState({selected : false})
+      evt.target.className='col-sm-6 col-xs-12 col-lg-3 col-md-3 interestButton btn btn-secondary';      
+    }else{
+      this.setState({selected : true})
+      evt.target.className='col-sm-6 col-xs-12 col-lg-3 col-md-3 interestButton btn btn-secondary selectedButton';
+    }
     //may not be needed as the button with the id is disabled
     //but in case
     let selectedInterests = this.state.interests;
     if (!selectedInterests.includes(interestID)) {
       selectedInterests.push(interestID);
     }
+    // here is remove all the repited interest
+    // let uinqSelectedInterest = [...new Set(selectedInterests)]
     this.setState({
       interests: selectedInterests
     });
+ 
+
   }
+
   componentWillMount() {
     //load all the featured interests from the DB
     fetch(`/api/interest`, {
@@ -52,7 +65,7 @@ export default class Interest extends Component {
         {featuredInterest.map((interest, index) => {
           return (
             <Button
-              className ={'col-sm-6 col-xs-12 col-lg-3 col-md-3' }
+              className ={'col-sm-6 col-xs-12 col-lg-3 col-md-3 interestButton' }
               onClick={e => {
                 this.handleSelection(e);
               }}

@@ -57,13 +57,32 @@ class Feed extends Component {
           })
         );
         this.setState({
-          feed: response,
-          loadLastComments: []
+          feed: response
         });
       });
   }
+  upDateComments = postID => {
+    fetch(`/api/post/${postID}`, {
+      method: "GET",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json"
+      },
+      credentials: "same-origin"
+    })
+      .then(resp => resp.json())
+      .then(resp => {
+        let comment = resp.comments[resp.comments.length-1]
 
-  render() {
+        this.setState({
+          loadLastComments: this.state.feed
+          .filter(p => p.postID === postID)[0]
+          .comments.push(comment)
+        });
+      });
+  };
+
+  render() { 
     //getting the user type that is passed from the landingPage redirect
     const { user } = this.props.location.state;
 
@@ -75,7 +94,7 @@ class Feed extends Component {
           return (
             <div key={feedData.postID} className="feed">
               <Row className="">
-                <div className=" col-lg-3 col-xs-6 col-sm-6 col-md-6">
+                <div className=" col-lg-3 col-xs-6 col-sm-5 col-md-6">
                   <img
                     className="img-fluid feedPhoto"
                     src={
@@ -84,10 +103,10 @@ class Feed extends Component {
                     }
                     alt="profile"
                   />
-                  <p className="feedColor"> {feedData.author.username}</p>
+                  <p className="feedColor profileName"> {feedData.author.username}</p>
                 </div>
-                <div className="feedBody col-lg-9 col-xs-6 col-sm-6 col-md-6">
-                  {" "}
+                <div className="feedBody col-lg-9 col-xs-6 col-sm-7 col-md-6">
+                  
                   {feedData.content}
                 </div>
               </Row>
@@ -115,8 +134,10 @@ class Feed extends Component {
                   {feedData.comments.map((comment, index) => {
                     return (
                       <Row key={index}>
-                        <div className="feedColor">{comment.author}</div>
-                        <div className="feedComment">{comment.content}</div>
+                      {/* <img className="commentPhoto"src={comment.imageSource}/> */}
+                      <div className="  col-md-5 col-lg-1"/>
+                        <div className="feedColor col-sm-4 col-md-5 col-lg-2">{comment.author}</div>
+                        <div className="feedComment col-sm-8 col-md-5 col-lg-9">{comment.content}</div>
                       </Row>
                     );
                   })}
