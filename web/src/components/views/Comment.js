@@ -2,13 +2,10 @@ import React, { Component } from "react";
 import { InputGroup, Input, Button } from "reactstrap";
 
 class Comment extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      input: "",
-      submit: false
-    };
-  }
+  state = {
+    input: "",
+    submit: false
+  };
 
   handleChange = event => {
     // input is the Comment

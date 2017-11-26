@@ -9,8 +9,7 @@ export default class Interest extends Component {
       featuredInterest: [],
       //to hold the interests that the user picks
       interests: [],
-      selected:false
-
+      selected: false
     };
   }
 
@@ -19,13 +18,12 @@ export default class Interest extends Component {
     //get the interestID from the button selected/clicked
     let interestID = evt.target.value;
     //make the button disabled once it is selected
-    if(this.state.selected){
-      this.setState({selected : false})
-      evt.target.className='col-sm-6 col-xs-12 col-lg-3 col-md-3 interestButton btn btn-secondary';      
-    }else{
-      this.setState({selected : true})
-      evt.target.className='col-sm-6 col-xs-12 col-lg-3 col-md-3 interestButton btn btn-secondary selectedButton';
+    if (evt.target.disabled) {
+      evt.target.disabled = false;
+    } else {
+      evt.target.disabled = true;
     }
+
     //may not be needed as the button with the id is disabled
     //but in case
     let selectedInterests = this.state.interests;
@@ -37,8 +35,6 @@ export default class Interest extends Component {
     this.setState({
       interests: selectedInterests
     });
- 
-
   }
 
   componentWillMount() {
@@ -53,31 +49,39 @@ export default class Interest extends Component {
         });
       });
   }
-  redirectOnSubmit = (userType) => {
-    let user = Object.assign({}, this.props.location.state.user, {userType: userType}); 
-    this.props.history.push("/feed",  { user } );
-  }
+  redirectOnSubmit = userType => {
+    let user = Object.assign({}, this.props.location.state.user, {
+      userType: userType
+    });
+    this.props.history.push("/feed", { user });
+  };
   render() {
     const { featuredInterest } = this.state;
-  
+
     return (
-      <div className={'buttons'}>
+      <div className={"buttons"}>
         {featuredInterest.map((interest, index) => {
           return (
             <Button
-              className ={'col-sm-6 col-xs-12 col-lg-3 col-md-3 interestButton' }
+              className={"col-sm-6 col-xs-12 col-lg-3 col-md-3"}
               onClick={e => {
                 this.handleSelection(e);
               }}
-              value={interest.interestID}
               key={interest.interestID}
+              value={interest.interestID}
+              disabled={this.state.buttonDisabled}
             >
               {interest.name}
             </Button>
           );
         })}
+
         <hr />
-        <UserType interests={this.state.interests} redirectOnSubmit={this.redirectOnSubmit} />
+
+        <UserType
+          interests={this.state.interests}
+          redirectOnSubmit={this.redirectOnSubmit}
+        />
       </div>
     );
   }

@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import { Row, Col } from "reactstrap";
-
 import Comment from "./Comment";
 import Post from "./Post";
 
@@ -12,6 +11,9 @@ class Feed extends Component {
   };
 
   componentWillMount() {
+    this.getFeeds();
+  }
+  getFeeds = () => {
     //this will load the feed to the page and then will load all the comments for each post
     fetch("/api/feed", {
       method: "GET",
@@ -23,6 +25,9 @@ class Feed extends Component {
     })
       .then(response => response.json())
       .then(response => {
+        /* because the current impelementation of the api returns a post as an independent pos
+          with each interest/tag. we have to group the interests in the category and remove the duplicated 
+          interests   */
         for (let i = 0; i < response.length - 1; i++) {
           for (let j = i + 1; j < response.length; j++) {
             if (response[i] && response[j]) {
@@ -33,6 +38,13 @@ class Feed extends Component {
             }
           }
         }
+        /* since the delete response[j] command will not make the deleted array entry to have
+           'undefined' value we have to filter that out. 
+           Array.slice() will not work as it immediately reshuffles the array our condition will fill for 
+           consecuative true values as the next one will not be checked as it took the position of the 
+           deleted entry
+          */
+        response = response.filter(response => response !== undefined);
         return response;
       })
       .then(async response => {
@@ -57,10 +69,12 @@ class Feed extends Component {
           })
         );
         this.setState({
-          feed: response
+          feed: response,
+          loadLastComments: []
         });
+        this.forceUpdate();
       });
-  }
+  };
   upDateComments = postID => {
     fetch(`/api/post/${postID}`, {
       method: "GET",
@@ -72,29 +86,32 @@ class Feed extends Component {
     })
       .then(resp => resp.json())
       .then(resp => {
-        let comment = resp.comments[resp.comments.length-1]
-
+        let comment = resp.comments[resp.comments.length - 1];
         this.setState({
           loadLastComments: this.state.feed
-          .filter(p => p.postID === postID)[0]
-          .comments.push(comment)
+            .filter(p => p.postID === postID)[0]
+            .comments.push(comment)
         });
       });
   };
 
-  render() { 
-    //getting the user type that is passed from the landingPage redirect
+  render() {
+    //getting the user that is passed from the landingPage redirect
     const { user } = this.props.location.state;
 
     return (
       <div>
         {/* if user is an organisation display the post component at the top */}
-        {user && user.userType === "organisation" ? <Post user={user} /> : ""}
+        {user && user.userType === "organisation" ? (
+          <Post user={user} updateFeeds={this.getFeeds} />
+        ) : (
+          ""
+        )}
         {this.state.feed.map((feedData, i) => {
           return (
             <div key={feedData.postID} className="feed">
               <Row className="">
-                <div className=" col-lg-3 col-xs-6 col-sm-5 col-md-6">
+                <div className=" col-lg-3 col-xs-6 col-sm-6 col-md-6">
                   <img
                     className="img-fluid feedPhoto"
                     src={
@@ -103,10 +120,10 @@ class Feed extends Component {
                     }
                     alt="profile"
                   />
-                  <p className="feedColor profileName"> {feedData.author.username}</p>
+                  <p className="feedColor"> {feedData.author.username}</p>
                 </div>
-                <div className="feedBody col-lg-9 col-xs-6 col-sm-7 col-md-6">
-                  
+                <div className="feedBody col-lg-9 col-xs-6 col-sm-6 col-md-6">
+                  {" "}
                   {feedData.content}
                 </div>
               </Row>
@@ -118,10 +135,13 @@ class Feed extends Component {
                 </div>
                 <div className="col-sm-2 col-md-4 col-lg-6 location">
                   <span className="feedColor">interest: </span>
+                  {/* to format the list of interests / tags 
+                    if there is more than one interest separet them with /
+                  */}
                   {feedData.category.map(
                     (category, i) =>
                       i > 0
-                        ? category.name.toLowerCase() + " / "
+                        ? " / " + category.name.toLowerCase()
                         : category.name.toLowerCase()
                   )}
                 </div>
@@ -134,10 +154,8 @@ class Feed extends Component {
                   {feedData.comments.map((comment, index) => {
                     return (
                       <Row key={index}>
-                      {/* <img className="commentPhoto"src={comment.imageSource}/> */}
-                      <div className="  col-md-5 col-lg-1"/>
-                        <div className="feedColor col-sm-4 col-md-5 col-lg-2">{comment.author}</div>
-                        <div className="feedComment col-sm-8 col-md-5 col-lg-9">{comment.content}</div>
+                        <div className="feedColor">{comment.author}</div>
+                        <div className="feedComment">{comment.content}</div>
                       </Row>
                     );
                   })}
@@ -145,7 +163,7 @@ class Feed extends Component {
               </Col>
             </div>
           );
-        })};
+        })}
       </div>
     );
   }
