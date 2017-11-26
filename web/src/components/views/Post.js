@@ -54,7 +54,6 @@ export default class Post extends Component {
       .then(response => {
         if (response) {
           this.props.updateFeeds();
-          this.radio.checked = false;
           this.setState({
             content: "",
             postType: "",
@@ -120,9 +119,6 @@ export default class Post extends Component {
                         type="radio"
                         name="postType"
                         value="ASKS"
-                        ref={radio => {
-                          this.radio = radio;
-                        }}
                         onChange={this.handleChange}
                       />&nbsp;&nbsp;&nbsp;&nbsp;ASK
                     </Label>
