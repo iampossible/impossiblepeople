@@ -8,6 +8,7 @@ import "bootstrap/dist/css/bootstrap.css";
 import "./App.css";
 import { Container } from "reactstrap";
 import Header from "./views/Header";
+import UpdateInterest from "./views/UpdateInterest";
 
 const Main = ({ match }) => {
   return (
@@ -16,6 +17,7 @@ const Main = ({ match }) => {
       <Route path="/interest" component={Interest} />
       <Route path="/feed" component={Feed} />
       <Route path="/post" component={Post} />
+      <Route path="/updateInterest" component={UpdateInterest} />
     </Switch>
   );
 };

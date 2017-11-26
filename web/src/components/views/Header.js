@@ -30,30 +30,36 @@ class Header extends Component {
   };
   render() {
     const { location } = this.props;
-    console.log(this.state.user);
     return (
       <header className="App-header">
         <Row>
-          <Col xs={2} />
+          <Col xs={2} className="headerImage" />
           <Col xs={7}>
             <h1>We Are One</h1>
           </Col>
-          <Col xs={2}>
+          <Col xs={2} className="headerButton">
             {location.pathname === "/feed" &&
             (location.state && location.state.user.userType === "volunteer") ? (
               <Button
+                color="warning"
                 onClick={() => {
-                  this.props.history.push("/interest", location.state.user);
+                  this.props.history.push(
+                    "/updateInterest",
+                    location.state.user
+                  );
                 }}
               >
-                Change Interest
+                Update Interest
               </Button>
             ) : null}
           </Col>
-          <Col xs={1}>
+          <Col xs={1} className="headerButton">
             {location.pathname === "/interest" ||
-            location.pathname === "/feed" ? (
-              <Button onClick={this.handlelogout}>Logout</Button>
+            location.pathname === "/feed" ||
+            location.pathname === "/updateInterest" ? (
+              <Button color="warning" onClick={this.handlelogout}>
+                Logout
+              </Button>
             ) : null}
           </Col>
         </Row>

@@ -8,7 +8,8 @@ export default class Interest extends Component {
       //to hold all the featured interests from the DB
       featuredInterest: [],
       //to hold the interests that the user picks
-      interests: []
+      interests: [],
+      selected: false
     };
   }
 
@@ -29,10 +30,13 @@ export default class Interest extends Component {
     if (!selectedInterests.includes(interestID)) {
       selectedInterests.push(interestID);
     }
+    // here is remove all the repited interest
+    // let uinqSelectedInterest = [...new Set(selectedInterests)]
     this.setState({
       interests: selectedInterests
     });
   }
+
   componentWillMount() {
     //load all the featured interests from the DB
     fetch(`/api/interest`, {

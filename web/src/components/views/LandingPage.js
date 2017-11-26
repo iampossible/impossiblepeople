@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import FacebookLogin from "react-facebook-login";
 import { Container, Row, Col } from "reactstrap";
 import { RingLoader } from "react-spinners";
-
+import { Redirect } from "react-router-dom";
 export default class LandingPage extends Component {
   constructor() {
     super();
@@ -55,6 +55,26 @@ export default class LandingPage extends Component {
     );
   };
   render() {
+    const { user } = this.state;
+    console.log(user);
+
+    //once the user is authenticated redirect him/her to the interest page
+    if (user && user.userType && user.userType === "organisation") {
+      return (
+        <Redirect
+          to={{
+            pathname: "/feed",
+            state: {
+              user: this.state.user,
+              input: "",
+              feed: [],
+              submit: false,
+              loadCommenets: []
+            }
+          }}
+        />
+      );
+    }
     return (
       <Container id="btnFacebook">
         <Row>

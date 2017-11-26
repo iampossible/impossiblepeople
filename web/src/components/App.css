@@ -90,7 +90,6 @@ body {
 }
 
 #selectUserType {
-    color: cornsilk;
     line-height: 1.5;
 }
 
@@ -214,4 +213,44 @@ a {
 
 .center-loading {
     margin-left: 20%;
+}
+
+.interestTypesButton {
+    text-align: center;
+    font-size: 1em;
+    box-sizing: content-box;
+    width: 200px;
+}
+
+.previousInterest {
+    text-align: center;
+    font-size: 1em;
+    box-sizing: content-box;
+    width: 200px;
+    cursor: pointer;
+    color: #192243;
+}
+
+.previousInterest {
+    background-color: #868e96;
+    border-color: #868e96;
+    opacity: 0.65;
+}
+
+#lists {
+    margin-top: 7%;
+    padding: 20px 5px;
+}
+
+#lists li {
+    background: transparent;
+    border: none;
+    margin: 0 1em;
+    padding-left: 0;
+    margin-left: 4px;
+}
+
+#interest li {
+    font-size: 0.9em;
+    width: auto;
 }

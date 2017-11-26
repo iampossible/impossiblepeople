@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import { Row, Col } from "reactstrap";
-
 import Comment from "./Comment";
 import Post from "./Post";
 
@@ -76,6 +75,26 @@ class Feed extends Component {
         this.forceUpdate();
       });
   };
+  upDateComments = postID => {
+    fetch(`/api/post/${postID}`, {
+      method: "GET",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json"
+      },
+      credentials: "same-origin"
+    })
+      .then(resp => resp.json())
+      .then(resp => {
+        let comment = resp.comments[resp.comments.length - 1];
+        this.setState({
+          loadLastComments: this.state.feed
+            .filter(p => p.postID === postID)[0]
+            .comments.push(comment)
+        });
+      });
+  };
+
   render() {
     //getting the user that is passed from the landingPage redirect
     const { user } = this.props.location.state;
@@ -144,7 +163,7 @@ class Feed extends Component {
               </Col>
             </div>
           );
-        })};
+        })}
       </div>
     );
   }
