@@ -84,8 +84,7 @@ class Feed extends Component {
 
   render() { 
     //getting the user type that is passed from the landingPage redirect
-    const { user } = this.props.location.state;
-
+    const { user } = this.props;
     return (
       <div>
         {/* if user is an organisation display the post component at the top */}

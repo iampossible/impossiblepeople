@@ -25,7 +25,7 @@ export class UserType extends Component {
     // console.log(this.state);
     //the parameter needs to be a JSON
     let interests = JSON.stringify({
-      interests: this.props.interests
+      interests: [...this.props.interests]
     });
     //add users interest
     fetch(`/api/user/interest`, {

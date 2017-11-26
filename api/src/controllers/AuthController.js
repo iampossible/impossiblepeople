@@ -103,6 +103,21 @@ class AuthController extends Controller {
         emails: Joi.string().required()
       }
     });
+
+    this.route("getSessionUser", {
+      method: "GET",
+      path: "/api/user/get",
+      auth: "session",
+      handler: this.getSessionUser
+    });
+  }
+
+  getSessionUser(request, reply) {
+    let sid = request.auth.credentials.sid;
+    userModel
+      .getAuthUser({ sid })
+      .done(user => reply({user}).code(200))
+      .error(() => reply({}).code(500));
   }
 
   logout(request, reply) {
