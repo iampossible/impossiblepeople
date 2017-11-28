@@ -40,7 +40,7 @@ export class PostInterestTags extends Component {
           >
             {featuredInterest.map((interest, index) => {
               return (
-                <option key={index} value={interest.interestID}>
+                <option key={interest.interestID} value={interest.interestID}>
                   {interest.name}
                 </option>
               );

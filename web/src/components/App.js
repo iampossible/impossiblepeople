@@ -5,43 +5,35 @@ import Interest from "./views/Interest";
 import Feed from "./views/Feed";
 import "bootstrap/dist/css/bootstrap.css";
 import "./App.css";
-
-import { Container, Row, Col, Button } from "reactstrap";
-
-const Header = (props) => {
-  console.log(props);
-  return (
-    <header className="App-header">
-      <h1>We Are One</h1>
-      {props.but}
-    </header>
-  );
-};
+import { Container } from "reactstrap";
+import Header from "./views/Header";
+import UpdateInterest from "./views/UpdateInterest";
 
 const Main = (props) => {
+  console.log(props);
   return (
     <Router>
       <Switch>
         <Route exact path="/" render={(routeProps) =>  {
-          return (props.user.hasOwnProperty('userID')) ? (
-              <Redirect to="/feed" />
-            ) : (
+          return (!props.user.hasOwnProperty('userID')) ? (
               <LandingPage {...routeProps} setUser={props.setUser} />
+            ) : (
+              <Redirect to="/feed" />
             )
         }} />
         <Route path="/interest" render={(routeProps) =>  <Interest {...routeProps} user={props.user} setUser={props.setUser} />} />
         <Route path="/feed" render={(routeProps) =>  <Feed {...routeProps} user={props.user} />} />
+        <Route path="/updateInterest" component={UpdateInterest} user={props.user} />
       </Switch>
     </Router>
   );
 };
 
 class App extends Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.state = {
-      user: {},
-      currentView: 'LandingPage'
+      user: {}
     };
   }
 
@@ -53,10 +45,12 @@ class App extends Component {
       },
       credentials: "same-origin"
     })
-      .then(response => response.json())
+      .then(response => {console.log(response); return response.json()})
       .then(response => {
         let user = response.user || {};
+        console.log(user);
         this.setState({user});
+        this.forceUpdate();
       })
   }
 
@@ -64,40 +58,11 @@ class App extends Component {
     this.setState({user});
   };
 
-  logout = e => {
-    fetch('/api/auth/logout', {
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json"
-      },
-      credentials: "same-origin"
-    })
-      .then(response => {
-        if (response.status === 200)
-          this.props.history.push("/feed" )
-      })
-  };
-
   render() {
     return (
       <Container className="App">
-        <Row>
-          <Col className="col-sm-12 col-md-12">
-            <Header
-              but={(this.state.user.hasOwnProperty('userID')) ? 
-                <Button
-                  className=""
-                  onClick={e => {
-                    this.logout(e);
-                  }}
-                >
-                  Logout
-                </Button>
-               : <h1>test</h1>} 
-            />
-          </Col>
-        </Row>
-        <Main user={this.state.user} setUser={this.setUser}/>
+        <Header user={this.state.user} />
+        <Main user={this.state.user} setUser={this.setUser} />
       </Container>
     );
   }

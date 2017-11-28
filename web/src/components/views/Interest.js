@@ -1,7 +1,9 @@
 import React, { Component } from "react";
 import { Button } from "reactstrap";
 import { UserType } from "../UserType";
+
 export default class Interest extends Component {
+  
   constructor(props) {
     super(props);
     this.state = {
@@ -40,32 +42,40 @@ export default class Interest extends Component {
         });
       });
   }
+
   redirectOnSubmit = (userType) => {
     let user = Object.assign({}, this.props.user, {userType: userType}); 
     this.props.setUser(user);
     this.props.history.push("/feed");
   }
+
   render() {
     const { featuredInterest } = this.state;
-  
+
     return (
-      <div className={'buttons'}>
+      <div className={"buttons"}>
         {featuredInterest.map((interest, index) => {
           return (
             <Button
-              className ={'col-sm-6 col-xs-12 col-lg-3 col-md-3 interestButton' }
+              className={"col-sm-6 col-xs-12 col-lg-3 col-md-3"}
               onClick={e => {
                 this.handleSelection(e);
               }}
-              value={interest.interestID}
               key={interest.interestID}
+              value={interest.interestID}
+              disabled={this.state.buttonDisabled}
             >
               {interest.name}
             </Button>
           );
         })}
+
         <hr />
-        <UserType interests={this.state.interests} redirectOnSubmit={this.redirectOnSubmit} />
+
+        <UserType
+          interests={this.state.interests}
+          redirectOnSubmit={this.redirectOnSubmit}
+        />
       </div>
     );
   }
