@@ -49,7 +49,6 @@ export class UserType extends Component {
     let typeOfUser = JSON.stringify({
       typeOfUser: this.state.typeOfUser
     });
-    console.log(typeOfUser);
     fetch(`/api/user/userType`, {
       credentials: "same-origin",
       method: "PUT",

@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Switch, Route, Redirect, BrowserRouter as Router } from "react-router-dom";
+import { Switch, Route, Redirect, withRouter, BrowserRouter as Router } from "react-router-dom";
 import LandingPage from "./views/LandingPage";
 import Interest from "./views/Interest";
 import Feed from "./views/Feed";
@@ -9,8 +9,7 @@ import { Container } from "reactstrap";
 import Header from "./views/Header";
 import UpdateInterest from "./views/UpdateInterest";
 
-const Main = (props) => {
-  console.log(props);
+const Main =  withRouter ((props) => {
   return (
     <Router>
       <Switch>
@@ -27,7 +26,7 @@ const Main = (props) => {
       </Switch>
     </Router>
   );
-};
+});
 
 class App extends Component {
   constructor(props) {
@@ -45,12 +44,10 @@ class App extends Component {
       },
       credentials: "same-origin"
     })
-      .then(response => {console.log(response); return response.json()})
+      .then(response => response.json())
       .then(response => {
         let user = response.user || {};
-        console.log(user);
         this.setState({user});
-        this.forceUpdate();
       })
   }
 
@@ -61,11 +58,11 @@ class App extends Component {
   render() {
     return (
       <Container className="App">
-        <Header user={this.state.user} />
+        <Header user={this.state.user} location={this.props.location} />
         <Main user={this.state.user} setUser={this.setUser} />
       </Container>
     );
   }
 }
 
-export default App;
+export default withRouter(App);

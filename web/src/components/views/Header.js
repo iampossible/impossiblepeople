@@ -12,10 +12,6 @@ class Header extends Component {
     this.setState({user: this.props.user});
   }
 
-  componentWillReceiveProps(newProps) {
-    console.log(newProps);
-  }
-
   handlelogout = () => {
     fetch(`/api/auth/logout`, {
       headers: {
@@ -31,9 +27,7 @@ class Header extends Component {
       });
   };
   render() {
-    console.log(this.props);
     const { location } = this.props;
-    console.log(location);
     return (
       <header className="App-header">
         <Row>

@@ -50,7 +50,6 @@ export default class UpdateInterest extends Component {
       .then(response => response.json())
       .then(response => {
         let featuredInterests = response;
-        console.log(this.props);
         let previousInterests = [];
         if (this.props.user && this.props.user.hasOwnProperty('interests')) {
           this.props.user.interests.forEach(interest => {
@@ -112,13 +111,10 @@ export default class UpdateInterest extends Component {
       .catch(err => console.error(err));
   };
   redirectOnSubmit = userType => {
-    console.log(this.props.user);
     let user = Object.assign({}, this.props.user);
     this.props.history.push("/feed");
   };
   render() {
-    console.log(this.props);
-    console.log(this.state);
     const { featuredInterests, user_s_Interests } = this.state;
     return this.state.loading ? (
       <Row>
