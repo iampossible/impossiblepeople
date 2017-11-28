@@ -125,7 +125,7 @@ class AuthController extends Controller {
       .deleteCookie(request, request.auth.credentials)
       .then(() => {
         PushNotificationService.unregister(request.auth.credentials);
-        reply({}).code(200);
+        reply({ status: "logged Out" }).code(200);
       });
   }
 
