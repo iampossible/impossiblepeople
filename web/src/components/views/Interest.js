@@ -22,11 +22,9 @@ export default class Interest extends Component {
     if(interests.has(interestID)){
       interests.delete(interestID);
       this.setState({interests});
-      evt.target.className='col-sm-6 col-xs-12 col-lg-3 col-md-3 interestButton btn btn-secondary';      
     } else {
       interests.add(interestID);
       this.setState({interests});
-      evt.target.className='col-sm-6 col-xs-12 col-lg-3 col-md-3 interestButton btn btn-secondary selectedButton';
     }
   }
 
@@ -57,7 +55,7 @@ export default class Interest extends Component {
         {featuredInterest.map((interest, index) => {
           return (
             <Button
-              className={"col-sm-6 col-xs-12 col-lg-3 col-md-3"}
+              className={this.state.interests.has(interest.interestID) ? "col-sm-6 col-xs-12 col-lg-3 col-md-3 interestButton btn btn-secondary selectedButton" : "col-sm-6 col-xs-12 col-lg-3 col-md-3 interestButton btn btn-secondary"}
               onClick={e => {
                 this.handleSelection(e);
               }}
