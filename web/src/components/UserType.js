@@ -25,7 +25,7 @@ export class UserType extends Component {
     // console.log(this.state);
     //the parameter needs to be a JSON
     let interests = JSON.stringify({
-      interests: this.props.interests
+      interests: [...this.props.interests]
     });
     //add users interest
     fetch(`/api/user/interest`, {
@@ -49,7 +49,6 @@ export class UserType extends Component {
     let typeOfUser = JSON.stringify({
       typeOfUser: this.state.typeOfUser
     });
-    console.log(typeOfUser);
     fetch(`/api/user/userType`, {
       credentials: "same-origin",
       method: "PUT",

@@ -49,13 +49,15 @@ export default class UpdateInterest extends Component {
     })
       .then(response => response.json())
       .then(response => {
-        console.log("update", this.props.location.state);
+        let featuredInterests = response;
         let previousInterests = [];
-        this.props.location.state.interests.forEach(interest => {
-          previousInterests.push(interest.interestID);
-        });
+        if (this.props.user && this.props.user.hasOwnProperty('interests')) {
+          this.props.user.interests.forEach(interest => {
+            previousInterests.push(interest.interestID);
+          });
+        }
         this.setState({
-          featuredInterests: response,
+          featuredInterests,
           user_s_Interests: previousInterests,
           loading: false
         });
@@ -82,8 +84,9 @@ export default class UpdateInterest extends Component {
       .then(response => response.json())
       .then(response => {
         //modify the interest that will be passed through the location props
-        this.props.location.state.interests = (() => {
+        this.props.user.interests = (() => {
           for (let i = 0; i < this.state.user_s_Interests.length; i++) {
+
             this.state.featuredInterests.forEach(featuredInterest => {
               if (
                 featuredInterest.interestID === this.state.user_s_Interests[i]
@@ -103,17 +106,15 @@ export default class UpdateInterest extends Component {
           return this.state.user_s_Interests;
         })();
 
-        this.redirectOnSubmit(this.props.location.state.userType);
+        this.redirectOnSubmit(this.props.user.userType);
       })
       .catch(err => console.error(err));
   };
   redirectOnSubmit = userType => {
-    console.log(this.props.location.state);
-    let user = Object.assign({}, this.props.location.state);
-    this.props.history.push("/feed", { user });
+    let user = Object.assign({}, this.props.user);
+    this.props.history.push("/feed");
   };
   render() {
-    console.log(this.props);
     const { featuredInterests, user_s_Interests } = this.state;
     return this.state.loading ? (
       <Row>

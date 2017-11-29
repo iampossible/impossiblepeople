@@ -1,15 +1,16 @@
 import React, { Component } from "react";
 import { Button } from "reactstrap";
 import { UserType } from "../UserType";
+
 export default class Interest extends Component {
+  
   constructor(props) {
     super(props);
     this.state = {
       //to hold all the featured interests from the DB
       featuredInterest: [],
       //to hold the interests that the user picks
-      interests: [],
-      selected: false
+      interests: new Set()
     };
   }
 
@@ -17,24 +18,14 @@ export default class Interest extends Component {
   handleSelection(evt) {
     //get the interestID from the button selected/clicked
     let interestID = evt.target.value;
-    //make the button disabled once it is selected
-    if (evt.target.disabled) {
-      evt.target.disabled = false;
+    let interests = new Set(this.state.interests);
+    if(interests.has(interestID)){
+      interests.delete(interestID);
+      this.setState({interests});
     } else {
-      evt.target.disabled = true;
+      interests.add(interestID);
+      this.setState({interests});
     }
-
-    //may not be needed as the button with the id is disabled
-    //but in case
-    let selectedInterests = this.state.interests;
-    if (!selectedInterests.includes(interestID)) {
-      selectedInterests.push(interestID);
-    }
-    // here is remove all the repited interest
-    // let uinqSelectedInterest = [...new Set(selectedInterests)]
-    this.setState({
-      interests: selectedInterests
-    });
   }
 
   componentWillMount() {
@@ -49,12 +40,13 @@ export default class Interest extends Component {
         });
       });
   }
-  redirectOnSubmit = userType => {
-    let user = Object.assign({}, this.props.location.state.user, {
-      userType: userType
-    });
-    this.props.history.push("/feed", { user });
-  };
+
+  redirectOnSubmit = (userType) => {
+    let user = Object.assign({}, this.props.user, {userType: userType}); 
+    this.props.setUser(user);
+    this.props.history.push("/feed");
+  }
+
   render() {
     const { featuredInterest } = this.state;
 
@@ -63,7 +55,7 @@ export default class Interest extends Component {
         {featuredInterest.map((interest, index) => {
           return (
             <Button
-              className={"col-sm-6 col-xs-12 col-lg-3 col-md-3"}
+              className={this.state.interests.has(interest.interestID) ? "col-sm-6 col-xs-12 col-lg-3 col-md-3 interestButton btn btn-secondary selectedButton" : "col-sm-6 col-xs-12 col-lg-3 col-md-3 interestButton btn btn-secondary"}
               onClick={e => {
                 this.handleSelection(e);
               }}

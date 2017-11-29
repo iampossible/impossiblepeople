@@ -6,14 +6,12 @@ class Header extends Component {
   state = {
     user: {}
   };
+
   componentDidMount() {
     //to help us identify the userType @ line 44
-    this.props.location.state
-      ? this.setState({
-          user: this.props.location.state.user
-        })
-      : {};
+    this.setState({user: this.props.user});
   }
+
   handlelogout = () => {
     fetch(`/api/auth/logout`, {
       headers: {
@@ -38,14 +36,12 @@ class Header extends Component {
             <h1>We Are One</h1>
           </Col>
           <Col xs={2} className="headerButton">
-            {location.pathname === "/feed" &&
-            (location.state && location.state.user.userType === "volunteer") ? (
+            {(location.pathname === "/feed") ? (
               <Button
                 color="warning"
                 onClick={() => {
                   this.props.history.push(
-                    "/updateInterest",
-                    location.state.user
+                    "/updateInterest"
                   );
                 }}
               >
