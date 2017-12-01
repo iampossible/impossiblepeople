@@ -9,24 +9,22 @@ import { Container } from "reactstrap";
 import Header from "./views/Header";
 import UpdateInterest from "./views/UpdateInterest";
 
-const Main =  withRouter ((props) => {
+const Main =  (props) => {
   return (
-    <Router>
       <Switch>
-        <Route exact path="/" render={(routeProps) =>  {
-          return (!props.user.hasOwnProperty('userID')) ? (
-              <LandingPage {...routeProps} setUser={props.setUser} />
-            ) : (
-              <Redirect to="/feed" />
-            )
-        }} />
-        <Route path="/interest" render={(routeProps) =>  <Interest {...routeProps} user={props.user} setUser={props.setUser} />} />
-        <Route path="/feed" render={(routeProps) =>  <Feed {...routeProps} user={props.user} />} />
+        <Route exact path="/" render={(routeProps) =>  
+          <LandingPage {...routeProps} setUser={props.setUser} />
+        } />
+        <Route path="/interest" render={(routeProps) =>  
+          <Interest {...routeProps} user={props.user} setUser={props.setUser} />
+        } />
+        <Route path="/feed" render={(routeProps) =>
+          <Feed {...routeProps} user={props.user} />
+        } />
         <Route path="/updateInterest" component={UpdateInterest} user={props.user} />
       </Switch>
-    </Router>
   );
-});
+};
 
 class App extends Component {
   constructor(props) {
@@ -57,10 +55,12 @@ class App extends Component {
 
   render() {
     return (
-      <Container className="App">
-        <Header user={this.state.user} location={this.props.location} />
-        <Main user={this.state.user} setUser={this.setUser} />
-      </Container>
+      <Router>
+        <Container className="App">
+          <Header user={this.state.user} location={this.props.location} />
+          <Main user={this.state.user} setUser={this.setUser} location={this.props.location} />
+        </Container>
+      </Router>
     );
   }
 }

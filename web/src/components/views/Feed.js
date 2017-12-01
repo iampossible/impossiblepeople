@@ -72,7 +72,6 @@ class Feed extends Component {
           feed: response,
           loadLastComments: []
         });
-        this.forceUpdate();
       });
   };
   upDateComments = postID => {
