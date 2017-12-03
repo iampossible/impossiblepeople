@@ -13,6 +13,7 @@ class Feed extends Component {
   componentWillMount() {
     this.getFeeds();
   }
+
   getFeeds = () => {
     //this will load the feed to the page and then will load all the comments for each post
     fetch("/api/feed", {
@@ -45,35 +46,69 @@ class Feed extends Component {
            deleted entry
           */
         response = response.filter(response => response !== undefined);
-        return response;
+        return response.map(post => {
+          post.comments = [];
+          return post;
+        });
       })
-      .then(async response => {
+      .then(response => {
         //response is the outcome of the fetch for feed
         //then I will get the comments from the another fetch
 
-        await Promise.all(
-          response.map(async post => {
-            post.comments = [];
+        // await Promise.all(
+        //   response.map(async post => {
+        //     post.comments = [];
 
-            let resp = await fetch(`/api/post/${post.postID}`, {
-              method: "GET",
-              headers: {
-                Accept: "application/json",
-                "Content-Type": "application/json"
-              },
-              credentials: "same-origin"
-            });
-            resp = await resp.json();
-            post.comments.push(...resp.comments);
-            return post;
-          })
-        );
+        //     let resp = await fetch(`/api/post/${post.postID}`, {
+        //       method: "GET",
+        //       headers: {
+        //         Accept: "application/json",
+        //         "Content-Type": "application/json"
+        //       },
+        //       credentials: "same-origin"
+        //     });
+        //     resp = await resp.json();
+        //     post.comments.push(...resp.comments);
+        //     return post;
+        //   })
+        // );
+        this.getComments(response);
         this.setState({
           feed: response,
           loadLastComments: []
         });
       });
   };
+
+  getComments = (posts) => {
+    console.log('FETCHING COMMENTS');
+    let addPostComments = posts.map(post => {
+      fetch(`/api/post/${post.postID}`, {
+        method: "GET",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json"
+        },
+        credentials: "same-origin"
+      })
+      .then(response => response.json())
+      .then(response => {
+        post.comments.push(...response.comments);
+        this.setState(prevState => {
+          let feed = prevState.feed.map(prevPost => 
+            (prevPost.postID === post.postID) ? (
+              post
+              ) : (
+              prevPost
+              )
+          )
+          return feed;
+        });
+        return post;
+      });    
+    })
+  };
+
   upDateComments = postID => {
     fetch(`/api/post/${postID}`, {
       method: "GET",
