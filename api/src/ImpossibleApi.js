@@ -20,6 +20,7 @@ const Sequence = require("impossible-promise");
 const Controller = require("./core/Controller");
 const Model = require("./core/Model");
 const fs = require("fs");
+const path = require('path');
 
 const server = new Hapi.Server();
 let ServerOptions = {
@@ -98,27 +99,48 @@ if (process.env.GNOME_ENV === "dev" || process.env.GNOME_ENV === "docker") {
       console.log("LOUT ERROR:", err);
     }
   });
+
+    server.route({
+    method: "GET",
+    path: "/status",
+    config: { auth: { mode: "try" } },
+    handler: (request, reply) => {
+      new Sequence()
+        .pipe(() => pkg.version)
+        .then(Model.status())
+        .done((version, DatabaseStatus) => {
+          let AnyErrorStatus = !version || !DatabaseStatus;
+
+          reply({
+            version,
+            status: !AnyErrorStatus ? "fabulous" : "not cool",
+            database: DatabaseStatus ? "amazing" : "failing"
+          }).code(AnyErrorStatus ? 503 : 200);
+        })
+        .error(() => reply().code(500));
+    }
+  });
+
+  server.route({
+    method: "GET",
+    path: "/",
+    config: { auth: { mode: "try" } },
+    handler: (request, reply) => {
+      reply.file(path.join(__dirname, 'build', 'index.html'));
+    }
+  });
+
+  server.route({
+    method: "GET",
+    path: "/static/{param*}",
+    config: { auth: { mode: "try" } },
+    handler: {
+      directory: {
+          path: path.join(__dirname, 'build/static')
+      }
+    }
+  });  
+
 }
-
-server.route({
-  method: "GET",
-  path: "/",
-  config: { auth: { mode: "try" } },
-  handler: (request, reply) => {
-    new Sequence()
-      .pipe(() => pkg.version)
-      .then(Model.status())
-      .done((version, DatabaseStatus) => {
-        let AnyErrorStatus = !version || !DatabaseStatus;
-
-        reply({
-          version,
-          status: !AnyErrorStatus ? "fabulous" : "not cool",
-          database: DatabaseStatus ? "amazing" : "failing"
-        }).code(AnyErrorStatus ? 503 : 200);
-      })
-      .error(() => reply().code(500));
-  }
-});
 
 module.exports = server;
