@@ -132,6 +132,42 @@ if (process.env.GNOME_ENV === "dev" || process.env.GNOME_ENV === "docker") {
 
   server.route({
     method: "GET",
+    path: "/interest",
+    config: { auth: { mode: "try" } },
+    handler: (request, reply) => {
+      reply.file(path.join(__dirname, 'build', 'index.html'));
+    }
+  });
+
+  server.route({
+    method: "GET",
+    path: "/feed",
+    config: { auth: { mode: "try" } },
+    handler: (request, reply) => {
+      reply.file(path.join(__dirname, 'build', 'index.html'));
+    }
+  });
+
+  server.route({
+    method: "GET",
+    path: "/updateInterest",
+    config: { auth: { mode: "try" } },
+    handler: (request, reply) => {
+      reply.file(path.join(__dirname, 'build', 'index.html'));
+    }
+  });
+
+  server.route({
+    method: "GET",
+    path: "/service-worker.js",
+    config: { auth: { mode: "try" } },
+    handler: (request, reply) => {
+      reply.file(path.join(__dirname, 'build', 'service-worker.js'));
+    }
+  });
+
+  server.route({
+    method: "GET",
     path: "/static/{param*}",
     config: { auth: { mode: "try" } },
     handler: {
