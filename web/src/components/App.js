@@ -21,7 +21,9 @@ const Main =  (props) => {
         <Route path="/feed" render={(routeProps) =>
           <Feed {...routeProps} user={props.user} />
         } />
-        <Route path="/updateInterest" component={UpdateInterest} user={props.user} />
+        <Route path="/updateInterest" render={(routeProps) => 
+          <UpdateInterest {...routeProps} user={props.user} />
+        } />
       </Switch>
   );
 };
@@ -42,7 +44,10 @@ class App extends Component {
       },
       credentials: "same-origin"
     })
-      .then(response => response.json())
+      .then(response => {
+        if (response.status > 399) return {}; 
+        return response.json()
+      })
       .then(response => {
         let user = response.user || {};
         this.setState({user});

@@ -24,7 +24,13 @@ class Feed extends Component {
       },
       credentials: "same-origin"
     })
-      .then(response => response.json())
+      .then(response => {
+        if (response.status === 401) 
+          this.props.history.push("/");
+        if (response.status > 399)
+          return [];
+        return response.json()
+      })
       .then(response => {
         /* because the current impelementation of the api returns a post as an independent pos
           with each interest/tag. we have to group the interests in the category and remove the duplicated 
@@ -52,26 +58,6 @@ class Feed extends Component {
         });
       })
       .then(response => {
-        //response is the outcome of the fetch for feed
-        //then I will get the comments from the another fetch
-
-        // await Promise.all(
-        //   response.map(async post => {
-        //     post.comments = [];
-
-        //     let resp = await fetch(`/api/post/${post.postID}`, {
-        //       method: "GET",
-        //       headers: {
-        //         Accept: "application/json",
-        //         "Content-Type": "application/json"
-        //       },
-        //       credentials: "same-origin"
-        //     });
-        //     resp = await resp.json();
-        //     post.comments.push(...resp.comments);
-        //     return post;
-        //   })
-        // );
         this.getComments(response);
         this.setState({
           feed: response,
@@ -81,8 +67,7 @@ class Feed extends Component {
   };
 
   getComments = (posts) => {
-    console.log('FETCHING COMMENTS');
-    let addPostComments = posts.map(post => {
+    posts.map(post => {
       fetch(`/api/post/${post.postID}`, {
         method: "GET",
         headers: {
@@ -91,7 +76,11 @@ class Feed extends Component {
         },
         credentials: "same-origin"
       })
-      .then(response => response.json())
+      .then(response => {
+        if (response.status > 399)
+          return [];
+        return response.json()
+      })
       .then(response => {
         post.comments.push(...response.comments);
         this.setState(prevState => {
@@ -118,7 +107,11 @@ class Feed extends Component {
       },
       credentials: "same-origin"
     })
-      .then(resp => resp.json())
+      .then(resp => {
+        if (resp.status > 399)
+          return [];
+        return resp.json();
+      })
       .then(resp => {
         let comment = resp.comments[resp.comments.length - 1];
         this.setState({

@@ -36,6 +36,7 @@
     "nodemailer": "^2.7.0",
     "nodemailer-wellknown": "^0.2.0",
     "password": "^0.1.1",
+    "path": "^0.12.7",
     "request": "^2.69.0",
     "sequence": "^3.0.0",
     "seraph": "^0.14.2",

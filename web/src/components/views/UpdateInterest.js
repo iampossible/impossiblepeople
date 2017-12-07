@@ -47,7 +47,13 @@ export default class UpdateInterest extends Component {
     fetch(`/api/interest`, {
       credentials: "same-origin"
     })
-      .then(response => response.json())
+      .then(response => {
+        if (response.status === 401) 
+          this.props.history.push("/")
+        if (response.status > 399)
+          return [];
+        return response.json();
+      })
       .then(response => {
         let featuredInterests = response;
         let previousInterests = [];
