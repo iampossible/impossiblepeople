@@ -1,33 +1,35 @@
 import React, { Component } from "react";
 import { PostInterestTags } from "../PostInterestTags";
 import { Row, Col, Button, Form, FormGroup, Label, Input } from "reactstrap";
+import { RingLoader } from "react-spinners";
 
 export default class Post extends Component {
   state = {
     content: "",
     postType: "",
     location: "",
-    latitude: "",
-    longitude: "",
+    latitude: 0,
+    longitude: 0,
     timeRequired: "",
     //to hold the selected interests ID for the post
-    interestID: []
+    interestID: new Set(),
+    loadingLocation: false
   };
 
-  onFocus = e => {
+  detectLocation = e => {
+    this.setState({
+      loadingLocation: true
+    });
     this.getLocation();
   };
   handleChange = event => {
-    const target = event.target;
+    const target = event.currentTarget;
+
     const name = target.name;
     //if it is a select-multi type since multiple options can be selected
     if (target.type === "select-multiple") {
-      let interest = this.state.interestID;
-      if (!interest.includes(target.value)) {
-        interest.push(target.value);
-      }
       this.setState({
-        interestID: interest
+        interestID: [...target.selectedOptions].map(option => option.value)
       });
     } else {
       //if it is not a select element modify the element whose value is changed
@@ -39,7 +41,8 @@ export default class Post extends Component {
   handleSubmitRequest = e => {
     //implement post
     //remove the redirect state when constructing the body of the request
-    let { ...post } = this.state;
+    let { loadingLocation, ...post } = this.state;
+    post.interestID = [...this.state.interestID];
     fetch(`/api/post/create`, {
       credentials: "same-origin",
       method: "POST",
@@ -68,23 +71,41 @@ export default class Post extends Component {
       .catch(err => console.error(err));
   };
 
-  getLocation = () => {
+  getLocation() {
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(position => {
-        this.setState({
-          latitude: position.coords.latitude,
-          longitude: position.coords.longitude
-        });
+        const GEOCODING =
+          "https://maps.googleapis.com/maps/api/geocode/json?latlng=" +
+          position.coords.latitude +
+          "%2C" +
+          position.coords.longitude +
+          "&language=en";
+        fetch(GEOCODING)
+          .then(response => response.json())
+          .then(jsonResponse => {
+            if (jsonResponse.status === "OK") {
+              console.log(jsonResponse);
+              this.setState({
+                latitude: position.coords.latitude,
+                longitude: position.coords.longitude,
+                location: jsonResponse.results[7].formatted_address,
+                loadingLocation: false
+              });
+            } else {
+              //display can't access your location at the moment
+              console.log("ERROR");
+            }
+          });
       });
     } else {
       alert("Geolocation is not supported by this browser.");
     }
-  };
+  }
   render() {
     return (
       <div id="post">
         <Row>
-          <Col sm={2}/>
+          <Col sm={2} />
           <Col sm={3} xs={12} id="organisationAvatar">
             <img src={this.props.user.imageSource} width="100%" alt={""} />
           </Col>
@@ -95,7 +116,7 @@ export default class Post extends Component {
                 <Label for="content" sm={{ size: 2 }} xs={12}>
                   Content
                 </Label>
-                <Col sm={{ size: 8 }} xs={12}>
+                <Col sm={8} xs={12}>
                   <Input
                     type="textarea"
                     name="content"
@@ -145,9 +166,9 @@ export default class Post extends Component {
                 <Label for="location" sm={2} xs={12}>
                   &nbsp;Location&nbsp;
                 </Label>
-                <Col sm={5} xs={12}>
+                <Col sm={5} xs={5}>
                   <Input
-                    type="text"
+                    type="textarea"
                     name="location"
                     id="location"
                     placeholder="e.g. London"
@@ -155,46 +176,31 @@ export default class Post extends Component {
                     value={this.state.location}
                   />
                 </Col>
-              </FormGroup>
-              <FormGroup row>
-                {/* will be replaced by detecting user Geolocation */}
-                <Label for="latitude" sm={{ size: 2 }} xs={12}>
-                  &nbsp; Latitude&nbsp;
-                </Label>
-                <Col sm={5} xs={12}>
-                  <Input
-                    type="text"
-                    name="latitude"
-                    id="latitude"
-                    placeholder="e.g. 51.533333"
-                    onChange={this.handleChange}
-                    onFocus={e => this.onFocus(e)}
-                    value={this.state.latitude}
-                  />
+                <Col sm={4} xs={4}>
+                  <Button onClick={e => this.detectLocation(e)}>
+                    Use my Current Location
+                  </Button>
+                </Col>
+                <Col sm={1} xs={1}>
+                  {this.state.loadingLocation ? (
+                    <div className="RingLoader location-loading">
+                      <RingLoader
+                        color="#123abc"
+                        loading={this.state.loading}
+                        size={30} /*the size of the spinner*/
+                      />
+                    </div>
+                  ) : (
+                    ""
+                  )}
                 </Col>
               </FormGroup>
-              <FormGroup row>
-                {/* will be replaced by detecting user Geolocation */}
-                <Label for="longitude" sm={2} xs={12}>
-                  &nbsp; Longitude&nbsp;
-                </Label>
-                <Col sm={5} xs={12}>
-                  <Input
-                    type="text"
-                    name="longitude"
-                    id="longitude"
-                    placeholder="e.g. -0.132231"
-                    onChange={this.handleChange}
-                    onFocus={e => this.onFocus(e)}
-                    value={this.state.longitude}
-                  />
-                </Col>
-              </FormGroup>
+
               <FormGroup row>
                 <Label for="timeRequired" sm={{ size: 2 }}>
                   &nbsp; Duration&nbsp;
                 </Label>
-                <Col sm={5} xs={12}>
+                <Col sm={6} xs={12}>
                   <Input
                     type="text"
                     name="timeRequired"
@@ -210,7 +216,7 @@ export default class Post extends Component {
                 <Col sm={2} />
                 <Col sm={5} xs={12} className="submitPost">
                   <hr />
-                  <Button  onClick={this.handleSubmitRequest}>
+                  <Button onClick={this.handleSubmitRequest}>
                     &nbsp;&nbsp;&nbsp;Submit&nbsp;&nbsp;&nbsp;
                   </Button>
                 </Col>
