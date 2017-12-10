@@ -28,7 +28,7 @@ export default class Interest extends Component {
     }
   }
 
-  componentWillMount() {
+  componentDidMount() {
     //load all the featured interests from the DB
     fetch(`/api/interest`, {
       credentials: "same-origin"
@@ -42,10 +42,25 @@ export default class Interest extends Component {
       })
       .then(response => {
         this.setState({
-          featuredInterest: response
+          featuredInterest: response,
         });
       });
+    this.setSelectedInterests(this.props.user);
   }
+
+  componentWillReceiveProps(nextProps) {
+    if (JSON.stringify(this.props.user) !== 
+      JSON.stringify(nextProps.user)) {
+      this.setSelectedInterests(nextProps.user);
+    }
+  }
+
+  setSelectedInterests = (user) => {
+      let currentInterests = (user.hasOwnProperty('interests')) ? 
+        user.interests.map(interest => interest.interestID) :
+        [];
+      this.setState({interests: new Set(currentInterests)})
+  };
 
   redirectOnSubmit = (userType) => {
     let user = Object.assign({}, this.props.user, {userType: userType}); 
@@ -55,7 +70,6 @@ export default class Interest extends Component {
 
   render() {
     const { featuredInterest } = this.state;
-
     return (
       <div className={"buttons"}>
         {featuredInterest.map((interest, index) => {

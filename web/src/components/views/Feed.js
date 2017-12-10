@@ -180,8 +180,9 @@ class Feed extends Component {
                   {feedData.comments.map((comment, index) => {
                     return (
                       <Row key={index}>
-                        <div className="feedColor">{comment.author}</div>
-                        <div className="feedComment">{comment.content}</div>
+                        <div className="  col-md-5 col-lg-1"/>
+                        <div className="feedColor col-sm-4 col-md-5 col-lg-2">{comment.author}</div>
+                        <div className="feedComment col-sm-8 col-md-5 col-lg-9">{comment.content}</div>
                       </Row>
                     );
                   })}
