@@ -58,7 +58,7 @@ export default class LandingPage extends Component {
           <Col className="sm-6">
             {!this.state.loading ? (
               <FacebookLogin
-                appId="133088487346292"
+                appId="138462666798513"
                 autoLoad={false}
                 icon="fa-facebook fa-lg"
                 fields="name,email,picture,friends"
