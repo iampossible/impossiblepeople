@@ -75,7 +75,7 @@ export default class Post extends Component {
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(position => {
         const GEOCODING =
-          "https://maps.googleapis.com/maps/api/geocode/json?latlng=" +
+          "https://maps.googleapis.com/maps/api/geocode/json?key=AIzaSyCR_cUWKEGoLxUi5rUNzHfEihZLdHu7qfM&latlng=" +
           position.coords.latitude +
           "%2C" +
           position.coords.longitude +
