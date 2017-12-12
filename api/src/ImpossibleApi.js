@@ -8,6 +8,8 @@ for eg. the AuthController.js will initialise the login strategy for the Hapi se
 */
 
 "use strict";
+
+
 const pkg = require("../package.json");
 if (process.env.GNOME_ENV !== "dev" && process.env.NEW_RELIC_LICENSE_KEY) {
   require("newrelic");
@@ -21,6 +23,11 @@ const Controller = require("./core/Controller");
 const Model = require("./core/Model");
 const fs = require("fs");
 const path = require('path');
+
+log4js.configure({
+  appenders: [{ type: "console" }, { type: "file", filename: "gnome.log" }],
+  replaceConsole: true
+});
 
 const server = new Hapi.Server();
 let ServerOptions = {
@@ -40,17 +47,17 @@ let ServerOptions = {
   }
 };
 
+console.info(config);
+
 if ("https" in config && config.https) {
+  console.log(fs.existsSync(config.https.key));
   ServerOptions.tls = {
-    key: fs.readFileSync(config.https.key),
-    cert: fs.readFileSync(config.https.cert)
+    key: fs.readFileSync(config.https.key, 'utf8'),
+    cert: fs.readFileSync(config.https.cert, 'utf8'),
+    passphrase: config.https.passphrase
   };
 }
 
-log4js.configure({
-  appenders: [{ type: "console" }, { type: "file", filename: "gnome.log" }],
-  replaceConsole: true
-});
 
 server.connection(ServerOptions);
 
