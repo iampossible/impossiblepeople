@@ -47,13 +47,11 @@ let ServerOptions = {
   }
 };
 
-console.info(config);
 
 if ("https" in config && config.https) {
-  console.log(fs.existsSync(config.https.key));
   ServerOptions.tls = {
-    key: fs.readFileSync(config.https.key, 'utf8'),
-    cert: fs.readFileSync(config.https.cert, 'utf8'),
+    key: fs.readFileSync(config.https.key),
+    cert: fs.readFileSync(config.https.cert),
     passphrase: config.https.passphrase
   };
 }
