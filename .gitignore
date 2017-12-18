@@ -22,5 +22,5 @@ node_modules
 .vagrant
 
 reports
-server.dev.json
 tmp
+keys

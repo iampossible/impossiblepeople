@@ -22,7 +22,7 @@ const Main =  (props) => {
           <Feed {...routeProps} user={props.user} />
         } />
         <Route path="/updateInterest" render={(routeProps) => 
-          <Interest {...routeProps} user={props.user} />
+          <Interest {...routeProps} user={props.user} setUser={props.setUser} />
         } />
       </Switch>
   );

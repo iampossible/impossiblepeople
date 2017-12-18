@@ -3,6 +3,8 @@
 // see configs.yml to better understand how to structure custom config files
 // see process.env.GNOME_xxx to see which environment overrides are available
 
+let path = require('path');
+
 let GNOME_ENV = process.env.GNOME_ENV;
 
 if (!GNOME_ENV || GNOME_ENV === 'docker') {
@@ -31,8 +33,9 @@ let config = {
   logging: (process.env.GNOME_LOG == 1) || rawConfig.logging || false,
   endpoint: rawConfig.endpoint || `${processedHost}:${processedPort}`,
   https: rawConfig.https && {
-    key: rawConfig.https.key,
-    cert: rawConfig.https.cert,
+    key: path.join(__dirname, 'keys/key.pem'),
+    cert: path.join(__dirname, 'keys/cert.pem'),
+    passphrase: process.env.PASSPHRASE
   },
   aws: {
     accessKey: process.env.AWS_ACCESS_KEY_ID || rawConfig.aws.accessKey,
