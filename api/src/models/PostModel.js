@@ -5,7 +5,9 @@ const Model = require("core/Model");
 const userModel = require("models/UserModel");
 
 class PostModel extends Model {
-  createPost(userNode, relation, post) {
+  createPost(userNode, relation, postData) {
+    let post = Object.assign({}, postData);
+    delete post['interests'];
     return new Sequence((next, reject) => {
       this.db.save(post, "Post", (err, postNode) => {
         if (err) return reject(err);
@@ -32,27 +34,23 @@ class PostModel extends Model {
         });
       })
       .then((next, reject, postNode) => {
-        //modified it to create the relationship for each interest
-        //initially it was for single interest
-        postNode.interestID.forEach(interestID => {
           this.db.query(
-            `MATCH (p:Post {postID: {postID}}), (i:Interest {interestID: {interestID}})
+            `MATCH (i:Interest), (p:Post {postID: {postID}})
+             WHERE i.interestID in {interests}
              MERGE (p) -[r:IS_ABOUT]-> (i)
              ON CREATE SET r.at = timestamp()`,
-            { postID: postNode.postID, interestID: interestID },
+            { postID: postNode.postID, interests: postData.interests },
             (error, postInterestEdge) => {
-              if (error) return reject(error);
+              if (error) {
+                console.log(error);
+                return reject(error);
+              }
               next({ postNode, postInterestEdge });
             }
           );
-        });
+        // });
       })
       .done((createdNode, creatorObj, finalNode, interestObj) => {
-        //asign user to interest
-        //TODO: MOVE TO QUEUE ASYNC JOBS
-        setTimeout(() => {
-          userModel.addInterests(userNode, [{ interestID: post.interestID }]);
-        }, 333);
         return finalNode;
       })
       .error(e => {

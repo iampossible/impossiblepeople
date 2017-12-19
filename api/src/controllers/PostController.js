@@ -122,7 +122,7 @@ class PostController extends Controller {
         latitude: request.payload.latitude,
         longitude: request.payload.longitude,
         timeRequired: request.payload.timeRequired || 0,
-        interestID: request.payload.interestID
+        interests: request.payload.interestID
       })
       .error(e => reply({ msg: e }).code(400))
       .done(postNode => {
