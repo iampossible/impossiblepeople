@@ -31,32 +31,12 @@ class Feed extends Component {
           return [];
         return response.json()
       })
-      .then(response => {
-        /* because the current impelementation of the api returns a post as an independent pos
-          with each interest/tag. we have to group the interests in the category and remove the duplicated 
-          interests   */
-        for (let i = 0; i < response.length - 1; i++) {
-          for (let j = i + 1; j < response.length; j++) {
-            if (response[i] && response[j]) {
-              if (response[i].postID === response[j].postID) {
-                response[i].category.push(response[j].category[0]);
-                delete response[j];
-              }
-            }
-          }
-        }
-        /* since the delete response[j] command will not make the deleted array entry to have
-           'undefined' value we have to filter that out. 
-           Array.slice() will not work as it immediately reshuffles the array our condition will fill for 
-           consecuative true values as the next one will not be checked as it took the position of the 
-           deleted entry
-          */
-        response = response.filter(response => response !== undefined);
-        return response.map(post => {
+      .then(response =>
+        response.map(post => {
           post.comments = [];
           return post;
-        });
-      })
+        })
+      )
       .then(response => {
         this.getComments(response);
         this.setState({
