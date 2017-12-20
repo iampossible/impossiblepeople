@@ -31,7 +31,7 @@ class PostController extends Controller {
           .min(-180)
           .max(180),
         timeRequired: Joi.number().integer(),
-        interestID: Joi.array().required()
+        interests: Joi.array().required()
       }
     });
 
@@ -122,7 +122,7 @@ class PostController extends Controller {
         latitude: request.payload.latitude,
         longitude: request.payload.longitude,
         timeRequired: request.payload.timeRequired || 0,
-        interests: request.payload.interestID
+        interests: request.payload.interests
       })
       .error(e => reply({ msg: e }).code(400))
       .done(postNode => {

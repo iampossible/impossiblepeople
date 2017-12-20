@@ -12,7 +12,7 @@ export default class Post extends Component {
     longitude: 0,
     timeRequired: "",
     //to hold the selected interests ID for the post
-    interestID: new Set(),
+    interests: [],
     loadingLocation: false
   };
 
@@ -29,7 +29,7 @@ export default class Post extends Component {
     //if it is a select-multi type since multiple options can be selected
     if (target.type === "select-multiple") {
       this.setState({
-        interestID: [...target.selectedOptions].map(option => option.value)
+        interests: [...target.selectedOptions].map(option => option.value)
       });
     } else {
       //if it is not a select element modify the element whose value is changed
@@ -42,7 +42,6 @@ export default class Post extends Component {
     //implement post
     //remove the redirect state when constructing the body of the request
     let { loadingLocation, ...post } = this.state;
-    post.interestID = [...this.state.interestID];
     fetch(`/api/post/create`, {
       credentials: "same-origin",
       method: "POST",
@@ -64,7 +63,7 @@ export default class Post extends Component {
             latitude: "",
             longitude: "",
             timeRequired: "",
-            interestID: []
+            interests: []
           });
         }
       })
