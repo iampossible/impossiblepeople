@@ -79,7 +79,7 @@ class FeedModel extends Model {
           
        OPTIONAL MATCH (post) <-[comments:COMMENTS]- (:Person)
        
-       RETURN creator, rel, post, category,
+       RETURN creator, rel, post, collect(category) AS interests,
           COUNT( DISTINCT comments) AS commentCount,
           [] AS commonFriends
           
