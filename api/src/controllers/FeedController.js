@@ -21,6 +21,7 @@ class FeedController extends Controller {
     return feedModel
       .get(request.auth.credentials.userID)
       .done(data => {
+        console.log(data);
         reply.response(data.map(node => ({
         postID: node.post.postID,
         postType: node.rel.type,
@@ -42,7 +43,7 @@ class FeedController extends Controller {
             imageSource: friend.imageSource,
           }))
         },
-        category: node.interests.map(interest => ({
+        category: node.category.map(interest => ({
           interestID: interest.interestID,
           name: interest.name,
           image: interest.image || null
