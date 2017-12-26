@@ -72,7 +72,7 @@ export default class Interest extends Component {
     const { featuredInterest } = this.state;
     return (
       <div className={"buttons"}>
-        {featuredInterest.map((interest, index) => {
+        {featuredInterest.map(interest => {
           return (
             <Button
               className={this.state.interests.has(interest.interestID) ? "col-sm-6 col-xs-12 col-lg-3 col-md-3 interestButton btn btn-secondary selectedButton" : "col-sm-6 col-xs-12 col-lg-3 col-md-3 interestButton btn btn-secondary"}
@@ -87,9 +87,7 @@ export default class Interest extends Component {
             </Button>
           );
         })}
-
         <hr />
-
         <UserType
           interests={this.state.interests}
           redirectOnSubmit={this.redirectOnSubmit}

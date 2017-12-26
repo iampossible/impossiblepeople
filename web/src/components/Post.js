@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { PostInterestTags } from "../PostInterestTags";
+import { PostInterestTags } from "./PostInterestTags";
 import { Row, Col, Button, Form, FormGroup, Label, Input } from "reactstrap";
 import { RingLoader } from "react-spinners";
 

@@ -130,7 +130,6 @@ class AuthController extends Controller {
   }
 
   validateUser(email, password) {
-    console.log("validate user");
     return userModel.getAuthUser({ email }).then((accept, reject, authUser) => {
       if (authUser.fromFacebook && !authUser.password) {
         reject("facebook user");

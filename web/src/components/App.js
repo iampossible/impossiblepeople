@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { Switch, Route, Redirect, withRouter, BrowserRouter as Router } from "react-router-dom";
 import LandingPage from "./views/LandingPage";
 import Interest from "./views/Interest";
-import Feed from "./views/Feed";
+import Feed from "../containers/Feed";
 import "bootstrap/dist/css/bootstrap.css";
 import "./App.css";
 import { Container } from "reactstrap";

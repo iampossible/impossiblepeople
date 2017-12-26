@@ -1,7 +1,9 @@
 import React, { Component } from "react";
 import { Row, Col } from "reactstrap";
-import Comment from "./Comment";
-import Post from "./Post";
+import Comment from "../components/Comment";
+import Post from "../components/Post";
+import DisplayPost from "../components/displayPost"
+import DisplayComment from "../components/displayComment"
 
 class Feed extends Component {
   state = {
@@ -116,42 +118,7 @@ class Feed extends Component {
         {this.state.feed.map((feedData, i) => {
           return (
             <div key={feedData.postID} className="feed">
-              <Row className="">
-                <div className=" col-lg-3 col-xs-6 col-sm-6 col-md-6">
-                  <img
-                    className="img-fluid feedPhoto"
-                    src={
-                      feedData.author.imageSource ||
-                      "../assets/images/profile-icon.png"
-                    }
-                    alt="profile"
-                  />
-                  <p className="feedColor"> {feedData.author.username}</p>
-                </div>
-                <div className="feedBody col-lg-9 col-xs-6 col-sm-6 col-md-6">
-                  {" "}
-                  {feedData.content}
-                </div>
-              </Row>
-              <Row className="interest">
-                <div className="col-sm-6 col-md-6 col-lg-6 location">
-                  <span className="feedColor">location: </span>
-                  <br />
-                  {feedData.location}
-                </div>
-                <div className="col-sm-2 col-md-4 col-lg-6 location">
-                  <span className="feedColor">interest: </span>
-                  {/* to format the list of interests / tags 
-                    if there is more than one interest separet them with /
-                  */}
-                  {feedData.category.map(
-                    (category, i) =>
-                      i > 0
-                        ? " / " + category.name.toLowerCase()
-                        : category.name.toLowerCase()
-                  )}
-                </div>
-              </Row>
+              <DisplayPost postData={feedData} />
               <Comment post={feedData} update={this.upDateComments} />
               <Col>
                 <div className="red">
@@ -159,11 +126,7 @@ class Feed extends Component {
 
                   {feedData.comments.map((comment, index) => {
                     return (
-                      <Row key={index}>
-                        <div className="  col-md-5 col-lg-1"/>
-                        <div className="feedColor col-sm-4 col-md-5 col-lg-2">{comment.author}</div>
-                        <div className="feedComment col-sm-8 col-md-5 col-lg-9">{comment.content}</div>
-                      </Row>
+                      <DisplayComment comment={comment} />
                     );
                   })}
                 </div>
