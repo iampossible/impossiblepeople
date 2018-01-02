@@ -1,0 +1,34 @@
+{
+    "host": "172.18.0.4",
+    "port": 3000,
+    "logging": true,
+    "salt": "8f6e57c1822d6328e62104dd13095dc8",
+    "aws": {
+        "sqs": {
+            "endpoint": "http://sqs:4568/"
+        },
+        "sns": {
+            "Apple": "",
+            "Android": ""
+        }
+    },
+    "neo4j": {
+        "host": "http://neo4j:7474"
+    },
+    "smtp": {
+        "from": "Impossible <noreply@impossible.com>"
+    },
+    "cookieTTL": 86400000,
+    "login": {
+        "penalty": 1,
+        "limit": 99999,
+        "timeout": 1
+    },
+    "settings": {
+        "feed_use_location": false
+    },
+    "facebook": {
+        "appId": "133088487346292",
+        "appSecret": "11279810300f042e3d837f22052e9257"
+    }
+}

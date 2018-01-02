@@ -1,34 +1,195 @@
-@import url("https://fonts.googleapis.com/css?family=Felipa");
-@import url("https://fonts.googleapis.com/css?family=Roboto");
+@import url(http://fonts.googleapis.com/css?family=Exo+2|Signika|Felipa|Lovers+Quarrel|Italianno:400,200,600,800,900);
+html {
+    line-height: 1;
+}
+
+q,
+blockquote {
+    quotes: none;
+}
+
+q:before,
+q:after,
+blockquote:before,
+blockquote:after {
+    content: "";
+    content: none;
+}
+
+*,
+*:before,
+*:after {
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+}
+
 body {
-    background-color: #ededed;
-    margin: 0;
-    padding: 0;
-    font-family: "Roboto", sans-serif;
-    overflow-x: hidden;
+    font: 200 1em/1.5em "Exo 2", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    width: 100%;
+    height: 100%;
+    background: #fff;
+}
+
+body::after {
+    content: "";
+    position: fixed;
+    width: 100vw;
+    height: 100vh;
+    left: 0%;
+    top: 0%;
+    background: #000;
+    opacity: 0.001;
+    z-index: -10;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    font: 200 1.5em/1.5em "Exo 2", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    color: #192243;
+    font-weight: 600;
+}
+
+p {
+    font-weight: 200;
+    /* padding-bottom: 10px; */
 }
 
 .App {
-    height: 100vh;
     background: transparent !important;
+    min-height: 100vh;
+    position: relative;
 }
 
 .App-header {
-    text-align: center;
-    padding: 20px;
-    padding-bottom: 0;
-    padding-top: 5em;
+    padding: 30px;
+    padding-top: 25px;
+    padding-bottom: 10px;
+    opacity: 0.9;
+    background: #132668;
+    padding-left: 4%;
+    padding-right: 3%;
+    width: 100vw;
+    margin: 0;
+}
+
+.App-header::after {
+    content: "";
+    position: absolute;
+    width: 100vw;
+    height: 115px;
+    left: 0%;
+    top: 0%;
+    background: #000;
+    opacity: 0.3;
+    z-index: -10;
 }
 
 .App-header h1 {
-    font-size: 4em;
+    padding-left: 35%;
+    font-size: 5em;
     font-weight: 900;
-    color: black;
-    font-family: "Felipa", cursive;
-    line-height: 2;
-    border-bottom: 3px solid #fec85d;
+    color: #dce2df;
+    font-family: "Lovers Quarrel", cursive;
+    line-height: 1;
     margin-bottom: 0;
     padding-bottom: 0;
+}
+
+.App-header img {
+    width: 80px;
+    height: 80px;
+    padding: 1em;
+    border-radius: 50%;
+    border: 2px solid transparent;
+    background: cornsilk;
+    opacity: 0.6;
+}
+
+.headerImage {
+    padding-top: 0.25%;
+    padding-left: 0;
+}
+
+.headerButtonUpdateInterest,
+.headerButtonLogout {
+    padding-top: 4%;
+}
+
+.headerButtonUpdateInterest button,
+.headerButtonLogout button {
+    background: #c32830;
+    color: #fff;
+    border: none;
+    width: 100%;
+}
+
+.headerButtonUpdateInterest button:hover,
+.headerButtonLogout button:hover {
+    background: #ff4754;
+    color: #fff;
+}
+
+.headerButtonLogout {
+    padding-left: 0;
+    padding-right: 0;
+}
+
+.App-main {
+    margin-right: auto;
+    margin-left: auto;
+    padding-right: 5%;
+    padding-left: 5%;
+    width: 100vw;
+    padding-bottom: 90px;
+}
+
+.App-footer {
+    background: #132668;
+    padding: 1em 0.5em 0 0.5em;
+    position: absolute;
+    bottom: 0%;
+    left: 0%;
+    width: 100vw;
+    height: 60px;
+    text-align: right;
+    margin: 0;
+}
+
+.App-footer::before {
+    content: "";
+    position: absolute;
+    width: 100vw;
+    height: 60px;
+    left: 0%;
+    bottom: 0%;
+    background: #000;
+    opacity: 0.3;
+}
+
+#termsOfUse a,
+#privacyPlicy a {
+    font-weight: 400;
+    color: #fff;
+}
+
+#termsOfUse a:hover,
+#privacyPlicy a:hover {
+    text-decoration: none;
+    color: #ff4754;
+}
+
+#footerCopyright {
+    color: cornsilk;
+}
+
+#footerCopyright span {
+    font-family: "Lovers Quarrel", cursive;
+    font-size: 1.5em;
 }
 
 #btnFacebook {
