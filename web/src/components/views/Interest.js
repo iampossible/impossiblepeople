@@ -1,16 +1,18 @@
 import React, { Component } from "react";
-import { Button } from "reactstrap";
+import { Button, ListGroup, ListGroupItem, Row, Col } from "reactstrap";
 import { UserType } from "../UserType";
+import { RingLoader } from "react-spinners";
+import "bootstrap/dist/css/bootstrap.css";
 
 export default class Interest extends Component {
-  
   constructor(props) {
     super(props);
     this.state = {
       //to hold all the featured interests from the DB
       featuredInterest: [],
       //to hold the interests that the user picks
-      interests: new Set()
+      interests: new Set(),
+      loading: true
     };
   }
 
@@ -19,12 +21,12 @@ export default class Interest extends Component {
     //get the interestID from the button selected/clicked
     let interestID = evt.target.value;
     let interests = new Set(this.state.interests);
-    if(interests.has(interestID)){
+    if (interests.has(interestID)) {
       interests.delete(interestID);
-      this.setState({interests});
+      this.setState({ interests });
     } else {
       interests.add(interestID);
-      this.setState({interests});
+      this.setState({ interests });
     }
   }
 
@@ -34,62 +36,89 @@ export default class Interest extends Component {
       credentials: "same-origin"
     })
       .then(response => {
-        if (response.status === 401)
-          this.props.history.push("/")
-        if (response.status > 399)
-          return [];
-        return response.json()
+        if (response.status === 401) this.props.history.push("/");
+        if (response.status > 399) return [];
+        return response.json();
       })
       .then(response => {
         this.setState({
           featuredInterest: response,
+          loading: false
         });
       });
     this.setSelectedInterests(this.props.user);
   }
 
   componentWillReceiveProps(nextProps) {
-    if (JSON.stringify(this.props.user) !== 
-      JSON.stringify(nextProps.user)) {
+    if (JSON.stringify(this.props.user) !== JSON.stringify(nextProps.user)) {
       this.setSelectedInterests(nextProps.user);
     }
   }
 
-  setSelectedInterests = (user) => {
-      let currentInterests = (user.hasOwnProperty('interests')) ? 
-        user.interests.map(interest => interest.interestID) :
-        [];
-      this.setState({interests: new Set(currentInterests)})
+  setSelectedInterests = user => {
+    let currentInterests = user.hasOwnProperty("interests")
+      ? user.interests.map(interest => interest.interestID)
+      : [];
+    this.setState({ interests: new Set(currentInterests) });
   };
 
-  redirectOnSubmit = (userType) => {
-    let user = Object.assign({}, this.props.user, {userType: userType}); 
+  redirectOnSubmit = userType => {
+    let user = Object.assign({}, this.props.user, { userType: userType });
     this.props.setUser(user);
     this.props.history.push("/feed");
-  }
+  };
 
   render() {
     const { featuredInterest } = this.state;
-    return (
-      <div className={"buttons"}>
-        {featuredInterest.map((interest, index) => {
-          return (
-            <Button
-              className={this.state.interests.has(interest.interestID) ? "col-sm-6 col-xs-12 col-lg-3 col-md-3 interestButton btn btn-secondary selectedButton" : "col-sm-6 col-xs-12 col-lg-3 col-md-3 interestButton btn btn-secondary"}
-              onClick={e => {
-                this.handleSelection(e);
-              }}
-              key={interest.interestID}
-              value={interest.interestID}
-              disabled={this.state.buttonDisabled}
+    return this.state.loading ? (
+      <Row>
+        <Col xs={4} />
+        <Col xs={4} className="feedRingLoader">
+          <div className="RingLoader center-loading">
+            <RingLoader
+              color="#123abc"
+              loading={this.state.loaded}
+              size={100} /*the size of the spinner*/
+            />
+          </div>
+        </Col>
+        <Col xs={4} />
+      </Row>
+    ) : (
+      <div id="interest">
+        <Row>
+          <Col sm={2} />
+          <Col sm={9} xs={12}>
+            <ListGroup
+              id="lists"
+              className="d-flex flex-row flex-wrap align-content-center"
             >
-              {interest.name}
-            </Button>
-          );
-        })}
-
-        <hr />
-
+              {featuredInterest.map((interest, index) => {
+                return (
+                  <ListGroupItem key={interest.interestID}>
+                    <Button
+                      size="sm"
+                      className={
+                        this.state.interests.has(interest.interestID)
+                          ? "interestButton selectedButton"
+                          : "interestButton"
+                      }
+                      onClick={e => {
+                        this.handleSelection(e);
+                      }}
+                      value={interest.interestID}
+                      disabled={this.state.buttonDisabled}
+                    >
+                      {interest.name}
+                    </Button>
+                  </ListGroupItem>
+                );
+              })}
+            </ListGroup>
+            <hr />
+          </Col>
+          <Col sm={1} />
+        </Row>
         <UserType
           interests={this.state.interests}
           redirectOnSubmit={this.redirectOnSubmit}

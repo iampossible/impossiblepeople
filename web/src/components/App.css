@@ -210,40 +210,30 @@ p {
     margin-left: 4px;
 }
 
-.buttons {
-    position: relative;
-    left: 75px;
-}
-
 .interestButton {
-    padding: 10px;
-    margin: 10px;
-}
-
-.btn {
-    color: rgb(255, 255, 255);
-    text-align: center;
-    font-size: 1em;
-    font-weight: 900;
-    box-sizing: content-box;
-    cursor: pointer;
-    text-transform: lowercase;
-    background-color: rgb(49, 164, 0);
+    background: #363f7f;
+    color: #fff;
+    border: none;
 }
 
 .selectedButton {
-    background-color: rgb(67, 67, 67);
-    color: black;
-    text-align: center;
-    font-size: 1em;
-    font-weight: 900;
-    box-sizing: content-box;
-    cursor: pointer;
-    text-transform: lowercase;
+    color: #000;
+    background-color: #727b84;
+    opacity: 0.65;
 }
 
 .interest {
     margin: 10px;
+}
+
+.selectedButton,
+.interestButton {
+    text-align: center;
+    font-size: 1em;
+    box-sizing: content-box;
+    width: 200px;
+    cursor: pointer;
+    border: none;
 }
 
 .btn::first-letter,
@@ -251,21 +241,63 @@ p {
     text-transform: capitalize;
 }
 
-#selectUserType {
+.btn.btn-secondary {
+    border: none;
+}
+
+.interestButton:hover,
+.selectedButton:hover {
+    background-color: #34324b;
+    color: #fff;
+    border-color: transparent !important;
+}
+
+.btn-secondary:focus,
+.btn-secondary.focus {
+    -webkit-box-shadow: none;
+    box-shadow: none;
+}
+
+#selectUserType:not(button) {
     line-height: 1.5;
+    text-align: center;
 }
 
 #selectUserType p {
-    padding-left: 10px;
+    padding-left: 5px;
 }
 
-#dropdownUserType {
-    padding: 0 5em;
+#submitUserTypeButton {
+    padding: 0.5em 1em;
+    background: #c32830;
+    color: #fff;
+    border: none;
+}
+
+#submitUserTypeButton:hover {
+    background: #ff4754;
+    color: #fff;
 }
 
 hr {
-    background: #fec85d;
-    margin: 1em;
+    background: #132668;
+}
+
+#interest li {
+    font-size: 0.9em;
+    width: auto;
+}
+
+#userTypeText {
+    padding: 5px;
+    padding-left: 6px;
+}
+
+#userTypeText,
+#organisationUserType,
+#volunteerUserType {
+    padding-top: 7px;
+    margin-right: 10px;
 }
 
 .feed,
