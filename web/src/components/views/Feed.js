@@ -94,7 +94,7 @@ class Feed extends Component {
             return (
               <div key={feedData.postID} className="feed">
                 <Row xs={12}>
-                  <Col lg={3} xs={12}>
+                  <Col sm={3} xs={12}>
                     <Row className="feedPhoto">
                       <img
                         className="img-fluid feedPhoto"
@@ -182,7 +182,10 @@ class Feed extends Component {
                   </Col>
                 </Row>
                 <Row id="comments">
-                  <Comment postID={feedData.postID} user={user} />
+                  <Col xs={3} />
+                  <Col xs={9}>
+                    <Comment postID={feedData.postID} user={user} />
+                  </Col>
                 </Row>
               </div>
             );

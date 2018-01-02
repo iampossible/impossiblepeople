@@ -123,21 +123,25 @@ export default class Post extends Component {
   getLocation() {
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(position => {
-        const GEOCODING =
-          "https://maps.googleapis.com/maps/api/geocode/json?key=AIzaSyCR_cUWKEGoLxUi5rUNzHfEihZLdHu7qfM&latlng=" +
-          position.coords.latitude +
-          "%2C" +
-          position.coords.longitude +
-          "&language=en";
-        fetch(GEOCODING)
+        fetch(`/api/location`, {
+          credentials: "same-origin",
+          method: "POST",
+          headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify({
+            latitude: position.coords.latitude,
+            longitude: position.coords.longitude
+          })
+        })
           .then(response => response.json())
           .then(jsonResponse => {
-            if (jsonResponse.status === "OK") {
-              console.log(jsonResponse);
+            if (jsonResponse.friendlyName) {
               this.setState({
                 latitude: position.coords.latitude | 0,
                 longitude: position.coords.longitude | 0,
-                location: jsonResponse.results[7].formatted_address,
+                location: jsonResponse.friendlyName,
                 loadingLocation: false
               });
             } else {

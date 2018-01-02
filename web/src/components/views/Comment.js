@@ -117,7 +117,6 @@ export class Comment extends Component {
             </Col>
             <Col sm={2} xs={12} className="commentPostButton">
               <Button
-                color="warning"
                 onClick={e => {
                   this.handleClick(e);
                 }}
