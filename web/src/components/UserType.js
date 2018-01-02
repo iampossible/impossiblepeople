@@ -67,13 +67,13 @@ export class UserType extends Component {
     return (
       <Form id="selectUserType">
         <FormGroup row>
-          <Col sm={2} />
+          <Col sm={1} />
           <Col sm={2} xs={12} id="userTypeText">
             <Label>
               <p>I am registering as</p>
             </Label>
           </Col>
-          <Col sm={2} id="volunteerUserType">
+          <Col sm={3} id="volunteerUserType">
             <FormGroup check>
               <Label check>
                 <Input

@@ -28,6 +28,7 @@ class Header extends Component {
   };
   render() {
     const { location } = this.props;
+    const { user } = this.props;
 
     return (
       <header>
@@ -40,15 +41,15 @@ class Header extends Component {
               location.pathname === "/" ||
               location.pathname === "/updateInterest" ||
               location.pathname === "/interest" ||
-              (location.state && location.state.user.userType !== "volunteer")
-                ? 8
-                : 10
+              (user && user.userType !== "volunteer")
+                ? 10
+                : 8
             }
           >
             <h1> We Are One </h1>
           </Col>
           {location.pathname === "/feed" &&
-          (location.state && location.state.user.userType === "volunteer") ? (
+          (user && user.userType === "volunteer") ? (
             <Col xs={2} className="headerButtonUpdateInterest">
               <Button
                 onClick={() => {

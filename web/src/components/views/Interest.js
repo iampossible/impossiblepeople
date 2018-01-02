@@ -87,8 +87,8 @@ export default class Interest extends Component {
     ) : (
       <div id="interest">
         <Row>
-          <Col sm={2} />
-          <Col sm={9} xs={12}>
+          <Col sm={1} />
+          <Col sm={10} xs={12}>
             <ListGroup
               id="lists"
               className="d-flex flex-row flex-wrap align-content-center"
