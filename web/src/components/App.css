@@ -424,7 +424,7 @@ select option:checked {
 
 .feedPhoto {
     justify-content: center;
-    margin-top: 1.5em;
+    margin-top: 0.9em;
 }
 
 .feedPhoto img {

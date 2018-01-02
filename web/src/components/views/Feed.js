@@ -119,72 +119,73 @@ class Feed extends Component {
                     </Row>
                   </Col>
                   <Col className="feedBody" sm={9} xs={12}>
-                    <Col xs={12}>
-                      <blockquote className="blockquote">
-                        <p className="feedContent">{feedData.content}</p>
-                        <footer className="blockquote-footer">
-                          <cite title="Source Title">
-                            <Row>
-                              <Col xs={1} className="feedTagsIcon">
-                                <span>
-                                  <i
-                                    className="fa fa-sm fa-tag"
-                                    aria-hidden="true"
-                                  />
-                                </span>
-                              </Col>
-                              <Col xs={11}>
-                                <p className="feedTags">
-                                  {/* if the post has more than one tag/interest */}
+                    <Row>
+                      <Col xs={12}>
+                        <blockquote className="blockquote">
+                          <p className="feedContent">{feedData.content}</p>
+                          <footer className="blockquote-footer">
+                            <cite title="Source Title">
+                              <Row>
+                                <Col xs={1} className="feedTagsIcon">
                                   <span>
-                                    {feedData.category.map((interest, i) => {
-                                      let tag = "";
-                                      if (i === 0) {
-                                        tag = interest.name;
-                                      } else {
-                                        tag += " / " + interest.name;
-                                      }
-                                      return tag;
-                                    })}
+                                    <i
+                                      className="fa fa-sm fa-tag"
+                                      aria-hidden="true"
+                                    />
                                   </span>
-                                </p>
-                              </Col>
-                              <Col xs={1} className="feedLocationIcon">
-                                <span>
-                                  <i
-                                    className="fa fa-map-marker"
-                                    aria-hidden="true"
-                                  />
-                                </span>
-                              </Col>
-                              <Col xs={11}>
-                                <p className="feedLocation">
-                                  {feedData.location}
-                                </p>
-                              </Col>
-                              <Col xs={1} className="feedCreatedAtIcon">
-                                <span>
-                                  <i className="fa fa-calendar" />
-                                </span>
-                              </Col>
-                              <Col xs={11}>
-                                <p className="feedCreatedAt">
-                                  {moment(feedData.createdAt).format(
-                                    "MMM Do, YYYY"
-                                  )}&nbsp;
-                                </p>
-                              </Col>
-                            </Row>
-                          </cite>
-                        </footer>
-                      </blockquote>
-                    </Col>
-                  </Col>
-                </Row>
-                <Row id="comments">
-                  <Col xs={3} />
-                  <Col xs={9}>
-                    <Comment postID={feedData.postID} user={user} />
+                                </Col>
+                                <Col xs={11}>
+                                  <p className="feedTags">
+                                    {/* if the post has more than one tag/interest */}
+                                    <span>
+                                      {feedData.category.map((interest, i) => {
+                                        let tag = "";
+                                        if (i === 0) {
+                                          tag = interest.name;
+                                        } else {
+                                          tag += " / " + interest.name;
+                                        }
+                                        return tag;
+                                      })}
+                                    </span>
+                                  </p>
+                                </Col>
+                                <Col xs={1} className="feedLocationIcon">
+                                  <span>
+                                    <i
+                                      className="fa fa-map-marker"
+                                      aria-hidden="true"
+                                    />
+                                  </span>
+                                </Col>
+                                <Col xs={11}>
+                                  <p className="feedLocation">
+                                    {feedData.location}
+                                  </p>
+                                </Col>
+                                <Col xs={1} className="feedCreatedAtIcon">
+                                  <span>
+                                    <i className="fa fa-calendar" />
+                                  </span>
+                                </Col>
+                                <Col xs={11}>
+                                  <p className="feedCreatedAt">
+                                    {moment(feedData.createdAt).format(
+                                      "MMM Do, YYYY"
+                                    )}&nbsp;
+                                  </p>
+                                </Col>
+                              </Row>
+                            </cite>
+                          </footer>
+                        </blockquote>
+                      </Col>
+                    </Row>
+                    <Row id="comments">
+                      <Col xs={12}>
+                        <Comment postID={feedData.postID} user={user} />
+                      </Col>
+                    </Row>
                   </Col>
                 </Row>
               </div>
