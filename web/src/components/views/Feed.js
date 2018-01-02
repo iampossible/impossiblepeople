@@ -1,12 +1,15 @@
 import React, { Component } from "react";
-import { Row, Col } from "reactstrap";
-import Comment from "./Comment";
+import { Row, Col, Button, Tooltip } from "reactstrap";
+import { Comment } from "./Comment";
 import Post from "./Post";
+import { RingLoader } from "react-spinners";
+import "bootstrap/dist/css/bootstrap.css";
+import * as moment from "moment";
 
 class Feed extends Component {
   state = {
     feed: [],
-    submit: false,
+    loading: true,
     loadLastComments: []
   };
 
@@ -25,11 +28,9 @@ class Feed extends Component {
       credentials: "same-origin"
     })
       .then(response => {
-        if (response.status === 401) 
-          this.props.history.push("/");
-        if (response.status > 399)
-          return [];
-        return response.json()
+        if (response.status === 401) this.props.history.push("/");
+        if (response.status > 399) return [];
+        return response.json();
       })
       .then(response => {
         /* because the current impelementation of the api returns a post as an independent pos
@@ -52,80 +53,35 @@ class Feed extends Component {
            deleted entry
           */
         response = response.filter(response => response !== undefined);
-        return response.map(post => {
-          post.comments = [];
-          return post;
-        });
+        return response;
       })
       .then(response => {
-        this.getComments(response);
         this.setState({
           feed: response,
-          loadLastComments: []
+          loadLastComments: [],
+          loading: false
         });
       });
   };
 
-  getComments = (posts) => {
-    posts.map(post => {
-      fetch(`/api/post/${post.postID}`, {
-        method: "GET",
-        headers: {
-          Accept: "application/json",
-          "Content-Type": "application/json"
-        },
-        credentials: "same-origin"
-      })
-      .then(response => {
-        if (response.status > 399)
-          return [];
-        return response.json()
-      })
-      .then(response => {
-        post.comments.push(...response.comments);
-        this.setState(prevState => {
-          let feed = prevState.feed.map(prevPost => 
-            (prevPost.postID === post.postID) ? (
-              post
-              ) : (
-              prevPost
-              )
-          )
-          return feed;
-        });
-        return post;
-      });    
-    })
-  };
-
-  upDateComments = postID => {
-    fetch(`/api/post/${postID}`, {
-      method: "GET",
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json"
-      },
-      credentials: "same-origin"
-    })
-      .then(resp => {
-        if (resp.status > 399)
-          return [];
-        return resp.json();
-      })
-      .then(resp => {
-        let comment = resp.comments[resp.comments.length - 1];
-        this.setState({
-          loadLastComments: this.state.feed
-            .filter(p => p.postID === postID)[0]
-            .comments.push(comment)
-        });
-      });
-  };
-
-  render() { 
+  render() {
     //getting the user type that is passed from the App redirect
     const { user } = this.props;
-    return (
+    return this.state.loading ? (
+      <Row>
+        <Col xs={4} />
+        <Col xs={4} className="feedRingLoader">
+          <div className="RingLoader center-loading">
+            <RingLoader
+              color="#123abc"
+              loading={this.state.loading}
+              size={100} /*the size of the spinner*/
+            />
+          </div>
+        </Col>
+        <Col xs={4} />
+      </Row>
+    ) : (
       <div>
         {/* if user is an organisation display the post component at the top */}
         {user && user.userType === "organisation" ? (
@@ -133,64 +89,121 @@ class Feed extends Component {
         ) : (
           ""
         )}
-        {this.state.feed.map((feedData, i) => {
-          return (
-            <div key={feedData.postID} className="feed">
-              <Row className="">
-                <div className=" col-lg-3 col-xs-6 col-sm-6 col-md-6">
-                  <img
-                    className="img-fluid feedPhoto"
-                    src={
-                      feedData.author.imageSource ||
-                      "../assets/images/profile-icon.png"
-                    }
-                    alt="profile"
-                  />
-                  <p className="feedColor"> {feedData.author.username}</p>
-                </div>
-                <div className="feedBody col-lg-9 col-xs-6 col-sm-6 col-md-6">
-                  {" "}
-                  {feedData.content}
-                </div>
-              </Row>
-              <Row className="interest">
-                <div className="col-sm-6 col-md-6 col-lg-6 location">
-                  <span className="feedColor">location: </span>
-                  <br />
-                  {feedData.location}
-                </div>
-                <div className="col-sm-2 col-md-4 col-lg-6 location">
-                  <span className="feedColor">interest: </span>
-                  {/* to format the list of interests / tags 
-                    if there is more than one interest separet them with /
-                  */}
-                  {feedData.category.map(
-                    (category, i) =>
-                      i > 0
-                        ? " / " + category.name.toLowerCase()
-                        : category.name.toLowerCase()
-                  )}
-                </div>
-              </Row>
-              <Comment post={feedData} update={this.upDateComments} />
-              <Col>
-                <div className="red">
-                  {/* here I'm showing comments and the author of the comments  */}
-
-                  {feedData.comments.map((comment, index) => {
-                    return (
-                      <Row key={index}>
-                        <div className="  col-md-5 col-lg-1"/>
-                        <div className="feedColor col-sm-4 col-md-5 col-lg-2">{comment.author}</div>
-                        <div className="feedComment col-sm-8 col-md-5 col-lg-9">{comment.content}</div>
-                      </Row>
-                    );
-                  })}
-                </div>
+        {this.state.feed.length > 0 ? (
+          this.state.feed.map((feedData, i) => {
+            return (
+              <div key={feedData.postID} className="feed">
+                <Row xs={12}>
+                  <Col lg={3} xs={12}>
+                    <Row className="feedPhoto">
+                      <img
+                        className="img-fluid feedPhoto"
+                        src={
+                          feedData.author.imageSource ||
+                          "../assets/images/profile-icon.png"
+                        }
+                        alt="profile"
+                      />
+                      <blockquote className="blockquote">
+                        <footer className="blockquote-footer">
+                          <span className="feedAuthor">
+                            <i
+                              className="fa fa-sm fa-chevron-right"
+                              aria-hidden="true"
+                            />
+                            &nbsp;
+                            {feedData.author.username}
+                          </span>&nbsp;
+                        </footer>
+                      </blockquote>
+                    </Row>
+                  </Col>
+                  <Col className="feedBody" sm={9} xs={12}>
+                    <Col xs={12}>
+                      <blockquote className="blockquote">
+                        <p className="feedContent">{feedData.content}</p>
+                        <footer className="blockquote-footer">
+                          <cite title="Source Title">
+                            <Row>
+                              <Col xs={1} className="feedTagsIcon">
+                                <span>
+                                  <i
+                                    className="fa fa-sm fa-tag"
+                                    aria-hidden="true"
+                                  />
+                                </span>
+                              </Col>
+                              <Col xs={11}>
+                                <p className="feedTags">
+                                  {/* if the post has more than one tag/interest */}
+                                  <span>
+                                    {feedData.category.map((interest, i) => {
+                                      let tag = "";
+                                      if (i === 0) {
+                                        tag = interest.name;
+                                      } else {
+                                        tag += " / " + interest.name;
+                                      }
+                                      return tag;
+                                    })}
+                                  </span>
+                                </p>
+                              </Col>
+                              <Col xs={1} className="feedLocationIcon">
+                                <span>
+                                  <i
+                                    className="fa fa-map-marker"
+                                    aria-hidden="true"
+                                  />
+                                </span>
+                              </Col>
+                              <Col xs={11}>
+                                <p className="feedLocation">
+                                  {feedData.location}
+                                </p>
+                              </Col>
+                              <Col xs={1} className="feedCreatedAtIcon">
+                                <span>
+                                  <i className="fa fa-calendar" />
+                                </span>
+                              </Col>
+                              <Col xs={11}>
+                                <p className="feedCreatedAt">
+                                  {moment(feedData.createdAt).format(
+                                    "MMM Do, YYYY"
+                                  )}&nbsp;
+                                </p>
+                              </Col>
+                            </Row>
+                          </cite>
+                        </footer>
+                      </blockquote>
+                    </Col>
+                  </Col>
+                </Row>
+                <Row id="comments">
+                  <Comment postID={feedData.postID} user={user} />
+                </Row>
+              </div>
+            );
+          })
+        ) : (
+          <div id="noFeedMessageContainer">
+            <Row>
+              <Col xs={1} />
+              <Col xs={10} id="noFeedMessage">
+                <p>
+                  <i className="fa fa-lg fa-info-circle" aria-hidden="true" />&nbsp;&nbsp;
+                  <span>
+                    Sorry, There is no feed to display, at the moment, which is
+                    related to the interest areas that you have subscribed for.
+                  </span>
+                </p>
               </Col>
-            </div>
-          );
-        })}
+              <Col xs={1} />
+            </Row>
+          </div>
+        )}
       </div>
     );
   }

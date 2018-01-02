@@ -1,23 +1,25 @@
 {
-    "name": "web",
-    "version": "0.1.0",
-    "private": true,
-    "dependencies": {
-        "bootstrap": "^4.0.0-beta",
-        "react": "^16.0.0",
-        "react-dom": "^16.0.0",
-        "react-facebook-login": "^3.6.2",
-        "react-fontawesome": "^1.6.1",
-        "react-router-dom": "^4.2.2",
-        "react-scripts": "1.0.14",
-        "react-spinners": "^0.2.5",
-        "reactstrap": "^5.0.0-alpha.3"
-    },
-    "scripts": {
-        "start": "react-scripts start",
-        "build": "react-scripts build",
-        "test": "react-scripts test --env=jsdom",
-        "eject": "react-scripts eject"
-    },
-    "proxy": "http://localhost:3000"
+  "name": "web",
+  "version": "0.1.0",
+  "private": true,
+  "dependencies": {
+    "bootstrap": "^4.0.0-beta",
+    "moment": "^2.20.1",
+    "react": "^16.0.0",
+    "react-dom": "^16.0.0",
+    "react-facebook-login": "^3.6.2",
+    "react-fontawesome": "^1.6.1",
+    "react-router-dom": "^4.2.2",
+    "react-scripts": "1.0.14",
+    "react-spinners": "^0.2.5",
+    "react-transition-group": "^1.2.0",
+    "reactstrap": "^5.0.0-alpha.3"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test --env=jsdom",
+    "eject": "react-scripts eject"
+  },
+  "proxy": "http://localhost:3000"
 }

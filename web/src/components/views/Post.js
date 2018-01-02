@@ -154,7 +154,6 @@ export default class Post extends Component {
     return (
       <div id="post">
         <Row>
-          <Col sm={2} />
           <Col sm={3} xs={12} id="organisationAvatar">
             <img
               src={this.props.user.imageSource}
@@ -162,7 +161,7 @@ export default class Post extends Component {
               alt="Organisation Avatar"
             />
           </Col>
-          <Col sm={7} xs={12} id="postForm">
+          <Col sm={8} xs={12} id="postForm">
             <Form>
               <FormGroup row>
                 <Col sm={2} xs={12}>

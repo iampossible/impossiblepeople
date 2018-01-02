@@ -347,7 +347,9 @@ hr {
 }
 
 .feed,
-#post {
+#post,
+#noFeedMessage,
+#interest {
     font-family: "Signika", sans-serif;
     color: #192243;
     background-color: rgb(255, 255, 255);
@@ -421,69 +423,350 @@ select option:checked {
 }
 
 .feedPhoto {
-    max-width: 150px;
-    height: auto;
-    color: rgb(49, 164, 0);
-    font-size: 1em;
-    border-radius: 7%;
+    justify-content: center;
+    margin-top: 1.5em;
 }
 
-.profileName {
-    margin-top: 5px;
+.feedPhoto img {
+    width: 150px;
+    height: 150px;
+    border-radius: 10%;
+    border: 1px solid #003366;
 }
 
-.feedPhoto p {
-    padding: 5px 5px 5px 300px;
-    text-align: center;
+.feedTags,
+.feedLocation {
+    color: #465362;
+    font-size: 1rem;
+    opacity: 0.9;
+}
+
+.feedTagsIcon,
+.feedLocationIcon,
+.feedCreatedAtIcon {
+    color: #003366;
+    padding-right: 0;
+    text-align: right;
+}
+
+.feedLocationIcon i,
+.feedCreatedAtIcon i {
+    vertical-align: baseline;
+}
+
+.feedTagsIcon i {
+    vertical-align: sub;
+}
+
+.feedCreatedAt {
+    color: #465362;
+    font-size: 0.9rem;
+    margin-bottom: 2px;
+}
+
+#comments {
+    margin-top: 1em;
 }
 
 .feedBody {
-    font-size: 1.2em;
-    line-height: 1.7;
+    margin-top: 1em;
+    padding-left: 5px;
 }
 
-.feedColor {
-    color: rgb(49, 164, 0);
+.feedContent {
+    font-size: 0.85em;
+    margin-bottom: 1em;
 }
 
-.comment {
-    padding-top: 10px;
+.currentUserAvatar {
+    padding-left: 0px !important;
+    text-align: right;
+    padding-right: 0px !important;
+    margin-top: 5px;
 }
 
-.comment .input {
-    -webkit-box-shadow: 0 1px 6px rgba(0, 0, 0, 0.175);
-    box-shadow: inset 1px 5px 5px rgba(0, 0, 0, 0.166);
-    border: 1px solid #acacac;
-    font-family: "Roboto", sans-serif;
-    font-size: 1.2em;
-}
-
-.commentPhoto {
-    max-width: 50px;
-    height: auto;
+.currentUserAvatar img {
+    width: 40px;
+    height: 40px;
     border-radius: 50%;
+    border: 1px solid #003366;
 }
 
-.input-group-addon {
-    background-color: rgb(49, 164, 0);
+.commentContainer {
+    padding: 0 1.5em 1em 1.5em;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    opacity: 0.9;
+    color: #0b132b;
 }
 
-.red {
-    padding: 20px;
+button {
+    cursor: pointer;
 }
 
-#selectInfo {
-    font-size: 12px;
+.newCommentInputContainer {
+    padding-right: 5px;
+    padding-top: 5px;
 }
 
-.submitPost {
+.newCommentInputContainer textarea {
+    background-color: rgba(0, 0, 0, 0.05);
+    font-family: "Italianno", cursive;
+    font-size: 1.5em;
+    line-height: 1;
+}
+
+.newComment {
+    background: inherit;
+}
+
+.commentButtonContainer {
+    padding-left: 2em !important;
+}
+
+.commentShowHideButton {
+    background: transparent !important;
+    outline: none !important;
+    border-color: transparent;
+    border: none;
+    outline: none !important;
     text-align: center;
+    border: 0.5px solid transparent;
+    box-shadow: none !important;
+    margin: 1em auto;
+    margin-top: 0;
+    padding: 5px;
+    color: #132668;
 }
 
-.inputBG {
-    background-color: rgba(255, 255, 255, 0.077);
+.commentShowHideButton:hover {
+    background: #c32830 !important;
 }
 
-a {
-    color: white;
+.commentShowHideButton .badge {
+    background: #c32830;
+    color: #fff;
+    border: none;
+}
+
+.commentShowHideButton i:last-of-type {
+    font-weight: 600;
+}
+
+.commentPostButton {
+    margin-top: 8px;
+    padding-left: 0;
+}
+
+.commentPostButton button {
+    padding: 0.5em 3em;
+    background: #132668;
+    color: #fff;
+    border: none;
+}
+
+.commentPostButton button:hover {
+    background: #111a49;
+    color: #fff;
+}
+
+.commentsList {
+    flex-basis: max-content !important;
+    margin: auto 15px !important;
+    color: #0b132b;
+    font-size: 0.7em;
+}
+
+.list-group-item {
+    background: inherit;
+    font-size: 1.2em;
+    padding: 0.75rem 0 0.75rem 2rem;
+}
+
+.commentContentContainer {
+    padding-top: 0.2em;
+    padding-left: 0.3em;
+}
+
+.commentContentContainer hr {
+    margin-top: 1rem;
+    margin-bottom: 0rem;
+}
+
+.commentsList ul li {
+    border: none;
+    border-width: thin;
+}
+
+.commenterAvatar {
+    padding-left: 5px;
+}
+
+.commenterAvatar img {
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    border: 1px solid #003366;
+    margin: auto;
+}
+
+.commentAuthor {
+    color: #df4848;
+    font-family: "Exo 2", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-style: italic;
+    font-weight: 600;
+}
+
+.feedAuthor {
+    color: #df4848;
+    font-family: "Exo 2", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-style: italic;
+    font-weight: 600;
+}
+
+.commentContent {
+    font-size: 0.9rem;
+    font-weight: 500;
+}
+
+.commentCreatedAtSince {
+    font-size: 0.9em;
+    color: #af905d;
+    white-space: nowrap;
+}
+
+.blockquote-footer::before {
+    content: none;
+}
+
+.blockquote-footer {
+    margin: 1em;
+    color: #192243;
+}
+
+.blockquote-footer .feedLocation,
+.blockquote-footer .feedTags,
+.blockquote-footer .feedCreatedAt {
+    padding-left: 0px;
+}
+
+.blockquote-footer .feedLocation,
+.blockquote-footer .feedTags {
+    margin: 3px auto !important;
+}
+
+.feedAuthor i {
+    color: #003366;
+    font-weight: 500;
+    font-size: 0.9rem;
+}
+
+.fadeCommentContainer-appear {
+    opacity: 0.01;
+}
+
+.fadeCommentContainer-appear.fadeCommentContainer-appear-active {
+    opacity: 1;
+    transition: opacity 3000ms;
+}
+
+.fadeCommentList-appear {
+    opacity: 0.01;
+}
+
+.fadeCommentList-appear.fadeCommentList-appear-active {
+    opacity: 1;
+    transition: opacity 3000ms;
+}
+
+.fadeCommentList-enter {
+    opacity: 0.01;
+}
+
+.fadeCommentList-enter.fadeCommentList-enter-active {
+    opacity: 1;
+    transition: opacity 500ms ease-in;
+}
+
+.fadeCommentList-leave {
+    opacity: 1;
+}
+
+.fadeCommentList-leave.fadeCommentList-leave-active {
+    opacity: 0.01;
+    transition: opacity 300ms ease-in;
+}
+
+#noFeedMessageContainer {
+    margin-top: 15%;
+}
+
+#noFeedMessage {
+    text-align: center;
+    color: #df4848;
+}
+
+#noFeedMessage i {
+    font-size: 1.5em;
+}
+
+#noFeedMessage span {
+    font-size: 1em;
+    color: #0b132b;
+}
+
+@media only screen and (max-width: 768px) {
+    /* for mobile phone */
+    #post {
+        margin-top: 2em;
+    }
+    #organisationAvatar {
+        margin-bottom: 10%;
+    }
+    #organisationAvatar img {
+        margin-top: 5%;
+    }
+    .feedPhoto img {
+        width: 80px;
+        height: 80px;
+        border-radius: 50%;
+    }
+    .commentContainer {
+        padding: 1em 0.5em;
+    }
+    .currentUserAvatar {
+        text-align: center;
+        margin-bottom: 1em;
+    }
+    .currentUserAvatar img {
+        width: 30px;
+        height: 30px;
+    }
+    .commentPostButton {
+        text-align: center;
+    }
+    .commentsList {
+        margin: auto 5px !important;
+    }
+    .commentsList ul li {
+        margin-right: 0px;
+    }
+    #comments {
+        margin-top: 2em;
+    }
+    .list-group-item {
+        padding: 20px !important;
+    }
+    #comments .container {
+        padding: auto 0;
+    }
+    .commentContent {
+        display: block;
+    }
+}
+
+@media (min-width: 1200px) {
+    .App-main {
+        max-width: 1140px;
+    }
 }
