@@ -11,7 +11,7 @@ import Interest from "./views/Interest";
 import Feed from "./views/Feed";
 import "bootstrap/dist/css/bootstrap.css";
 import "./App.css";
-import { Container, Row, Col } from "reactstrap";
+import { Row, Col } from "reactstrap";
 import Header from "./views/Header";
 import Footer from "./views/Footer";
 import UpdateInterest from "./views/UpdateInterest";
@@ -79,7 +79,7 @@ class App extends Component {
   render() {
     return (
       <Router>
-        <Container className="App">
+        <div className="App">
           <Row className="App-header">
             <Col xs={12}>
               <Header user={this.state.user} location={this.props.location} />
@@ -99,7 +99,7 @@ class App extends Component {
               <Footer />
             </Col>
           </Row>
-        </Container>
+        </div>
       </Router>
     );
   }
