@@ -204,9 +204,10 @@ p {
 
 #lists li {
     background: transparent;
-    width: 20%;
     border: none;
     margin: 0 1em;
+    padding-left: 0;
+    margin-left: 4px;
 }
 
 .buttons {

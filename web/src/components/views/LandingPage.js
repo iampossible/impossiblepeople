@@ -54,8 +54,8 @@ export default class LandingPage extends Component {
     return (
       <Container id="btnFacebook">
         <Row>
-          <Col className="sm-3" />
-          <Col className="sm-6">
+          <Col sm={4} />
+          <Col sm={4} xs={12}>
             {!this.state.loading ? (
               <FacebookLogin
                 appId="138462666798513"
@@ -74,7 +74,7 @@ export default class LandingPage extends Component {
               </div>
             )}
           </Col>
-          <Col className="sm-3" />
+          <Col sm={4} />
         </Row>
       </Container>
     );
