@@ -97,7 +97,6 @@ export default class Interest extends Component {
                 return (
                   <ListGroupItem key={interest.interestID}>
                     <Button
-                      size="sm"
                       className={
                         this.state.interests.has(interest.interestID)
                           ? "interestButton selectedButton"

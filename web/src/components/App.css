@@ -300,17 +300,124 @@ hr {
     margin-right: 10px;
 }
 
+.submitPost {
+    text-align: center;
+}
+
+.submitPost button {
+    background: #c32830;
+    color: #fff;
+    border: none;
+}
+
+.submitPost button:hover {
+    background: #ff4754;
+    color: #fff;
+}
+
+.submitPost hr {
+    margin-top: 5px;
+}
+
+#organisationAvatar {
+    text-align: center;
+}
+
+#organisationAvatar img {
+    border-radius: 50%;
+    border: 2px solid #003366;
+    margin-top: 50%;
+    width: 100px;
+    height: 100px;
+}
+
+.center-loading,
+.center-loading-landingPage {
+    margin: 10%;
+    margin-left: 35%;
+    margin-bottom: 18%;
+}
+
+.center-loading {
+    margin-top: 15%;
+}
+
+.center-loading-landingPage {
+    margin-top: 0;
+}
+
 .feed,
 #post {
-    font-family: "Roboto", sans-serif;
-    color: black;
+    font-family: "Signika", sans-serif;
+    color: #192243;
     background-color: rgb(255, 255, 255);
-    border: 1px solid #acacac;
+    border: 1px solid #e6e7e9;
+    -moz-border-radius: 5px;
+    -webkit-border-radius: 5px;
     border-radius: 5px;
-    padding: 20px;
-    margin: 20px;
-    -webkit-box-shadow: 0 1px 6px rgba(0, 0, 0, 0.175);
+    margin-top: 2em;
+    padding: 2em 1.5em 1em 1.5em;
+    -webkit-box-shadow: 0 1px 6px rgba(0, 0, 0, 0.454);
     box-shadow: 0 3px 5px rgba(0, 0, 0, 0.454);
+}
+
+.selectedTag {
+    color: #000;
+    background-color: #727b84;
+    opacity: 0.65;
+}
+
+.unSelectedTag,
+select option:checked {
+    background-color: white !important;
+}
+
+#locationDetectIconContainer {
+    padding-left: 0;
+}
+
+#ToolTipUseCurrentLocationIcon {
+    font-weight: 900;
+    font-size: 1.5em;
+    background: transparent;
+    color: rgb(49, 164, 0);
+    border: 1px solid #132668;
+    padding: 0.1em 0.2em;
+    margin-top: 0.3em;
+    cursor: pointer;
+}
+
+#ToolTipUseCurrentLocationIcon i {
+    font-weight: 900;
+    font-size: 1.5em;
+    box-sizing: border-box;
+    vertical-align: middle;
+}
+
+.location-loading {
+    margin-top: 0.5em;
+    margin-left: 0;
+}
+
+#postInterestTags {
+    height: 200px;
+}
+
+#postInterestTags>option {
+    padding: 0.3em 0.1em;
+    border-bottom: 1px dashed #363f7f;
+}
+
+#selectInfo {
+    font-size: 13px;
+    margin-left: 15px;
+    padding-top: 12px;
+    margin-bottom: 0;
+}
+
+.form-control-label {
+    display: flex;
+    justify-content: center;
 }
 
 .feedPhoto {
@@ -365,29 +472,6 @@ hr {
     padding: 20px;
 }
 
-#post {
-    margin-top: 1.5rem;
-}
-
-#organisationAvatar {
-    max-width: 200px;
-    height: auto;
-    margin-top: 100px;
-}
-
-#organisationAvatar img {
-    border-radius: 7%;
-}
-
-#post input,
-#post textarea,
-#post select {
-    -webkit-box-shadow: 0 1px 6px rgba(0, 0, 0, 0.175);
-    box-shadow: inset 1px 5px 5px rgba(0, 0, 0, 0.166);
-    border: 1px solid #acacac;
-    font-family: "Roboto", sans-serif;
-}
-
 #selectInfo {
     font-size: 12px;
 }
@@ -402,48 +486,4 @@ hr {
 
 a {
     color: white;
-}
-
-.center-loading {
-    margin-left: 20%;
-}
-
-.interestTypesButton {
-    text-align: center;
-    font-size: 1em;
-    box-sizing: content-box;
-    width: 200px;
-}
-
-.previousInterest {
-    text-align: center;
-    font-size: 1em;
-    box-sizing: content-box;
-    width: 200px;
-    cursor: pointer;
-    color: #192243;
-}
-
-.previousInterest {
-    background-color: #868e96;
-    border-color: #868e96;
-    opacity: 0.65;
-}
-
-#lists {
-    margin-top: 7%;
-    padding: 20px 5px;
-}
-
-#lists li {
-    background: transparent;
-    border: none;
-    margin: 0 1em;
-    padding-left: 0;
-    margin-left: 4px;
-}
-
-#interest li {
-    font-size: 0.9em;
-    width: auto;
 }
