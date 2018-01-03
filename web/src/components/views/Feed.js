@@ -10,13 +10,18 @@ class Feed extends Component {
   state = {
     feed: [],
     loading: true,
-    loadLastComments: []
+    loadLastComments: [],
+    updateTooltipOpen: false
   };
 
   componentWillMount() {
     this.getFeeds();
   }
-
+  toggleDeletePost = () => {
+    this.setState({
+      deleteTooltipOpen: !this.state.deleteTooltipOpen
+    });
+  };
   getFeeds = () => {
     //this will load the feed to the page and then will load all the comments for each post
     fetch("/api/feed", {
@@ -63,7 +68,27 @@ class Feed extends Component {
         });
       });
   };
-
+  handlePostDelete = postID => {
+    if (window.confirm("Do you really want to delete this post ?")) {
+      fetch(`/api/post/${postID}`, {
+        method: "DELETE",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json"
+        },
+        credentials: "same-origin"
+      })
+        .then(resp => {
+          if (resp.status > 399) return [];
+          return resp.json();
+        })
+        .then(resp => {
+          if (resp !== []) {
+            this.getFeeds();
+          }
+        });
+    }
+  };
   render() {
     //getting the user type that is passed from the App redirect
     const { user } = this.props;
@@ -119,6 +144,37 @@ class Feed extends Component {
                     </Row>
                   </Col>
                   <Col className="feedBody" sm={9} xs={12}>
+                    <Row>
+                      <Col xs={12}>
+                        {feedData.author.userID === user.userID ? (
+                          <Row xs={12}>
+                            <Col xs={10} />
+                            <Col
+                              xs={2}
+                              className="updateDeletePostButtonsContainer"
+                            >
+                              <a
+                                id="TooltipDeleteIcon"
+                                className="deletePostIcon"
+                                onClick={() =>
+                                  this.handlePostDelete(feedData.postID)
+                                }
+                              >
+                                <i className="material-icons">clear</i>
+                              </a>
+                              <Tooltip
+                                placement="right"
+                                isOpen={this.state.deleteTooltipOpen}
+                                target="TooltipDeleteIcon"
+                                toggle={this.toggleDeletePost}
+                              >
+                                Delete Post
+                              </Tooltip>
+                            </Col>
+                          </Row>
+                        ) : null}
+                      </Col>
+                    </Row>
                     <Row>
                       <Col xs={12}>
                         <blockquote className="blockquote">

@@ -276,9 +276,15 @@ p {
     border: none;
 }
 
-#submitUserTypeButton:hover {
+#submitUserTypeButton:hover,
+#submitUpdateInterest:hover,
+#cancelUpdateInterest:hover {
     background: #ff4754;
     color: #fff;
+}
+
+#updateInterestType {
+    text-align: center;
 }
 
 hr {
@@ -715,6 +721,32 @@ button {
 #noFeedMessage span {
     font-size: 1em;
     color: #0b132b;
+}
+
+.updateDeletePostButtonsContainer {
+    justify-content: flex-end;
+    margin-bottom: 1em;
+    padding-right: 0;
+    padding-left: 1.5em;
+}
+
+.updateDeletePostButtonsContainer a {
+    margin-bottom: 1em;
+}
+
+.updateDeletePostButtonsContainer a .material-icons {
+    font-family: "Material Icons";
+    font-weight: 900;
+    font-style: normal;
+    line-height: 1;
+    vertical-align: -0.3em;
+    cursor: pointer;
+}
+
+.updatePostIcon .material-icons {
+    color: #132668;
+    margin-right: 1em;
+    font-size: 1.3em;
 }
 
 @media only screen and (max-width: 768px) {
