@@ -110,9 +110,9 @@ class Feed extends Component {
     //getting the user type that is passed from the App redirect
     const { user } = this.props;
     return this.state.loading ? (
-      <Row>
+      <Row id="feedRingLoader">
         <Col xs={4} />
-        <Col xs={4} className="feedRingLoader">
+        <Col xs={4}>
           <div className="RingLoader center-loading">
             <RingLoader
               color="#123abc"

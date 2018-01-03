@@ -53,7 +53,9 @@ class Header extends Component {
             <Col xs={2} className="headerButtonUpdateInterest">
               <Button
                 onClick={() => {
-                  this.props.history.push("/updateInterest");
+                  this.props.history.push({
+                    pathname: "/updateInterest"
+                  });
                 }}
               >
                 Update Interest

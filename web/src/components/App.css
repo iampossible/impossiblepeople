@@ -346,6 +346,12 @@ hr {
     margin-bottom: 18%;
 }
 
+#interestRingLoader,
+#updateInterestRingLoader,
+#feedRingLoader {
+    margin-top: 15%;
+}
+
 .center-loading {
     margin-top: 15%;
 }

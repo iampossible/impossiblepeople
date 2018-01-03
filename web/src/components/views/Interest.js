@@ -63,7 +63,10 @@ export default class Interest extends Component {
   };
 
   redirectOnSubmit = userType => {
-    let user = Object.assign({}, this.props.user, { userType: userType });
+    this.props.getUser();
+    let user = Object.assign({}, this.props.user, {
+      userType: userType
+    });
     this.props.setUser(user);
     this.props.history.push("/feed");
   };
@@ -73,11 +76,11 @@ export default class Interest extends Component {
     return this.state.loading ? (
       <Row>
         <Col xs={4} />
-        <Col xs={4} className="feedRingLoader">
+        <Col xs={4} id="interestRingLoader">
           <div className="RingLoader center-loading">
             <RingLoader
               color="#123abc"
-              loading={this.state.loaded}
+              loading={this.state.loading}
               size={100} /*the size of the spinner*/
             />
           </div>

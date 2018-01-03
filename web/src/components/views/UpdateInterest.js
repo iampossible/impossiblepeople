@@ -39,8 +39,11 @@ export default class UpdateInterest extends Component {
       user_s_Interests
     });
   }
-  componentWillMount() {
+  componentDidMount() {
     //load all the featured interests from the DB
+    const user = this.props.user;
+
+    console.log(user, user.hasOwnProperty("interests"));
     fetch(`/api/interest`, {
       credentials: "same-origin"
     })
@@ -52,8 +55,9 @@ export default class UpdateInterest extends Component {
       .then(response => {
         let featuredInterests = response;
         let previousInterests = new Set();
-        if (this.props.user && this.props.user.hasOwnProperty("interests")) {
-          this.props.user.interests.forEach(interest => {
+
+        if (user && user.hasOwnProperty("interests")) {
+          user.interests.forEach(interest => {
             previousInterests.add(interest.interestID);
           });
         }
@@ -86,21 +90,21 @@ export default class UpdateInterest extends Component {
       .then(response => {
         //modify the interest that will be passed through the location props
         this.props.user.interests = (() => {
-          let user_s_InterestID = [...this.state.user_s_Interests];
-          for (let i = 0; i < user_s_InterestID.length; i++) {
+          let user_s_InterestIDs = [...this.state.user_s_Interests];
+          for (let i = 0; i < user_s_InterestIDs.length; i++) {
             this.state.featuredInterests.forEach(featuredInterest => {
-              if (featuredInterest.interestID === user_s_InterestID[i]) {
-                let index = user_s_InterestID.indexOf(user_s_InterestID[i]);
+              if (featuredInterest.interestID === user_s_InterestIDs[i]) {
+                let index = user_s_InterestIDs.indexOf(user_s_InterestIDs[i]);
                 if (index !== -1) {
                   //remove the id
-                  user_s_InterestID.splice(i, 1);
+                  user_s_InterestIDs.splice(i, 1);
                   //replace it with the interest object
-                  user_s_InterestID.splice(i, 0, featuredInterest);
+                  user_s_InterestIDs.splice(i, 0, featuredInterest);
                 }
               }
             });
           }
-          return user_s_InterestID;
+          return user_s_InterestIDs;
         })();
 
         this.redirectOnSubmit(this.props.user.userType);
@@ -116,10 +120,11 @@ export default class UpdateInterest extends Component {
   };
   render() {
     const { featuredInterests, user_s_Interests } = this.state;
+
     return this.state.loading ? (
-      <Row>
+      <Row id="updateInterestRingLoader">
         <Col xs={4} />
-        <Col xs={4} className="feedRingLoader">
+        <Col xs={4}>
           <div className="RingLoader center-loading">
             <RingLoader
               color="#123abc"

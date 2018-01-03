@@ -29,7 +29,12 @@ const Main = props => {
       <Route
         path="/interest"
         render={routeProps => (
-          <Interest {...routeProps} user={props.user} setUser={props.setUser} />
+          <Interest
+            {...routeProps}
+            user={props.user}
+            setUser={props.setUser}
+            getUser={props.getUser}
+          />
         )}
       />
       <Route
@@ -58,7 +63,10 @@ class App extends Component {
     };
   }
 
-  componentDidMount() {
+  componentWillMount() {
+    this.getUser();
+  }
+  getUser = () => {
     fetch("/api/user/get", {
       headers: {
         Accept: "application/json",
@@ -74,8 +82,7 @@ class App extends Component {
         let user = response.user || {};
         this.setState({ user });
       });
-  }
-
+  };
   setUser = user => {
     this.setState({ user });
   };
@@ -86,7 +93,7 @@ class App extends Component {
         <div className="App">
           <Row className="App-header">
             <Col xs={12}>
-              <Header user={this.state.user} location={this.props.location} />
+              <Header user={this.state.user} />
             </Col>
           </Row>
           <Row className="App-main">
@@ -94,6 +101,7 @@ class App extends Component {
               <Main
                 user={this.state.user}
                 setUser={this.setUser}
+                getUser={this.getUser}
                 location={this.props.location}
               />
             </Col>
