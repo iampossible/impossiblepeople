@@ -375,6 +375,7 @@ hr {
     color: #000;
     background-color: #727b84;
     opacity: 0.65;
+    width: 100%;
 }
 
 .unSelectedTag,
@@ -410,12 +411,17 @@ select option:checked {
 }
 
 #postInterestTags {
-    height: 200px;
+    min-height: 200px;
+}
+
+#postInterestTags.form-control {
+    padding: 0.3em 0.3em;
 }
 
 #postInterestTags>option {
-    padding: 0.3em 0.1em;
+    padding: 0.3em 0.3em;
     border-bottom: 1px dashed #363f7f;
+    width: 100% !important;
 }
 
 #selectInfo {

@@ -24,9 +24,50 @@ export default class Post extends Component {
     interestID: new Set(),
     loadingLocation: false,
     selectedOptions: [],
-    useCurrentLocationTooltipOpen: false
+    useCurrentLocationTooltipOpen: false,
+    postTypeAskChecked: false,
+    postTypeOfferChecked: false,
+    postID: null,
+    updateButton: false
   };
+  componentWillReceiveProps = nextProps => {
+    if (nextProps.postToUpdate !== "") {
+      let interestID = nextProps.postToUpdate[0].category.map(interest => {
+        if (this.selectElement.props.children.length > 0) {
+          Array.from(
+            this.selectElement._reactInternalFiber.child.stateNode
+          ).map(option => {
+            if (option.value === interest.interestID) {
+              option.className = "selectedTag";
+            }
+          });
+        }
+        return interest.interestID;
+      });
 
+      if (nextProps.postToUpdate[0].postType === "ASKS") {
+        this.setState({
+          postTypeAskChecked: true
+        });
+      } else if (nextProps.postToUpdate[0].postType === "OFFERS") {
+        this.setState({
+          postTypeOfferChecked: true
+        });
+      }
+      this.setState({
+        content: nextProps.postToUpdate[0].content,
+        postType: nextProps.postToUpdate[0].postType,
+        location: nextProps.postToUpdate[0].location,
+        latitude: nextProps.postToUpdate[0].latitude,
+        longitude: nextProps.postToUpdate[0].longitude,
+        timeRequired: nextProps.postToUpdate[0].timeRequired,
+        postID: nextProps.postToUpdate[0].postID,
+        interestID,
+        loadingLocation: false,
+        updateButton: true
+      });
+    }
+  };
   detectLocation = e => {
     this.setState({
       loadingLocation: true
@@ -45,8 +86,6 @@ export default class Post extends Component {
     const target = event.target;
     //to avoid direct modification of state
     let interestID = new Set(this.state.interestID);
-    console.log(interestID);
-    console.log(target.value);
 
     if (
       !interestID.has(target.value) ||
@@ -68,23 +107,53 @@ export default class Post extends Component {
     event.persist();
     const target = event.currentTarget;
     const name = target.name;
-    //if it is not a select element modify the element whose value is changed
+
+    if (target.type === "radio") {
+      if (target.value === "ASKS") {
+        this.setState({
+          postTypeAskChecked: true,
+          postTypeOfferChecked: false
+        });
+      } else {
+        this.setState({
+          postTypeOfferChecked: true,
+          postTypeAskChecked: false
+        });
+      }
+    }
     this.setState({
       [name]: target.value
     });
   };
   handleSubmitRequest = e => {
     e.persist();
+    let buttonText = e.target.textContent.trim();
+    //implement post
+    //remove the redirect state when constructing the body of the request
+
     let {
       loadingLocation,
+      updateButton,
+      postTypeAskChecked,
+      postTypeOfferChecked,
       selectedOptions,
       useCurrentLocationTooltipOpen,
+      postID,
       ...post
     } = this.state;
-    post.interestID = [...this.state.interestID];
-    fetch(`/api/post/create`, {
+
+    let url, method;
+    if (buttonText === "Submit") {
+      url = `/api/post/create`;
+      method = "POST";
+    } else if (buttonText === "Update") {
+      url = `/api/post/update/${this.state.postID}`;
+      method = "PUT";
+    }
+    // post.interestID = [...this.state.interestID];
+    fetch(url, {
       credentials: "same-origin",
-      method: "POST",
+      method: method,
       headers: {
         Accept: "application/json",
         "Content-Type": "application/json"
@@ -95,7 +164,6 @@ export default class Post extends Component {
       .then(response => response.json())
       .then(response => {
         if (response) {
-          this.props.updateFeeds();
           this.setState(
             {
               content: "",
@@ -104,7 +172,10 @@ export default class Post extends Component {
               latitude: "",
               longitude: "",
               timeRequired: "",
-              interestID: []
+              interestID: [],
+              postTypeAskChecked: false,
+              postTypeOfferChecked: false,
+              updateButton: false
             },
             () => {
               Array.from(
@@ -196,6 +267,7 @@ export default class Post extends Component {
                       type="radio"
                       name="postType"
                       value="ASKS"
+                      checked={this.state.postTypeAskChecked}
                       onChange={this.handleChange}
                     />&nbsp;&nbsp;&nbsp;&nbsp;ASK
                   </Label>
@@ -206,9 +278,7 @@ export default class Post extends Component {
                       type="radio"
                       name="postType"
                       value="OFFERS"
-                      ref={radio => {
-                        this.radio = radio;
-                      }}
+                      checked={this.state.postTypeOfferChecked}
                       onChange={this.handleChange}
                     />&nbsp;&nbsp;&nbsp;&nbsp;OFFER
                   </Label>
@@ -284,8 +354,16 @@ export default class Post extends Component {
                 <Col sm={2} />
                 <Col sm={9} xs={12} className="submitPost">
                   <hr />
-                  <Button onClick={this.handleSubmitRequest}>
-                    &nbsp;&nbsp;&nbsp;Submit&nbsp;&nbsp;&nbsp;
+                  <Button
+                    onClick={this.handleSubmitRequest}
+                    disabled={
+                      // a more accurate validation for location is needed
+                      this.state.location !== "" ? false : true
+                    }
+                  >
+                    &nbsp; &nbsp; &nbsp;
+                    {this.state.updateButton ? "Update" : "Submit"}&nbsp; &nbsp;
+                    &nbsp;
                   </Button>
                 </Col>
               </FormGroup>

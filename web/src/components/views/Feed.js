@@ -11,18 +11,28 @@ class Feed extends Component {
     feed: [],
     loading: true,
     loadLastComments: [],
-    updateTooltipOpen: false
+    updateTooltipOpen: false,
+    deleteTooltipOpen: false,
+    postToUpdate: ""
   };
 
   componentWillMount() {
     this.getFeeds();
   }
+  toggleUpdatePost = () => {
+    this.setState({
+      updateTooltipOpen: !this.state.updateTooltipOpen
+    });
+  };
   toggleDeletePost = () => {
     this.setState({
       deleteTooltipOpen: !this.state.deleteTooltipOpen
     });
   };
   getFeeds = () => {
+    this.setState({
+      postToUpdate: ""
+    });
     //this will load the feed to the page and then will load all the comments for each post
     fetch("/api/feed", {
       method: "GET",
@@ -68,6 +78,12 @@ class Feed extends Component {
         });
       });
   };
+  handlePostUpdate = postID => {
+    let postToUpdate = this.state.feed.filter(
+      feedData => feedData.postID === postID
+    );
+    this.setState({ postToUpdate });
+  };
   handlePostDelete = postID => {
     if (window.confirm("Do you really want to delete this post ?")) {
       fetch(`/api/post/${postID}`, {
@@ -89,6 +105,7 @@ class Feed extends Component {
         });
     }
   };
+
   render() {
     //getting the user type that is passed from the App redirect
     const { user } = this.props;
@@ -110,7 +127,11 @@ class Feed extends Component {
       <div>
         {/* if user is an organisation display the post component at the top */}
         {user && user.userType === "organisation" ? (
-          <Post user={user} updateFeeds={this.getFeeds} />
+          <Post
+            user={user}
+            updateFeeds={this.getFeeds}
+            postToUpdate={this.state.postToUpdate}
+          />
         ) : (
           ""
         )}
@@ -153,6 +174,24 @@ class Feed extends Component {
                               xs={2}
                               className="updateDeletePostButtonsContainer"
                             >
+                              <a
+                                id="ToolTipUpdateIcon"
+                                className="updatePostIcon"
+                                href="#post"
+                                onClick={() =>
+                                  this.handlePostUpdate(feedData.postID)
+                                }
+                              >
+                                <i className="material-icons">edit</i>
+                              </a>
+                              <Tooltip
+                                placement="left"
+                                isOpen={this.state.updateTooltipOpen}
+                                target="ToolTipUpdateIcon"
+                                toggle={this.toggleUpdatePost}
+                              >
+                                Update Post
+                              </Tooltip>
                               <a
                                 id="TooltipDeleteIcon"
                                 className="deletePostIcon"
