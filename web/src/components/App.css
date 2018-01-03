@@ -198,7 +198,7 @@ p {
 }
 
 #lists {
-    margin-top: 7%;
+    margin-top: 1%;
     padding: 20px 5px;
 }
 
@@ -267,7 +267,9 @@ p {
     padding-left: 5px;
 }
 
-#submitUserTypeButton {
+#submitUserTypeButton,
+#submitUpdateInterest,
+#cancelUpdateInterest {
     padding: 0.5em 1em;
     background: #c32830;
     color: #fff;

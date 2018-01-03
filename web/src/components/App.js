@@ -39,7 +39,11 @@ const Main = props => {
       <Route
         path="/updateInterest"
         render={routeProps => (
-          <Interest {...routeProps} user={props.user} setUser={props.setUser} />
+          <UpdateInterest
+            {...routeProps}
+            user={props.user}
+            setUser={props.setUser}
+          />
         )}
       />
     </Switch>
