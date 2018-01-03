@@ -761,6 +761,19 @@ button {
     font-size: 1.3em;
 }
 
+.updatePostIcon .material-icons:hover {
+    color: #3943b7;
+}
+
+.deletePostIcon .material-icons {
+    align-items: flex-end;
+    font-size: 1.4em;
+}
+
+.deletePostIcon .material-icons:hover {
+    color: #c32830;
+}
+
 @media only screen and (max-width: 768px) {
     /* for mobile phone */
     #post {
