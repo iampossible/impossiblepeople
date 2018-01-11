@@ -1,6 +1,15 @@
 import React, { Component } from "react";
 import { PostInterestTags } from "../PostInterestTags";
-import { Row, Col, Button, Form, FormGroup, Label, Input } from "reactstrap";
+import {
+  Row,
+  Col,
+  Button,
+  Form,
+  FormGroup,
+  Label,
+  Input,
+  Tooltip
+} from "reactstrap";
 import { RingLoader } from "react-spinners";
 
 export default class Post extends Component {
@@ -13,39 +22,138 @@ export default class Post extends Component {
     timeRequired: "",
     //to hold the selected interests ID for the post
     interestID: new Set(),
-    loadingLocation: false
+    loadingLocation: false,
+    selectedOptions: [],
+    useCurrentLocationTooltipOpen: false,
+    postTypeAskChecked: false,
+    postTypeOfferChecked: false,
+    postID: null,
+    updateButton: false
   };
+  componentWillReceiveProps = nextProps => {
+    if (nextProps.postToUpdate !== "") {
+      let interestID = nextProps.postToUpdate[0].category.map(interest => {
+        if (this.selectElement.props.children.length > 0) {
+          Array.from(
+            this.selectElement._reactInternalFiber.child.stateNode
+          ).map(option => {
+            if (option.value === interest.interestID) {
+              option.className = "selectedTag";
+            }
+          });
+        }
+        return interest.interestID;
+      });
 
+      if (nextProps.postToUpdate[0].postType === "ASKS") {
+        this.setState({
+          postTypeAskChecked: true
+        });
+      } else if (nextProps.postToUpdate[0].postType === "OFFERS") {
+        this.setState({
+          postTypeOfferChecked: true
+        });
+      }
+      this.setState({
+        content: nextProps.postToUpdate[0].content,
+        postType: nextProps.postToUpdate[0].postType,
+        location: nextProps.postToUpdate[0].location,
+        latitude: nextProps.postToUpdate[0].latitude,
+        longitude: nextProps.postToUpdate[0].longitude,
+        timeRequired: nextProps.postToUpdate[0].timeRequired,
+        postID: nextProps.postToUpdate[0].postID,
+        interestID,
+        loadingLocation: false,
+        updateButton: true
+      });
+    }
+  };
   detectLocation = e => {
     this.setState({
       loadingLocation: true
     });
     this.getLocation();
   };
-  handleChange = event => {
-    const target = event.currentTarget;
+  toggleUseCurrentLocationTooltip = () => {
+    this.setState({
+      useCurrentLocationTooltipOpen: !this.state.useCurrentLocationTooltipOpen
+    });
+  };
+  //to handle multiple selection of Tags
+  handleMultipleSelect = event => {
+    //https://reactjs.org/docs/events.html#event-pooling
+    event.persist();
+    const target = event.target;
+    //to avoid direct modification of state
+    let interestID = new Set(this.state.interestID);
 
-    const name = target.name;
-    //if it is a select-multi type since multiple options can be selected
-    if (target.type === "select-multiple") {
-      this.setState({
-        interestID: [...target.selectedOptions].map(option => option.value)
-      });
-    } else {
-      //if it is not a select element modify the element whose value is changed
-      this.setState({
-        [name]: target.value
-      });
+    if (
+      !interestID.has(target.value) ||
+      (!interestID.has(target.value) && event.metaKey) ||
+      event.ctrlKey
+    ) {
+      interestID.add(target.value);
+      target.className = "selectedTag";
+    } else if (interestID.has(target.value)) {
+      interestID.delete(target.value);
+      target.className = "unSelectedTag";
     }
+    this.setState({
+      interestID: [...interestID]
+    });
+  };
+
+  handleChange = event => {
+    event.persist();
+    const target = event.currentTarget;
+    const name = target.name;
+
+    if (target.type === "radio") {
+      if (target.value === "ASKS") {
+        this.setState({
+          postTypeAskChecked: true,
+          postTypeOfferChecked: false
+        });
+      } else {
+        this.setState({
+          postTypeOfferChecked: true,
+          postTypeAskChecked: false
+        });
+      }
+    }
+    this.setState({
+      [name]: target.value
+    });
   };
   handleSubmitRequest = e => {
+    e.persist();
+    let buttonText = e.target.textContent.trim();
     //implement post
     //remove the redirect state when constructing the body of the request
-    let { loadingLocation, ...post } = this.state;
-    post.interestID = [...this.state.interestID];
-    fetch(`/api/post/create`, {
+
+    let {
+      loadingLocation,
+      updateButton,
+      postTypeAskChecked,
+      postTypeOfferChecked,
+      selectedOptions,
+      useCurrentLocationTooltipOpen,
+      postID,
+      ...post
+    } = this.state;
+
+    let url, method;
+    if (buttonText === "Submit") {
+      url = `/api/post/create`;
+      method = "POST";
+    } else if (buttonText === "Update") {
+      url = `/api/post/update/${this.state.postID}`;
+      method = "PUT";
+    }
+    // post.interestID = [...this.state.interestID];
+    fetch(url, {
       credentials: "same-origin",
-      method: "POST",
+      method: method,
       headers: {
         Accept: "application/json",
         "Content-Type": "application/json"
@@ -56,16 +164,28 @@ export default class Post extends Component {
       .then(response => response.json())
       .then(response => {
         if (response) {
-          this.props.updateFeeds();
-          this.setState({
-            content: "",
-            postType: "",
-            location: "",
-            latitude: "",
-            longitude: "",
-            timeRequired: "",
-            interestID: []
-          });
+          this.setState(
+            {
+              content: "",
+              postType: "",
+              location: "",
+              latitude: "",
+              longitude: "",
+              timeRequired: "",
+              interestID: [],
+              postTypeAskChecked: false,
+              postTypeOfferChecked: false,
+              updateButton: false
+            },
+            () => {
+              Array.from(
+                this.selectElement._reactInternalFiber.child.stateNode
+              ).map(option => {
+                option.className = "unSelectedTag";
+              });
+              this.props.updateFeeds();
+            }
+          );
         }
       })
       .catch(err => console.error(err));
@@ -74,21 +194,25 @@ export default class Post extends Component {
   getLocation() {
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(position => {
-        const GEOCODING =
-          "https://maps.googleapis.com/maps/api/geocode/json?key=AIzaSyCR_cUWKEGoLxUi5rUNzHfEihZLdHu7qfM&latlng=" +
-          position.coords.latitude +
-          "%2C" +
-          position.coords.longitude +
-          "&language=en";
-        fetch(GEOCODING)
+        fetch(`/api/location`, {
+          credentials: "same-origin",
+          method: "POST",
+          headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify({
+            latitude: position.coords.latitude,
+            longitude: position.coords.longitude
+          })
+        })
           .then(response => response.json())
           .then(jsonResponse => {
-            if (jsonResponse.status === "OK") {
-              console.log(jsonResponse);
+            if (jsonResponse.friendlyName) {
               this.setState({
-                latitude: position.coords.latitude,
-                longitude: position.coords.longitude,
-                location: jsonResponse.results[7].formatted_address,
+                latitude: position.coords.latitude | 0,
+                longitude: position.coords.longitude | 0,
+                location: jsonResponse.friendlyName,
                 loadingLocation: false
               });
             } else {
@@ -105,18 +229,20 @@ export default class Post extends Component {
     return (
       <div id="post">
         <Row>
-          <Col sm={2} />
           <Col sm={3} xs={12} id="organisationAvatar">
-            <img src={this.props.user.imageSource} width="100%" alt={""} />
+            <img
+              src={this.props.user.imageSource}
+              width="100%"
+              alt="Organisation Avatar"
+            />
           </Col>
-
-          <Col sm={7} xs={12} id="postForm">
+          <Col sm={8} xs={12} id="postForm">
             <Form>
               <FormGroup row>
-                <Label for="content" sm={{ size: 2 }} xs={12}>
-                  Content
-                </Label>
-                <Col sm={8} xs={12}>
+                <Col sm={2} xs={12}>
+                  <Label for="content">Content</Label>
+                </Col>
+                <Col sm={9} xs={12}>
                   <Input
                     type="textarea"
                     name="content"
@@ -127,46 +253,58 @@ export default class Post extends Component {
                     value={this.state.content}
                   />
                 </Col>
+                <Col sm={1} />
               </FormGroup>
               <FormGroup row>
-                <Col sm={2} xs={4}>
-                  <Label>
+                <Col xs={2}>
+                  <Label for="postType">
                     <p>Type</p>
                   </Label>
                 </Col>
-                <Col sm={4} xs={4}>
-                  <FormGroup check>
-                    <Label check>
-                      <Input
-                        type="radio"
-                        name="postType"
-                        value="ASKS"
-                        onChange={this.handleChange}
-                      />&nbsp;&nbsp;&nbsp;&nbsp;ASK
-                    </Label>
-                  </FormGroup>
+                <Col xs={4}>
+                  <Label check>
+                    <Input
+                      type="radio"
+                      name="postType"
+                      value="ASKS"
+                      checked={this.state.postTypeAskChecked}
+                      onChange={this.handleChange}
+                    />&nbsp;&nbsp;&nbsp;&nbsp;ASK
+                  </Label>
                 </Col>
-                <Col sm={5} xs={4}>
-                  <FormGroup check>
-                    <Label check>
-                      <Input
-                        type="radio"
-                        name="postType"
-                        value="OFFERS"
-                        ref={radio => {
-                          this.radio = radio;
-                        }}
-                        onChange={this.handleChange}
-                      />&nbsp;&nbsp;&nbsp;&nbsp;OFFER
-                    </Label>
-                  </FormGroup>
+                <Col xs={4}>
+                  <Label check>
+                    <Input
+                      type="radio"
+                      name="postType"
+                      value="OFFERS"
+                      checked={this.state.postTypeOfferChecked}
+                      onChange={this.handleChange}
+                    />&nbsp;&nbsp;&nbsp;&nbsp;OFFER
+                  </Label>
+                </Col>
+                <Col sm={2} />
+              </FormGroup>
+              <FormGroup row>
+                <Label for="timeRequired" sm={2} xs={12}>
+                  &nbsp; Duration&nbsp;
+                </Label>
+                <Col sm={5} xs={12}>
+                  <Input
+                    type="text"
+                    name="timeRequired"
+                    id="timeRequired"
+                    placeholder="e.g. 10"
+                    onChange={this.handleChange}
+                    value={this.state.timeRequired}
+                  />
                 </Col>
               </FormGroup>
               <FormGroup row>
-                <Label for="location" sm={2} xs={12}>
-                  &nbsp;Location&nbsp;
-                </Label>
-                <Col sm={5} xs={5}>
+                <Col sm={2} xs={12}>
+                  <Label for="location">&nbsp;Location&nbsp;</Label>
+                </Col>
+                <Col sm={8} xs={12}>
                   <Input
                     type="textarea"
                     name="location"
@@ -176,12 +314,23 @@ export default class Post extends Component {
                     value={this.state.location}
                   />
                 </Col>
-                <Col sm={4} xs={4}>
-                  <Button onClick={e => this.detectLocation(e)}>
-                    Use my Current Location
+                <Col xs={1} id="locationDetectIconContainer">
+                  <Button
+                    onClick={e => this.detectLocation(e)}
+                    id="ToolTipUseCurrentLocationIcon"
+                  >
+                    <i className="material-icons">add_location</i>
                   </Button>
+                  <Tooltip
+                    placement="top"
+                    isOpen={this.state.useCurrentLocationTooltipOpen}
+                    target="ToolTipUseCurrentLocationIcon"
+                    toggle={this.toggleUseCurrentLocationTooltip}
+                  >
+                    Use Current Location
+                  </Tooltip>
                 </Col>
-                <Col sm={1} xs={1}>
+                <Col xs={1}>
                   {this.state.loadingLocation ? (
                     <div className="RingLoader location-loading">
                       <RingLoader
@@ -195,34 +344,32 @@ export default class Post extends Component {
                   )}
                 </Col>
               </FormGroup>
-
-              <FormGroup row>
-                <Label for="timeRequired" sm={{ size: 2 }}>
-                  &nbsp; Duration&nbsp;
-                </Label>
-                <Col sm={6} xs={12}>
-                  <Input
-                    type="text"
-                    name="timeRequired"
-                    id="timeRequired"
-                    placeholder="e.g. 10"
-                    onChange={this.handleChange}
-                    value={this.state.timeRequired}
-                  />
-                </Col>
-              </FormGroup>
-              <PostInterestTags onChange={this.handleChange} />
+              <PostInterestTags
+                onClick={this.handleMultipleSelect}
+                tagsRef={el => {
+                  this.selectElement = el;
+                }}
+              />
               <FormGroup row>
                 <Col sm={2} />
-                <Col sm={5} xs={12} className="submitPost">
+                <Col sm={9} xs={12} className="submitPost">
                   <hr />
-                  <Button onClick={this.handleSubmitRequest}>
-                    &nbsp;&nbsp;&nbsp;Submit&nbsp;&nbsp;&nbsp;
+                  <Button
+                    onClick={this.handleSubmitRequest}
+                    disabled={
+                      // a more accurate validation for location is needed
+                      this.state.location !== "" ? false : true
+                    }
+                  >
+                    &nbsp; &nbsp; &nbsp;
+                    {this.state.updateButton ? "Update" : "Submit"}&nbsp; &nbsp;
+                    &nbsp;
                   </Button>
                 </Col>
               </FormGroup>
             </Form>
           </Col>
+          <Col sm={1} />
         </Row>
       </div>
     );

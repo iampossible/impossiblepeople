@@ -67,12 +67,13 @@ export class UserType extends Component {
     return (
       <Form id="selectUserType">
         <FormGroup row>
-          <Col sm={{ size: 3 }}>
+          <Col sm={1} />
+          <Col sm={2} xs={12} id="userTypeText">
             <Label>
               <p>I am registering as</p>
             </Label>
           </Col>
-          <Col sm={{ size: 3 }}>
+          <Col sm={3} id="volunteerUserType">
             <FormGroup check>
               <Label check>
                 <Input
@@ -82,7 +83,7 @@ export class UserType extends Component {
                   name="userType"
                   value="volunteer"
                 />
-                &nbsp;&nbsp; A Volunteer{" "}
+                &nbsp;&nbsp; A Volunteer&nbsp;
                 <FontAwesome
                   className="super-crazy-colors"
                   name="user-circle-o"
@@ -91,7 +92,7 @@ export class UserType extends Component {
               </Label>
             </FormGroup>
           </Col>
-          <Col sm={{ size: 3 }}>
+          <Col sm={3} xs={12} id="organisationUserType">
             <FormGroup check>
               <Label check>
                 <Input
@@ -101,7 +102,7 @@ export class UserType extends Component {
                   name="userType"
                   value="organisation"
                 />
-                &nbsp;&nbsp;An Organisation{" "}
+                &nbsp;&nbsp;An Organisation&nbsp;&nbsp;
                 <FontAwesome
                   className="super-crazy-colors"
                   name="university"
@@ -110,8 +111,11 @@ export class UserType extends Component {
               </Label>
             </FormGroup>
           </Col>
-          <Col sm={{ size: 3 }}>
-            <Button  onClick={this.handleSubmitRequest}>
+          <Col sm={2}>
+            <Button
+              id="submitUserTypeButton"
+              onClick={this.handleSubmitRequest}
+            >
               &nbsp;&nbsp;&nbsp;Submit&nbsp;&nbsp;&nbsp;
             </Button>
           </Col>
