@@ -24,17 +24,14 @@
       "InstanceType" : {
         "Description" : "EC2 instance type",
         "Type" : "String",
-        "Default" : "m3.medium",
+        "Default" : "t2.micro",
         "AllowedValues" : [ "m1.medium","m1.large", "t2.micro", "t2.small", "t2.medium","m1.xlarge","m2.xlarge","m2.2xlarge","m2.4xlarge","m3.medium","m3.xlarge","m3.2xlarge","c1.medium","c1.xlarge"],
         "ConstraintDescription" : "Must be a valid EC2 instance type."
       },
-
-
       "SSHKeyName": {
         "Description" : "Name of an existing EC2 KeyPair to enable SSH access to the instances",
         "Type": "AWS::EC2::KeyPair::KeyName"
       },
-
         "NetworkWhitelist": {
             "Description": " The IP address range that can be used to connect to the Neo4j server (by REST or SSH)",
             "Type": "String",
@@ -62,8 +59,6 @@
                         "Fn::GetAZs": ""
                     }]
                 },
-
-
                 "DisableApiTermination": "FALSE",
                 "ImageId": {
                     "Fn::FindInMap": [ "AWSRegionArch2AMI", {
@@ -83,7 +78,7 @@
                 "Tags": [
                     {
                         "Key": "Name",
-                        "Value": "Neo4j on AWS"
+                        "Value": "weareonedb"
                     }
                 ],
                 "UserData"       : { "Fn::Base64" : { "Fn::Join" : ["", [
@@ -195,5 +190,4 @@
             "Description" : ""
         }
     }
-
 }
