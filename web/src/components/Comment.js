@@ -11,10 +11,10 @@ import {
   Container
 } from "reactstrap";
 import { CSSTransitionGroup } from "react-transition-group";
-import currentUserAvatar from "../../assets/images/profile.png";
+import currentUserAvatar from "../assets/images/profile.png";
 import "bootstrap/dist/css/bootstrap.css";
 
-export class Comment extends Component {
+export default class Comment extends Component {
   state = {
     newComment: "",
     comments: [],
@@ -22,6 +22,7 @@ export class Comment extends Component {
     commentButtonText: "fa fa-angle-double-down",
     commentsDisplayed: false
   };
+
   componentWillMount = () => {
     this.setState({
       loadComment: false
@@ -29,6 +30,7 @@ export class Comment extends Component {
     this.getComments(this.props.postID);
     this.forceUpdate();
   };
+
   getComments = postID => {
     fetch(`/api/post/${postID}`, {
       method: "GET",
@@ -40,16 +42,19 @@ export class Comment extends Component {
     })
       .then(resp => resp.json())
       .then(resp => {
+
         this.setState({
           comments: resp.comments
         });
         this.forceUpdate();
       });
   };
+
   handleChange = event => {
     // input is the Comment
     this.setState({ newComment: event.target.value });
   };
+
   toggleComment = e => {
     let buttonText = e.target.innerText;
     let commentsDisplayed = this.state.commentsDisplayed;
@@ -68,6 +73,7 @@ export class Comment extends Component {
       });
     }
   };
+
   handleClick(event) {
     //I retriving the postId to write the comment on the database
     let postID = event.target.value;

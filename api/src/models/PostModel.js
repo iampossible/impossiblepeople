@@ -5,106 +5,105 @@ const Model = require("core/Model");
 const userModel = require("models/UserModel");
 
 class PostModel extends Model {
-    createPost(userNode, relation, post) {
-        return new Sequence((next, reject) => {
-                this.db.save(post, "Post", (err, postNode) => {
-                    if (err) return reject(err);
-                    next(postNode);
-                });
-            })
-            .then((next, reject, postNode) => {
-                this.db.relate(
-                    userNode,
-                    relation,
-                    postNode, { at: Date.now() },
-                    (err, userPostEdge) => {
-                        if (err) return reject(err);
-                        next({ postNode, userPostEdge });
-                    }
-                );
-            })
-            .then((next, reject, result) => {
-                let nodeID = this.db.encodeEdgeID(result.userPostEdge);
-                this.db.save(result.postNode, "postID", nodeID, (err, postNode) => {
-                    if (err) return reject(err);
-                    next(postNode);
-                });
-            })
-            .then((next, reject, postNode) => {
-                //modified it to create the relationship for each interest
-                //initially it was for single interest
-                postNode.interestID.forEach(interestID => {
-                    this.db.query(
-                        `MATCH (p:Post {postID: {postID}}), (i:Interest {interestID: {interestID}})
+  createPost(userNode, relation, postData) {
+    let post = Object.assign({}, postData);
+    delete post['interests'];
+    return new Sequence((next, reject) => {
+      this.db.save(post, "Post", (err, postNode) => {
+        if (err) return reject(err);
+        next(postNode);
+      });
+    })
+      .then((next, reject, postNode) => {
+        this.db.relate(
+          userNode,
+          relation,
+          postNode,
+          { at: Date.now() },
+          (err, userPostEdge) => {
+            if (err) return reject(err);
+            next({ postNode, userPostEdge });
+          }
+        );
+      })
+      .then((next, reject, result) => {
+        let nodeID = this.db.encodeEdgeID(result.userPostEdge);
+        this.db.save(result.postNode, "postID", nodeID, (err, postNode) => {
+          if (err) return reject(err);
+          next(postNode);
+        });
+      })
+      .then((next, reject, postNode) => {
+          this.db.query(
+            `MATCH (i:Interest), (p:Post {postID: {postID}})
+             WHERE i.interestID in {interests}
              MERGE (p) -[r:IS_ABOUT]-> (i)
-             ON CREATE SET r.at = timestamp()`, { postID: postNode.postID, interestID: interestID },
-                        (error, postInterestEdge) => {
-                            if (error) return reject(error);
-                            next({ postNode, postInterestEdge });
-                        }
-                    );
-                });
-            })
-            .done((createdNode, creatorObj, finalNode, interestObj) => {
-                //asign user to interest
-                //TODO: MOVE TO QUEUE ASYNC JOBS
-                setTimeout(() => {
-                    userModel.addInterests(userNode, [{ interestID: post.interestID }]);
-                }, 333);
-                return finalNode;
-            })
-            .error(e => {
-                console.error(`Error PostModel: ${e}`);
+             ON CREATE SET r.at = timestamp()`,
+            { postID: postNode.postID, interests: postData.interests },
+            (error, postInterestEdge) => {
+              if (error) {
+                console.log(error);
+                return reject(error);
+              }
+              next({ postNode, postInterestEdge });
             });
-    }
+        // });
+      })
+      .done((createdNode, creatorObj, finalNode, interestObj) => {
+        return finalNode;
+      })
+      .error(e => {
+        console.error(`Error PostModel: ${e}`);
+      });
+  }
 
-    createComment(userNode, commentText, postID) {
-        return this.getPost(postID, userNode.userID)
-            .then((next, reject, postNode) => {
-                if (postNode.post.resolved) {
-                    reject("Post is resolved");
-                } else {
-                    let newComment = {
-                        content: commentText,
-                        at: Date.now()
-                    };
+  createComment(userNode, commentText, postID) {
+    return this.getPost(postID, userNode.userID)
+      .then((next, reject, postNode) => {
+        if (postNode.post.resolved) {
+          reject("Post is resolved");
+        } else {
+          let newComment = {
+            content: commentText,
+            at: Date.now()
+          };
 
-                    this.db.relate(
-                        userNode,
-                        "COMMENTS",
-                        postNode.post,
-                        newComment,
-                        (err, relEdge) => {
-                            if (err) {
-                                reject(err);
-                            } else {
-                                next(relEdge);
-                            }
-                        }
-                    );
-                }
-            })
-            .then((next, reject, relEdge) => {
-                let commentID = this.db.encodeEdgeID(relEdge);
-                this.db.rel.update(relEdge, "commentID", commentID, err => {
-                    if (err) {
-                        reject(err);
-                    } else {
-                        next(commentID);
-                    }
-                });
-            })
-            .done((postNode, relEdge, commentID) => ({
-                commentID,
-                content: relEdge.properties.content,
-                at: relEdge.properties.at
-            }));
-    }
+          this.db.relate(
+            userNode,
+            "COMMENTS",
+            postNode.post,
+            newComment,
+            (err, relEdge) => {
+              if (err) {
+                reject(err);
+              } else {
+                next(relEdge);
+              }
+            }
+          );
+        }
+      })
+      .then((next, reject, relEdge) => {
+        let commentID = this.db.encodeEdgeID(relEdge);
+        this.db.rel.update(relEdge, "commentID", commentID, err => {
+          if (err) {
+            reject(err);
+          } else {
+            next(commentID);
+          }
+        });
+      })
+      .done((postNode, relEdge, commentID) => ({
+        commentID,
+        content: relEdge.properties.content,
+        at: relEdge.properties.at
+      }));
+  }
 
-    getComments(postID, userID) {
-        return new Sequence((accept, reject) => {
-            this.db.query(
-                `MATCH (post:Post {postID: {postID}}) <-[rel:COMMENTS]- (user:Person) 
+  getComments(postID, userID) {
+    return new Sequence((accept, reject) => {
+      this.db.query(
+        `MATCH (post:Post {postID: {postID}}) <-[rel:COMMENTS]- (user:Person) 
           WHERE NOT (:Person {userID: {userID}}) -[:BLOCKED]- (user)
           RETURN post, rel, user 
           ORDER BY rel.at ASC`, { postID, userID },
@@ -141,9 +140,9 @@ class PostModel extends Model {
 
     getPost(postID, userID) {
         return this.db.getOne(
-            `MATCH (creator:Person) -[rel:ASKS|:OFFERS]-> (post:Post {postID: {postID}}) -[:IS_ABOUT]-> (category:Interest)
+            `MATCH (creator:Person) -[rel:ASKS|:OFFERS]-> (post:Post {postID: {postID}}) -[:IS_ABOUT]-> (interest:Interest)
         WHERE NOT (:Person {userID: {userID}}) -[:BLOCKED]- (creator)
-        RETURN creator, rel, post, category`, { postID, userID }
+        RETURN creator, rel, post, collect(interest) AS interests`, { postID, userID }
         );
     }
 
@@ -220,61 +219,65 @@ class PostModel extends Model {
 
     //added to update post
     updatePost(userNode, postID, data) {
-        return new Sequence((accept, reject) => {
-            this.db.query(
-                "MATCH (p:Post { postID: {postID} }) SET p += {data} RETURN p", { postID, data },
-                (err, postNode) => {
-                    if (err) return reject("error", err);
-                    else {
-                        //modified it to create the relationship for each interest
-                        //initially it was for single interest
-                        postNode = postNode[0];
-                        this.db.query(
-                            `MATCH  (p:Post {postID: {postID}})-[r:IS_ABOUT]->(i:Interest) 
-                    DELETE r`, { postID: postNode.postID },
-                            (error, data) => {
-                                if (error) return reject(error);
-                                else {
-                                    this.db.relationships(postNode, (err, relationship) => {
-                                        this.db.rel.delete(relationship[0].id, err => {
-                                            console.log("1", relationship);
-                                            if (err) return reject(err);
-                                            else {
-                                                this.db.relate(
-                                                    userNode,
-                                                    postNode.postType,
-                                                    postNode, { at: Date.now() },
-                                                    (err, userPostEdge) => {
-                                                        if (err) return reject(err);
-                                                    }
-                                                );
-                                            }
-                                        });
-
-                                        this.db.relationships(postNode, (err, relationship) => {
-                                            if (!err) {
-                                                postNode.interestID.forEach(interestID => {
-                                                    this.db.query(
-                                                        `MATCH (p:Post {postID: {postID}}), (i:Interest {interestID: {interestID}})
-                             MERGE (p) -[r:IS_ABOUT]-> (i)
-                             ON CREATE SET r.at = timestamp()`, { postID: postNode.postID, interestID: interestID },
-                                                        (error, postInterestEdge) => {
-                                                            if (error) return reject(error);
-                                                        }
-                                                    );
-                                                });
-                                                return accept(true);
-                                            } else return reject(err);
-                                        });
-                                    });
-                                }
-                            }
-                        );
-                        return accept(true);
-                    } //else
+      let interests = data.interests;
+      let postType = data.postType;
+      let post = {
+        content: data.content,
+        location: data.location,
+        latitude: data.latitude,
+        longitude: data.longitude,
+        timeRequired: data.timeRequired
+      }
+      console.debug("BEFORE SEQUANCE");
+      return new Sequence((next, reject) => {
+        this.db.query(
+        "MATCH (p:Post { postID: {postID} }) SET p += {post} RETURN p", { postID, post },
+          (err, postNode) => {
+            if (err) {
+              return reject(err);
+            }
+            next(postNode);
+          }
+        )
+      })
+        .then((next, reject, postNode) => {
+          postNode = postNode[0];
+          this.db.query(
+            `MATCH (creator:Person) -[rel:OFFERS|:ASKS]-> (p:Post {postID: {postID}})-[r:IS_ABOUT]->(i:Interest) 
+            DELETE r, rel`, { postID: postNode.postID },
+            (error, data) => {
+              if (error) return reject(error);
+            next(postNode);
+          })
+        })
+        .then((next, reject, postNode) => {
+          this.db.relate(
+            userNode,
+            postType,
+            postNode, { at: Date.now() },
+            (err, userPostEdge) => {
+              if (err) return reject(err);
+              next(postNode);
+          })
+        })
+        .then((next, reject, postNode) => {
+          this.db.query(
+            `MATCH (i:Interest), (p:Post {postID: {postID}})
+             WHERE i.interestID in {interests}
+             MERGE (p) -[r:IS_ABOUT]-> (i)
+             ON CREATE SET r.at = timestamp()`,
+             { postID: postNode.postID, interests: interests },
+              (error, postInterestEdge) => {
+                if (error) {
+                  console.log(error);
+                  return reject(error);
                 }
-            );
-        });
+                next({ postNode, postInterestEdge });
+              });
+          })
+          .error(e => {
+            console.error(`Error PostModel: ${e}`);
+          });
     }
 }
 

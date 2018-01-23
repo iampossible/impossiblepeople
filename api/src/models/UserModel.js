@@ -241,11 +241,11 @@ class UserModel extends Model {
             username: creator.firstName + " " + creator.lastName,
             imageSource: creator.imageSource
           },
-          category: {
+          category: collect({
             interestID: category.interestID,
             name: category.name,
             image: category.image
-          }
+          })
         } as r
         ORDER BY r.createdAt DESC
        `,

@@ -8,7 +8,7 @@ import {
 } from "react-router-dom";
 import LandingPage from "./views/LandingPage";
 import Interest from "./views/Interest";
-import Feed from "./views/Feed";
+import Feed from "../containers/Feed";
 import "bootstrap/dist/css/bootstrap.css";
 import "./App.css";
 import { Row, Col } from "reactstrap";

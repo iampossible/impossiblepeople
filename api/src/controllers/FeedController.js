@@ -21,37 +21,32 @@ class FeedController extends Controller {
     return feedModel
       .get(request.auth.credentials.userID)
       .done(data => {
-        reply.response(
-          data.map(node => ({
-            postID: node.post.postID,
-            postType: node.rel.type,
-            content: node.post.content,
-            timeRequired: node.post.timeRequired || 0,
-            location: node.post.location,
-            resolved: node.post.resolved || false,
-            createdAt: node.rel.properties.at,
-            createdAtSince: moment(node.rel.properties.at).fromNow(),
-            commentCount: node.commentCount,
-            author: {
-              userID: node.creator.userID,
-              username: `${node.creator.firstName} ${node.creator.lastName}`,
-              imageSource: node.creator.imageSource,
-              isFriend: node.isFriend,
-              commonFriends: node.commonFriends.map(friend => ({
-                userID: friend.userID,
-                username: `${friend.firstName} ${friend.lastName}`,
-                imageSource: friend.imageSource
-              }))
-            },
-            category: [
-              {
-                interestID: node.category.interestID,
-                name: node.category.name,
-                image: node.category.image || null
-              }
-            ]
+        reply.response(data.map(node => ({
+        postID: node.post.postID,
+        postType: node.rel.type,
+        content: node.post.content,
+        timeRequired: node.post.timeRequired || 0,
+        location: node.post.location,
+        resolved: node.post.resolved || false,
+        createdAt: node.rel.properties.at,
+        createdAtSince: moment(node.rel.properties.at).fromNow(),
+        author: {
+          userID: node.creator.userID,
+          username: `${node.creator.firstName} ${node.creator.lastName}`,
+          imageSource: node.creator.imageSource,
+          isFriend: node.isFriend,
+          commonFriends: node.commonFriends.map((friend) => ({
+            userID: friend.userID,
+            username: `${friend.firstName} ${friend.lastName}`,
+            imageSource: friend.imageSource,
           }))
-        );
+        },
+        interests: node.interests.map(interest => ({
+          interestID: interest.interestID,
+          name: interest.name,
+          image: interest.image || null
+        })),
+      })));
       })
       .error(e => {
         reply({ msg: e }).code(500);
