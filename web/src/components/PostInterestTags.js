@@ -23,42 +23,43 @@ export class PostInterestTags extends Component {
   handleChange = e => {
     this.props.onChange(e);
   };
+  handleMultipleSelect = e => {
+    this.props.onClick(e);
+  };
   render() {
     const { featuredInterest } = this.state;
     return (
       <FormGroup row>
-        <Label for="interest" sm={{ size: 2 }}>
-          Tags
-        </Label>
-        <Col sm={{ size: 5 }}>
+        <Col sm={2} xs={12}>
+          <Label for="interest">Tags</Label>
+        </Col>
+        <Col sm={9}>
           <Input
             type="select"
-            name="interestID"
-            id="interestID"
+            name="postInterestTags"
+            id="postInterestTags"
             multiple={true}
-            onChange={this.handleChange}
+            ref={this.props.tagsRef}
+            onClick={this.handleMultipleSelect}
           >
             {featuredInterest.map((interest, index) => {
               return (
-                <option key={interest.interestID} value={interest.interestID}>
+                <option
+                  key={interest.interestID}
+                  value={interest.interestID}
+                  className="unSelectedTag"
+                >
                   {interest.name}
                 </option>
               );
             })}
           </Input>
-          <span
-          id={'selectInfo'}
-          >
-            <i
-              className="text-info fa fa-info-circle"
-              aria-hidden="true"
-            />&nbsp;&nbsp; Hold{" "}
-            <b>
-              <u>Ctrl</u>
-            </b>{" "}
-            key to select multiple tags
-          </span>
+          <p id="selectInfo">
+            <i className="text-info fa fa-info-circle" aria-hidden="true" />&nbsp;&nbsp;
+            You can select multiple tags
+          </p>
         </Col>
+        <Col xs={1} />
       </FormGroup>
     );
   }

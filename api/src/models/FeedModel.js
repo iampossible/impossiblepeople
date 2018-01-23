@@ -35,7 +35,7 @@ class FeedModel extends Model {
 
     _getFeedWithFriends(userID) {
         return new Sequence((accept, reject) => this.db.query(
-            `MATCH (creator:Person) -[rel:OFFERS|:ASKS]-> (post:Post) -[:IS_ABOUT]-> (category:Interest),
+            `MATCH (creator:Person) -[rel:OFFERS|:ASKS]-> (post:Post) -[:IS_ABOUT]-> (interest:Interest),
              (user:Person {userID: {userID}}),
              (user) -[:FOLLOWS]-> (friend:Person)
        WHERE NOT (user) -[:BLOCKED]- (creator)
@@ -43,17 +43,14 @@ class FeedModel extends Model {
           creator = user 
           OR creator = friend       
           OR (user) -[:FOLLOWS]-> (friend) -[:FOLLOWS]-> (creator) -[:FOLLOWS]-> (friend) -[:FOLLOWS]-> (user)
-          OR (${locationSearch} AND (user) -[:INTERESTED_IN]-> (category))
+          OR (${locationSearch} AND (user) -[:INTERESTED_IN]-> (interest))
          ) 
-            
-       OPTIONAL MATCH (post)<-[comments:COMMENTS]-(commenter:Person)
-            WHERE NOT (user) -[:BLOCKED]- (commenter)
-        
+                    
        OPTIONAL MATCH (commonFriend:Person) -[:FOLLOWS]-> (friend_of_friend:Person) -[:FOLLOWS]-> (commonFriend) -[:FOLLOWS]-> (user) -[:FOLLOWS]-> (commonFriend) 
           WHERE creator = friend_of_friend
           AND NOT commonFriend:Invitee
       
-        RETURN creator, rel, post, category, 
+        RETURN creator, rel, post, collect(interest) AS interests, 
             creator.userID in COLLECT(friend.userID) as isFriend,
             COUNT( DISTINCT comments) AS commentCount, 
             COLLECT( DISTINCT commonFriend) AS commonFriends
@@ -66,18 +63,15 @@ class FeedModel extends Model {
 
     _getFeedWithoutFriends(userID) {
         return new Sequence((accept, reject) => this.db.query(
-            `MATCH (creator:Person) -[rel:OFFERS|:ASKS]-> (post:Post) -[:IS_ABOUT]-> (category:Interest),
+            `MATCH (creator:Person) -[rel:OFFERS|:ASKS]-> (post:Post) -[:IS_ABOUT]-> (interest:Interest),
              (user:Person {userID: {userID}})  
        WHERE NOT (user)-[:BLOCKED]-(creator)
          AND ( 
           creator = user 
-          OR (${locationSearch} AND (user) -[:INTERESTED_IN]-> (category))
+          OR (${locationSearch} AND (user) -[:INTERESTED_IN]-> (interest))
          ) 
-          
-       OPTIONAL MATCH (post) <-[comments:COMMENTS]- (:Person)
-       
-       RETURN creator, rel, post, collect(category) AS category,
-          COUNT( DISTINCT comments) AS commentCount,
+                 
+       RETURN creator, rel, post, collect(interest) AS interests,
           [] AS commonFriends
           
        ORDER BY rel.at DESC`, { userID, maxDistance },

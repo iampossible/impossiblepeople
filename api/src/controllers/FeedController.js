@@ -21,7 +21,6 @@ class FeedController extends Controller {
     return feedModel
       .get(request.auth.credentials.userID)
       .done(data => {
-        console.log(data);
         reply.response(data.map(node => ({
         postID: node.post.postID,
         postType: node.rel.type,
@@ -31,7 +30,6 @@ class FeedController extends Controller {
         resolved: node.post.resolved || false,
         createdAt: node.rel.properties.at,
         createdAtSince: moment(node.rel.properties.at).fromNow(),
-        commentCount: node.commentCount,
         author: {
           userID: node.creator.userID,
           username: `${node.creator.firstName} ${node.creator.lastName}`,
@@ -43,7 +41,7 @@ class FeedController extends Controller {
             imageSource: friend.imageSource,
           }))
         },
-        category: node.category.map(interest => ({
+        interests: node.interests.map(interest => ({
           interestID: interest.interestID,
           name: interest.name,
           image: interest.image || null
