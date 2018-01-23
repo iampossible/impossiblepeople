@@ -1,5 +1,5 @@
 {
-  "Description": "Neo4j on AWS - creates an EC2 Ubuntu machine, EBS volume, static IP address, and deploys the Neo4j Graph Database on it.  **WARNING** This template creates an Amazon EC2 instance. You will be billed for the AWS resources used if you create a stack from this template.",
+  "Description": "weareone-db - creates an EC2 Ubuntu machine, EBS volume, static IP address, and deploys the Neo4j Graph Database on it.",
   "AWSTemplateFormatVersion": "2010-09-09",
   "Mappings" : {
 
@@ -31,6 +31,10 @@
       "SSHKeyName": {
         "Description" : "Name of an existing EC2 KeyPair to enable SSH access to the instances",
         "Type": "AWS::EC2::KeyPair::KeyName"
+      },
+      "Neo4jPassword": {
+        "Description": "Password for the DB",
+        "Type": "String"
       },
         "NetworkWhitelist": {
             "Description": " The IP address range that can be used to connect to the Neo4j server (by REST or SSH)",
@@ -133,7 +137,11 @@
                         "rm -rf \\${backup_dir}\n",
                         "EOF\n",
                         "chown root:root /etc/cron.daily/neo4j_backup\n",
-                        "chmod 0755 /etc/cron.daily/neo4j_backup\n"
+                        "chmod 0755 /etc/cron.daily/neo4j_backup\n",
+                        "rm -fr /var/lib/neo4j/data/dbms/auth\n",
+                        "neo4j-admin create-password ",
+                        { "Ref": "Neo4jPassword" },
+                        "\n"
                 ]]}},
                 "Volumes" : [
                           { "VolumeId" : { "Ref" : "EBSVolume" },
@@ -184,6 +192,10 @@
         "SshAccess": {
             "Value" : {"Fn::Join" : ["", ["ssh -i ${HOME}/.ssh/", {"Ref": "SSHKeyName"}, ".pem -l ubuntu ", { "Fn::GetAtt" : [ "Server", "PublicIp" ]}]]},
             "Description" : "This is how you gain remote access to the machine."
+        },
+        "PublicIp": {
+            "Value": { "Fn::GetAtt" : [ "Server", "PublicIp" ]},
+            "Description": "Public IP of the DB instance"
         },
         "Note" :{
             "Value" : "It takes a few minutes for your EC2 machine to finish booting and start Neo4j.  Coffee time?",
