@@ -1,15 +1,31 @@
-import React, { Component } from "react";
+import React, { Component, Fragment } from "react";
 import FacebookLogin from "react-facebook-login";
-import { Container, Row, Col } from "reactstrap";
+import { Container, Row, Col, Button } from "reactstrap";
 import { RingLoader } from "react-spinners";
-
+import CreateUser from "./CreateUser";
+import Login from "./Login";
 export default class LandingPage extends Component {
   constructor() {
     super();
     this.state = {
-      loading: false
+      loading: false,
+      login: false,
+      register: false
     };
   }
+  toggleDisplayForm = e => {
+    if (e.target.name == "dispalyRegistrationForm") {
+      this.setState({
+        register: true,
+        login: false
+      });
+    } else {
+      this.setState({
+        register: false,
+        login: true
+      });
+    }
+  };
   responseFacebook = response => {
     if (response.status !== "unknown") {
       this.setState(
@@ -53,18 +69,56 @@ export default class LandingPage extends Component {
   render() {
     return (
       <Container id="btnFacebook">
-        <Row>
-          <Col sm={4} />
-          <Col sm={4} xs={12}>
-            {!this.state.loading ? (
-              <FacebookLogin
-                appId="138462666798513"
-                autoLoad={false}
-                icon="fa-facebook fa-lg"
-                fields="name,email,picture,friends"
-                callback={this.responseFacebook}
-              />
-            ) : (
+        {!this.state.loading ? (
+          <Fragment>
+            <Row>
+              <Col sm={4} />
+              <Col sm={4} xs={12}>
+                <FacebookLogin
+                  appId="138462666798513"
+                  autoLoad={false}
+                  icon="fa-facebook fa-lg"
+                  fields="name,email,picture,friends"
+                  callback={this.responseFacebook}
+                />
+              </Col>
+              <Col sm={4} />
+            </Row>
+            <Row id="register_login_buttonsContainer">
+              <Col sm={4} />
+              <Col sm={2}>
+                <Button
+                  color="success"
+                  name="dispalyLoginForm"
+                  onClick={this.toggleDisplayForm}
+                >
+                  &nbsp; Login
+                </Button>
+              </Col>
+              <Col sm={2}>
+                <Button
+                  color="danger"
+                  name="dispalyRegistrationForm"
+                  onClick={this.toggleDisplayForm}
+                >
+                  Register
+                </Button>
+              </Col>
+              <Col sm={4} />
+            </Row>
+            <Row>
+              <Col sm={2} />
+              <Col sm={8}>
+                {this.state.register ? <CreateUser /> : null}
+                {this.state.login ? <Login /> : null}
+              </Col>
+              <Col sm={2} />
+            </Row>
+          </Fragment>
+        ) : (
+          <Row>
+            <Col sm={4} />
+            <Col sm={4} xs={12}>
               <div className="RingLoader center-loading">
                 <RingLoader
                   color="#123abc"
@@ -72,10 +126,10 @@ export default class LandingPage extends Component {
                   size={100} /*the size of the spinner*/
                 />
               </div>
-            )}
-          </Col>
-          <Col sm={4} />
-        </Row>
+            </Col>
+            <Col sm={4} />
+          </Row>
+        )}
       </Container>
     );
   }
