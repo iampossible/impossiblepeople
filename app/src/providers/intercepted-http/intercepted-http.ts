@@ -91,7 +91,9 @@ export class InterceptedHttp extends Http {
         obs.next(response);
         this._loadingDone(url);
       }, (err) => {
-        console.debug('err', err);
+        if (err) {
+          console.debug('InterceptedHttp.intercept err', err);
+        }
         reqURL = null;
         let errorResponse = {};
         try {

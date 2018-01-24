@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html charset=UTF-8"></meta>
+</head>
+
+<body>
+    <style>
+        div,
+        body {
+            margin: 0;
+            padding: 0;
+        }
+
+        h1,
+        h2,
+        h3,
+        h4,
+        h5,
+        h6 {
+            margin: 16px 0;
+            mso-line-height-rule: exactly;
+        }
+
+        p {
+            margin: 12px 0;
+        }
+
+        .top-level {
+            width: 70%;
+            max-width: 575px;
+            margin: auto;
+            clear: both;
+        }
+
+        .header>table.top-level {
+            padding-top: 50px;
+        }
+
+        h2.top-level {
+            padding-top: 15px;
+            padding-bottom: 30px;
+            font-size: 18px;
+            line-height: 1.33;
+            text-align: left;
+            color: #272d3d;
+            font-weight: normal;
+        }
+
+        h2.top-level>b {
+            font-size: 22px;
+            font-weight: bold;
+            line-height: 1.09;
+        }
+
+        .header {
+            background-color: #f7f6f6;
+            width: 100%;
+        }
+
+        .header h1 {
+            font-size: 24px;
+            line-height: 1;
+            color: #272d3d;
+        }
+
+        .header h4 {
+            font-weight: normal;
+            font-size: 12px;
+            line-height: 1;
+            color: #6b757d;
+        }
+
+        .post-list {
+            display: inline;
+        }
+
+        .post-content {
+            width: 280px;
+        }
+        .post-content>img {
+            object-fit: cover;
+        }
+
+        .post-text {
+            font-size: 12px;
+            letter-spacing: 0.4px;
+            color: #6b757d;
+            padding: 16px 37px 20px 20px;
+        }
+
+        .user-avatar {
+            border-radius: 50%;
+        }
+
+        .user-name {
+            font-size: 12px;
+            font-weight: bold;
+            line-height: 1;
+            color: #333c4e;
+        }
+
+        .user-location {
+            margin-top: 5px;
+            font-size: 10px;
+            line-height: 1;
+            color: #272d3d;
+        }
+
+        .post-container {
+            position: relative;
+            top: -15px;
+        }
+
+        table {
+            border-collapse: collapse;
+        }
+
+        td.post-content {
+            padding-right: 15px;
+        }
+
+        td>.doll {
+            padding-top: 50px;
+        }
+        
+        p.unsubscribe {
+            font-size: 10px;
+            line-height: 1;
+            text-align: center;
+            color: #6b757d;
+        }
+
+        .bottom-doll {
+            float: right;
+            position: relative;
+            top: -194px;
+        }
+
+        @media screen and (max-width:600px) {
+            .doll {
+                display: none;
+            }
+        }
+    </style>
+    <div class="header">
+        <table class="top-level" border="0" cellpadding="0" cellspacing="0">
+            <tr>
+                <td>
+                    <img src="cid:logo" height=36>
+                    <h1>This week at Impossible People</h1>
+                    <h4>{{ weekDate }}</h4>
+                </td>
+                <td>
+                    <img class="doll" src="cid:doll">
+                </td>
+                <td style="width: 10%"></td>
+            </tr>
+        </table>
+    </div>
+    <div class="header">
+        <h2 class="top-level">Highlights in <b>offers</b></h2>
+    </div>
+    <div class="top-level post-container">
+        <table class="post-list" border="0" cellpadding="0" cellspacing="15px">
+            <tbody>
+                <tr>
+                    {{#offers}}
+                    <td class="post-content" valign="top">
+                        <img src="cid:interest/{{ categoryCID }}" width=280 height=87>
+                        <p class="post-text">
+                            {{ post.content }}
+                        </p>
+                        <table class="user-container" cellspacing="5px">
+                            <tr>
+                                <td><img class="user-avatar" src="{{ creator.imageSource }}" width=30 height=30></td>
+                                <td>
+                                    <p class="user-name">{{ creator.firstName }} {{ creator.lastName }}</p>
+                                    <p class="user-location">{{ creator.location }}</p>
+                                </td>
+                            </tr>
+                        </table>
+                    </td>
+                    {{/offers}}
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="header">
+        <h2 class="top-level">Highlights in <b>asks</b></h2>
+    </div>
+    <div class="top-level post-container">
+        <table class="post-list" border="0" cellpadding="0" cellspacing="15px">
+            <tbody>
+                <tr>
+                    {{#asks}}
+                    <td class="post-content" valign="top">
+                        <img src="cid:interest/{{ categoryCID }}" width=280 height=87>
+                        <p class="post-text">
+                            {{ post.content }}
+                        </p>
+                        <table class="user-container" cellspacing="5px">
+                            <tr>
+                                <td><img class="user-avatar" src="{{ creator.imageSource }}" width=30 height=30></td>
+                                <td>
+                                    <p class="user-name">{{ creator.firstName }} {{ creator.lastName }}</p>
+                                    <p class="user-location">{{ creator.location }}</p>
+                                </td>
+                            </tr>
+                        </table>
+                    </td>
+                    {{/asks}}
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <p class="top-level unsubscribe">
+        <a href="{{ unsubscribeLink }}">Unsubscribe</a>
+    </p>
+    <img class="doll bottom-doll" src="cid:bottomdoll">
+</body>
+
+</html>

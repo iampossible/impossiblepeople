@@ -1,26 +1,35 @@
-This is a starter template for [Ionic](http://ionicframework.com/docs/) projects.
+# gnome-app mobile client
 
 ## How to use this template
 
-*This template does not work on its own*. The shared files for each starter are found in the [ionic2-app-base repo](https://github.com/ionic-team/ionic2-app-base).
+This app is built using [Ionic](http://ionicframework.com/docs/) and is a frontend fed by the Gnome server.
 
-To use this template, either create a new ionic project using the ionic node.js utility, or copy the files from this repository into the [Starter App Base](https://github.com/ionic-team/ionic2-app-base).
+### Building/Running the app:
 
-### With the Ionic CLI:
-
-Take the name after `ionic2-starter-`, and that is the name of the template to be used when using the `ionic start` command below:
-
-```bash
-$ sudo npm install -g ionic cordova
-$ ionic start myTabs tabs
-```
-
-Then, to run it, cd into `myTabs` and run:
+To set up the target platform
 
 ```bash
 $ ionic cordova platform add ios
-$ ionic cordova run ios
 ```
 
-Substitute ios for android if not on a Mac.
+or 
 
+```bash
+$ ionic cordova platform add android
+```
+
+To build a production app, edit [src/Environment.ts]() to input your server configurations and
+
+
+```bash
+$ ionic cordova platform build ios --prod
+```
+
+or
+
+
+```bash
+$ ionic cordova platform build android --release --prod
+```
+
+To develop use the `ionic cordova run` [more info here](http://ionicframework.com/docs/intro/deploying/)  or `ionic serve` [more info here](http://ionicframework.com/getting-started)

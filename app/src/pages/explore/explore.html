@@ -1,14 +1,8 @@
 <ion-header>
-  <ion-navbar>
-    <ion-title *ngIf="interest">
-      {{ interest }}
-    </ion-title>
-    <ion-searchbar *ngIf="!interest" [(ngModel)]="searchString" (ionInput)="onSearch($event)" (ionClear)="clearSearch($event)" animated debounce=600
-      showCancelButton=false type="search" [placeholder]="interest|| 'Search'">
+  <ion-navbar [hideBackButton]="inExplore">
+    <ion-searchbar [(ngModel)]="searchString" (ionInput)="onSearch($event)" (ionClear)="clearSearch($event)" animated debounce=600
+      showCancelButton=false type="search" [placeholder]="'Search'">
     </ion-searchbar>
-    <ion-buttons left>
-      <button ion-button *ngIf="!inExplore && interest" (click)="exitExploreFeed($event)">Back</button>
-    </ion-buttons>
   </ion-navbar>
 </ion-header>
 
@@ -26,8 +20,8 @@
           </ul>
 
           <div class="suggestion-block">
-            <button ion-button block large outline light class="suggest-interest button-outline-light" (click)="randomExplore($event)">
-              Surprise me
+            <button ion-button block large outline light class="suggest-interest button-outline-light" (click)="openNearMe($event)">
+              Near me
             </button>
           </div>
         </ion-slide>
@@ -35,17 +29,12 @@
     </div>
   </div>
 
-  <div *ngIf="!inExplore && !loading && !interest && feed.length === 0" class="no-feed">
+  <div *ngIf="!inExplore && !loading && feed.length === 0" class="no-feed">
     <h3 class="title">Something went wrong!</h3>
     <button ion-button full (click)="resetPage()">Try again</button>
   </div>
 
-  <div *ngIf="!inExplore && !loading && interest && feed.length === 0" class="no-feed">
-    <h3 class="title">There are no posts for {{interest}}</h3>
-    <h3 class="title">Try another interest</h3>
-  </div>
-
-  <div *ngIf="inExplore && searchString && !loading && !interest && feed.length === 0" class="no-feed">
+  <div *ngIf="inExplore && searchString && !loading && feed.length === 0" class="no-feed">
     <h3 class="title">There are no posts matching your search</h3>
   </div>
 

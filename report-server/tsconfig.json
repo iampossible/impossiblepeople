@@ -1,0 +1,32 @@
+{
+    "compileOnSave": true,
+    "compilerOptions": {
+        "lib": [
+            "es5",
+            "es6"
+        ],
+        "target": "es2017",
+        "module": "commonjs",
+        "moduleResolution": "node",
+        "outDir": "build",
+        "allowJs": true,
+        "alwaysStrict": true,
+        //"checkJs": true,
+        //"diagnostics": true,
+        "noEmitOnError": true,
+        "noFallthroughCasesInSwitch": true,
+        //"noImplicitAny": true,
+        "noImplicitThis": true,
+        "noUnusedLocals": true,
+        "pretty": true,
+        "removeComments": true,
+        "strictNullChecks": true
+    },
+    "include": [
+        "src/**/*"
+    ],
+    "exclude": [
+        "node_modules",
+        "**/*.spec.ts"
+    ]
+}

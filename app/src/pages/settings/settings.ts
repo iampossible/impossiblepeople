@@ -27,7 +27,7 @@ export class SettingsPage {
     private alertCtrl: AlertController,
     private userService: UserService,
     private events: Events) {
-    events.subscribe('user:updated', (dataArray) => {
+    this.events.subscribe('user:updated', (dataArray) => {
       let updated = Array.isArray(dataArray) ? dataArray[0] : dataArray;
       if (updated) {
         this.user = Object.assign(this.user, updated);

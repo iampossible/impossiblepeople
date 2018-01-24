@@ -19,7 +19,7 @@ describe('Image endpoints', () => {
     dataHelper.populate().then(done);
   });
 
-  afterAll((done) => dataHelper.wipe().then(done));
+  afterAll(done => dataHelper.wipe().then(done));
 
 
   describe('POST user/image', () => {
@@ -32,7 +32,7 @@ describe('Image endpoints', () => {
         s3 = new AWS.S3();
         s3.upload({
           ACL: 'public-read',
-          Body: new Buffer(imageData, 'base64'),
+          Body: Buffer.from(imageData, 'base64'),
           Bucket: 'gnome-assets',
           ContentEncoding: 'base64',
           ContentType: 'image/jpeg',
@@ -44,7 +44,7 @@ describe('Image endpoints', () => {
         if (createdImage) {
           s3.deleteObject({
             Bucket: 'gnome-assets',
-            Key: createdImage.match(/^https:\/\/gnome-assets\.s3-eu-west-1\.amazonaws\.com\/([a-zA-Z0-9]+)$/)[1],
+            Key: createdImage.match(/^https:\/\/gnome-assets\.s3\.eu-west-1\.amazonaws\.com\/([a-zA-Z0-9]+)$/)[1],
           }, done);
           createdImage = null;
         } else {
@@ -65,7 +65,7 @@ describe('Image endpoints', () => {
             let body = JSON.parse(response.body);
             expect(body.msg).toBeUndefined();
             expect(response.statusCode).toBe(201);
-            expect(body.imageSource).toMatch(/^https:\/\/gnome-assets\.s3-eu-west-1\.amazonaws\.com\/[a-zA-Z0-9]+$/);
+            expect(body.imageSource).toMatch(/^https:\/\/gnome-assets\.s3\.eu-west-1\.amazonaws\.com\/[a-zA-Z0-9]+$/);
             createdImage = body.imageSource;
             done();
           }).form({ imageData: `data:image/jpg;base64,${imageData}` });

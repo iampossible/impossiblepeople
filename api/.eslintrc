@@ -1,7 +1,7 @@
 {
   "extends": "airbnb",
   "parserOptions": {
-    "ecmaVersion": "6"
+    "ecmaVersion": 6
   },
   "env": {
     "browser": false,
@@ -16,5 +16,12 @@
     "strict": "off",
     "padded-blocks": 0,
     "comma-dangle": "off"
+  },
+  "settings": {
+    "import/resolver": {
+      "node": {
+        "paths": ["src"]
+      }
+    }
   }
 }

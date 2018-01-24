@@ -3,10 +3,10 @@ page-feed {
         padding: 14px;
     }
     ion-refresher {
-        height: 200px;
+        height: 270px;
         /* FIX TO BE NOT HARDCODED ... or use variable */
         .animation {
-            height: 200px;
+            height: 270px;
             text-align: center;
         }
     }
@@ -79,5 +79,30 @@ page-feed {
         align-content: center;
         justify-content: space-around;
         color: #FFFFFF;
+    }
+    .noPosts {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: space-between;
+        text-align: center;
+        line-height: 22px;
+        height: 100%;
+        h2 {
+            font-weight: bold;
+            font-size: 18px;
+            color: map-get($colors, dark-grey);
+        }
+        .btns-find-friends {
+            width: 100%;
+            .button {
+                padding: 0;
+                margin: 0;
+            }
+            .btn-facebook {
+                color: whitesmoke;
+                background-color: #4367B2;
+            }
+        }
     }
 }

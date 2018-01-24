@@ -14,19 +14,22 @@ declare const heap: any;
 export class MyFriendsPage {
   private friendsList: Array<any>;
 
-  constructor(private navParams: NavParams, private nav: NavController, private profileService: ProfileService) {
-    this.friendsList = navParams.get('friendsList');
+  constructor(
+    private navParams: NavParams,
+    private nav: NavController,
+    private profileService: ProfileService) {
+    this.friendsList = this.navParams.get('friendsList');
   }
 
   public followToggle(user: any) {
     // NOTE: updates UI immediately, then reverts the change in failing cases
     if (user.unfollowed) {
-      this.profileService.follow(user.userID).subscribe(() => {}, () => this.toggleFriendship(user));
+      this.profileService.follow(user.userID).subscribe(() => { }, () => this.toggleFriendship(user));
       if (Environment.HEAP && 'heap' in window) {
         heap.track('FOLLOW', { userID: user.userID });
       }
     } else {
-      this.profileService.unfollow(user.userID).subscribe(() => {}, () => this.toggleFriendship(user));
+      this.profileService.unfollow(user.userID).subscribe(() => { }, () => this.toggleFriendship(user));
       if (Environment.HEAP && 'heap' in window) {
         heap.track('UNFOLLOW', { userID: user.userID });
       }
@@ -38,7 +41,7 @@ export class MyFriendsPage {
     user.unfollowed = !user.unfollowed;
   }
 
-  private goToProfile(userID) {
+  goToProfile(userID) {
     this.nav.push(ProfilePage, { userID: userID });
   }
 }

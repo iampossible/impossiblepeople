@@ -1,6 +1,8 @@
 {
+  "api": "http://localhost:3000/",
   "logging": true,
   "smtp": {
     "from": "Impossible <noreply@impossible.com>"
-  }
+  },
+  "newsletter_key": "97aeffc55e3e38ba0158fff15e0769c2"
 }
