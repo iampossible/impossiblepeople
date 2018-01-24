@@ -27,7 +27,7 @@ export class AuthPage {
     private authService: AuthService,
     private form: FormBuilder,
     private notificationService: NotificationService) {
-    this.loginForm = form.group({
+    this.loginForm = this.form.group({
       email: ['', Validators.required],
       password: ['', Validators.required],
     });

@@ -1,7 +1,6 @@
 import { Component } from '@angular/core';
-import { NavController, NavParams, ViewController, ModalController, AlertController, Events } from 'ionic-angular';
+import { NavParams, ViewController, ModalController, AlertController, Events } from 'ionic-angular';
 import { Camera } from '@ionic-native/camera';
-import { DomSanitizer } from '@angular/platform-browser';
 import { Response } from '@angular/http';
 
 import { UserService } from '../../providers/user-service/user-service';
@@ -20,7 +19,7 @@ export class EditProfileModalPage {
   private user: any;
   private profilePicture: any;
 
-  constructor(private nav: NavController,
+  constructor(
     private viewCtrl: ViewController,
     private modalCtrl: ModalController,
     private alertCtrl: AlertController,
@@ -28,7 +27,6 @@ export class EditProfileModalPage {
     private params: NavParams,
     private events: Events,
     private imageService: ImageService,
-    private domSanitizationService: DomSanitizer,
     private camera: Camera) {
     this.imageChanged = false;
     this.user = Object.assign({}, params.data);
@@ -43,7 +41,7 @@ export class EditProfileModalPage {
     this.viewCtrl.dismiss();
   }
 
-  private hasProfileChanges() {
+  hasProfileChanges() {
     return !!Object.keys(this.detectProfileChanges()).length || this.imageChanged;
   }
 
@@ -105,6 +103,8 @@ export class EditProfileModalPage {
     modal.onDidDismiss((result) => {
       if (result.state === 'success') {
         Object.assign(this.user, result.data);
+      } else if (result.state === 'noop') {
+        // do nothing, the user "skipped"
       } else {
         console.log(result);
         let failAlert = this.alertCtrl.create({
@@ -138,9 +138,9 @@ export class EditProfileModalPage {
   _getPicture(source) {
     let DATA_URL = 0;
     let FRONT = 1;
-    let IMAGE_URI = 1;
+    // let IMAGE_URI = 1;
     let JPG = 0;
-    let PNG = 1;
+    // let PNG = 1;
     this.camera
       .getPicture({
         allowEdit: true,

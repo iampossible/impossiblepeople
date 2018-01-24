@@ -2,7 +2,7 @@
 
 const Sequence = require('impossible-promise');
 const Model = require('core/Model');
-const config = require('../config/server');
+const config = require('config/server');
 
 const maxDistance = 25; // km
 

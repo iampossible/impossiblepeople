@@ -22,6 +22,13 @@ class ExploreController extends Controller {
       auth: 'session',
       handler: this.searchExplore,
     });
+
+    this.route('exploreNearMe', {
+      method: 'GET',
+      path: '/api/explore/{name}/nearme',
+      auth: 'session',
+      handler: this.exploreNearMe,
+    });
   }
 
   getInterest(request, reply) {
@@ -94,6 +101,42 @@ class ExploreController extends Controller {
     }).error(e => {
       reply({ msg: e }).code(500);
       console.error('Explore search could not be fetched for ', request.params.name, request.params.search);
+    });
+  }
+
+  exploreNearMe(request, reply) {
+    const nearmeFn = request.params.name !== '_' ? exploreModel.nearMeInterest(request.auth.credentials.userID, request.params.name): exploreModel.nearMe(request.auth.credentials.userID);
+    return nearmeFn.done((data) => {
+      reply.response(data.map(node => ({
+        postID: node.post.postID, 
+        postType: node.rel.type, 
+        content: node.post.content, 
+        timeRequired: node.post.timeRequired || 0, 
+        location: node.post.location, 
+        resolved: node.post.resolved || false, 
+        createdAt: node.rel.properties.at, 
+        createdAtSince: moment(node.rel.properties.at).fromNow(), 
+        commentCount: node.commentCount, 
+        author: {
+          userID: node.creator.userID, 
+          username: `${node.creator.firstName} ${node.creator.lastName}`, 
+          imageSource: node.creator.imageSource, 
+          //isFriend: node.isFriend,
+          /*commonFriends: node.commonFriends.map((friend) => ({ 
+            userID: friend.userID,
+            username: `${friend.firstName} ${friend.lastName}`,
+            imageSource: friend.imageSource,
+          }))*/
+        },
+        category: {
+          interestID: node.category.interestID, 
+          name: node.category.name, 
+          image: node.category.image || null, 
+        },
+      })));
+    }).error(e => {
+      reply({ msg: e }).code(500);
+      console.error('Explore could not be fetched for ', request.params.name);
     });
   }
 }

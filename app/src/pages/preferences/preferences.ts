@@ -6,6 +6,7 @@ import { PrivacyPolicyPage } from '../privacy-policy/privacy-policy';
 import { TermsConditionsPage } from '../terms-conditions/terms-conditions';
 import { Facebook } from '@ionic-native/facebook';
 import { EmailPage } from '../email/email';
+import { AppVersion } from '@ionic-native/app-version';
 
 declare var heap: any;
 
@@ -17,6 +18,7 @@ declare var heap: any;
 export class PreferencesPage {
   private user;
   private version: string;
+  private appName: string = '';
   logoutOptions: ActionSheet;
 
   constructor(private nav: NavController,
@@ -24,9 +26,11 @@ export class PreferencesPage {
     private events: Events,
     private actionSheetCtrl: ActionSheetController,
     private authService: AuthService,
+    private appVersion: AppVersion,
     private facebook: Facebook) {
-    this.user = params.data;
-    this.version = Environment.version;
+    this.user = this.params.data;
+    appVersion.getAppName().then(v => this.appName = v);
+    appVersion.getVersionNumber().then(v => this.version = v).catch(() => this.version = Environment.version);
     this.events.subscribe('user:updated', (dataArray) => {
       let updated = Array.isArray(dataArray) ? dataArray[0] : dataArray;
       if (updated) {

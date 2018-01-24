@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NavController, AlertController, Events } from 'ionic-angular';
+import { AlertController, Events } from 'ionic-angular';
 import { UserService } from '../../providers/user-service/user-service';
 import {Response} from '@angular/http';
 
@@ -12,7 +12,7 @@ export class MyPostsPage {
 
   posts: Array<any> = [];
 
-  constructor(private nav: NavController,
+  constructor(
               private userService: UserService,
               private alertCtrl: AlertController,
               private events: Events) {

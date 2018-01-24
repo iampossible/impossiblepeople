@@ -59,4 +59,4 @@ The first times you run the above commands, they might take longer than
 
 ### General advice
 * To manage container we use `docker-machine` or Kinematic (comes with the Docker toolbox).
-* If you have any questions, feel free to [reach out](mailto:jonathan@impossible.com).
+* If you have any questions, feel free to [reach out](mailto:filipe@impossible.com).
