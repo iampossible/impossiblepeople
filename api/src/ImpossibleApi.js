@@ -77,6 +77,7 @@ if (config.logging === true) {
 }
 
 [
+<<<<<<< HEAD
     "AuthController",
     "ExploreController",
     "FacebookController",
@@ -90,6 +91,21 @@ if (config.logging === true) {
     "UserController",
     "UserActivityController",
     "NewsletterController"
+=======
+  'AuthController',
+  'ExploreController',
+  'FacebookController',
+  'FeedController',
+  'ImageController',
+  'InterestController',
+  'LocationController',
+  'NewsletterController',
+  'PushNotificationController',
+  'PostController',
+  'ProfileController',
+  'UserController',
+  'UserActivityController'
+>>>>>>> 725badd1e62d69f9a5e6308c3dd71221f598760c
 ].forEach(ctrl => Controller.load(ctrl, server));
 
 if (process.env.GNOME_ENV === "dev" || process.env.GNOME_ENV === "docker") {

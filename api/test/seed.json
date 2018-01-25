@@ -1,10 +1,162 @@
 {
+<<<<<<< HEAD
     "interests": [{
             "suggested": false,
             "featured": true,
             "name": "MEDICAL AND WELLBEING",
             "image": "build/images/interests/artdesign.png"
         },
+=======
+  "interests": [
+    {
+      "suggested": false,
+      "featured": true,
+      "name": "Art & Design",
+      "image": "build/images/interests/artdesign.png"
+    },
+    {
+      "suggested": false,
+      "featured": true,
+      "name": "Environment",
+      "image": "build/images/interests/environment.png"
+    },
+    {
+      "suggested": false,
+      "featured": true,
+      "name": "Events",
+      "image": "build/images/interests/events.png"
+    },
+    {
+      "suggested": false,
+      "featured": true,
+      "name": "Fitness",
+      "image": "build/images/interests/fitness.png"
+    },
+    {
+      "suggested": false,
+      "featured": true,
+      "name": "Family",
+      "image": "build/images/interests/family.png"
+    },
+    {
+      "suggested": false,
+      "featured": true,
+      "name": "Learning",
+      "image": "build/images/interests/learning.png"
+    },
+    {
+      "suggested": false,
+      "featured": true,
+      "name": "Film & Photo",
+      "image": "build/images/interests/filmphoto.png"
+    },
+    {
+      "suggested": false,
+      "featured": true,
+      "name": "Food",
+      "image": "build/images/interests/food.png"
+    },
+    {
+      "suggested": false,
+      "featured": true,
+      "name": "Wellness",
+      "image": "build/images/interests/wellness.png"
+    },
+    {
+      "suggested": false,
+      "featured": true,
+      "name": "Home & DIY",
+      "image": "build/images/interests/homediy.png"
+    },
+    {
+      "suggested": false,
+      "featured": true,
+      "name": "Languages",
+      "image": "build/images/interests/languages.png"
+    },
+    {
+      "suggested": false,
+      "featured": true,
+      "name": "Music",
+      "image": "build/images/interests/music.png"
+    },
+    {
+      "suggested": false,
+      "featured": true,
+      "name": "Social Good",
+      "image": "build/images/interests/social.png"
+    },
+    {
+      "suggested": false,
+      "featured": true,
+      "name": "Spirituality",
+      "image": "build/images/interests/spirituality.png"
+    },
+    {
+      "suggested": false,
+      "featured": true,
+      "name": "Business",
+      "image": "build/images/interests/business.png"
+    },
+    {
+      "suggested": false,
+      "featured": true,
+      "name": "Technology",
+      "image": "build/images/interests/technology.png"
+    },
+    {
+      "suggested": false,
+      "featured": true,
+      "name": "Travel",
+      "image": "build/images/interests/travel.png"
+    },
+    {
+      "suggested": false,
+      "featured": true,
+      "name": "Writing",
+      "image": "build/images/interests/writing.png"
+    },
+    {
+      "suggested": false,
+      "featured": false,
+      "name": "Programming"
+    },
+    {
+      "suggested": true,
+      "featured": false,
+      "name": "Sci-Fi"
+    },
+    {
+      "suggested" : true,
+      "featured" : false,
+      "name" : "Vexillology"
+    }
+  ],
+  "people": [
+    {
+      "Person": {
+        "firstName": "Demo",
+        "lastName": "User",
+        "email": "user@example.com",
+        "_password": "somepassword",
+        "biography": "Just some user, you know?",
+        "latitude": 38.9711376,
+        "longitude": -95.2313301,
+        "location": "Lawrence Township",
+        "url": "http://township.me/",
+        "imageSource": "http://www.fillmurray.com/100/100",
+        "notificationEndpoint": "irrelevant"
+      },
+      "Interests": [
+        "Music",
+        "Food"
+      ],
+      "Follows": [
+        "White",
+        "Alice"
+      ],
+      "Posts": [
+>>>>>>> 725badd1e62d69f9a5e6308c3dd71221f598760c
         {
             "suggested": false,
             "featured": true,
