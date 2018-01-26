@@ -22,10 +22,8 @@ node_modules
 .vagrant
 
 reports
-<<<<<<< HEAD
 tmp
 keys
-build
-=======
-build
->>>>>>> 725badd1e62d69f9a5e6308c3dd71221f598760c
+api/src/build/
+
+
