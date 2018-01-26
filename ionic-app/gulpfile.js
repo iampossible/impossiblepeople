@@ -2,7 +2,7 @@
 
 var pkg = require('./package.json');
 var gulp = require('gulp');
-var sass = require('gulp-sass');
+//var sass = require('gulp-sass');
 var watch = require('gulp-watch');
 var del = require('del');
 var cache = require('gulp-cached');
@@ -22,7 +22,7 @@ var rimraf = require('gulp-rimraf');
  * https://github.com/driftyco/ionic-gulp-tasks
  */
 var buildBrowserify = require('ionic-gulp-browserify-typescript');
-var buildSass = require('ionic-gulp-sass-build');
+//var buildSass = require('ionic-gulp-sass-build');
 var copyHTML = require('ionic-gulp-html-copy');
 var copyFonts = require('ionic-gulp-fonts-copy');
 var copyScripts = require('ionic-gulp-scripts-copy');
@@ -66,9 +66,9 @@ var DIST = 'www';
  * The following tasks are related to building the application with its assets.
  ******************************************************************************/
 gulp.task('sass', function () {
-  buildSass({
-    src: 'src/app/theme/app.+(ios|md).scss'
-  });
+//  buildSass({
+//    src: 'src/app/theme/app.+(ios|md).scss'
+//  });
 });
 
 gulp.task('html', function () {
