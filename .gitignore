@@ -24,4 +24,5 @@ node_modules
 reports
 tmp
 keys
-build
+api/src/build/
+
