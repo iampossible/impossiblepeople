@@ -1,26 +1,27 @@
 import React, { Component } from "react";
-import { Row, Col, Button, Tooltip } from "reactstrap";
+import { Row, Col, Form, FormGroup, Button, Tooltip } from "reactstrap";
 import { RingLoader } from "react-spinners";
 import "bootstrap/dist/css/bootstrap.css";
 import * as moment from "moment";
 import Comment from "../components/Comment";
 import Post from "../components/Post";
-import DisplayPost from "../components/displayPost"
-import DisplayComment from "../components/displayComment"
+import DisplayPost from "../components/displayPost";
+import FilterButtons from "../components/FilterButtons"
 
 class Feed extends Component {
   state = {
     feed: [],
     loading: true,
     loadLastComments: [],
-    postToUpdate: ""
+    postToUpdate: "",
+    currentFilter: "MOSTRECENT",
+    filterTag: "",
+    tagsDropdownOpen: false
   };
 
   componentWillMount() {
     this.getFeeds();
   }
-
-
 
   getFeeds = () => {
     this.setState({
@@ -84,6 +85,24 @@ class Feed extends Component {
     }
   };
 
+  updateFilter = (buttonClicked, tag) => {
+    if (buttonClicked === "TAGS") {
+      if (tag) {
+        this.setState({filterTag: tag});
+      } else {
+        this.setState({filterTag: ""})
+      }
+    } else {
+    this.setState({currentFilter: buttonClicked});
+    }
+  };
+
+  toggleTagesDropdown = () => {
+    this.setState({
+      tagsDropdownOpen: !this.state.tagsDropdownOpen
+    });
+  };
+
   render() {
     //getting the user type that is passed from the App redirect
     const { user } = this.props;
@@ -113,8 +132,24 @@ class Feed extends Component {
         ) : (
           ""
         )}
+        <FilterButtons 
+          interests={user.interests}
+          currentFilter={this.state.currentFilter} 
+          filterTag={this.state.filterTag}
+          tagsDropdownOpen={this.state.tagsDropdownOpen}
+          toggleTagesDropdown={this.toggleTagesDropdown}
+          updateFilter={this.updateFilter}
+        />
         {this.state.feed.length > 0 ? (
           this.state.feed.map((feedData, i) => {
+            if ((this.state.currentFilter === "ASKS" || 
+                  this.state.currentFilter === "OFFERS") &&
+                 feedData.postType !== this.state.currentFilter) 
+              return null;
+            if (this.state.filterTag && !feedData.interests.reduce((acc, interest) => {
+              return (acc || (interest.interestID === this.state.filterTag))
+            }, false)) 
+              return null; 
             return (
               <div key={feedData.postID} className="feed">
                 <Row xs={12}>
