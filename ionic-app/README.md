@@ -1,4 +1,4 @@
-#DEPRECATED - use [the new app](https://github.com/iampossible/gnome/blob/master/app)
+#DEPRECATED - use [the new app](https://github.com/iampossible/impossiblepeople/blob/master/app)
 # gnome-app mobile client
 
 We used ionic 2 for implementing a hybrid mobile client for the gnome-app. 
@@ -9,7 +9,7 @@ If you would like to run, and develop the app locally, the following steps are n
 1. Install neo4j. Either use a binary, or brew install neo4j. Make sure the version i >= 3.0.0.
     1. Make sure the environment variable NEO4J_AUTH  is not on your current shell. If it is set, change the neo4j password to match it.
     2. Go to `localhost:7474` and run :server-connect to set the password to neo4j. In order to do so, set it to something different first and change it back to neo4j.
-       The [DataHelper](https://github.com/iampossible/gnome/blob/master/api/test/DataHelper.js) will access the database.
+       The [DataHelper](https://github.com/iampossible/impossiblepeople/blob/master/api/test/DataHelper.js) will access the database.
 2. Install rabbitmq-server
 
 ### Development commands

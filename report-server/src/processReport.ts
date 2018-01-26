@@ -139,8 +139,10 @@ const processUser = (userID: string, globalAsks: any[], globalOffers: any[]): Pr
             templateData.feed = feedData
             let offers = feedData.filter(p => p.rel.type === 'OFFERS').slice(0, 2).map(x => Object.assign(x, { categoryCID: templateData.cidify(x.category) }))
             templateData.offers = offers.length >= 2 ? offers : globalOffers;
+            templateData.hasOffers = templateData.offers.length > 0;
             let asks = feedData.filter(p => p.rel.type === 'ASKS').slice(0, 2).map(x => Object.assign(x, { categoryCID: templateData.cidify(x.category) }))
             templateData.asks = asks.length >= 2 ? asks : globalAsks;
+            templateData.hasAsks = templateData.asks.length > 0;
             templateData.interestsInFeed = Array.from(new Set((templateData.asks.concat(templateData.offers)).map(p => cidify(p.category))));
 
             //console.log('data', templateData)
@@ -217,13 +219,13 @@ const main = () => {
   console.time(`Process ${config.workdir}/reports/unprocessed`)
   Promise.all([platformHighlights(), promisify(fs.readdir, `${config.workdir}/reports/unprocessed`)])
     .then((result: any[]) => {
-      const globalFeed: any[] = result[0];
+      const globalFeed: any[] = result[0]
       const globalOffers: any[] = globalFeed.filter(p => p.rel.type === 'OFFERS').slice(0, 2).map(x => Object.assign(x, { categoryCID: cidify(x.category) }))
       const globalAsks: any[] = globalFeed.filter(p => p.rel.type === 'ASKS').slice(0, 2).map(x => Object.assign(x, { categoryCID: cidify(x.category) }))
 
       const files: string[] = result[1];
 
-      if (globalAsks.length < 2 || globalOffers.length < 2) {
+      if (globalAsks.length + globalOffers.length < 1) {
         // Not enough data for the newsletter, skip it
         if (config.logging) {
           console.log("Not enough posts for the newsletter, nothing sent");
@@ -244,7 +246,7 @@ const main = () => {
       }
       for (let result of processed.success) {
         if (config.logging) {
-          console.log(`Successfully sent report to ${result.id}`)
+          console.log(`Successfully processed report of ${result.id}`)
         }
         promisify(fs.unlink, `${config.workdir}/reports/unprocessed/${result.id}`)
           .catch(console.error)

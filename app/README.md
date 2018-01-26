@@ -2,7 +2,7 @@
 
 ## How to use this template
 
-This app is built using [Ionic](http://ionicframework.com/docs/) and is a frontend fed by the Gnome server.
+This app is built using [Ionic](http://ionicframework.com/docs/) and is a frontend fed by the ImpossiblePeople server.
 
 ### Building/Running the app:
 

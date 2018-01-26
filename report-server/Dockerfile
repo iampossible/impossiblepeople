@@ -10,7 +10,7 @@ COPY ./package.json .
 RUN apk --no-cache --update add nodejs nodejs-npm \
   && npm config set loglevel warn \
   && npm --quiet install \
-  && npm cache clean
+  && npm cache clean --force
 
 RUN node -v
 
