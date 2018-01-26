@@ -4,7 +4,7 @@ This repository contains the new impossible application, consisting of an [api](
 
 To find out more about the mobile app, [check this](https://github.com/iampossible/impossiblepeople/blob/master/app/README.md).
 
-[![travis](https://travis-ci.org/iampossible/impossiblepeople.svg?branch=master)](https://travis-ci.org/iampossible/impossiblepeople)
+[![travis](https://travis-ci.org/iampossible/gnome.svg?branch=master)](https://travis-ci.org/iampossible/gnome)
 
 [![license](https://img.shields.io/github/license/iampossible/impossiblepeople.svg)](https://github.com/iampossible/impossiblepeople/blob/master/LICENSE)
 
