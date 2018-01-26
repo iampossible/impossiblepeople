@@ -1,4 +1,4 @@
-import { Component, ElementRef } from '@angular/core';
+import { Component } from '@angular/core';
 import { NavController, NavParams, ActionSheet, AlertController, ActionSheetController, Events } from 'ionic-angular';
 
 import { NavigationService } from '../../providers/navigation-service/navigation-service';
@@ -32,12 +32,11 @@ export class PostDetailsPage {
     private params: NavParams,
     private form: FormBuilder,
     private alertCtrl: AlertController,
-    private myElement: ElementRef,
     private actionSheetCtrl: ActionSheetController,
     private events: Events) {
-    this.postID = params.get('postID');
+    this.postID = this.params.get('postID');
     this.swipingComment = false;
-    this.createCommentForm = form.group({
+    this.createCommentForm = this.form.group({
       content: ['', Validators.required]
     });
     this.isFormValid = false;
@@ -45,6 +44,12 @@ export class PostDetailsPage {
     this.resetForm();
     this.fetch();
 
+  }
+
+  ionViewWillLeave() {
+    if (!this.nav.isTransitioning()) {
+      this.nav.pop();
+    }
   }
 
   goToProfile(event, userID) {
@@ -224,9 +229,4 @@ export class PostDetailsPage {
       }, () => setTimeout(() => this.onLoadError(), 999)
     );
   }
-
-  testcicles(event?){
-    console.log('cenas', event);
-  }
-
 }

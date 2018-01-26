@@ -13,7 +13,7 @@ export class QuickFeedbackComponent {
   private durationTimeout: number = 1500;
 
   constructor(private events: Events) {
-    events.subscribe('feedback:show', this.show);
+    this.events.subscribe('feedback:show', this.show);
   }
 
   show = (evOptions: NotificationOptions) => {

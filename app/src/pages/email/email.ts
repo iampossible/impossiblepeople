@@ -23,8 +23,8 @@ export class EmailPage {
               private alertCtrl: AlertController,
               private userService: UserService,
               private nav: NavController) {
-    this.user = params.data;
-    this.emailForm = form.group({
+    this.user = this.params.data;
+    this.emailForm = this.form.group({
       email: ['', Validators.required],
     });
   }

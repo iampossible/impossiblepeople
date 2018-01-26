@@ -192,7 +192,7 @@ describe('Explore endpoints', () => {
       });
     });
 
-    it('should count all the post from Music interest stored with the keyword apples', (done) => {
+    it('should count all the posts from Music interest stored with the keyword apples', (done) => {
       helpers.logInTestUser((err, $request) => {
         $request.get(`http://${Config.endpoint}/api/explore/Music/search/AppLes`, (error, response) => {
           let value = JSON.parse(response.body);
@@ -223,9 +223,32 @@ describe('Explore endpoints', () => {
     });
 
 
-    it('should evaluate the content of the posts from any interest with the keyword helping', (done) => {
+    it('should evaluate the content of the posts from any interest with the keyword london', (done) => {
       helpers.logInTestUser((err, $request) => {
-        $request.get(`http://${Config.endpoint}/api/explore/_/search/helping`, (error, response) => {
+        $request.get(`http://${Config.endpoint}/api/explore/_/search/london`, (error, response) => {
+          let value = JSON.parse(response.body);
+          expect(value.length).toEqual(3);
+          //creator
+          expect(value[0].author.username).toEqual('Tom Harle');
+          //
+          expect(value[0].postType).toEqual('OFFERS');
+          expect(value[0].timeRequired).toEqual(0);
+          expect(value[0].location).toEqual('Greater London');
+          expect(value[0].postID).toEqual('46b047b4');
+          expect(value[0].content).toEqual('Musician? I\'m putting a show together in Herne Hill at the end of June. Only 2 bands confirmed so far. Come and perform!');
+          expect(value[0].commentCount).toEqual(0);
+          //category
+          expect(value[0].category.image).toEqual('build/images/interests/music.png');
+          expect(value[0].category.name).toEqual('Music');
+          
+          done();
+        });
+      });
+    });
+
+    it('should evaluate the content of the posts from Emvironment interest with the keyword London', (done) => {
+      helpers.logInTestUser((err, $request) => {
+        $request.get(`http://${Config.endpoint}/api/explore/Environment/search/London`, (error, response) => {
           let value = JSON.parse(response.body);
           expect(value.length).toEqual(1);
           //creator
@@ -241,6 +264,37 @@ describe('Explore endpoints', () => {
           expect(value[0].category.image).toEqual('build/images/interests/environment.png');
           expect(value[0].category.name).toEqual('Environment');
           
+          done();
+        });
+      });
+    });
+
+
+    it('should count all the posts from any interest near the logged user', (done) => {
+      helpers.logInTestUser((err, $request) => {
+        $request.get(`http://${Config.endpoint}/api/explore/_/nearme`, (error, response) => {
+          let value = JSON.parse(response.body);
+          expect(value.length).toEqual(0);
+          done();
+        });
+      });
+    });
+
+    it('should count all the posts from any interest near the logged user', (done) => {
+      helpers.logInAlice((err, $request) => {
+        $request.get(`http://${Config.endpoint}/api/explore/_/nearme`, (error, response) => {
+          let value = JSON.parse(response.body);
+          expect(value.length).toEqual(5);
+          done();
+        });
+      });
+    });
+
+    it('should count all the posts from Food interest near the logged user', (done) => {
+      helpers.logInAlice((err, $request) => {
+        $request.get(`http://${Config.endpoint}/api/explore/Food/nearme`, (error, response) => {
+          let value = JSON.parse(response.body);
+          expect(value.length).toEqual(3);
           done();
         });
       });

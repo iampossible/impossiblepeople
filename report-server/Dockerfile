@@ -18,9 +18,14 @@ RUN node -v
 COPY crontab report.crontab
 RUN crontab report.crontab
 
+COPY assets /root/assets
 COPY templates /root/templates
-COPY src /root/src
+
+# To prepare the build/ directory, you need to compile the typescript sources. Just run "tsc"
+COPY build /root/src
+COPY src/config/*.json /root/src/config/
 
 ENTRYPOINT ["crond", "-f"]
 
+#ENTRYPOINT node /root/src/getUsers.js
 #ENTRYPOINT node /root/src/getUsers.js && node /root/src/processReport.js

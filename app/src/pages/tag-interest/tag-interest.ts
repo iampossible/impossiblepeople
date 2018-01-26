@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NavController, NavParams, ViewController } from 'ionic-angular';
+import { NavParams, ViewController } from 'ionic-angular';
 
 // @IonicPage()
 @Component({
@@ -10,14 +10,14 @@ export class TagInterestPage {
   private selectedInterests: Array<Object> = [];
   private defaultInterests: Array<String> = [];
 
-  constructor(private nav: NavController,
-              private viewCtrl: ViewController,
-              private params: NavParams) {
-    this.defaultInterests = params.data.defaultInterests || [];
+  constructor(
+    private viewCtrl: ViewController,
+    private params: NavParams) {
+    this.defaultInterests = this.params.data.defaultInterests || [];
   }
 
 
-  onSelectInterest(selected){
+  onSelectInterest(selected) {
     this.selectedInterests = selected;
   }
 
@@ -25,7 +25,7 @@ export class TagInterestPage {
     this.viewCtrl.dismiss([]);
   }
 
-  private submitInterests() {
+  submitInterests() {
     this.viewCtrl.dismiss(this.selectedInterests);
   }
 }

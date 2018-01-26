@@ -1,14 +1,18 @@
-import { Component, ElementRef } from '@angular/core';
-import { NavController, NavParams, Events, AlertController, Tabs, Platform } from 'ionic-angular';
+import { Component } from '@angular/core';
+import { NavController, NavParams, Events, AlertController, Tabs, Platform, ModalController, Alert } from 'ionic-angular';
 import { Response } from '@angular/http';
-import { Geolocation } from '@ionic-native/geolocation';
-import { Diagnostic } from '@ionic-native/diagnostic';
 import { Network } from '@ionic-native/network';
 
 import { FeedService } from '../../providers/feed-service/feed-service';
 import { UserService } from '../../providers/user-service/user-service';
 import { Subscription } from 'rxjs/Subscription';
+import { FacebookService } from '../../providers/facebook-service/facebook-service';
+import { SelectContactsModalPage } from '../select-contacts-modal/select-contacts-modal';
+import { AuthService } from '../../providers/auth-service/auth-service';
+import { Environment } from '../../Environment';
 // import { ScrollTopProvider } from '../../providers/scroll-top/scroll-top';
+
+declare const heap: any;
 
 // @IonicPage()
 @Component({
@@ -33,20 +37,27 @@ export class FeedPage {
     interests: [],
     posts: [],
   };
+  alreadyLinked: Alert;
 
   constructor(private feedService: FeedService,
     private events: Events,
-    private myElement: ElementRef,
     private userService: UserService,
     private alertCtrl: AlertController,
     private nav: NavController,
     public navParams: NavParams,
     public platform: Platform,
-    private geolocation: Geolocation,
-    private diagnostic: Diagnostic,
-    private network: Network) {
+    private network: Network,
+    private facebookService: FacebookService,
+    private modalCtrl: ModalController,
+    private authService: AuthService) {
 
     this.isAndroid = platform.is('android');
+
+    this.alreadyLinked = this.alertCtrl.create({
+      title: 'Account already linked',
+      subTitle: 'Another user is already linked to that Facebook account. Please double-check your Facebook credentials.',
+      buttons: ['OK'],
+    });
 
     this.events.subscribe('user:updated', () => {
       this.getFeed();
@@ -80,29 +91,8 @@ export class FeedPage {
     }
   }
 
-  /*  private _getScrollElement(elem: ElementRef): Element {
-      let nodeList: NodeListOf<Element> = elem.nativeElement.getElementsByTagName('scroll-content');
-      let elementList: Array<Element>;
-      elementList = Array.prototype.slice.call(nodeList);
-      return elementList.shift();
-    }
-  */
-  // TODO: add smooth scrolling
-  /* private _fireScrollTop = () => {
-     if (!this.isScrolling) { // scroll the element top
-       this.scrollElement = this._getScrollElement(this.myElement);
-       this.isScrolling = true;
-       ScrollTopProvider.scrollTop(<HTMLElement>this.scrollElement).then(() => {
-         this.getFeed();
-         this.isScrolling = false;
-       }).catch(() => {
-         this.isScrolling = false;
-       });
-     }
-   }*/
-
   ionViewDidLoad() {
-    //console.debug('ionViewDidLoad FeedPage');
+    // console.debug('ionViewDidLoad FeedPage');
   }
 
   ionViewWillLeave() {
@@ -113,7 +103,7 @@ export class FeedPage {
   }
 
   ionViewWillEnter() {
-    //this.events.publish('feedback:show', { msg: 'Load Feed' });
+    // this.events.publish('feedback:show', { msg: 'Load Feed' });
     this.isOnline = this.network.type !== 'none';
     this.disconnectSubscription = this.network.onchange().subscribe(() => {
       this.isOnline = this.network.type !== 'none';
@@ -208,46 +198,99 @@ export class FeedPage {
     window.localStorage.setItem('topBannerSeen', 'true');
     this.showBanner = false;
   }
-  public updateLocation() {
-    this.loadingLocation = true;
-    this.diagnostic.isLocationEnabled().then((resp) => {
-      if (resp !== false) {
-        this.geolocation.getCurrentPosition()
-          .then((resp: Position) => {
-            this.userService
-              .getFriendlyLocation(resp.coords.latitude, resp.coords.longitude, resp.coords.accuracy)
-              .subscribe(
-              (response: Response) => {
-                const friendlyName = response.json().friendlyName;
-                let data = {
-                  location: friendlyName,
-                  latitude: resp.coords.latitude,
-                  longitude: resp.coords.longitude,
-                };
-                this.events.publish('feedback:show', { msg: 'Location set to ' + friendlyName + '!', icon: 'checkmark' });
-                this.loadingLocation = false;
-              },
-              (response: Response) => {
-                console.warn('userService.getFriendlyLocation', response);
-                this.events.publish('feedback:show', { msg: 'Couldn\'t find location', icon: 'alert' });
-                this.loadingLocation = false;
-              }
-              );
-          })
-          .catch((error) => {
-            console.warn('geolocation.getCurrentPosition', error);
-            this.events.publish('feedback:show', { msg: error.message, icon: 'alert' });
-            this.loadingLocation = false;
+
+  inviteSuccess(contacts) {
+    let modal = this.modalCtrl.create(SelectContactsModalPage, { contacts });
+    modal.onDidDismiss((contacts) => {
+      this.authService.inviteContacts(contacts).subscribe(
+        (response: Response) => {
+          if (Environment.HEAP && 'heap' in window) {
+            heap.track('FRIEND_INVITE_SENT');
+          }
+          this.events.publish('feedback:show', { msg: 'Success!', icon: 'checkmark' });
+          this.nav.parent.select(0);
+        },
+        (response: Response) => {
+          let errorMsg = response.statusText;
+          try {
+            errorMsg = JSON.stringify(response.json());
+          } catch (e) {
+            console.warn('authService.inviteContacts err not json', e);
+          }
+          const failAlert = this.alertCtrl.create({
+            title: 'Oops!',
+            subTitle: 'Something went wrong [' + response.status + ']: ' + errorMsg,
+            buttons: ['OK']
           });
-      } else {
-        console.debug('Location services are disabled on the device');
-        this.events.publish('feedback:show', { msg: 'Location services are disabled on the device', icon: 'alert' });
-        this.loadingLocation = false;
-      }
-    }).catch((error) => {
-      console.debug('diagnostic.isLocationEnabled', error);
-      this.events.publish('feedback:show', { msg: 'Couldn\'t find location', icon: 'alert' });
-      this.loadingLocation = false;
+          failAlert.present();
+        }
+      );
     });
+    modal.present();
   }
+
+  inviteError() {
+    const failAlert = this.alertCtrl.create({
+      title: 'Oops!',
+      subTitle: 'Unable to invite friends',
+      buttons: ['OK']
+    });
+    failAlert.present();
+  }
+
+  fbConnect(auth) {
+    // noinspection TypeScriptUnresolvedVariable
+    this.facebookService.findFriends(auth.authResponse.accessToken)
+      .subscribe(
+      (response: Response) => {
+        if (200 <= response.status && response.status <= 204) {
+          if (Environment.HEAP && 'heap' in window) {
+            heap.track('FRIEND_INVITE_FACEBOOK');
+          }
+          this.events.publish('feedback:show', { msg: 'Success!', icon: 'checkmark' });
+          this.nav.parent.select(0);
+        } else if (response.status === 422) {
+          // TODO which side does this actually happen?
+          this.alreadyLinked.present();
+        } else {
+          let errorMsg = response.statusText;
+          try {
+            errorMsg = JSON.stringify(response.json());
+          } catch (e) {
+            console.warn('authService.inviteContacts err not json', e);
+          }
+          const failAlert = this.alertCtrl.create({
+            title: 'Oops!',
+            subTitle: 'Something went wrong [' + response.status + ']: ' + errorMsg,
+            buttons: ['OK']
+          });
+          failAlert.present();
+        }
+      },
+      (response: Response) => {
+        if (response.status === 422) {
+          // TODO which side does this actually happen?
+          this.alreadyLinked.present();
+        } else {
+          let errorMsg = response.statusText;
+          try {
+            errorMsg = JSON.stringify(response.json());
+          } catch (e) {
+            console.warn('authService.inviteContacts err not json', e);
+          }
+          const failAlert = this.alertCtrl.create({
+            title: 'Oops!',
+            subTitle: 'Something went wrong [' + response.status + ']: ' + errorMsg,
+            buttons: ['OK']
+          });
+          failAlert.present();
+        }
+      }
+      );
+  }
+
+  fbError(error) {
+    console.error(error);
+  }
+
 }
