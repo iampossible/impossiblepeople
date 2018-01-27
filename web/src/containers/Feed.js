@@ -6,7 +6,25 @@ import * as moment from "moment";
 import Comment from "../components/Comment";
 import Post from "../components/Post";
 import DisplayPost from "../components/displayPost";
-import FilterButtons from "../components/FilterButtons"
+import FilterButtons from "../components/FilterButtons";
+
+const NoFeedMessage = props => (
+  <div id="noFeedMessageContainer">
+    <Row>
+      <Col xs={1} />
+      <Col xs={10} id="noFeedMessage">
+        <p>
+          <i className="fa fa-lg fa-info-circle" aria-hidden="true" />&nbsp;&nbsp;
+          <span>
+            Sorry, There is no feed to display, at the moment, which is related
+            {props.message}
+          </span>
+        </p>
+      </Col>
+      <Col xs={1} />
+    </Row>
+  </div>
+);
 
 class Feed extends Component {
   state = {
@@ -88,12 +106,12 @@ class Feed extends Component {
   updateFilter = (buttonClicked, tag) => {
     if (buttonClicked === "TAGS") {
       if (tag) {
-        this.setState({filterTag: tag});
+        this.setState({ filterTag: tag });
       } else {
-        this.setState({filterTag: ""})
+        this.setState({ filterTag: "" });
       }
     } else {
-    this.setState({currentFilter: buttonClicked});
+      this.setState({ currentFilter: buttonClicked });
     }
   };
 
@@ -104,6 +122,7 @@ class Feed extends Component {
   };
 
   render() {
+    console.log();
     //getting the user type that is passed from the App redirect
     const { user } = this.props;
     return this.state.loading ? (
@@ -123,7 +142,9 @@ class Feed extends Component {
     ) : (
       <div>
         {/* if user is an organisation display the post component at the top */}
-        {user && user.userType === "organisation" ? (
+        {user &&
+        user.userType === "organisation" &&
+        user.status === "approved" ? (
           <Post
             user={user}
             updateFeeds={this.getFeeds}
@@ -132,9 +153,9 @@ class Feed extends Component {
         ) : (
           ""
         )}
-        <FilterButtons 
+        <FilterButtons
           interests={user.interests}
-          currentFilter={this.state.currentFilter} 
+          currentFilter={this.state.currentFilter}
           filterTag={this.state.filterTag}
           tagsDropdownOpen={this.state.tagsDropdownOpen}
           toggleTagesDropdown={this.toggleTagesDropdown}
@@ -142,18 +163,38 @@ class Feed extends Component {
         />
         {this.state.feed.length > 0 ? (
           this.state.feed.map((feedData, i) => {
-            if ((this.state.currentFilter === "ASKS" || 
-                  this.state.currentFilter === "OFFERS") &&
-                 feedData.postType !== this.state.currentFilter) 
+            if (
+              (this.state.currentFilter === "ASKS" ||
+                this.state.currentFilter === "OFFERS") &&
+              feedData.postType !== this.state.currentFilter
+            )
               return null;
-            if (this.state.filterTag && !feedData.interests.reduce((acc, interest) => {
-              return (acc || (interest.interestID === this.state.filterTag))
-            }, false)) 
-              return null; 
+            if (
+              this.state.filterTag &&
+              !feedData.interests.reduce((acc, interest) => {
+                return acc || interest.interestID === this.state.filterTag;
+              }, false)
+            ) {
+              if (i === this.state.feed.length - 1) {
+                return (
+                  <NoFeedMessage
+                    key={i}
+                    message=" to the tag you have selected"
+                  />
+                );
+              } else {
+                return null;
+              }
+            }
             return (
               <div key={feedData.postID} className="feed">
                 <Row xs={12}>
-                  <DisplayPost postData={feedData} user={user} handlePostUpdate={this.handlePostUpdate} handlePostDelete={this.handlePostDelete} />
+                  <DisplayPost
+                    postData={feedData}
+                    user={user}
+                    handlePostUpdate={this.handlePostUpdate}
+                    handlePostDelete={this.handlePostDelete}
+                  />
                   <Row id="comments">
                     <Col xs={12}>
                       <Comment postID={feedData.postID} user={user} />
@@ -164,21 +205,7 @@ class Feed extends Component {
             );
           })
         ) : (
-          <div id="noFeedMessageContainer">
-            <Row>
-              <Col xs={1} />
-              <Col xs={10} id="noFeedMessage">
-                <p>
-                  <i className="fa fa-lg fa-info-circle" aria-hidden="true" />&nbsp;&nbsp;
-                  <span>
-                    Sorry, There is no feed to display, at the moment, which is
-                    related to the interest areas that you have subscribed for.
-                  </span>
-                </p>
-              </Col>
-              <Col xs={1} />
-            </Row>
-          </div>
+          <NoFeedMessage message=" to the interest areas that you have subscribed for." />
         )}
       </div>
     );

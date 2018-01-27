@@ -144,7 +144,10 @@ class UserModel extends Model {
     } else {
       userData.userType = userData.typeOfUser;
     }
-    console.log(userData);
+
+    if (userData.userType === "organisation") {
+      userData.status = "not-approved";
+    }
     return new Sequence((accept, reject) => {
       //we have two user type: individula and Orgaisation
       this.db.save(userData, "Person", (error, newUser) => {
