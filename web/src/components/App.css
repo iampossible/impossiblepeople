@@ -1,0 +1,845 @@
+@import url(http://fonts.googleapis.com/css?family=Exo+2|Signika|Felipa|Lovers+Quarrel|Italianno:400,200,600,800,900);
+html {
+    line-height: 1;
+}
+
+q,
+blockquote {
+    quotes: none;
+}
+
+q:before,
+q:after,
+blockquote:before,
+blockquote:after {
+    content: "";
+    content: none;
+}
+
+*,
+*:before,
+*:after {
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+}
+
+body {
+    font: 200 1em/1.5em "Exo 2", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    width: 100%;
+    height: 100%;
+    background: #fff;
+}
+
+body::after {
+    content: "";
+    position: fixed;
+    width: 100vw;
+    height: 100vh;
+    left: 0%;
+    top: 0%;
+    background: #000;
+    opacity: 0.001;
+    z-index: -10;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    font: 200 1.5em/1.5em "Exo 2", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    color: #192243;
+    font-weight: 600;
+}
+
+p {
+    font-weight: 200;
+    /* padding-bottom: 10px; */
+}
+
+.App {
+    background: transparent !important;
+    min-height: 100vh;
+    position: relative;
+}
+
+.App-header {
+    padding: 30px;
+    padding-top: 25px;
+    padding-bottom: 10px;
+    opacity: 0.9;
+    background: #132668;
+    padding-left: 4%;
+    padding-right: 3%;
+    width: 100vw;
+    margin: 0;
+}
+
+.App-header::after {
+    content: "";
+    position: absolute;
+    width: 100vw;
+    height: 115px;
+    left: 0%;
+    top: 0%;
+    background: #000;
+    opacity: 0.3;
+    z-index: -10;
+}
+
+.App-header h1 {
+    padding-left: 35%;
+    font-size: 5em;
+    font-weight: 900;
+    color: #dce2df;
+    font-family: "Lovers Quarrel", cursive;
+    line-height: 1;
+    margin-bottom: 0;
+    padding-bottom: 0;
+}
+
+.App-header img {
+    width: 80px;
+    height: 80px;
+    padding: 1em;
+    border-radius: 50%;
+    border: 2px solid transparent;
+    background: cornsilk;
+    opacity: 0.6;
+}
+
+.headerImage {
+    padding-top: 0.25%;
+    padding-left: 0;
+}
+
+.headerButtonUpdateInterest,
+.headerButtonLogout {
+    padding-top: 4%;
+}
+
+.headerButtonUpdateInterest button,
+.headerButtonLogout button {
+    background: #c32830;
+    color: #fff;
+    border: none;
+    width: 100%;
+}
+
+.headerButtonUpdateInterest button:hover,
+.headerButtonLogout button:hover {
+    background: #ff4754;
+    color: #fff;
+}
+
+.headerButtonLogout {
+    padding-left: 0;
+    padding-right: 0;
+}
+
+.App-main {
+    margin-right: auto;
+    margin-left: auto;
+    padding-right: 5%;
+    padding-left: 5%;
+    width: 100vw;
+    padding-bottom: 90px;
+}
+
+.App-footer {
+    background: #132668;
+    padding: 1em 0.5em 0 0.5em;
+    position: absolute;
+    bottom: 0%;
+    left: 0%;
+    width: 100vw;
+    height: 60px;
+    text-align: right;
+    margin: 0;
+}
+
+.App-footer::before {
+    content: "";
+    position: absolute;
+    width: 100vw;
+    height: 60px;
+    left: 0%;
+    bottom: 0%;
+    background: #000;
+    opacity: 0.3;
+}
+
+#register_login_buttonsContainer {
+    margin: 2em auto;
+}
+
+#termsOfUse a,
+#privacyPlicy a {
+    font-weight: 400;
+    color: #fff;
+}
+
+#termsOfUse a:hover,
+#privacyPlicy a:hover {
+    text-decoration: none;
+    color: #ff4754;
+}
+
+#footerCopyright {
+    color: cornsilk;
+}
+
+#footerCopyright span {
+    font-family: "Lovers Quarrel", cursive;
+    font-size: 1.5em;
+    display: inline-block;
+}
+
+#btnFacebook {
+    margin-top: 150px;
+    text-align: center;
+}
+
+#lists {
+    margin-top: 1%;
+    padding: 20px 5px;
+}
+
+#lists li {
+    background: transparent;
+    border: none;
+    margin: 0 1em;
+    padding-left: 0;
+    margin-left: 4px;
+}
+
+.interestButton {
+    background: #363f7f;
+    color: #fff;
+    border: none;
+}
+
+.selectedButton {
+    color: #000;
+    background-color: #727b84;
+    opacity: 0.65;
+}
+
+.interest {
+    margin: 10px;
+}
+
+.selectedButton,
+.interestButton {
+    text-align: center;
+    font-size: 1em;
+    box-sizing: content-box;
+    width: 200px;
+    cursor: pointer;
+    border: none;
+}
+
+.btn::first-letter,
+.selectedButton::first-letter {
+    text-transform: capitalize;
+}
+
+.btn.btn-secondary {
+    border: none;
+}
+
+.interestButton:hover,
+.selectedButton:hover {
+    background-color: #34324b;
+    color: #fff;
+    border-color: transparent !important;
+}
+
+.btn-secondary:focus,
+.btn-secondary.focus {
+    -webkit-box-shadow: none;
+    box-shadow: none;
+}
+
+#selectUserType:not(button) {
+    line-height: 1.5;
+    text-align: center;
+}
+
+#selectUserType p {
+    padding-left: 5px;
+}
+
+#submitUserTypeButton,
+#submitUpdateInterest,
+#cancelUpdateInterest {
+    padding: 0.5em 1em;
+    background: #c32830;
+    color: #fff;
+    border: none;
+}
+
+#submitUserTypeButton:hover,
+#submitUpdateInterest:hover,
+#cancelUpdateInterest:hover {
+    background: #ff4754;
+    color: #fff;
+}
+
+#updateInterestType {
+    text-align: center;
+}
+
+hr {
+    background: #132668;
+}
+
+#interest li {
+    font-size: 0.9em;
+    width: auto;
+}
+
+#userTypeText {
+    padding: 5px;
+    padding-left: 6px;
+}
+
+#userTypeText,
+#organisationUserType,
+#volunteerUserType {
+    padding-top: 7px;
+    margin-right: 5px;
+}
+
+.submitPost {
+    text-align: center;
+}
+
+.submitPost button {
+    background: #c32830;
+    color: #fff;
+    border: none;
+}
+
+.submitPost button:hover {
+    background: #ff4754;
+    color: #fff;
+}
+
+.submitPost hr {
+    margin-top: 5px;
+}
+
+#organisationAvatar {
+    text-align: center;
+}
+
+#organisationAvatar img {
+    border-radius: 50%;
+    border: 2px solid #003366;
+    margin-top: 50%;
+    width: 100px;
+    height: 100px;
+}
+
+.center-loading,
+.center-loading-landingPage {
+    margin: 10%;
+    margin-left: 35%;
+    margin-bottom: 18%;
+}
+
+#interestRingLoader,
+#updateInterestRingLoader,
+#feedRingLoader {
+    margin-top: 15%;
+}
+
+.center-loading {
+    margin-top: 15%;
+}
+
+.center-loading-landingPage {
+    margin-top: 0;
+}
+
+.filterButtons,
+.feed,
+#post,
+#noFeedMessage,
+#interest {
+    font-family: "Signika", sans-serif;
+    color: #192243;
+    background-color: rgb(255, 255, 255);
+    border: 1px solid #e6e7e9;
+    -moz-border-radius: 5px;
+    -webkit-border-radius: 5px;
+    border-radius: 5px;
+    margin-top: 2em;
+    padding: 2em 1.5em 1em 1.5em;
+    -webkit-box-shadow: 0 1px 6px rgba(0, 0, 0, 0.454);
+    box-shadow: 0 3px 5px rgba(0, 0, 0, 0.454);
+}
+
+.selectedTag {
+    color: #000;
+    background-color: #727b84;
+    opacity: 0.65;
+    width: 100%;
+}
+
+.unSelectedTag,
+select option:checked {
+    background-color: white !important;
+}
+
+#locationDetectIconContainer {
+    padding-left: 0;
+}
+
+#ToolTipUseCurrentLocationIcon {
+    font-weight: 900;
+    font-size: 1.5em;
+    background: transparent;
+    color: rgb(49, 164, 0);
+    border: 1px solid #132668;
+    padding: 0.1em 0.2em;
+    margin-top: 0.3em;
+    cursor: pointer;
+}
+
+#ToolTipUseCurrentLocationIcon i {
+    font-weight: 900;
+    font-size: 1.5em;
+    box-sizing: border-box;
+    vertical-align: middle;
+}
+
+.location-loading {
+    margin-top: 0.5em;
+    margin-left: 0;
+}
+
+#postInterestTags {
+    min-height: 200px;
+}
+
+#postInterestTags.form-control {
+    padding: 0.3em 0.3em;
+}
+
+#postInterestTags>option {
+    padding: 0.3em 0.3em;
+    border-bottom: 1px dashed #363f7f;
+    width: 100% !important;
+}
+
+#selectInfo {
+    font-size: 13px;
+    margin-left: 15px;
+    padding-top: 12px;
+    margin-bottom: 0;
+}
+
+.form-control-label {
+    display: flex;
+    justify-content: center;
+}
+
+.feedPhoto {
+    justify-content: center;
+    margin-top: 0.9em;
+}
+
+.feedPhoto img {
+    width: 150px;
+    height: 150px;
+    border-radius: 10%;
+    border: 1px solid #003366;
+}
+
+.feedTags,
+.feedLocation {
+    color: #465362;
+    font-size: 1rem;
+    opacity: 0.9;
+}
+
+.feedTagsIcon,
+.feedLocationIcon,
+.feedCreatedAtIcon {
+    color: #003366;
+    padding-right: 0;
+    text-align: right;
+}
+
+.feedLocationIcon i,
+.feedCreatedAtIcon i {
+    vertical-align: baseline;
+}
+
+.feedTagsIcon i {
+    vertical-align: sub;
+}
+
+.feedCreatedAt {
+    color: #465362;
+    font-size: 0.9rem;
+    margin-bottom: 2px;
+}
+
+#comments {
+    margin-top: 1em;
+}
+
+.feedBody {
+    margin-top: 1em;
+    padding-left: 5px;
+}
+
+.feedContent {
+    font-size: 0.85em;
+    margin-bottom: 1em;
+}
+
+.currentUserAvatar {
+    padding-left: 0px !important;
+    text-align: right;
+    padding-right: 0px !important;
+    margin-top: 5px;
+}
+
+.currentUserAvatar img {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    border: 1px solid #003366;
+}
+
+.commentContainer {
+    padding: 0 1.5em 1em 1.5em;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    opacity: 0.9;
+    color: #0b132b;
+}
+
+button {
+    cursor: pointer;
+}
+
+.newCommentInputContainer {
+    padding-right: 5px;
+    padding-top: 5px;
+}
+
+.newCommentInputContainer textarea {
+    background-color: rgba(0, 0, 0, 0.05);
+    font-family: "Italianno", cursive;
+    font-size: 1.5em;
+    line-height: 1;
+}
+
+.newComment {
+    background: inherit;
+}
+
+.commentButtonContainer {
+    padding-left: 2em !important;
+}
+
+.commentShowHideButton {
+    background: transparent !important;
+    outline: none !important;
+    border-color: transparent;
+    border: none;
+    outline: none !important;
+    text-align: center;
+    border: 0.5px solid transparent;
+    box-shadow: none !important;
+    margin: 1em auto;
+    margin-top: 0;
+    padding: 5px;
+    color: #132668;
+}
+
+.commentShowHideButton:hover {
+    background: #c32830 !important;
+}
+
+.commentShowHideButton .badge {
+    background: #c32830;
+    color: #fff;
+    border: none;
+}
+
+.commentShowHideButton i:last-of-type {
+    font-weight: 600;
+}
+
+.commentPostButton {
+    margin-top: auto;
+    padding-left: 0;
+}
+
+.commentPostButton button {
+    padding: 0.5em 3em;
+    background: #132668;
+    color: #fff;
+    border: none;
+}
+
+.commentPostButton button:hover {
+    background: #111a49;
+    color: #fff;
+}
+
+.commentsList {
+    flex-basis: max-content !important;
+    margin: auto 15px !important;
+    color: #0b132b;
+    font-size: 0.7em;
+}
+
+.list-group-item {
+    background: inherit;
+    font-size: 1.2em;
+    padding: 0.75rem 0 0.75rem 2rem;
+}
+
+.commentContentContainer {
+    padding-top: 0.2em;
+    padding-left: 0.3em;
+}
+
+.commentContentContainer hr {
+    margin-top: 1rem;
+    margin-bottom: 0rem;
+}
+
+.commentsList ul li {
+    border: none;
+    border-width: thin;
+}
+
+.commenterAvatar {
+    padding-left: 5px;
+}
+
+.commenterAvatar img {
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    border: 1px solid #003366;
+    margin: auto;
+}
+
+.commentAuthor {
+    color: #df4848;
+    font-family: "Exo 2", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-style: italic;
+    font-weight: 600;
+}
+
+.feedAuthor {
+    color: #df4848;
+    font-family: "Exo 2", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-style: italic;
+    font-weight: 600;
+}
+
+.commentContent {
+    font-size: 0.9rem;
+    font-weight: 500;
+}
+
+.commentCreatedAtSince {
+    font-size: 0.9em;
+    color: #af905d;
+    white-space: nowrap;
+}
+
+.blockquote-footer::before {
+    content: none;
+}
+
+.blockquote-footer {
+    margin: 1em;
+    color: #192243;
+}
+
+.blockquote-footer .feedLocation,
+.blockquote-footer .feedTags,
+.blockquote-footer .feedCreatedAt {
+    padding-left: 0px;
+}
+
+.blockquote-footer .feedLocation,
+.blockquote-footer .feedTags {
+    margin: 3px auto !important;
+}
+
+.feedAuthor i {
+    color: #003366;
+    font-weight: 500;
+    font-size: 0.9rem;
+}
+
+.fadeCommentContainer-appear {
+    opacity: 0.01;
+}
+
+.fadeCommentContainer-appear.fadeCommentContainer-appear-active {
+    opacity: 1;
+    transition: opacity 3000ms;
+}
+
+.fadeCommentList-appear {
+    opacity: 0.01;
+}
+
+.fadeCommentList-appear.fadeCommentList-appear-active {
+    opacity: 1;
+    transition: opacity 3000ms;
+}
+
+.fadeCommentList-enter {
+    opacity: 0.01;
+}
+
+.fadeCommentList-enter.fadeCommentList-enter-active {
+    opacity: 1;
+    transition: opacity 500ms ease-in;
+}
+
+.fadeCommentList-leave {
+    opacity: 1;
+}
+
+.fadeCommentList-leave.fadeCommentList-leave-active {
+    opacity: 0.01;
+    transition: opacity 300ms ease-in;
+}
+
+#noFeedMessageContainer {
+    margin-top: 15%;
+}
+
+#noFeedMessage {
+    text-align: center;
+    color: #df4848;
+}
+
+#noFeedMessage i {
+    font-size: 1.5em;
+}
+
+#noFeedMessage span {
+    font-size: 1em;
+    color: #0b132b;
+}
+
+.updateDeletePostButtonsContainer {
+    justify-content: flex-end;
+    margin-bottom: 1em;
+    padding-right: 0;
+    padding-left: 1.5em;
+}
+
+.updateDeletePostButtonsContainer a {
+    margin-bottom: 1em;
+}
+
+.updateDeletePostButtonsContainer a .material-icons {
+    font-family: "Material Icons";
+    font-weight: 900;
+    font-style: normal;
+    line-height: 1;
+    vertical-align: -0.3em;
+    cursor: pointer;
+}
+
+.updatePostIcon .material-icons {
+    color: #132668;
+    margin-right: 1em;
+    font-size: 1.3em;
+}
+
+.updatePostIcon .material-icons:hover {
+    color: #3943b7;
+}
+
+.deletePostIcon .material-icons {
+    align-items: flex-end;
+    font-size: 1.4em;
+}
+
+.deletePostIcon .material-icons:hover {
+    color: #c32830;
+}
+
+@media only screen and (max-width: 768px) {
+    /* for mobile phone */
+    #post {
+        margin-top: 2em;
+    }
+    #organisationAvatar {
+        margin-bottom: 10%;
+    }
+    #organisationAvatar img {
+        margin-top: 5%;
+    }
+    .feedPhoto img {
+        width: 80px;
+        height: 80px;
+        border-radius: 50%;
+    }
+    .commentContainer {
+        padding: 1em 0.5em;
+    }
+    .currentUserAvatar {
+        text-align: center;
+        margin-bottom: 1em;
+    }
+    .currentUserAvatar img {
+        width: 30px;
+        height: 30px;
+    }
+    .commentPostButton {
+        text-align: center;
+    }
+    .commentsList {
+        margin: auto 5px !important;
+    }
+    .commentsList ul li {
+        margin-right: 0px;
+    }
+    #comments {
+        margin-top: 2em;
+    }
+    .list-group-item {
+        padding: 20px !important;
+    }
+    #comments .container {
+        padding: auto 0;
+    }
+    .commentContent {
+        display: block;
+    }
+    #footer {
+        padding: 0;
+    }
+    #termsOfUse,
+    #privacyPlicy,
+    #footerCopyright {
+        padding: 0;
+    }
+}
+
+@media (min-width: 1200px) {
+    .App-main {
+        max-width: 1140px;
+    }
+}

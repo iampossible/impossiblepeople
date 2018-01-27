@@ -3,12 +3,12 @@
 var request = require('requestretry');
 var Sequence = require('impossible-promise');
 
-var config = require('../src/config/server');
+// var config = require('../src/config/server');
 var DataGenerator = require('./DataGenerator');
 
-const neo4jAuth = `http://${config.neo4j.user}:${config.neo4j.pass}@`;
-const neo4jBatchEndpoint = `${config.neo4j.host.replace('http://', neo4jAuth)}/db/data/batch`;
-const neo4jQueryEndpoint = `${config.neo4j.host.replace('http://', neo4jAuth)}/db/data/transaction/commit`;
+// const neo4jAuth = `http://${config.neo4j.user}:${config.neo4j.pass}@`;
+const neo4jBatchEndpoint = `http://neo4j:RJHTFzJWQWVJT2L3EudP@127.0.0.1:7474/db/data/batch`;
+const neo4jQueryEndpoint = `http://neo4j:RJHTFzJWQWVJT2L3EudP@127.0.0.1:7474/db/data/transaction/commit`;
 
 class DataHelper {
 
@@ -26,12 +26,12 @@ class DataHelper {
   }
 
   populate() {
-    return this.populateFrom('./seed.json');
+    return this.populateFrom('./seed.edited.json');
   }
 
   wipe() {
     return new Sequence((next) => {
-      const json = { statements: [{ statement: 'MATCH (n) DETACH DELETE n;' }] };
+      const json = { statements: [{ statement: '' }] };
 
       request({ method: 'POST', uri: neo4jQueryEndpoint, json }, (err, response) => {
         if (err) {
@@ -44,5 +44,8 @@ class DataHelper {
     });
   }
 }
+
+let myDataHelper = new DataHelper;
+myDataHelper.populate();
 
 module.exports = new DataHelper();

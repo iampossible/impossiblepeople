@@ -1,26 +1,27 @@
-'use strict';
+"use strict";
 
-const moment = require('core/AppMoment');
+const moment = require("core/AppMoment");
 
-const Controller = require('core/Controller');
-const feedModel = require('models/FeedModel');
+const Controller = require("core/Controller");
+const feedModel = require("models/FeedModel");
 
 class FeedController extends Controller {
-
   constructor() {
     super();
 
-    this.route('getFeed', {
-      method: 'GET',
-      path: '/api/feed',
-      auth: 'session',
-      handler: this.getMainFeed,
+    this.route("getFeed", {
+      method: "GET",
+      path: "/api/feed",
+      auth: "session",
+      handler: this.getMainFeed
     });
   }
 
   getMainFeed(request, reply) {
-    return feedModel.get(request.auth.credentials.userID).done((data) => {
-      reply.response(data.map(node => ({
+    return feedModel
+      .get(request.auth.credentials.userID)
+      .done(data => {
+        reply.response(data.map(node => ({
         postID: node.post.postID,
         postType: node.rel.type,
         content: node.post.content,
@@ -29,7 +30,6 @@ class FeedController extends Controller {
         resolved: node.post.resolved || false,
         createdAt: node.rel.properties.at,
         createdAtSince: moment(node.rel.properties.at).fromNow(),
-        commentCount: node.commentCount,
         author: {
           userID: node.creator.userID,
           username: `${node.creator.firstName} ${node.creator.lastName}`,
@@ -41,16 +41,20 @@ class FeedController extends Controller {
             imageSource: friend.imageSource,
           }))
         },
-        category: {
-          interestID: node.category.interestID,
-          name: node.category.name,
-          image: node.category.image || null,
-        },
+        interests: node.interests.map(interest => ({
+          interestID: interest.interestID,
+          name: interest.name,
+          image: interest.image || null
+        })),
       })));
-    }).error(e => {
-      reply({ msg: e }).code(500);
-      console.error('Feed could not be fetched for ', request.auth.credentials.userID);
-    });
+      })
+      .error(e => {
+        reply({ msg: e }).code(500);
+        console.error(
+          "Feed could not be fetched for ",
+          request.auth.credentials.userID
+        );
+      });
   }
 }
 

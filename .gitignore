@@ -22,4 +22,8 @@ node_modules
 .vagrant
 
 reports
-build
+tmp
+keys
+api/src/build/
+
+

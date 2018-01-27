@@ -1,68 +1,87 @@
-'use strict';
+"use strict";
 
-const Joi = require('joi');
-const moment = require('core/AppMoment');
+const Joi = require("joi");
+const moment = require("core/AppMoment");
 
-const userModel = require('models/UserModel');
-const Controller = require('core/Controller');
-const cookieHelper = require('middleware/CookieHelper');
-const EmailService = require('middleware/EmailService');
+const userModel = require("models/UserModel");
+const Controller = require("core/Controller");
+const cookieHelper = require("middleware/CookieHelper");
+const EmailService = require("middleware/EmailService");
 
 class UserController extends Controller {
-
   constructor() {
     super();
 
-    this.route('addInterest', {
-      method: 'POST',
-      path: '/api/user/interest',
-      auth: 'session',
-      handler: this.addUserInterests,
+    this.route("addInterest", {
+      method: "POST",
+      path: "/api/user/interest",
+      auth: "session",
+      handler: this.addUserInterests
     });
 
-    this.route('updateInterest', {
-      method: 'PUT',
-      path: '/api/user/interest',
-      auth: 'session',
-      handler: this.updateUserInterests,
+    this.route("updateInterest", {
+      method: "PUT",
+      path: "/api/user/interest",
+      auth: "session",
+      handler: this.updateUserInterests
     });
 
-    this.route('getInterests', {
-      method: 'GET',
-      path: '/api/user/interest',
-      auth: 'session',
-      handler: this.getInterests,
+    this.route("getInterests", {
+      method: "GET",
+      path: "/api/user/interest",
+      auth: "session",
+      handler: this.getInterests
     });
 
-    this.route('getUser', {
-      method: 'GET',
-      path: '/api/user',
-      auth: 'session',
-      handler: this.getUser,
+    this.route("getUser", {
+      method: "GET",
+      path: "/api/user",
+      auth: "session",
+      handler: this.getUser
     });
 
-    this.route('getPosts', {
-      method: 'GET',
-      path: '/api/user/post',
-      auth: 'session',
-      handler: this.getUserPosts,
+    this.route("getPosts", {
+      method: "GET",
+      path: "/api/user/post",
+      auth: "session",
+      handler: this.getUserPosts
     });
 
-    this.route('updateUser', {
-      method: 'POST',
-      path: '/api/user',
-      auth: 'session',
+    this.route("updateUser", {
+      method: "POST",
+      path: "/api/user",
+      auth: "session",
       handler: this.updateUser,
       validate: {
         biography: Joi.string().max(255),
-        url: Joi.string().uri({ scheme: [/https?/], allowRelative: true }).allow(''),
+        url: Joi.string()
+          .uri({ scheme: [/https?/], allowRelative: true })
+          .allow(""),
         email: Joi.string().email(),
-        firstName: Joi.string().trim().min(3).max(255),
-        lastName: Joi.string().trim().min(3).max(255),
-        latitude: Joi.number().min(-90).max(90),
+        firstName: Joi.string()
+          .trim()
+          .min(3)
+          .max(255),
+        lastName: Joi.string()
+          .trim()
+          .min(3)
+          .max(255),
+        latitude: Joi.number()
+          .min(-90)
+          .max(90),
         location: Joi.string(),
-        longitude: Joi.number().min(-180).max(180),
-      },
+        longitude: Joi.number()
+          .min(-180)
+          .max(180)
+      }
+    });
+
+    //route to update user type
+    this.route("updateUserType", {
+      method: "PUT",
+      path: "/api/user/userType",
+      auth: "session",
+      handler: this.updateUserType
     });
   }
 
@@ -70,14 +89,19 @@ class UserController extends Controller {
     var userID = request.auth.credentials.userID;
     userModel
       .getUserPosts(userID)
-      .then((accept, reject) => userModel.getUserFriends(userID).done(accept).error(reject))
+      .then((accept, reject) =>
+        userModel
+          .getUserFriends(userID)
+          .done(accept)
+          .error(reject)
+      )
       .done((posts, friends) => {
         let user = request.auth.credentials;
         delete user.id;
         delete user.notificationEndpoint;
         reply(Object.assign(user, { posts, friends })).code(200);
       })
-      .error((err) => reply({ msg: err }).code(400));
+      .error(err => reply({ msg: err }).code(400));
   }
 
   updateUser(request, reply) {
@@ -87,8 +111,13 @@ class UserController extends Controller {
     }
     userModel
       .updateUser(request.auth.credentials.userID, payload)
-      .then((accept, reject, user) => userModel.getUserPosts(user.userID).done(accept).error(reject))
-      .then((accept) => {
+      .then((accept, reject, user) =>
+        userModel
+          .getUserPosts(user.userID)
+          .done(accept)
+          .error(reject)
+      )
+      .then(accept => {
         userModel.getInterests(request.auth.credentials).done(accept);
       })
       .done((user, posts, interests) => {
@@ -102,7 +131,10 @@ class UserController extends Controller {
     let newInterests;
     let parsed;
     try {
-      parsed = typeof request.payload.interests === 'string' ? JSON.parse(request.payload.interests) : request.payload.interests;
+      parsed =
+        typeof request.payload.interests === "string"
+          ? JSON.parse(request.payload.interests)
+          : request.payload.interests;
     } catch (err) {
       reply().code(400);
       return;
@@ -114,16 +146,19 @@ class UserController extends Controller {
     } else {
       parsed = validated.value;
       newInterests = parsed.map(interestID => ({ interestID }));
+
       userModel
         .addInterests(request.auth.credentials, newInterests)
-        .then((accept) => userModel.getInterests(request.auth.credentials).done(accept))
+        .then(accept =>
+          userModel.getInterests(request.auth.credentials).done(accept)
+        )
         .done((rel, interests) => {
           reply({
             userID: request.auth.credentials.userID,
-            interests,
+            interests
           }).code(200);
         })
-        .error((err) => reply({ msg: err }).code(500));
+        .error(err => reply({ msg: err }).code(500));
     }
     return;
   }
@@ -132,7 +167,10 @@ class UserController extends Controller {
     let newInterests;
     let parsed;
     try {
-      parsed = typeof request.payload.interests === 'string' ? JSON.parse(request.payload.interests) : request.payload.interests;
+      parsed =
+        typeof request.payload.interests === "string"
+          ? JSON.parse(request.payload.interests)
+          : request.payload.interests;
     } catch (err) {
       reply().code(400);
       return;
@@ -147,14 +185,16 @@ class UserController extends Controller {
 
       userModel
         .updateInterests(request.auth.credentials, newInterests)
-        .then((accept) => userModel.getInterests(request.auth.credentials).done(accept))
+        .then(accept =>
+          userModel.getInterests(request.auth.credentials).done(accept)
+        )
         .done((rel, interests) => {
           reply({
             userID: request.auth.credentials.userID,
-            interests: rel || interests, // TODO wtf is going on here?
+            interests: rel || interests // TODO wtf is going on here?
           }).code(200);
         })
-        .error((err) => reply({ msg: err }).code(500));
+        .error(err => reply({ msg: err }).code(500));
     }
     return;
   }
@@ -162,29 +202,62 @@ class UserController extends Controller {
   getInterests(request, reply) {
     userModel
       .getInterests(request.auth.credentials)
-      .done((interests) => {
+      .done(interests => {
         reply({
           userID: request.auth.credentials.userID,
-          interests: interests.map((interest) => {
+          interests: interests.map(interest => {
             delete interest.id;
             return interest;
-          }),
+          })
         }).code(200);
       })
-      .error((err) => reply({ msg: err }).code(500));
+      .error(err => reply({ msg: err }).code(500));
   }
 
   getUserPosts(request, reply) {
     userModel
       .getUserPosts(request.auth.credentials.userID)
-      .done((postsResult) => {
-        let posts = postsResult.map((postNode) => Object.assign(postNode, {
-          createdAtSince: moment(postNode.createdAt).fromNow(),
-          timeRequired: postNode.timeRequired || 0,
-        }));
+      .done(postsResult => {
+        let posts = postsResult.map(postNode =>
+          Object.assign(postNode, {
+            createdAtSince: moment(postNode.createdAt).fromNow(),
+            timeRequired: postNode.timeRequired || 0
+          })
+        );
         reply({ posts, userID: request.auth.credentials.userID }).code(200);
       })
-      .error((err) => reply({ msg: err }).code(400));
+      .error(err => reply({ msg: err }).code(400));
+  }
+
+  //to update user type
+  updateUserType(request, reply) {
+    let userType = request.payload.typeOfUser;
+
+    //the value of typeOfUser should only be one of the two
+    let schema = Joi.string().valid(["volunteer", "organisation"]);
+    let validated = Joi.validate(userType.toLowerCase(), schema, {
+      abortEarly: true
+    });
+    if (!validated.value || validated.error) {
+      reply().code(400);
+    } else {
+      userType = validated.value;
+
+      userModel
+        .updateUserType(request.auth.credentials, userType)
+        .then(accept =>
+          userModel.getUser(request.auth.credentials).done(accept)
+        )
+        .done((rel, user) => {
+          reply({
+            //just fo checking no need to be returned in production
+            userID: request.auth.credentials.userID,
+            userType: user.userType
+          }).code(200);
+        })
+        .error(err => reply({ msg: err }).code(500));
+    }
+    return;
   }
 }
 
