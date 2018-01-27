@@ -119,26 +119,34 @@ class UserModel extends Model {
   }
 
   _upgradeInvitee(InviteeNode, newUserData) {
-    return this.updateUser(
-      InviteeNode.userID,
-      newUserData
-    ).then((accept, reject, finalUser) => {
-      this.db.query(
-        "MATCH (i:Invitee) WHERE i.userID = {userID} REMOVE i:Invitee RETURN i",
-        { userID: finalUser.userID },
-        (err, result) => {
-          if (err) return reject(err);
-          accept(result.pop());
-        }
-      );
-    });
+    return this.updateUser(InviteeNode.userID, newUserData).then(
+      (accept, reject, finalUser) => {
+        this.db.query(
+          "MATCH (i:Invitee) WHERE i.userID = {userID} REMOVE i:Invitee RETURN i",
+          { userID: finalUser.userID },
+          (err, result) => {
+            if (err) return reject(err);
+            accept(result.pop());
+          }
+        );
+      }
+    );
   }
 
   _createNewUser(userData) {
     userData.email = userData.email.toLowerCase();
     //added for distinguishing between a volunteer and an organisation
-    userData.userType = "";
+    //userData.userType = "";
+    //new implementation has userType
+    if (userData.fromFacebook) {
+      //only individuals should register with facebook and email
+      userData.userType = "volunteer";
+    } else {
+      userData.userType = userData.typeOfUser;
+    }
+    console.log(userData);
     return new Sequence((accept, reject) => {
+      //we have two user type: individula and Orgaisation
       this.db.save(userData, "Person", (error, newUser) => {
         if (error) return reject(error);
         this.db.save(

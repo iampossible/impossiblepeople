@@ -171,6 +171,10 @@ p {
     opacity: 0.3;
 }
 
+#register_login_buttonsContainer {
+    margin: 2em auto;
+}
+
 #termsOfUse a,
 #privacyPlicy a {
     font-weight: 400;
