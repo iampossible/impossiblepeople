@@ -92,6 +92,11 @@
                         "mkfs.ext4 /dev/xvdj\n",
                         "mount /dev/xvdj /var/lib/neo4j\n",
                         "echo '/dev/xvdj /var/lib/neo4j auto defaults 0 0' >> /etc/fstab\n",
+                        "/bin/dd if=/dev/zero of=/var/swap bs=1M count=4096\n",
+                        "/sbin/mkswap /var/swap\n",
+                        "chmod 600 /var/swap\n",
+                        "/sbin/swapon /var/swap\n",
+                        "echo \"/var/swap   swap    swap    defaults        0   0\" >> /etc/fstab\n",
                         "wget -O - http://debian.neo4j.org/neotechnology.gpg.key| apt-key add -\n",
                         "echo 'deb http://debian.neo4j.org/repo stable/' > /etc/apt/sources.list.d/neo4j.list\n",
                         "apt-get update -y\n",
@@ -137,11 +142,13 @@
                         "rm -rf \\${backup_dir}\n",
                         "EOF\n",
                         "chown root:root /etc/cron.daily/neo4j_backup\n",
+                        "systemctl enable neo4j\n",
                         "chmod 0755 /etc/cron.daily/neo4j_backup\n",
                         "rm -fr /var/lib/neo4j/data/dbms/auth\n",
-                        "neo4j-admin create-password ",
+                        "neo4j-admin set-initial-password ",
                         { "Ref": "Neo4jPassword" },
-                        "\n"
+                        "\n",
+                        "chown neo4j:neo4j -R /var/lib/neo4j\n"
                 ]]}},
                 "Volumes" : [
                           { "VolumeId" : { "Ref" : "EBSVolume" },
