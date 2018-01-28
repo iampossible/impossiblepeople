@@ -1,5 +1,5 @@
 {
-  "Description": "humankind-db - creates an EC2 Ubuntu machine, EBS volume, static IP address, and deploys the Neo4j Graph Database on it.",
+  "Description": "humankind - creates an EC2 Ubuntu machine, EBS volume, static IP address, and deploys the Neo4j Graph Database on it.",
   "AWSTemplateFormatVersion": "2010-09-09",
   "Mappings" : {
 

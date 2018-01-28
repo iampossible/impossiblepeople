@@ -17,4 +17,9 @@ jobs:
       - run:
           name: Build backend image
           command: docker build -t $DOCKER_REPO/$DOCKER_USER/humankind-api:$VERSION --build-arg version=$VERSION ./api/ && docker tag $DOCKER_REPO/$DOCKER_USER/humankind-api:$VERSION $DOCKER_REPO/$DOCKER_USER/humankind-api:latest
-
+      - run:
+          name: Docker login
+          command: docker login -u $DOCKER_USER -p $DOCKER_PASS $DOCKER_REPO
+      - run:
+          name: Docker push humankind-api image
+          command: docker push $DOCKER_REPO/$DOCKER_USER/humankind-api
