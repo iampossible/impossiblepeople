@@ -23,4 +23,4 @@ jobs:
           command: docker login -u $DOCKER_USER -p $DOCKER_PASS
       - run:
           name: Docker push humankind-api image
-          command: docker push $DOCKER_USER/humankind-api:$VERSION
+          command: docker push $DOCKER_REPO/$DOCKER_USER/humankind-api:$VERSION
