@@ -144,7 +144,7 @@ class UserModel extends Model {
     }
 
     if (userData.userType === "organisation") {
-      userData.status = "not-approved";
+      userData.approved = false;
     }
     return new Sequence((accept, reject) => {
       //we have two user type: individula and Orgaisation
@@ -220,16 +220,16 @@ class UserModel extends Model {
   //change the status of an organisation that has the given email address
   _updateOrganisationStatus(organisationsEmailList, data) {
     return new Sequence((accept, reject) => {
-      organisationsEmailList.map((email, index) => {
-        this.db.query(
-          "MATCH (p:Person { email: {email} }) SET p += {data} RETURN p",
-          { email, data },
-          (err, node) => {
-            if (err) reject(err);
-            if (index === organisationsEmailList.length - 1) accept(true);
-          }
-        );
-      });
+      return this.db.query(
+        `MATCH (p:Person) 
+        WHERE p.email in {organisationsEmailList}
+        SET p.approved = true`,
+        { organisationsEmailList, data },
+        err => {
+          if (err) reject(err);
+          accept(true);
+        }
+      );
     });
   }
 
@@ -513,16 +513,15 @@ class UserModel extends Model {
   //to update the status of the organisation to approved
   updateOrganisationStatus(user, organisationsEmailList) {
     return this._updateOrganisationStatus(organisationsEmailList, {
-      status: "approved"
+      approved: true
     });
   }
 
   getNotApprovedOrgs() {
     return new Sequence((accept, reject) => {
       this.db.query(
-        `MATCH (u:Person {status: {status}})
+        `MATCH (u:Person {approved: false})
         RETURN  COLLECT(u.email) `,
-        { status: "not-approved" },
         (err, organisationsEmailList) => {
           if (err) return reject(err);
           return accept(organisationsEmailList);

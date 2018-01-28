@@ -140,8 +140,7 @@ class Feed extends Component {
     ) : (
       <div>
         {/* if user is an organisation display the post component at the top */}
-        {(user &&
-          (user.userType === "organisation" && user.status === "approved")) ||
+        {(user && (user.userType === "organisation" && user.approved)) ||
         user.userType === "admin" ? (
           <Post
             user={user}
