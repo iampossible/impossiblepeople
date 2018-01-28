@@ -41,11 +41,12 @@ class Header extends Component {
               location.pathname === "/" ||
               location.pathname === "/updateInterest" ||
               location.pathname === "/interest" ||
-              (user && user.userType !== "volunteer")
+              (user &&
+                user.userType !== "volunteer" &&
+                user.userType !== "admin")
                 ? 10
                 : 8
-            }
-          >
+            }>
             <h1> We Are One </h1>
           </Col>
           {location.pathname === "/feed" &&
@@ -56,17 +57,47 @@ class Header extends Component {
                   this.props.history.push({
                     pathname: "/updateInterest"
                   });
-                }}
-              >
+                }}>
                 Update Interest
+              </Button>
+            </Col>
+          ) : null}
+          {location.pathname === "/feed" &&
+          (user && user.userType === "admin") ? (
+            <Col xs={2} className="headerButtonApproveOrgs">
+              <Button
+                onClick={() => {
+                  this.props.history.push({
+                    pathname: "/admin"
+                  });
+                }}>
+                <i className="fa fa-gears" aria-hidden="true" />&nbsp;&nbsp;Manage
+                Users
+              </Button>
+            </Col>
+          ) : null}
+          {location.pathname === "/admin" &&
+          (user && user.userType === "admin") ? (
+            <Col xs={2} className="headerButtonApproveOrgs">
+              <Button
+                onClick={() => {
+                  this.props.history.push({
+                    pathname: "/feed"
+                  });
+                }}>
+                <i className="fa fa-home" aria-hidden="true" />&nbsp;&nbsp;Home
               </Button>
             </Col>
           ) : null}
           <Col xs={1} className="headerButtonLogout">
             {location.pathname === "/interest" ||
             location.pathname === "/feed" ||
+            location.pathname === "/admin" ||
             location.pathname === "/updateInterest" ? (
-              <Button onClick={this.handlelogout}>Logout</Button>
+              <Button onClick={this.handlelogout}>
+                <i className="fa fa-angle-double-right" aria-hidden="true" />&nbsp;&nbsp;
+                Logout
+              </Button>
             ) : null}
           </Col>
         </Row>

@@ -2,7 +2,6 @@ import React, { Component } from "react";
 import {
   Switch,
   Route,
-  Redirect,
   withRouter,
   BrowserRouter as Router
 } from "react-router-dom";
@@ -15,7 +14,7 @@ import { Row, Col } from "reactstrap";
 import Header from "./views/Header";
 import Footer from "./views/Footer";
 import UpdateInterest from "./views/UpdateInterest";
-
+import AdminDashBoard from "./views/AdminDashBoard";
 const Main = props => {
   return (
     <Switch>
@@ -48,6 +47,17 @@ const Main = props => {
             {...routeProps}
             user={props.user}
             setUser={props.setUser}
+          />
+        )}
+      />
+      <Route
+        path="/admin"
+        render={routeProps => (
+          <AdminDashBoard
+            {...routeProps}
+            user={props.user}
+            setUser={props.setUser}
+            getUser={props.getUser}
           />
         )}
       />

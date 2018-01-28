@@ -19,17 +19,18 @@ export default class LandingPage extends Component {
       role: "",
       email: "",
       password: "",
-      typeOfUser: "",
+      userType: "",
       validatePassword: false,
       logInEmail: "",
       logInPassword: "",
+      confirmPassword: "",
       //to display error message if the user can't be allowed to login
       error: null
     };
   }
 
   toggleDisplayForm = e => {
-    if (e.target.name == "dispalyRegistrationForm") {
+    if (e.target.name === "dispalyRegistrationForm") {
       this.setState({
         register: true,
         login: false
@@ -72,7 +73,7 @@ export default class LandingPage extends Component {
       } = this.state;
       Object.assign(newUser, user);
     }
-
+    let status;
     fetch("/api/user/create", {
       credentials: "same-origin",
       method: "POST",
@@ -84,15 +85,28 @@ export default class LandingPage extends Component {
     })
       //just for see the result of the operation...needs to be removed
       .then(response => {
-        if (response.status > 399) return { error: response.message };
+        status = response.status;
         return response.json();
       })
       .then(response => {
-        if (response) {
-          this.redirectOnSubmit(newUser);
+        if (status > 399) {
+          throw new Error(response.msg.msg);
+        } else {
+          this.redirectOnSubmit(response);
         }
       })
-      .catch(err => console.error(err));
+      .catch(err => {
+        this.setState({
+          firstName: "",
+          lastName: "",
+          organisationName: "",
+          role: "",
+          email: "",
+          password: "",
+          confirmPassword: "",
+          error: err.message
+        });
+      });
   };
 
   handleChange = e => {
@@ -104,7 +118,7 @@ export default class LandingPage extends Component {
         [name]: value
       },
       () => {
-        if (name == "confirmPassword" && value !== this.state.password) {
+        if (name === "confirmPassword" && value !== this.state.password) {
           this.setState({
             validatePassword: true
           });
@@ -119,9 +133,10 @@ export default class LandingPage extends Component {
 
   handleSelect = e => {
     this.setState({
-      typeOfUser: e.target.value,
+      userType: e.target.value,
       email: "",
-      password: ""
+      password: "",
+      error: null
     });
   };
   responseFacebook = response => {
@@ -177,7 +192,7 @@ export default class LandingPage extends Component {
     })
       .then(response => {
         if (response.status > 399) {
-          throw "Invalid credentials";
+          throw new Error("Invalid credentials");
         }
         return response.json();
       })
@@ -187,7 +202,7 @@ export default class LandingPage extends Component {
         }
       })
       .catch(err => {
-        this.setState({ error: err });
+        this.setState({ error: err.message });
       });
   };
 
