@@ -55,10 +55,10 @@ class FacebookService {
       let facebookUserEndpoint = `${baseUrl}/${facebookUserID}?access_token=${
         this.accessToken
       }&fields=${fields}`;
-      console.debug(
-        "FacebookService@getUserDetails:",
-        `get: ${facebookUserEndpoint}`
-      );
+      // console.debug(
+      //   "FacebookService@getUserDetails:",
+      //   `get: ${facebookUserEndpoint}`
+      // );
 
       request.get(facebookUserEndpoint, (error, response) => {
         if (error) {
