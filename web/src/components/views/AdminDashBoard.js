@@ -37,7 +37,6 @@ export default class AdminDashboard extends Component {
         return response.json();
       })
       .then(response => {
-        //response == {0:Array(x)}
         response[0].length >= 1
           ? this.setState({
               listOfEmailsNeedsApproval: new Set(response[0]),
@@ -49,11 +48,8 @@ export default class AdminDashboard extends Component {
       })
       .catch(err => console.log("Error: " + err.message));
   };
-  handleSelect = e => {
-    e.persist();
-    const targetEmail = e.target.children[0].value;
+  handleSelect = targetEmail => {
     const listOfEmailsApproved = new Set(this.state.listOfEmailsApproved);
-    e.target.children[0].checked = !e.target.children[0].checked;
     if (!listOfEmailsApproved.has(targetEmail)) {
       listOfEmailsApproved.add(targetEmail);
     } else {
@@ -62,15 +58,9 @@ export default class AdminDashboard extends Component {
     this.setState({ listOfEmailsApproved });
   };
   handleSelectAll = () => {
-    const listOfEmailsApproved = new Set(this.state.listOfEmailsApproved);
-    //quick fix it needs refactoring or other ways of doing it
-    for (let i = 0; i < [...this.state.listOfEmailsNeedsApproval].length; i++) {
-      if (this.refs && this.refs[`id-${i}`]) {
-        this.refs[`id-${i}`]._reactInternalFiber.child.stateNode.checked = true;
-        listOfEmailsApproved.add(this.refs[`id-${i}`].props.value);
-      }
-    }
-    this.setState({ listOfEmailsApproved });
+    this.setState({
+      listOfEmailsApproved: this.state.listOfEmailsNeedsApproval
+    });
   };
 
   handleChangeStatusSubmit = () => {
@@ -129,13 +119,14 @@ export default class AdminDashboard extends Component {
                           tag={Label}
                           for={`email-${index}`}
                           toggle={false}
-                          onClick={this.handleSelect}>
+                          onClick={() => this.handleSelect(email)}>
                           <Input
-                            ref={`id-${index}`}
                             name={`email-${index}`}
                             type="checkbox"
                             value={email}
+                            checked={this.state.listOfEmailsApproved.has(email)}
                             style={{ pointerEvents: "none" }}
+                            readOnly
                           />
                           &nbsp;&nbsp;&nbsp;&nbsp;
                           {email}
