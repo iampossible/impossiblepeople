@@ -23,4 +23,21 @@ jobs:
           command: docker login -u $DOCKER_USER -p $DOCKER_PASS
       - run:
           name: Docker push humankind-api image
-          command: docker push $DOCKER_USER/humankind-api
+          command: docker push $DOCKER_REPO/$DOCKER_USER/humankind-api
+  deploy:
+    steps:
+      - run:
+          name: Deploy to aws
+          command: ./ci/deploy.sh
+
+workflows:
+  version: 2
+  build_and_deploy:
+    jobs:
+      - build
+      - deploy:
+          requires:
+            - build
+          filters:
+            branches:
+              only: devops_stuff
