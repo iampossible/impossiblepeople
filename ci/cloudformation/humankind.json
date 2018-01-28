@@ -148,7 +148,9 @@
                         "neo4j-admin set-initial-password ",
                         { "Ref": "Neo4jPassword" },
                         "\n",
-                        "chown neo4j:neo4j -R /var/lib/neo4j\n"
+                        "chown neo4j:neo4j -R /var/lib/neo4j\n",
+                        "sudo apt install docker.io\n",
+                        "sudo systemctl enable docker.io\n"
                 ]]}},
                 "Volumes" : [
                           { "VolumeId" : { "Ref" : "EBSVolume" },
