@@ -90,7 +90,7 @@ class AuthController extends Controller {
         firstName: Joi.string().required(),
         password: Joi.string().required(),
         lastName: Joi.string().required(),
-        typeOfUser: Joi.string().required(),
+        userType: Joi.string().required(),
         organisationName: Joi.string(),
         role: Joi.string()
       }

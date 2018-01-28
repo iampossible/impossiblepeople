@@ -141,8 +141,6 @@ class UserModel extends Model {
     if (userData.fromFacebook) {
       //only individuals should register with facebook and email
       userData.userType = "volunteer";
-    } else {
-      userData.userType = userData.typeOfUser;
     }
 
     if (userData.userType === "organisation") {
@@ -217,6 +215,21 @@ class UserModel extends Model {
           accept(node[0]);
         }
       );
+    });
+  }
+  //change the status of an organisation that has the given email address
+  _updateOrganisationStatus(organisationsEmailList, data) {
+    return new Sequence((accept, reject) => {
+      organisationsEmailList.map((email, index) => {
+        this.db.query(
+          "MATCH (p:Person { email: {email} }) SET p += {data} RETURN p",
+          { email, data },
+          (err, node) => {
+            if (err) reject(err);
+            if (index === organisationsEmailList.length - 1) accept(true);
+          }
+        );
+      });
     });
   }
 
@@ -491,9 +504,30 @@ class UserModel extends Model {
     );
   }
   //to add type of user
-  updateUserType(user, typeOfUser) {
+  updateUserType(user, userType) {
     return this.updateUser(user.userID, {
-      userType: typeOfUser
+      userType
+    });
+  }
+
+  //to update the status of the organisation to approved
+  updateOrganisationStatus(user, organisationsEmailList) {
+    return this._updateOrganisationStatus(organisationsEmailList, {
+      status: "approved"
+    });
+  }
+
+  getNotApprovedOrgs() {
+    return new Sequence((accept, reject) => {
+      this.db.query(
+        `MATCH (u:Person {status: {status}})
+        RETURN  COLLECT(u.email) `,
+        { status: "not-approved" },
+        (err, organisationsEmailList) => {
+          if (err) return reject(err);
+          return accept(organisationsEmailList);
+        }
+      );
     });
   }
 }

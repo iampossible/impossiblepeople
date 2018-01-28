@@ -1,8 +1,7 @@
 import React, { Component } from "react";
-import { Row, Col, Form, FormGroup, Button, Tooltip } from "reactstrap";
+import { Row, Col } from "reactstrap";
 import { RingLoader } from "react-spinners";
 import "bootstrap/dist/css/bootstrap.css";
-import * as moment from "moment";
 import Comment from "../components/Comment";
 import Post from "../components/Post";
 import DisplayPost from "../components/displayPost";
@@ -122,7 +121,6 @@ class Feed extends Component {
   };
 
   render() {
-    console.log();
     //getting the user type that is passed from the App redirect
     const { user } = this.props;
     return this.state.loading ? (
@@ -142,9 +140,9 @@ class Feed extends Component {
     ) : (
       <div>
         {/* if user is an organisation display the post component at the top */}
-        {user &&
-        user.userType === "organisation" &&
-        user.status === "approved" ? (
+        {(user &&
+          (user.userType === "organisation" && user.status === "approved")) ||
+        user.userType === "admin" ? (
           <Post
             user={user}
             updateFeeds={this.getFeeds}
