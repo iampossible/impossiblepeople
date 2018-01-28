@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Row, Col, Button, Tooltip } from "reactstrap";
+import { Row, Col, Tooltip } from "reactstrap";
 import "bootstrap/dist/css/bootstrap.css";
 import * as moment from "moment";
 import currentUserAvatar from "../assets/images/profile.png";
