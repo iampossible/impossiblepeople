@@ -23,7 +23,6 @@ class FilterButtons extends Component {
                 onClick={() => {
                   this.props.updateFilter("MOSTRECENT");
                 }}
-                tag="MOSTRECENT"
                 disabled={this.props.currentFilter === "MOSTRECENT"}>
                 &nbsp; &nbsp; &nbsp; Most Recent &nbsp; &nbsp; &nbsp;
               </Button>
@@ -32,7 +31,6 @@ class FilterButtons extends Component {
                 onClick={() => {
                   this.props.updateFilter("ASKS");
                 }}
-                tag="ASKS"
                 disabled={this.props.currentFilter === "ASKS"}>
                 &nbsp; &nbsp; &nbsp; ASKS &nbsp; &nbsp; &nbsp;
               </Button>
@@ -41,7 +39,6 @@ class FilterButtons extends Component {
                 onClick={() => {
                   this.props.updateFilter("OFFERS");
                 }}
-                tag="OFFERS"
                 disabled={this.props.currentFilter === "OFFERS"}>
                 &nbsp; &nbsp; &nbsp; OFFERS &nbsp; &nbsp; &nbsp;
               </Button>
