@@ -25,11 +25,14 @@ jobs:
           name: Docker push humankind-api image
           command: docker push $DOCKER_REPO/$DOCKER_USER/humankind-api
   deploy:
-    machine:
-      steps:
-        - run:
-            name: Deploy to aws
-            command: ./ci/deploy.sh
+    docker:
+      # specify the version you desire here
+      - image: circleci/node:7.10
+    working_directory: ~/repo  
+    steps:
+      - run:
+          name: Deploy to aws
+          command: ./ci/deploy.sh
 
 workflows:
   version: 2
