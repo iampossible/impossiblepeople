@@ -42,7 +42,6 @@ export default class Comment extends Component {
     })
       .then(resp => resp.json())
       .then(resp => {
-
         this.setState({
           comments: resp.comments
         });
@@ -56,9 +55,7 @@ export default class Comment extends Component {
   };
 
   toggleComment = e => {
-    let buttonText = e.target.innerText;
     let commentsDisplayed = this.state.commentsDisplayed;
-    // buttonText = buttonText.replace(/[0-9]/g, "").trim();
     if (!commentsDisplayed) {
       this.setState({
         loadComment: !this.state.loadComment,
@@ -126,9 +123,8 @@ export default class Comment extends Component {
                 onClick={e => {
                   this.handleClick(e);
                 }}
-                value={this.props.postID}
-              >
-                Post
+                value={this.props.postID}>
+                Comment
               </Button>
             </Col>
           </Row>
@@ -137,8 +133,7 @@ export default class Comment extends Component {
             {this.state.comments.length > 0 ? (
               <Button
                 className="commentShowHideButton"
-                onClick={this.toggleComment}
-              >
+                onClick={this.toggleComment}>
                 <Badge pill>{this.state.comments.length}</Badge>&nbsp;&nbsp;<i
                   className="fa fa-comments"
                   aria-hidden="true"
@@ -159,8 +154,7 @@ export default class Comment extends Component {
             transitionAppear={true}
             transitionAppearTimeout={3000}
             transitionEnter={false}
-            transitionLeave={false}
-          >
+            transitionLeave={false}>
             <Col>
               <Row className="commentsList">
                 <Col xs={12}>
@@ -168,8 +162,7 @@ export default class Comment extends Component {
                     <CSSTransitionGroup
                       transitionName="fadeCommentList"
                       transitionEnterTimeout={500}
-                      transitionLeaveTimeout={300}
-                    >
+                      transitionLeaveTimeout={300}>
                       {/* showing comments and the author of the comments and their pic  */}
                       {/* number of comments that should be desplayed needs to have limited size - 5
                         since the last comment is displayed at the end we need to display that one
@@ -180,8 +173,7 @@ export default class Comment extends Component {
                               return (
                                 <ListGroupItem
                                   className="list-inline-item"
-                                  key={comment.commentID}
-                                >
+                                  key={comment.commentID}>
                                   <Row>
                                     <Col sm={1} className="commenterAvatar">
                                       <img
@@ -191,8 +183,7 @@ export default class Comment extends Component {
                                     </Col>
                                     <Col
                                       sm={10}
-                                      className="commentContentContainer"
-                                    >
+                                      className="commentContentContainer">
                                       <span className="commentAuthor">
                                         {comment.author} :&nbsp;&nbsp;&nbsp;
                                       </span>

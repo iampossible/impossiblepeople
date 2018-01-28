@@ -40,6 +40,7 @@ export default class Post extends Component {
             if (option.value === interest.interestID) {
               option.className = "selectedTag";
             }
+            return;
           });
         }
         return interest.interestID;
@@ -210,19 +211,20 @@ export default class Post extends Component {
           })
         })
           .then(response => response.json())
-          .then(jsonResponse => {
-            if (jsonResponse.friendlyName) {
+          .then(location => {
+            if (location.friendlyName) {
               this.setState({
                 latitude: position.coords.latitude | 0,
                 longitude: position.coords.longitude | 0,
-                location: jsonResponse.friendlyName,
+                location: location.friendlyName,
                 loadingLocation: false
               });
             } else {
               //display can't access your location at the moment
-              console.log("ERROR");
+              throw new Error("Can't locate your location");
             }
-          });
+          })
+          .catch(err => console.log("Error: " + err.message));
       });
     } else {
       alert("Geolocation is not supported by this browser.");
