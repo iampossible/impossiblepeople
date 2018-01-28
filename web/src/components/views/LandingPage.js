@@ -206,8 +206,7 @@ export default class LandingPage extends Component {
       });
   };
 
-  redirectOnSubmit = newUser => {
-    let user = Object.assign({}, newUser);
+  redirectOnSubmit = user => {
     this.props.setUser(user);
     this.props.history.push("/feed");
   };

@@ -164,27 +164,33 @@ export default class CreateUser extends Component {
                   onChange={this.props.handleChange}
                   value={this.props.inputData.confirmPassword}
                 />
-                {this.props.inputData.validatePassword ? (
-                  <span>
-                    Your password and confirmation of it doesn't match{" "}
-                  </span>
-                ) : (
-                  ""
-                )}
               </Col>
               <Col sm={1} />
             </FormGroup>
-            <Row>
-              <Col sm={3} />
-              <Col sm={8}>
-                {this.props.inputData.error ? (
+            {this.props.inputData.validatePassword ? (
+              <Row>
+                <Col sm={3} />
+                <Col sm={8}>
+                  <Alert color="danger">
+                    it doesn't match with your password
+                  </Alert>
+                </Col>
+                <Col sm={1} />
+              </Row>
+            ) : (
+              ""
+            )}
+            {this.props.inputData.error ? (
+              <Row>
+                <Col sm={3} />
+                <Col sm={8}>
                   <Alert color="danger"> {this.props.inputData.error}</Alert>
-                ) : (
-                  ""
-                )}
-              </Col>
-              <Col sm={1} />
-            </Row>
+                </Col>
+                <Col sm={1} />
+              </Row>
+            ) : (
+              ""
+            )}
             <Row>
               <Col sm={3} />
               <Col sm={8}>
