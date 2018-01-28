@@ -872,6 +872,11 @@ button {
     min-width: 300px;
 }
 
-button {
+
+/* button {
     width: 100%;
+} */
+
+.feedPostType {
+    text-align: center;
 }

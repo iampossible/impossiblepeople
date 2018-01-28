@@ -41,6 +41,7 @@ class DisplayPost extends Component {
                   &nbsp;
                   {postData.author.username}
                 </span>&nbsp;
+                <p className="feedPostType">{postData.postType}</p>
               </footer>
             </blockquote>
           </Row>
