@@ -25,10 +25,11 @@ jobs:
           name: Docker push humankind-api image
           command: docker push $DOCKER_REPO/$DOCKER_USER/humankind-api
   deploy:
-    steps:
-      - run:
-          name: Deploy to aws
-          command: ./ci/deploy.sh
+    machine:
+      steps:
+        - run:
+            name: Deploy to aws
+            command: ./ci/deploy.sh
 
 workflows:
   version: 2
