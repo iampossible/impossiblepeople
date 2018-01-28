@@ -11,15 +11,16 @@ jobs:
       - run:
           name: Set env variables
           command: echo 'export VERSION=$(echo $CIRCLE_SHA1 | cut -c -7)' >> $BASH_ENV
-      #- run:
-      #    name: Run API tests
-      #    command: cd api && yarn test
+      - run:
+          name: Run API tests
+          #command: cd api && yarn test
+          command: echo "we should be running some tests here!" 
       - run:
           name: Build backend image
           command: docker build -t $DOCKER_REPO/$DOCKER_USER/humankind-api:$VERSION --build-arg version=$VERSION ./api/ && docker tag $DOCKER_REPO/$DOCKER_USER/humankind-api:$VERSION $DOCKER_REPO/$DOCKER_USER/humankind-api:latest
       - run:
           name: Docker login
-          command: docker login -u $DOCKER_USER -p $DOCKER_PASS
+          command: docker login -u $DOCKER_USER -p $DOCKER_PASS $DOCKER_REPO
       - run:
           name: Docker push humankind-api image
-          command: docker push $DOCKER_REPO/$DOCKER_USER/humankind-api
+          command: docker push $DOCKER_USER/humankind-api
