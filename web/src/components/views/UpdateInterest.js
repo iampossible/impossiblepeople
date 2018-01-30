@@ -11,33 +11,13 @@ import {
 import { RingLoader } from "react-spinners";
 
 export default class UpdateInterest extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      featuredInterests: [],
-      //to hold the interests that the user picks as an update to his/her previous interest
-      user_s_Interests: new Set(),
-      loading: true
-    };
-  }
+  state = {
+    featuredInterests: [],
+    //to hold the interests that the user picks as an update to his/her previous interest
+    user_s_Interests: new Set(),
+    loading: true
+  };
 
-  //to handle the selection when the button is clicked
-  handleSelection(evt) {
-    //get the interestID from the button selected/clicked
-    let user_s_InterestID = evt.target.value;
-
-    let user_s_Interests = new Set(this.state.user_s_Interests);
-
-    if (!user_s_Interests.has(user_s_InterestID)) {
-      user_s_Interests.add(user_s_InterestID);
-    } else {
-      user_s_Interests.delete(user_s_InterestID);
-    }
-
-    this.setState({
-      user_s_Interests
-    });
-  }
   componentDidMount() {
     //load all the featured interests from the DB
     const user = this.props.user;
@@ -66,6 +46,25 @@ export default class UpdateInterest extends Component {
         });
       });
   }
+
+  //to handle the selection when the button is clicked
+  handleSelection = evt => {
+    //get the interestID from the button selected/clicked
+    let user_s_InterestID = evt.target.value;
+
+    let user_s_Interests = new Set(this.state.user_s_Interests);
+
+    if (!user_s_Interests.has(user_s_InterestID)) {
+      user_s_Interests.add(user_s_InterestID);
+    } else {
+      user_s_Interests.delete(user_s_InterestID);
+    }
+
+    this.setState({
+      user_s_Interests
+    });
+  };
+
   handleSubmitRequest = e => {
     e.preventDefault();
 
@@ -109,13 +108,16 @@ export default class UpdateInterest extends Component {
       })
       .catch(err => console.error(err));
   };
+
   handleCancelRequest = e => {
     this.props.history.push("/feed");
   };
+
   redirectOnSubmit = userType => {
     // let user = Object.assign({}, this.props.user);
     this.props.history.push("/feed");
   };
+
   render() {
     const { featuredInterests } = this.state;
     return this.state.loading ? (

@@ -3,23 +3,17 @@ import { Col, Form, FormGroup, Label, Input, Button } from "reactstrap";
 import FontAwesome from "react-fontawesome";
 
 export class UserType extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      userType: "",
-      redirect: false
-    };
-    this.handleSelection = this.handleSelection.bind(this);
-    this.handleSubmitRequest = this.handleSubmitRequest.bind(this);
-    this.updateUserType = this.updateUserType.bind(this);
-  }
+  state = {
+    userType: "",
+    redirect: false
+  };
 
-  handleSelection(e) {
+  handleSelection = e => {
     this.setState({
       userType: e.target.value
     });
-  }
-  handleSubmitRequest(e) {
+  };
+  handleSubmitRequest = e => {
     e.preventDefault();
     //the parameter needs to be a JSON
     let interests = JSON.stringify({
@@ -41,8 +35,8 @@ export class UserType extends Component {
         this.updateUserType();
       })
       .catch(err => console.error(err));
-  }
-  updateUserType() {
+  };
+  updateUserType = () => {
     fetch(`/api/user/userType`, {
       credentials: "same-origin",
       method: "PUT",
@@ -58,7 +52,8 @@ export class UserType extends Component {
       .then(response => response.json())
       .then(response => this.props.redirectOnSubmit(this.state.userType))
       .catch(err => console.error(err));
-  }
+  };
+
   render() {
     return (
       <Form id="selectUserType">
