@@ -36,6 +36,7 @@ export default class AdminDashboard extends Component {
         return response.json();
       })
       .then(response => {
+        //expected response {0 : Array(x)}
         response[0].length >= 1
           ? this.setState({
               listOfEmailsNeedsApproval: new Set(response[0]),
@@ -63,10 +64,6 @@ export default class AdminDashboard extends Component {
   };
 
   handleChangeStatusSubmit = () => {
-    let x = JSON.stringify({
-      organisationsEmailList: [...this.state.listOfEmailsApproved]
-    });
-
     fetch("/api/user/organisations", {
       credentials: "same-origin",
       method: "PUT",
@@ -74,7 +71,9 @@ export default class AdminDashboard extends Component {
         Accept: "application/json",
         "Content-Type": "application/json"
       },
-      body: JSON.stringify(x)
+      body: JSON.stringify({
+        organisationsEmailList: [...this.state.listOfEmailsApproved]
+      })
     })
       .then(response => {
         if (!response && response.status > 399)

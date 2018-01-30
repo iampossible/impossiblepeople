@@ -285,9 +285,7 @@ class UserController extends Controller {
 
   //to update organisation status
   updateOrganisationStatusHandler(request, reply) {
-    let organisationsEmailList = JSON.parse(request.payload)
-      .organisationsEmailList;
-
+    let organisationsEmailList = request.payload.organisationsEmailList;
     userModel
       .updateOrganisationStatus(
         request.auth.credentials,
