@@ -94,6 +94,9 @@ export default class Comment extends Component {
   }
 
   render() {
+    const TRANSITION_ENTER_TIMEOUT = 500,
+      TRANSITION_LEAVE_TIMEOUT = 300;
+
     return (
       <Container>
         <Row>
@@ -160,8 +163,8 @@ export default class Comment extends Component {
                   <ListGroup className="list-inline">
                     <CSSTransitionGroup
                       transitionName="fadeCommentList"
-                      transitionEnterTimeout={500}
-                      transitionLeaveTimeout={300}>
+                      transitionEnterTimeout={TRANSITION_ENTER_TIMEOUT}
+                      transitionLeaveTimeout={TRANSITION_LEAVE_TIMEOUT}>
                       {/* showing comments and the author of the comments and their pic  */}
                       {/* number of comments that should be desplayed needs to have limited size - 5
                         since the last comment is displayed at the end we need to display that one
@@ -176,7 +179,10 @@ export default class Comment extends Component {
                                   <Row>
                                     <Col sm={1} className="commenterAvatar">
                                       <img
-                                        src={comment.imageSource}
+                                        src={
+                                          comment.imageSource ||
+                                          currentUserAvatar
+                                        }
                                         alt={comment.author}
                                       />
                                     </Col>
