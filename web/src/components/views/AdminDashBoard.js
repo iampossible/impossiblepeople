@@ -15,12 +15,14 @@ export default class AdminDashboard extends Component {
   state = {
     listOfEmailsNeedsApproval: [],
     listOfEmailsApproved: new Set(),
-    disableDropdownAndApproveButton: false
+    disableDropdownAndApproveButton: false,
+    selectionText: "Select All"
   };
 
   componentWillMount() {
     this.getNotApprovedOrgs();
   }
+
   getNotApprovedOrgs = () => {
     fetch("/api/user/organisations", {
       credentials: "same-origin",
@@ -48,6 +50,7 @@ export default class AdminDashboard extends Component {
       })
       .catch(err => console.log("Error: " + err.message));
   };
+
   handleSelect = targetEmail => {
     const listOfEmailsApproved = new Set(this.state.listOfEmailsApproved);
     if (!listOfEmailsApproved.has(targetEmail)) {
@@ -57,10 +60,19 @@ export default class AdminDashboard extends Component {
     }
     this.setState({ listOfEmailsApproved });
   };
+
   handleSelectAll = () => {
-    this.setState({
-      listOfEmailsApproved: this.state.listOfEmailsNeedsApproval
-    });
+    if (this.state.listOfEmailsApproved.size > 0) {
+      this.setState({
+        listOfEmailsApproved: new Set(),
+        selectionText: "Select All"
+      });
+    } else {
+      this.setState({
+        listOfEmailsApproved: this.state.listOfEmailsNeedsApproval,
+        selectionText: "Deselect All"
+      });
+    }
   };
 
   handleChangeStatusSubmit = () => {
@@ -104,7 +116,7 @@ export default class AdminDashboard extends Component {
               </DropdownToggle>
               <DropdownMenu>
                 <DropdownItem onClick={this.handleSelectAll} toggle={false}>
-                  Select All
+                  {this.state.selectionText}
                 </DropdownItem>
                 <DropdownItem divider />
                 {listOfEmailsNeedsApproval &&
