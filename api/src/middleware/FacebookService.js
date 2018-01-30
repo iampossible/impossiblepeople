@@ -19,17 +19,8 @@ class FacebookService {
       var debugTokenEndpoint = `${baseUrl}/debug_token?access_token=${
         this.accessToken
       }&input_token=${inputToken}`;
-      // console.debug(
-      //   "FacebookService@verifyToken:",
-      //   `get: ${debugTokenEndpoint}`
-      // );
 
       request.get(debugTokenEndpoint, (error, response) => {
-        // console.debug(
-        //   "FacebookService@verifyToken:",
-        //   `/debug_token reply: ${response.body}`
-        // );
-        // console.log(error, response.body);
         if (error) {
           reject(error);
         } else {
@@ -55,10 +46,6 @@ class FacebookService {
       let facebookUserEndpoint = `${baseUrl}/${facebookUserID}?access_token=${
         this.accessToken
       }&fields=${fields}`;
-      // console.debug(
-      //   "FacebookService@getUserDetails:",
-      //   `get: ${facebookUserEndpoint}`
-      // );
 
       request.get(facebookUserEndpoint, (error, response) => {
         if (error) {

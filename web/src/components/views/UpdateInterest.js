@@ -114,7 +114,6 @@ export default class UpdateInterest extends Component {
   };
 
   redirectOnSubmit = userType => {
-    // let user = Object.assign({}, this.props.user);
     this.props.history.push("/feed");
   };
 
