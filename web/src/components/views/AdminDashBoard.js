@@ -15,7 +15,7 @@ export default class AdminDashboard extends Component {
   state = {
     listOfEmailsNeedsApproval: [],
     listOfEmailsApproved: new Set(),
-    disableDropdownAndApproveButton: ""
+    disableDropdownAndApproveButton: false
   };
 
   componentWillMount() {
@@ -99,7 +99,7 @@ export default class AdminDashboard extends Component {
                 color="info"
                 //to avoid Warning: Failed prop type: Invalid prop `disabled` of
                 //type `string` supplied to `Button`, expected `boolean`
-                disabled={Boolean(this.state.disableDropdownAndApproveButton)}>
+                disabled={this.state.disableDropdownAndApproveButton}>
                 &nbsp;Emails that need approval&nbsp;
               </DropdownToggle>
               <DropdownMenu>
@@ -142,7 +142,7 @@ export default class AdminDashboard extends Component {
             <Button
               color="danger"
               onClick={this.handleChangeStatusSubmit}
-              disabled={Boolean(this.state.disableDropdownAndApproveButton)}>
+              disabled={this.state.disableDropdownAndApproveButton}>
               <i className="fa fa-check" aria-hidden="true" />&nbsp;&nbsp;Approve
             </Button>
           </Col>
