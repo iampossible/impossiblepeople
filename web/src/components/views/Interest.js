@@ -2,7 +2,6 @@ import React, { Component } from "react";
 import { Button, ListGroup, ListGroupItem, Row, Col } from "reactstrap";
 import { UserType } from "../UserType";
 import { RingLoader } from "react-spinners";
-import "bootstrap/dist/css/bootstrap.css";
 
 export default class Interest extends Component {
   constructor(props) {
@@ -94,8 +93,7 @@ export default class Interest extends Component {
           <Col sm={10} xs={12}>
             <ListGroup
               id="lists"
-              className="d-flex flex-row flex-wrap align-content-center"
-            >
+              className="d-flex flex-row flex-wrap align-content-center">
               {featuredInterest.map((interest, index) => {
                 return (
                   <ListGroupItem key={interest.interestID}>
@@ -109,8 +107,7 @@ export default class Interest extends Component {
                         this.handleSelection(e);
                       }}
                       value={interest.interestID}
-                      disabled={this.state.buttonDisabled}
-                    >
+                      disabled={this.state.buttonDisabled}>
                       {interest.name}
                     </Button>
                   </ListGroupItem>

@@ -1,22 +1,29 @@
 import React, { Component, Fragment } from "react";
-import { Col, Button, Form, FormGroup, Label, Input } from "reactstrap";
-
-import { userType, UserType } from "../UserType";
+import {
+  Row,
+  Col,
+  Button,
+  Form,
+  FormGroup,
+  Label,
+  Input,
+  Alert
+} from "reactstrap";
 
 export default class CreateUser extends Component {
   render() {
     return (
       <Form>
         <FormGroup row>
-          <Col sm={4}>
-            <span>you are registering as</span>
+          <Col sm={3}>
+            <span>I&apos;m registering as</span>
           </Col>
           <Col sm={3}>
             <FormGroup check>
               <Label check>
                 <Input
                   type="radio"
-                  name="typeOfUser"
+                  name="userType"
                   value="volunteer"
                   onChange={this.props.handleSelect}
                 />
@@ -29,7 +36,7 @@ export default class CreateUser extends Component {
               <Label check>
                 <Input
                   type="radio"
-                  name="typeOfUser"
+                  name="userType"
                   value="organisation"
                   onChange={this.props.handleSelect}
                 />
@@ -37,12 +44,13 @@ export default class CreateUser extends Component {
               </Label>
             </FormGroup>
           </Col>
+          <Col sm={3} />
         </FormGroup>
-        {this.props.inputData.typeOfUser == "organisation" ? (
+        {this.props.inputData.userType === "organisation" ? (
           <Fragment>
             <FormGroup row>
-              <Label for="organisationName" sm={4}>
-                Organisation Name
+              <Label for="organisationName" sm={3}>
+                Org. Name
               </Label>
               <Col sm={8}>
                 <Input
@@ -54,9 +62,10 @@ export default class CreateUser extends Component {
                   value={this.props.inputData.organisationName}
                 />
               </Col>
+              <Col sm={1} />
             </FormGroup>
             <FormGroup row>
-              <Label for="role" sm={4}>
+              <Label for="role" sm={3}>
                 Role
               </Label>
               <Col sm={8}>
@@ -69,16 +78,17 @@ export default class CreateUser extends Component {
                   value={this.props.inputData.role}
                 />
               </Col>
+              <Col sm={1} />
             </FormGroup>
           </Fragment>
         ) : (
           ""
         )}
-        {this.props.inputData.typeOfUser == "volunteer" ||
-        this.props.inputData.typeOfUser == "organisation" ? (
+        {this.props.inputData.userType === "volunteer" ||
+        this.props.inputData.userType === "organisation" ? (
           <Fragment>
             <FormGroup row>
-              <Label for="firtsName" sm={4}>
+              <Label for="firtsName" sm={3}>
                 First Name
               </Label>
               <Col sm={8}>
@@ -91,9 +101,10 @@ export default class CreateUser extends Component {
                   value={this.props.inputData.firstName}
                 />
               </Col>
+              <Col sm={1} />
             </FormGroup>
             <FormGroup row>
-              <Label for="lastName" sm={4}>
+              <Label for="lastName" sm={3}>
                 Last Name
               </Label>
               <Col sm={8}>
@@ -106,9 +117,10 @@ export default class CreateUser extends Component {
                   value={this.props.inputData.lastName}
                 />
               </Col>
+              <Col sm={1} />
             </FormGroup>
             <FormGroup row>
-              <Label for="email" sm={4}>
+              <Label for="email" sm={3}>
                 Email
               </Label>
               <Col sm={8}>
@@ -121,9 +133,10 @@ export default class CreateUser extends Component {
                   value={this.props.inputData.email}
                 />
               </Col>
+              <Col sm={1} />
             </FormGroup>
             <FormGroup row>
-              <Label for="password" sm={4}>
+              <Label for="password" sm={3}>
                 Password
               </Label>
               <Col sm={8}>
@@ -136,9 +149,10 @@ export default class CreateUser extends Component {
                   value={this.props.inputData.password}
                 />
               </Col>
+              <Col sm={1} />
             </FormGroup>
             <FormGroup row>
-              <Label for="password" sm={4}>
+              <Label for="password" sm={3}>
                 Confirm Password
               </Label>
               <Col sm={8}>
@@ -148,19 +162,44 @@ export default class CreateUser extends Component {
                   id="userRegistrationConfirmPassword"
                   placeholder="password"
                   onChange={this.props.handleChange}
+                  value={this.props.inputData.confirmPassword}
                 />
-                {this.props.inputData.validatePassword ? (
-                  <span>
-                    Your password and confirmation of it doesn't match{" "}
-                  </span>
-                ) : (
-                  ""
-                )}
               </Col>
+              <Col sm={1} />
             </FormGroup>
-            <Button color="danger" onClick={this.props.handleCreateUser}>
-              Submit
-            </Button>
+            {this.props.inputData.validatePassword ? (
+              <Row>
+                <Col sm={3} />
+                <Col sm={8}>
+                  <Alert color="danger">
+                    it doesn&apos;t match with your password
+                  </Alert>
+                </Col>
+                <Col sm={1} />
+              </Row>
+            ) : (
+              ""
+            )}
+            {this.props.inputData.error ? (
+              <Row>
+                <Col sm={3} />
+                <Col sm={8}>
+                  <Alert color="danger"> {this.props.inputData.error}</Alert>
+                </Col>
+                <Col sm={1} />
+              </Row>
+            ) : (
+              ""
+            )}
+            <Row>
+              <Col sm={3} />
+              <Col sm={8}>
+                <Button color="danger" onClick={this.props.handleCreateUser}>
+                  Submit
+                </Button>
+              </Col>
+              <Col sm={1} />
+            </Row>
           </Fragment>
         ) : (
           ""

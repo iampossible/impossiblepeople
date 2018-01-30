@@ -141,10 +141,11 @@ class UserModel extends Model {
     if (userData.fromFacebook) {
       //only individuals should register with facebook and email
       userData.userType = "volunteer";
-    } else {
-      userData.userType = userData.typeOfUser;
     }
-    console.log(userData);
+
+    if (userData.userType === "organisation") {
+      userData.approved = false;
+    }
     return new Sequence((accept, reject) => {
       //we have two user type: individula and Orgaisation
       this.db.save(userData, "Person", (error, newUser) => {
@@ -212,6 +213,21 @@ class UserModel extends Model {
         (err, node) => {
           if (err) return reject(err);
           accept(node[0]);
+        }
+      );
+    });
+  }
+  //change the status of an organisation that has the given email address
+  _updateOrganisationStatus(organisationsEmailList, data) {
+    return new Sequence((accept, reject) => {
+      return this.db.query(
+        `MATCH (p:Person) 
+        WHERE p.email in {organisationsEmailList}
+        SET p.approved = true`,
+        { organisationsEmailList, data },
+        err => {
+          if (err) reject(err);
+          accept(true);
         }
       );
     });
@@ -488,9 +504,29 @@ class UserModel extends Model {
     );
   }
   //to add type of user
-  updateUserType(user, typeOfUser) {
+  updateUserType(user, userType) {
     return this.updateUser(user.userID, {
-      userType: typeOfUser
+      userType
+    });
+  }
+
+  //to update the status of the organisation to approved
+  updateOrganisationStatus(user, organisationsEmailList) {
+    return this._updateOrganisationStatus(organisationsEmailList, {
+      approved: true
+    });
+  }
+
+  getNotApprovedOrgs() {
+    return new Sequence((accept, reject) => {
+      this.db.query(
+        `MATCH (u:Person {approved: false})
+        RETURN  COLLECT(u.email) `,
+        (err, organisationsEmailList) => {
+          if (err) return reject(err);
+          return accept(organisationsEmailList);
+        }
+      );
     });
   }
 }

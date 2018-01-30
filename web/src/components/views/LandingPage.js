@@ -4,6 +4,14 @@ import { Container, Row, Col, Button } from "reactstrap";
 import { RingLoader } from "react-spinners";
 import CreateUser from "./CreateUser";
 import Login from "./Login";
+
+function handleErrors(response) {
+  if (!response.ok) {
+    throw new Error(response.statusText);
+  }
+  return response;
+}
+
 export default class LandingPage extends Component {
   constructor() {
     super();
@@ -19,17 +27,18 @@ export default class LandingPage extends Component {
       role: "",
       email: "",
       password: "",
-      typeOfUser: "",
+      userType: "",
       validatePassword: false,
       logInEmail: "",
       logInPassword: "",
+      confirmPassword: "",
       //to display error message if the user can't be allowed to login
       error: null
     };
   }
 
   toggleDisplayForm = e => {
-    if (e.target.name == "dispalyRegistrationForm") {
+    if (e.target.name === "dispalyRegistrationForm") {
       this.setState({
         register: true,
         login: false
@@ -82,17 +91,33 @@ export default class LandingPage extends Component {
       },
       body: JSON.stringify(newUser)
     })
-      //just for see the result of the operation...needs to be removed
+      .then(handleErrors)
+      .then(response => response.json())
       .then(response => {
-        if (response.status > 399) return { error: response.message };
-        return response.json();
+        this.redirectOnSubmit(response);
       })
-      .then(response => {
-        if (response) {
-          this.redirectOnSubmit(newUser);
-        }
-      })
-      .catch(err => console.error(err));
+      .catch(err => {
+        this.setState(
+          {
+            firstName: "",
+            lastName: "",
+            organisationName: "",
+            role: "",
+            email: "",
+            password: "",
+            confirmPassword: "",
+            error: err.message + " : the user already exists"
+          },
+          () => {
+            //clear the error message
+            setTimeout(() => {
+              this.setState({
+                error: ""
+              });
+            }, 5000);
+          }
+        );
+      });
   };
 
   handleChange = e => {
@@ -104,7 +129,7 @@ export default class LandingPage extends Component {
         [name]: value
       },
       () => {
-        if (name == "confirmPassword" && value !== this.state.password) {
+        if (name === "confirmPassword" && value !== this.state.password) {
           this.setState({
             validatePassword: true
           });
@@ -119,9 +144,10 @@ export default class LandingPage extends Component {
 
   handleSelect = e => {
     this.setState({
-      typeOfUser: e.target.value,
+      userType: e.target.value,
       email: "",
-      password: ""
+      password: "",
+      error: null
     });
   };
   responseFacebook = response => {
@@ -175,24 +201,29 @@ export default class LandingPage extends Component {
       method: "POST",
       body: JSON.stringify(credentials)
     })
-      .then(response => {
-        if (response.status > 399) {
-          throw "Invalid credentials";
-        }
-        return response.json();
-      })
+      .then(handleErrors)
+      .then(response => response.json())
       .then(response => {
         if (response) {
           this.redirectOnSubmit(response);
         }
       })
       .catch(err => {
-        this.setState({ error: err });
+        this.setState(
+          { error: err.message + ": The credentials are invalid " },
+          () => {
+            //clear the error message
+            setTimeout(() => {
+              this.setState({
+                error: ""
+              });
+            }, 5000);
+          }
+        );
       });
   };
 
-  redirectOnSubmit = newUser => {
-    let user = Object.assign({}, newUser);
+  redirectOnSubmit = user => {
     this.props.setUser(user);
     this.props.history.push("/feed");
   };

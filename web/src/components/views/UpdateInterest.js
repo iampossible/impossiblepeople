@@ -9,41 +9,19 @@ import {
   FormGroup
 } from "reactstrap";
 import { RingLoader } from "react-spinners";
-import "bootstrap/dist/css/bootstrap.css";
 
 export default class UpdateInterest extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      featuredInterests: [],
-      //to hold the interests that the user picks as an update to his/her previous interest
-      user_s_Interests: new Set(),
-      loading: true
-    };
-  }
+  state = {
+    featuredInterests: [],
+    //to hold the interests that the user picks as an update to his/her previous interest
+    user_s_Interests: new Set(),
+    loading: true
+  };
 
-  //to handle the selection when the button is clicked
-  handleSelection(evt) {
-    //get the interestID from the button selected/clicked
-    let user_s_InterestID = evt.target.value;
-
-    let user_s_Interests = new Set(this.state.user_s_Interests);
-
-    if (!user_s_Interests.has(user_s_InterestID)) {
-      user_s_Interests.add(user_s_InterestID);
-    } else {
-      user_s_Interests.delete(user_s_InterestID);
-    }
-
-    this.setState({
-      user_s_Interests
-    });
-  }
   componentDidMount() {
     //load all the featured interests from the DB
     const user = this.props.user;
 
-    console.log(user, user.hasOwnProperty("interests"));
     fetch(`/api/interest`, {
       credentials: "same-origin"
     })
@@ -68,6 +46,25 @@ export default class UpdateInterest extends Component {
         });
       });
   }
+
+  //to handle the selection when the button is clicked
+  handleSelection = evt => {
+    //get the interestID from the button selected/clicked
+    let user_s_InterestID = evt.target.value;
+
+    let user_s_Interests = new Set(this.state.user_s_Interests);
+
+    if (!user_s_Interests.has(user_s_InterestID)) {
+      user_s_Interests.add(user_s_InterestID);
+    } else {
+      user_s_Interests.delete(user_s_InterestID);
+    }
+
+    this.setState({
+      user_s_Interests
+    });
+  };
+
   handleSubmitRequest = e => {
     e.preventDefault();
 
@@ -111,16 +108,17 @@ export default class UpdateInterest extends Component {
       })
       .catch(err => console.error(err));
   };
+
   handleCancelRequest = e => {
     this.props.history.push("/feed");
   };
+
   redirectOnSubmit = userType => {
-    let user = Object.assign({}, this.props.user);
     this.props.history.push("/feed");
   };
-  render() {
-    const { featuredInterests, user_s_Interests } = this.state;
 
+  render() {
+    const { featuredInterests } = this.state;
     return this.state.loading ? (
       <Row id="updateInterestRingLoader">
         <Col xs={4} />
@@ -142,8 +140,7 @@ export default class UpdateInterest extends Component {
           <Col sm={10} xs={12}>
             <ListGroup
               id="lists"
-              className="d-flex flex-row flex-wrap align-content-center"
-            >
+              className="d-flex flex-row flex-wrap align-content-center">
               {featuredInterests.map((interest, index) => {
                 return (
                   <ListGroupItem key={interest.interestID}>
@@ -157,8 +154,7 @@ export default class UpdateInterest extends Component {
                         this.handleSelection(e);
                       }}
                       value={interest.interestID}
-                      disabled={this.state.buttonDisabled}
-                    >
+                      disabled={this.state.buttonDisabled}>
                       {interest.name}
                     </Button>
                   </ListGroupItem>
@@ -175,16 +171,14 @@ export default class UpdateInterest extends Component {
             <Col sm={2}>
               <Button
                 id="submitUpdateInterest"
-                onClick={this.handleSubmitRequest}
-              >
+                onClick={this.handleSubmitRequest}>
                 &nbsp;&nbsp;&nbsp;Submit&nbsp;&nbsp;&nbsp;
               </Button>
             </Col>
             <Col sm={2}>
               <Button
                 id="cancelUpdateInterest"
-                onClick={this.handleCancelRequest}
-              >
+                onClick={this.handleCancelRequest}>
                 &nbsp;&nbsp;&nbsp;Cancel &nbsp;&nbsp;&nbsp;
               </Button>
             </Col>

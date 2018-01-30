@@ -1,12 +1,21 @@
 import React, { Component } from "react";
-import { Col, Button, Form, FormGroup, Label, Input } from "reactstrap";
+import {
+  Row,
+  Col,
+  Button,
+  Form,
+  FormGroup,
+  Label,
+  Input,
+  Alert
+} from "reactstrap";
 
 export default class Login extends Component {
   render() {
     return (
       <Form>
         <FormGroup row>
-          <Label for="logInEmail" sm={4}>
+          <Label for="logInEmail" sm={3}>
             Email
           </Label>
           <Col sm={8}>
@@ -21,7 +30,7 @@ export default class Login extends Component {
           </Col>
         </FormGroup>
         <FormGroup row>
-          <Label for="logInPassword" sm={4}>
+          <Label for="logInPassword" sm={3}>
             Password
           </Label>
           <Col sm={8}>
@@ -33,12 +42,28 @@ export default class Login extends Component {
               onChange={this.props.handleChange}
               value={this.props.logInPassword}
             />
-            <p>{this.props.error ? this.props.error : ""}</p>
           </Col>
         </FormGroup>
-        <Button color="danger" onClick={this.props.handleLogin}>
-          Login
-        </Button>
+        <Row>
+          <Col sm={3} />
+          <Col sm={8}>
+            {this.props.error ? (
+              <Alert color="danger"> {this.props.error}</Alert>
+            ) : (
+              ""
+            )}
+          </Col>
+          <Col sm={1} />
+        </Row>
+        <Row>
+          <Col sm={3} />
+          <Col sm={8}>
+            <Button color="danger" onClick={this.props.handleLogin}>
+              Login
+            </Button>
+          </Col>
+          <Col sm={1} />
+        </Row>
       </Form>
     );
   }

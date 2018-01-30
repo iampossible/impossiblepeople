@@ -1,6 +1,5 @@
 import React, { Component } from "react";
-import { Row, Col, Button, Tooltip } from "reactstrap";
-import "bootstrap/dist/css/bootstrap.css";
+import { Row, Col, Tooltip } from "reactstrap";
 import * as moment from "moment";
 import currentUserAvatar from "../assets/images/profile.png";
 
@@ -41,6 +40,7 @@ class DisplayPost extends Component {
                   &nbsp;
                   {postData.author.username}
                 </span>&nbsp;
+                <p className="feedPostType">{postData.postType}</p>
               </footer>
             </blockquote>
           </Row>

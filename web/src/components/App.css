@@ -116,11 +116,13 @@ p {
 }
 
 .headerButtonUpdateInterest,
+.headerButtonApproveOrgs,
 .headerButtonLogout {
     padding-top: 4%;
 }
 
 .headerButtonUpdateInterest button,
+.headerButtonApproveOrgs button,
 .headerButtonLogout button {
     background: #c32830;
     color: #fff;
@@ -129,6 +131,7 @@ p {
 }
 
 .headerButtonUpdateInterest button:hover,
+.headerButtonApproveOrgs button:hover,
 .headerButtonLogout button:hover {
     background: #ff4754;
     color: #fff;
@@ -397,6 +400,7 @@ select option:checked {
 
 #locationDetectIconContainer {
     padding-left: 0;
+    padding-right: 0;
 }
 
 #ToolTipUseCurrentLocationIcon {
@@ -405,9 +409,9 @@ select option:checked {
     background: transparent;
     color: rgb(49, 164, 0);
     border: 1px solid #132668;
-    padding: 0.1em 0.2em;
-    margin-top: 0.3em;
+    padding: 0.4em 0.1em;
     cursor: pointer;
+    width: 80%;
 }
 
 #ToolTipUseCurrentLocationIcon i {
@@ -842,4 +846,37 @@ button {
     .App-main {
         max-width: 1140px;
     }
+}
+
+.dropdown-menu {
+    min-width: 90%;
+    left: 5% !important;
+    transform: translate3d(0px, 35px, 0px) !important;
+}
+
+.dropdown-menu .form-control-label {
+    padding-left: 3em;
+    justify-content: flex-start;
+}
+
+#listOfEmailsForApprovalContainer {
+    margin: 0 auto;
+    margin-top: 10em;
+}
+
+#noEmailForApprovalErrorMessageContainer {
+    margin-top: 3em;
+}
+
+#listOfEmailsForApprovalContainer button.dropdown-toggle {
+    min-width: 300px;
+}
+
+
+/* button {
+    width: 100%;
+} */
+
+.feedPostType {
+    text-align: center;
 }
