@@ -9,7 +9,6 @@ import {
   FormGroup
 } from "reactstrap";
 import { RingLoader } from "react-spinners";
-import "bootstrap/dist/css/bootstrap.css";
 
 export default class UpdateInterest extends Component {
   constructor(props) {

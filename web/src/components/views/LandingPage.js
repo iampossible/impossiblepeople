@@ -4,6 +4,7 @@ import { Container, Row, Col, Button } from "reactstrap";
 import { RingLoader } from "react-spinners";
 import CreateUser from "./CreateUser";
 import Login from "./Login";
+
 export default class LandingPage extends Component {
   constructor() {
     super();

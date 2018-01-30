@@ -12,7 +12,6 @@ import {
 } from "reactstrap";
 import { CSSTransitionGroup } from "react-transition-group";
 import currentUserAvatar from "../assets/images/profile.png";
-import "bootstrap/dist/css/bootstrap.css";
 
 export default class Comment extends Component {
   state = {

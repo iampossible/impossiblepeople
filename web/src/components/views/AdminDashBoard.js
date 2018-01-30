@@ -10,7 +10,6 @@ import {
   DropdownMenu,
   DropdownItem
 } from "reactstrap";
-import "bootstrap/dist/css/bootstrap.css";
 
 export default class AdminDashboard extends Component {
   state = {

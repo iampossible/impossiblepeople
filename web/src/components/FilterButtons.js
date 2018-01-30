@@ -9,7 +9,6 @@ import {
   DropdownMenu,
   DropdownItem
 } from "reactstrap";
-import "bootstrap/dist/css/bootstrap.css";
 
 class FilterButtons extends Component {
   render() {

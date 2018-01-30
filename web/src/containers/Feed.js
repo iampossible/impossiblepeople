@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import { Row, Col } from "reactstrap";
 import { RingLoader } from "react-spinners";
-import "bootstrap/dist/css/bootstrap.css";
 import Comment from "../components/Comment";
 import Post from "../components/Post";
 import DisplayPost from "../components/displayPost";
