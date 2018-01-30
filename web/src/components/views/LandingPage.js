@@ -5,6 +5,13 @@ import { RingLoader } from "react-spinners";
 import CreateUser from "./CreateUser";
 import Login from "./Login";
 
+function handleErrors(response) {
+  if (!response.ok) {
+    throw new Error(response.statusText);
+  }
+  return response;
+}
+
 export default class LandingPage extends Component {
   constructor() {
     super();
@@ -74,7 +81,7 @@ export default class LandingPage extends Component {
       } = this.state;
       Object.assign(newUser, user);
     }
-    let status;
+
     fetch("/api/user/create", {
       credentials: "same-origin",
       method: "POST",
@@ -84,29 +91,32 @@ export default class LandingPage extends Component {
       },
       body: JSON.stringify(newUser)
     })
-      //just for see the result of the operation...needs to be removed
+      .then(handleErrors)
+      .then(response => response.json())
       .then(response => {
-        status = response.status;
-        return response.json();
-      })
-      .then(response => {
-        if (status > 399) {
-          throw new Error(response.msg.msg);
-        } else {
-          this.redirectOnSubmit(response);
-        }
+        this.redirectOnSubmit(response);
       })
       .catch(err => {
-        this.setState({
-          firstName: "",
-          lastName: "",
-          organisationName: "",
-          role: "",
-          email: "",
-          password: "",
-          confirmPassword: "",
-          error: err.message
-        });
+        this.setState(
+          {
+            firstName: "",
+            lastName: "",
+            organisationName: "",
+            role: "",
+            email: "",
+            password: "",
+            confirmPassword: "",
+            error: err.message + " : the user already exists"
+          },
+          () => {
+            //clear the error message
+            setTimeout(() => {
+              this.setState({
+                error: ""
+              });
+            }, 5000);
+          }
+        );
       });
   };
 
@@ -191,19 +201,25 @@ export default class LandingPage extends Component {
       method: "POST",
       body: JSON.stringify(credentials)
     })
-      .then(response => {
-        if (response.status > 399) {
-          throw new Error("Invalid credentials");
-        }
-        return response.json();
-      })
+      .then(handleErrors)
+      .then(response => response.json())
       .then(response => {
         if (response) {
           this.redirectOnSubmit(response);
         }
       })
       .catch(err => {
-        this.setState({ error: err.message });
+        this.setState(
+          { error: err.message + ": The credentials are invalid " },
+          () => {
+            //clear the error message
+            setTimeout(() => {
+              this.setState({
+                error: ""
+              });
+            }, 5000);
+          }
+        );
       });
   };
 
