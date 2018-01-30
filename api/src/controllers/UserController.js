@@ -86,7 +86,7 @@ class UserController extends Controller {
     //route to update the status of the Organisation
     this.route("updateOrganisationStatus", {
       method: "PUT",
-      path: "/api/user/updateOrganisationStatus",
+      path: "/api/user/organisations",
       auth: "session",
       handler: this.updateOrganisationStatusHandler
     });
@@ -94,7 +94,7 @@ class UserController extends Controller {
     //route to update the status of the Organisation
     this.route("getNotApprovedOrganisations", {
       method: "GET",
-      path: "/api/user/getNotApprovedOrgs",
+      path: "/api/user/organisations",
       auth: "session",
       handler: this.getNotApprovedOrgs
     });

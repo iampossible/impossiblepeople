@@ -23,7 +23,7 @@ export default class AdminDashboard extends Component {
     this.getNotApprovedOrgs();
   }
   getNotApprovedOrgs = () => {
-    fetch("/api/user/getNotApprovedOrgs", {
+    fetch("/api/user/organisations", {
       credentials: "same-origin",
       method: "GET",
       headers: {
@@ -68,7 +68,7 @@ export default class AdminDashboard extends Component {
       organisationsEmailList: [...this.state.listOfEmailsApproved]
     });
 
-    fetch("/api/user/updateOrganisationStatus", {
+    fetch("/api/user/organisations", {
       credentials: "same-origin",
       method: "PUT",
       headers: {
