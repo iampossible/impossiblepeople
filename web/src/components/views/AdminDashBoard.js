@@ -103,7 +103,7 @@ export default class AdminDashboard extends Component {
       <Fragment>
         <Row id="listOfEmailsForApprovalContainer">
           <Col sm={3} />
-          <Col xs="12" sm={4}>
+          <Col xs={12} sm={4}>
             <UncontrolledButtonDropdown>
               <DropdownToggle
                 caret

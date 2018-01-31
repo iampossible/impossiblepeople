@@ -372,7 +372,7 @@ hr {
 .feed,
 #post,
 #noFeedMessage,
-#interest {
+#profile {
     font-family: "Signika", sans-serif;
     color: #192243;
     background-color: rgb(255, 255, 255);
@@ -872,11 +872,35 @@ button {
     min-width: 300px;
 }
 
-
-/* button {
-    width: 100%;
-} */
-
 .feedPostType {
     text-align: center;
+}
+
+#profilePictureContainer {
+    display: flex;
+    margin: 3em auto;
+    margin-bottom: 1em;
+}
+
+#profilePictureContainer img {
+    width: 200px;
+    height: 200px;
+    border-radius: 50%;
+}
+
+#profilePictureLabel {
+    align-self: center;
+    padding-left: 0;
+}
+
+#uploadButton {
+    margin-top: 2em;
+}
+
+#uploadButton .col {
+    padding-left: 5px;
+}
+
+#profilePictureInfo {
+    align-self: center
 }

@@ -89,8 +89,8 @@ export default class Interest extends Component {
     ) : (
       <div id="interest">
         <Row>
-          <Col sm={1} />
-          <Col sm={10} xs={12}>
+          <Col xs={12}>
+            <p> Interest </p>
             <ListGroup
               id="lists"
               className="d-flex flex-row flex-wrap align-content-center">
@@ -114,14 +114,8 @@ export default class Interest extends Component {
                 );
               })}
             </ListGroup>
-            <hr />
           </Col>
-          <Col sm={1} />
         </Row>
-        <UserType
-          interests={this.state.interests}
-          redirectOnSubmit={this.redirectOnSubmit}
-        />
       </div>
     );
   }

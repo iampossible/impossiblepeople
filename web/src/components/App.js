@@ -6,7 +6,7 @@ import {
   BrowserRouter as Router
 } from "react-router-dom";
 import LandingPage from "./views/LandingPage";
-import Interest from "./views/Interest";
+import BuildOrgProfile from "./views/BuildOrgProfile";
 import Feed from "../containers/Feed";
 import "bootstrap/dist/css/bootstrap.css";
 import "./App.css";
@@ -27,9 +27,9 @@ const Main = props => {
         )}
       />
       <Route
-        path="/interest"
+        path="/buildProfile"
         render={routeProps => (
-          <Interest
+          <BuildOrgProfile
             {...routeProps}
             user={props.user}
             setUser={props.setUser}
@@ -74,11 +74,13 @@ class App extends Component {
     };
   }
 
-  componentWillMount() {
-    this.getUser();
+  async componentWillMount() {
+    this.getUser().then(user => {
+      this.setState({ user });
+    });
   }
   getUser = () => {
-    fetch("/api/user/get", {
+    return fetch("/api/user/get", {
       headers: {
         Accept: "application/json",
         "Content-Type": "application/json"
@@ -91,11 +93,9 @@ class App extends Component {
       })
       .then(response => {
         let user = response.user || {};
-        this.setState({ user });
+        // this.setState({ user });
+        return user;
       });
-  };
-  setUser = user => {
-    this.setState({ user });
   };
 
   render() {
