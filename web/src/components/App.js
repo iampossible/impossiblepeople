@@ -93,11 +93,12 @@ class App extends Component {
       })
       .then(response => {
         let user = response.user || {};
-        // this.setState({ user });
         return user;
       });
   };
-
+  setUser = user => {
+    this.setState({ user });
+  };
   render() {
     return (
       <Router>
