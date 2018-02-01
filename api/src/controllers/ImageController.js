@@ -32,7 +32,7 @@ var deleteImage = (client, key, callback) => {
   client.deleteObject(
     {
       Bucket: "humankind-assets",
-      Key: key
+      Key: `profile/${key}`
     },
     callback
   );
