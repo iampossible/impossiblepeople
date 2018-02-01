@@ -11,7 +11,6 @@ import {
   Container
 } from "reactstrap";
 import { CSSTransitionGroup } from "react-transition-group";
-import currentUserAvatar from "../assets/images/profile.png";
 
 export default class Comment extends Component {
   state = {
@@ -102,10 +101,7 @@ export default class Comment extends Component {
         <Row>
           <Row sm={10} xs={12} className="commentContainer">
             <Col sm={1} xs={1} className="currentUserAvatar">
-              <img
-                src={this.props.user.imageSource || currentUserAvatar}
-                alt="current user"
-              />
+              <img src={this.props.user.imageSource} alt="current user" />
             </Col>
             <Col sm={8} xs={11} className="newCommentInputContainer">
               <InputGroup>
@@ -179,10 +175,7 @@ export default class Comment extends Component {
                                   <Row>
                                     <Col sm={1} className="commenterAvatar">
                                       <img
-                                        src={
-                                          comment.imageSource ||
-                                          currentUserAvatar
-                                        }
+                                        src={comment.imageSource}
                                         alt={comment.author}
                                       />
                                     </Col>
