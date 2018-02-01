@@ -72,8 +72,9 @@ p {
     opacity: 0.9;
     background: #132668;
     padding-left: 4%;
-    padding-right: 3%;
+    padding-right: 1%;
     width: 100vw;
+    height: 170px;
     margin: 0;
 }
 
@@ -81,7 +82,7 @@ p {
     content: "";
     position: absolute;
     width: 100vw;
-    height: 115px;
+    height: 170px;
     left: 0%;
     top: 0%;
     background: #000;
@@ -110,34 +111,52 @@ p {
     opacity: 0.6;
 }
 
-.headerImage {
+#headerImage {
     padding-top: 0.25%;
     padding-left: 0;
 }
 
-.headerButtonUpdateInterest,
-.headerButtonApproveOrgs,
-.headerButtonLogout {
-    padding-top: 4%;
+#headerNavigationButtons {
+    margin-left: 0px;
+    margin-right: 0px;
 }
 
-.headerButtonUpdateInterest button,
-.headerButtonApproveOrgs button,
-.headerButtonLogout button {
+#headerButtonUpdateInterest,
+#headerButtonApproveOrgs,
+#headerButtonLogout,
+#headerButtonHome,
+#headerButtonProfile {
+    padding-top: 1em;
+    padding-left: 0;
+    padding-right: 0;
+    margin-right: 1em;
+}
+
+#headerButtonLogout {
+    margin-right: 0;
+}
+
+#headerButtonUpdateInterest button,
+#headerButtonApproveOrgs button,
+#headerButtonLogout button,
+#headerButtonHome button,
+#headerButtonProfile button {
     background: #c32830;
     color: #fff;
     border: none;
     width: 100%;
 }
 
-.headerButtonUpdateInterest button:hover,
-.headerButtonApproveOrgs button:hover,
-.headerButtonLogout button:hover {
+#headerButtonUpdateInterest button:hover,
+#headerButtonApproveOrgs button:hover,
+#headerButtonLogout button:hover,
+#headerButtonHome button:hover,
+#headerButtonProfile button:hover {
     background: #ff4754;
     color: #fff;
 }
 
-.headerButtonLogout {
+#headerButtonLogout {
     padding-left: 0;
     padding-right: 0;
 }
@@ -882,10 +901,21 @@ button {
     margin-bottom: 1em;
 }
 
-#profilePictureContainer img {
-    width: 200px;
-    height: 200px;
+#profilePictureContainer #profilePicture {
+    width: 250px;
+    height: 250px;
     border-radius: 50%;
+}
+
+#profilePictureContainer #profilePicture img {
+    width: 230px;
+    height: 230px;
+    border-radius: 50%;
+}
+
+#profilePictureContainer #profilePicture .css-15s48b {
+    top: 25%;
+    left: 25%;
 }
 
 #profilePictureLabel {
@@ -902,5 +932,5 @@ button {
 }
 
 #profilePictureInfo {
-    align-self: center
+    align-self: center;
 }
