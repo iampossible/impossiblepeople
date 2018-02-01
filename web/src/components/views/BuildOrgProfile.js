@@ -74,7 +74,6 @@ export default class BuildOrgProfile extends Component {
 
   //to handle the selection when the button is clicked
   handleInterestSelection = evt => {
-    //get the interestID from the button selected/clicked
     let interestID = evt.target.value;
     let interests = new Set(this.state.interests);
     if (interests.has(interestID)) {
