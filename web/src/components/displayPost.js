@@ -38,7 +38,10 @@ class DisplayPost extends Component {
                 <span className="feedAuthor">
                   <i className="fa fa-sm fa-chevron-right" aria-hidden="true" />
                   &nbsp;
-                  {postData.author.username}
+                  {//temporary as we have data in the db that doesn't have organisationName
+                  postData.author.organisationName
+                    ? postData.author.organisationName
+                    : postData.author.username}
                 </span>&nbsp;
                 <p className="feedPostType">{postData.postType}</p>
               </footer>

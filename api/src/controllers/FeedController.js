@@ -21,32 +21,38 @@ class FeedController extends Controller {
     return feedModel
       .get(request.auth.credentials.userID)
       .done(data => {
-        reply.response(data.map(node => ({
-        postID: node.post.postID,
-        postType: node.rel.type,
-        content: node.post.content,
-        timeRequired: node.post.timeRequired || 0,
-        location: node.post.location,
-        resolved: node.post.resolved || false,
-        createdAt: node.rel.properties.at,
-        createdAtSince: moment(node.rel.properties.at).fromNow(),
-        author: {
-          userID: node.creator.userID,
-          username: `${node.creator.firstName} ${node.creator.lastName}`,
-          imageSource: node.creator.imageSource,
-          isFriend: node.isFriend,
-          commonFriends: node.commonFriends.map((friend) => ({
-            userID: friend.userID,
-            username: `${friend.firstName} ${friend.lastName}`,
-            imageSource: friend.imageSource,
+        reply.response(
+          data.map(node => ({
+            postID: node.post.postID,
+            postType: node.rel.type,
+            content: node.post.content,
+            timeRequired: node.post.timeRequired || 0,
+            location: node.post.location,
+            resolved: node.post.resolved || false,
+            createdAt: node.rel.properties.at,
+            createdAtSince: moment(node.rel.properties.at).fromNow(),
+            author: {
+              //temporary as we have data in the db that doesn't have organisationName
+              organisationName: node.creator.organisationName
+                ? node.creator.organisationName
+                : "",
+              userID: node.creator.userID,
+              username: `${node.creator.firstName} ${node.creator.lastName}`,
+              imageSource: node.creator.imageSource,
+              isFriend: node.isFriend,
+              commonFriends: node.commonFriends.map(friend => ({
+                userID: friend.userID,
+                username: `${friend.firstName} ${friend.lastName}`,
+                imageSource: friend.imageSource
+              }))
+            },
+            interests: node.interests.map(interest => ({
+              interestID: interest.interestID,
+              name: interest.name,
+              image: interest.image || null
+            }))
           }))
-        },
-        interests: node.interests.map(interest => ({
-          interestID: interest.interestID,
-          name: interest.name,
-          image: interest.image || null
-        })),
-      })));
+        );
       })
       .error(e => {
         reply({ msg: e }).code(500);
