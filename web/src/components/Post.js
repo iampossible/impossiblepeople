@@ -122,10 +122,17 @@ export default class Post extends Component {
         });
       }
     } //We may need an else statement here
+
+    if (name === "location") {
+      this.setState({
+        loadingLocation: false
+      });
+    }
     this.setState({
       [name]: target.value
     });
   };
+
   handleSubmitRequest = e => {
     e.persist();
     let buttonText = e.target.textContent.trim();
