@@ -40,11 +40,30 @@ export default class BuildOrgProfile extends Component {
       imageSource: this.props.user.imageSource
         ? this.props.user.imageSource
         : "",
-      interests: "",
+      interests: this.props.user.interests
+        ? new Set(
+            this.props.user.interests.map(interest => interest.interestID)
+          )
+        : "",
       uploadingImage: false
     };
   }
 
+  componentWillReceiveProps(nextProp) {
+    let interests = new Set();
+    if (nextProp.user.interests) {
+      nextProp.user.interests.forEach(interest => {
+        interests.add(interest.interestID);
+      });
+      this.setState({
+        name: nextProp.user.organisationName,
+        description: nextProp.user.description,
+        url: nextProp.user.url,
+        imageSource: nextProp.user.imageSource,
+        interests: interests
+      });
+    }
+  }
   handleChange = e => {
     const name = e.target.name;
     const value = e.target.value;
@@ -61,18 +80,14 @@ export default class BuildOrgProfile extends Component {
     if (interests.has(interestID)) {
       interests.delete(interestID);
       this.setState({ interests });
-      console.log("delete");
     } else {
       interests.add(interestID);
       this.setState({ interests });
-      console.log("add");
     }
   };
 
   handleImageSelection = e => {
-    e.persist();
     const files = e.target.files;
-    const reader = new FileReader();
     getBase64(files[0]).then(res => {
       this.setState({
         uploadingImage: true
@@ -230,11 +245,7 @@ export default class BuildOrgProfile extends Component {
                   type="text"
                   name="name"
                   id="orgName"
-                  value={
-                    this.state.name !== ""
-                      ? this.state.name
-                      : this.props.user.organisationName
-                  }
+                  value={this.state.name}
                   onChange={this.handleChange}
                 />
               </Col>
@@ -250,9 +261,7 @@ export default class BuildOrgProfile extends Component {
                   name="url"
                   id="orgUrl"
                   placeholder="your organisation url"
-                  value={
-                    this.state.url !== "" ? this.state.url : this.props.user.url
-                  }
+                  value={this.state.url}
                   onChange={this.handleChange}
                 />
               </Col>
@@ -267,11 +276,7 @@ export default class BuildOrgProfile extends Component {
                   type="textarea"
                   name="description"
                   id="orgDescription"
-                  value={
-                    this.state.description !== ""
-                      ? this.state.description
-                      : this.props.user.description
-                  }
+                  value={this.state.description}
                   onChange={this.handleChange}
                 />
               </Col>
@@ -283,15 +288,7 @@ export default class BuildOrgProfile extends Component {
                   setUser={this.props.setUser}
                   getUser={this.props.getUser}
                   handleInterestSelection={this.handleInterestSelection}
-                  interests={
-                    this.state.interests !== ""
-                      ? this.state.interests
-                      : new Set(
-                          this.props.user.interests.map(
-                            interest => interest.interestID
-                          )
-                        )
-                  }
+                  interests={this.state.interests}
                 />
               </Col>
             </FormGroup>
