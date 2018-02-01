@@ -72,7 +72,9 @@ class UserController extends Controller {
         location: Joi.string(),
         longitude: Joi.number()
           .min(-180)
-          .max(180)
+          .max(180),
+        organisationName: Joi.string(),
+        description: Joi.string()
       }
     });
 

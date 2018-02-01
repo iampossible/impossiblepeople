@@ -141,11 +141,16 @@ class UserModel extends Model {
     if (userData.fromFacebook) {
       //only individuals should register with facebook and email
       userData.userType = "volunteer";
+    } else {
+      //the default profile picture till the user changes it
+      userData.imageSource =
+        "https://humankind-assets.s3.eu-west-1.amazonaws.com/profile/zD9QUxoPjea7y";
     }
 
     if (userData.userType === "organisation") {
       userData.approved = false;
     }
+
     return new Sequence((accept, reject) => {
       //we have two user type: individula and Orgaisation
       this.db.save(userData, "Person", (error, newUser) => {
