@@ -40,11 +40,30 @@ export default class BuildOrgProfile extends Component {
       imageSource: this.props.user.imageSource
         ? this.props.user.imageSource
         : "",
-      interests: "",
+      interests: this.props.user.interests
+        ? new Set(
+            this.props.user.interests.map(interest => interest.interestID)
+          )
+        : "",
       uploadingImage: false
     };
   }
 
+  componentWillReceiveProps(nextProp) {
+    let interests = new Set();
+    if (nextProp.user.interests) {
+      nextProp.user.interests.forEach(interest => {
+        interests.add(interest.interestID);
+      });
+      this.setState({
+        name: nextProp.user.organisationName,
+        description: nextProp.user.description,
+        url: nextProp.user.url,
+        imageSource: nextProp.user.imageSource,
+        interests: interests
+      });
+    }
+  }
   handleChange = e => {
     const name = e.target.name;
     const value = e.target.value;
@@ -61,18 +80,14 @@ export default class BuildOrgProfile extends Component {
     if (interests.has(interestID)) {
       interests.delete(interestID);
       this.setState({ interests });
-      console.log("delete");
     } else {
       interests.add(interestID);
       this.setState({ interests });
-      console.log("add");
     }
   };
 
   handleImageSelection = e => {
-    e.persist();
     const files = e.target.files;
-    const reader = new FileReader();
     getBase64(files[0]).then(res => {
       this.setState({
         uploadingImage: true
