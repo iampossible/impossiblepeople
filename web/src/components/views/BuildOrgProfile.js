@@ -73,7 +73,7 @@ export default class BuildOrgProfile extends Component {
     e.persist();
     const files = e.target.files;
     const reader = new FileReader();
-    const x = getBase64(files[0]).then(res => {
+    getBase64(files[0]).then(res => {
       this.setState({
         uploadingImage: true
       });
