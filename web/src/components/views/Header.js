@@ -60,7 +60,7 @@ class Header extends Component {
           )}
 
           {location.pathname === "/admin" ||
-          location.pathname === "/buildProfile" ? (
+          location.pathname === "/profile" ? (
             <Col sm={1} id="headerButtonHome">
               <Button
                 onClick={() => {
@@ -78,7 +78,7 @@ class Header extends Component {
               <Button
                 onClick={() => {
                   this.props.history.push({
-                    pathname: "/buildProfile"
+                    pathname: "/profile"
                   });
                 }}
                 block>
