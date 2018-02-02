@@ -22,7 +22,7 @@ var uploadImage = (client, body, key, callback) => {
       Bucket: "humankind-assets",
       ContentEncoding: "base64",
       ContentType: "image/jpeg",
-      Key: `profile/${key}`
+      Key: key
     },
     callback
   );
@@ -32,7 +32,7 @@ var deleteImage = (client, key, callback) => {
   client.deleteObject(
     {
       Bucket: "humankind-assets",
-      Key: `profile/${key}`
+      Key: key
     },
     callback
   );
@@ -68,6 +68,19 @@ class ImageController extends Controller {
           .required()
       }
     });
+
+    //post
+    this.route("postPostImage", {
+      method: "POST",
+      path: "/api/post/image",
+      auth: "session",
+      handler: this.imagePost_Post_Handler,
+      validate: {
+        imageData: Joi.string()
+          .regex(/^data:image\/png;base64,.+$/)
+          .required()
+      }
+    });
   }
 
   imagePostHandler(request, reply) {
@@ -85,7 +98,7 @@ class ImageController extends Controller {
     let newImageKey = Hasher.encode(request.auth.credentials.id, Date.now());
     let s3 = new AWS.S3();
 
-    uploadImage(s3, body, newImageKey, (error, data) => {
+    uploadImage(s3, body, `profile/${newImageKey}`, (error, data) => {
       if (error) {
         reply({ msg: error }).code(400);
       } else {
@@ -105,6 +118,33 @@ class ImageController extends Controller {
             }
           }
         );
+      }
+    });
+  }
+
+  //post
+  imagePost_Post_Handler(request, reply) {
+    let body = new Buffer(
+      request.payload.imageData.replace(/data:image\/png;base64,/, ""),
+      "base64"
+    );
+
+    let hex = body.toString("hex", 0, 4);
+
+    if (hex !== validImages.png) {
+      return reply({ msg: "not a PNG file" }).code(400);
+    }
+
+    let newImageKey = Hasher.encode(request.auth.credentials.id, Date.now());
+    let s3 = new AWS.S3();
+
+    uploadImage(s3, body, `post/${newImageKey}`, (error, data) => {
+      if (error) {
+        reply({ msg: error }).code(400);
+      } else {
+        reply({
+          imageSource: data.Location
+        }).code(201);
       }
     });
   }
