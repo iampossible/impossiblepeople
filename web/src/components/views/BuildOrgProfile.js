@@ -7,7 +7,8 @@ import {
   FormText,
   Button,
   Label,
-  Input
+  Input,
+  Alert
 } from "reactstrap";
 import Interest from "./Interest";
 import { RingLoader } from "react-spinners";
@@ -45,7 +46,8 @@ export default class BuildOrgProfile extends Component {
             this.props.user.interests.map(interest => interest.interestID)
           )
         : "",
-      uploadingImage: false
+      uploadingImage: false,
+      imageLoadError: null
     };
   }
 
@@ -103,12 +105,32 @@ export default class BuildOrgProfile extends Component {
           return response.json();
         })
         .then(response => {
+          if (response.statusCode > 399) {
+            this.setState({
+              uploadingImage: false
+            });
+            throw new Error(response.message);
+          }
           this.setState({
             imageSource: response.imageSource,
             uploadingImage: false
           });
         })
-        .catch(err => console.log(err));
+        .catch(err => {
+          this.setState(
+            {
+              imageLoadError: `Can't upload Image: the image size is very large or it is not of JPG/JPEG type`
+            },
+            () => {
+              //clear the error message
+              setTimeout(() => {
+                this.setState({
+                  imageLoadError: null
+                });
+              }, 6000);
+            }
+          );
+        });
     });
   };
 
@@ -212,6 +234,7 @@ export default class BuildOrgProfile extends Component {
                             ? this.state.imageSource
                             : this.props.user.imageSource
                         }
+                        alt={this.state.name}
                       />
                     )}
                   </Col>
@@ -220,6 +243,12 @@ export default class BuildOrgProfile extends Component {
                       If you don&apos;t upload your organisations profile
                       picture the one displayed above will be used by default
                     </FormText>
+                    <br />
+                    {this.state.imageLoadError ? (
+                      <Alert color="danger"> {this.state.imageLoadError}</Alert>
+                    ) : (
+                      ""
+                    )}
                   </Col>
                 </Row>
                 <Row id="uploadButton">
