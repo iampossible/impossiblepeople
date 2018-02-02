@@ -7,6 +7,7 @@ import {
 } from "react-router-dom";
 import LandingPage from "./views/LandingPage";
 import BuildOrgProfile from "./views/BuildOrgProfile";
+import BuildIndividualsProfile from "./views/BuildIndividualsProfile";
 import Feed from "../containers/Feed";
 import "bootstrap/dist/css/bootstrap.css";
 import "./App.css";
@@ -27,15 +28,24 @@ const Main = props => {
         )}
       />
       <Route
-        path="/buildProfile"
-        render={routeProps => (
-          <BuildOrgProfile
-            {...routeProps}
-            user={props.user}
-            setUser={props.setUser}
-            getUser={props.getUser}
-          />
-        )}
+        path="/profile"
+        render={routeProps =>
+          props.user.userType === "organisation" ? (
+            <BuildOrgProfile
+              {...routeProps}
+              user={props.user}
+              setUser={props.setUser}
+              getUser={props.getUser}
+            />
+          ) : (
+            <BuildIndividualsProfile
+              {...routeProps}
+              user={props.user}
+              setUser={props.setUser}
+              getUser={props.getUser}
+            />
+          )
+        }
       />
       <Route
         path="/feed"
