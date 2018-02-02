@@ -473,13 +473,13 @@ select option:checked {
 
 .feedPhoto {
     justify-content: center;
-    margin-top: 0.9em;
+    margin-top: 1.5em;
 }
 
 .feedPhoto img {
-    width: 150px;
-    height: 150px;
-    border-radius: 10%;
+    width: 130px;
+    height: 130px;
+    border-radius: 50%;
     border: 1px solid #003366;
 }
 
@@ -529,7 +529,6 @@ select option:checked {
 
 .currentUserAvatar {
     padding-left: 0px !important;
-    text-align: right;
     padding-right: 0px !important;
     margin-top: 5px;
 }
@@ -542,7 +541,7 @@ select option:checked {
 }
 
 .commentContainer {
-    padding: 0 1.5em 1em 1.5em;
+    padding: 0 1.5em 1em 0;
     border-top-left-radius: 10px;
     border-top-right-radius: 10px;
     opacity: 0.9;
@@ -554,8 +553,8 @@ button {
 }
 
 .newCommentInputContainer {
-    padding-right: 5px;
     padding-top: 5px;
+    padding-left: 0;
 }
 
 .newCommentInputContainer textarea {
@@ -570,7 +569,7 @@ button {
 }
 
 .commentButtonContainer {
-    padding-left: 2em !important;
+    padding-left: 0;
 }
 
 .commentShowHideButton {
@@ -620,8 +619,7 @@ button {
 }
 
 .commentsList {
-    flex-basis: max-content !important;
-    margin: auto 15px !important;
+    margin-left: 0.5em;
     color: #0b132b;
     font-size: 0.7em;
 }
@@ -691,6 +689,10 @@ button {
 .blockquote-footer {
     margin: 1em;
     color: #192243;
+}
+
+.feedBody .blockquote-footer {
+    margin-left: 0;
 }
 
 .blockquote-footer .feedLocation,
@@ -803,6 +805,109 @@ button {
     color: #c32830;
 }
 
+#uploadPostImageButton {
+    margin-top: 1em;
+    padding-left: 0;
+}
+
+#profilePictureInfo,
+#postImageLabel {
+    align-self: center;
+}
+
+#postImageFileInfo,
+#locationErrorInfo {
+    margin: 0.5em auto;
+}
+
+#postImageFile {
+    padding-left: 0;
+}
+
+#postImageFile img {
+    max-height: 230px;
+    width: 100%;
+}
+
+.postImage {
+    margin: 1em auto;
+    margin-top: 0;
+}
+
+.postImage img {
+    max-height: 200px;
+    width: 100%;
+}
+
+.form-control-label {
+    justify-content: flex-start;
+}
+
+.dropdown-menu {
+    min-width: 90%;
+    left: 5% !important;
+    transform: translate3d(0px, 35px, 0px) !important;
+}
+
+.dropdown-menu .form-control-label {
+    padding-left: 3em;
+    justify-content: flex-start;
+}
+
+#listOfEmailsForApprovalContainer {
+    margin: 0 auto;
+    margin-top: 10em;
+}
+
+#noEmailForApprovalErrorMessageContainer {
+    margin-top: 3em;
+}
+
+#listOfEmailsForApprovalContainer button.dropdown-toggle {
+    min-width: 300px;
+}
+
+.feedPostType {
+    margin-left: 1em;
+    margin-top: 0.5em;
+}
+
+#profilePictureContainer {
+    display: flex;
+    margin: 3em auto;
+    margin-bottom: 1em;
+}
+
+#profilePictureContainer #profilePicture {
+    width: 250px;
+    height: 250px;
+    border-radius: 50%;
+}
+
+#profilePictureContainer #profilePicture img {
+    width: 230px;
+    height: 230px;
+    border-radius: 50%;
+}
+
+#profilePictureContainer #profilePicture .css-15s48b {
+    top: 25%;
+    left: 25%;
+}
+
+#profilePictureLabel {
+    align-self: center;
+    padding-left: 0;
+}
+
+#uploadButton {
+    margin-top: 2em;
+}
+
+#uploadButton .col {
+    padding-left: 5px;
+}
+
 @media only screen and (max-width: 768px) {
     /* for mobile phone */
     #post {
@@ -865,72 +970,4 @@ button {
     .App-main {
         max-width: 1140px;
     }
-}
-
-.dropdown-menu {
-    min-width: 90%;
-    left: 5% !important;
-    transform: translate3d(0px, 35px, 0px) !important;
-}
-
-.dropdown-menu .form-control-label {
-    padding-left: 3em;
-    justify-content: flex-start;
-}
-
-#listOfEmailsForApprovalContainer {
-    margin: 0 auto;
-    margin-top: 10em;
-}
-
-#noEmailForApprovalErrorMessageContainer {
-    margin-top: 3em;
-}
-
-#listOfEmailsForApprovalContainer button.dropdown-toggle {
-    min-width: 300px;
-}
-
-.feedPostType {
-    text-align: center;
-}
-
-#profilePictureContainer {
-    display: flex;
-    margin: 3em auto;
-    margin-bottom: 1em;
-}
-
-#profilePictureContainer #profilePicture {
-    width: 250px;
-    height: 250px;
-    border-radius: 50%;
-}
-
-#profilePictureContainer #profilePicture img {
-    width: 230px;
-    height: 230px;
-    border-radius: 50%;
-}
-
-#profilePictureContainer #profilePicture .css-15s48b {
-    top: 25%;
-    left: 25%;
-}
-
-#profilePictureLabel {
-    align-self: center;
-    padding-left: 0;
-}
-
-#uploadButton {
-    margin-top: 2em;
-}
-
-#uploadButton .col {
-    padding-left: 5px;
-}
-
-#profilePictureInfo {
-    align-self: center;
 }
