@@ -241,8 +241,8 @@ export default class BuildIndividualsProfile extends Component {
                   </Col>
                   <Col sm={7} id="profilePictureInfo">
                     <FormText color="muted">
-                      If you don&apos;t upload your organisations profile
-                      picture the one displayed above will be used by default
+                      If you don&apos;t upload your profile picture the one
+                      displayed above will be used by default
                     </FormText>
                     <br />
                     {this.state.imageLoadError ? (
@@ -256,8 +256,8 @@ export default class BuildIndividualsProfile extends Component {
                   <Col>
                     <Input
                       type="file"
-                      name="orgProfileImage"
-                      id="orgProfileImage"
+                      name="profileImage"
+                      id="profileImage"
                       accept=".jpg, .jpeg, .png"
                       onChange={this.handleImageSelection}
                     />
@@ -319,7 +319,7 @@ export default class BuildIndividualsProfile extends Component {
                 <Input
                   type="textarea"
                   name="description"
-                  id="orgDescription"
+                  id="description"
                   value={this.state.description}
                   onChange={this.handleChange}
                 />
