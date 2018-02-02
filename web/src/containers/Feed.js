@@ -195,7 +195,8 @@ class Feed extends Component {
                     handlePostDelete={this.handlePostDelete}
                   />
                   <Row id="comments">
-                    <Col xs={12}>
+                    <Col sm={3} />
+                    <Col sm={9}>
                       <Comment postID={feedData.postID} user={user} />
                     </Col>
                   </Row>
