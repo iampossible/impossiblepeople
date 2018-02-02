@@ -15,13 +15,12 @@ import { RingLoader } from "react-spinners";
 import { getBase64 } from "../../utillity/helpers";
 import { handleErrors } from "../../utillity/helpers";
 
-export default class BuildOrgProfile extends Component {
+export default class BuildIndividualsProfile extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      name: this.props.user.organisationName
-        ? this.props.user.organisationName
-        : "",
+      firstName: this.props.user.firstName ? this.props.user.firstName : "",
+      lastName: this.props.user.lastName ? this.props.user.lastName : "",
       description: this.props.user.description
         ? this.props.user.description
         : "",
@@ -46,7 +45,8 @@ export default class BuildOrgProfile extends Component {
         interests.add(interest.interestID);
       });
       this.setState({
-        name: nextProp.user.organisationName,
+        firstName: nextProp.user.firstName,
+        lastName: nextProp.user.lastName,
         description: nextProp.user.description,
         url: nextProp.user.url,
         imageSource: nextProp.user.imageSource,
@@ -132,7 +132,8 @@ export default class BuildOrgProfile extends Component {
         "Content-Type": "application/json"
       },
       body: JSON.stringify({
-        organisationName: this.state.name,
+        firstName: this.state.firstName,
+        lastName: this.state.lastName,
         description: this.state.description,
         url: this.state.url
       })
@@ -223,14 +224,14 @@ export default class BuildOrgProfile extends Component {
                             ? this.state.imageSource
                             : this.props.user.imageSource
                         }
-                        alt={this.state.name}
+                        alt={this.state.firstName}
                       />
                     )}
                   </Col>
                   <Col sm={7} id="profilePictureInfo">
                     <FormText color="muted">
-                      If you don&apos;t upload your organisations profile
-                      picture the one displayed above will be used by default
+                      If you don&apos;t upload your profile picture the one
+                      displayed above will be used by default
                     </FormText>
                     <br />
                     {this.state.imageLoadError ? (
@@ -244,8 +245,8 @@ export default class BuildOrgProfile extends Component {
                   <Col>
                     <Input
                       type="file"
-                      name="orgProfileImage"
-                      id="orgProfileImage"
+                      name="profileImage"
+                      id="profileImage"
                       accept=".jpg, .jpeg, .png"
                       onChange={this.handleImageSelection}
                     />
@@ -254,15 +255,30 @@ export default class BuildOrgProfile extends Component {
               </Col>
             </FormGroup>
             <FormGroup row>
-              <Label for="name" sm={2}>
-                Name
+              <Label for="firstName" sm={2}>
+                First Name
               </Label>
               <Col sm={6}>
                 <Input
                   type="text"
-                  name="name"
-                  id="orgName"
-                  value={this.state.name}
+                  name="firstName"
+                  id="firstName"
+                  value={this.state.firstName}
+                  onChange={this.handleChange}
+                />
+              </Col>
+              <Col sm={3} />
+            </FormGroup>
+            <FormGroup row>
+              <Label for="lastName" sm={2}>
+                Last Name
+              </Label>
+              <Col sm={6}>
+                <Input
+                  type="text"
+                  name="lastName"
+                  id="lastName"
+                  value={this.state.lastName}
                   onChange={this.handleChange}
                 />
               </Col>
@@ -276,8 +292,8 @@ export default class BuildOrgProfile extends Component {
                 <Input
                   type="url"
                   name="url"
-                  id="orgUrl"
-                  placeholder="your organisation url"
+                  id="url"
+                  placeholder="your personal site url"
                   value={this.state.url}
                   onChange={this.handleChange}
                 />
@@ -292,7 +308,7 @@ export default class BuildOrgProfile extends Component {
                 <Input
                   type="textarea"
                   name="description"
-                  id="orgDescription"
+                  id="description"
                   value={this.state.description}
                   onChange={this.handleChange}
                 />

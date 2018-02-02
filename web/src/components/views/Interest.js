@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import { Button, ListGroup, ListGroupItem, Row, Col } from "reactstrap";
-import { UserType } from "../UserType";
 import { RingLoader } from "react-spinners";
 
 export default class Interest extends Component {

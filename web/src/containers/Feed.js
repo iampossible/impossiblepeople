@@ -14,8 +14,7 @@ const NoFeedMessage = props => (
         <p>
           <i className="fa fa-lg fa-info-circle" aria-hidden="true" />&nbsp;&nbsp;
           <span>
-            Sorry, There is no feed to display, at the moment, which is related
-            {props.message}
+            Sorry, There is no feed to display, at the moment {props.message}
           </span>
         </p>
       </Col>
@@ -120,6 +119,7 @@ class Feed extends Component {
   };
 
   render() {
+    let counter = 0; // to track number of filtered results based on tag
     //getting the user type that is passed from the App redirect
     const { user } = this.props;
     return this.state.loading ? (
@@ -171,17 +171,20 @@ class Feed extends Component {
                 return acc || interest.interestID === this.state.filterTag;
               }, false)
             ) {
-              if (i === this.state.feed.length - 1) {
+              counter++;
+              if (counter > this.state.feed.length - 1) {
+                //if there is no feed related to the selected tag
                 return (
                   <NoFeedMessage
                     key={i}
-                    message=" to the tag you have selected"
+                    message=", which is related to the tag you have selected"
                   />
                 );
               } else {
                 return null;
               }
             }
+
             return (
               <div key={feedData.postID} className="feed">
                 <Row xs={12}>
@@ -201,7 +204,7 @@ class Feed extends Component {
             );
           })
         ) : (
-          <NoFeedMessage message=" to the interest areas that you have subscribed for." />
+          <NoFeedMessage message="." />
         )}
       </div>
     );
