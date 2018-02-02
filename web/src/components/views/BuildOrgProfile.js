@@ -12,21 +12,9 @@ import {
 } from "reactstrap";
 import Interest from "./Interest";
 import { RingLoader } from "react-spinners";
+import { getBase64 } from "../../utillity/helpers";
+import { handleErrors } from "../../utillity/helpers";
 
-function getBase64(file) {
-  return new Promise((resolve, reject) => {
-    const reader = new FileReader();
-    reader.readAsDataURL(file);
-    reader.onload = () => resolve(reader.result);
-    reader.onerror = error => reject(error);
-  });
-}
-function handleErrors(response) {
-  if (!response.ok) {
-    throw new Error(response.statusText);
-  }
-  return response;
-}
 export default class BuildOrgProfile extends Component {
   constructor(props) {
     super(props);
@@ -88,6 +76,7 @@ export default class BuildOrgProfile extends Component {
   };
 
   handleImageSelection = e => {
+    const TIME_OUT_SECOND = 6000;
     const files = e.target.files;
     getBase64(files[0]).then(res => {
       this.setState({
@@ -105,7 +94,7 @@ export default class BuildOrgProfile extends Component {
           return response.json();
         })
         .then(response => {
-          if (response.statusCode > 399) {
+          if (!response.ok) {
             this.setState({
               uploadingImage: false
             });
@@ -127,7 +116,7 @@ export default class BuildOrgProfile extends Component {
                 this.setState({
                   imageLoadError: null
                 });
-              }, 6000);
+              }, TIME_OUT_SECOND);
             }
           );
         });
