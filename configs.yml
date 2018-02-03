@@ -24,6 +24,8 @@ api:
   facebook:
     - appID # [MANDATORY] [ENV_OVERRIDES]
     - appSecret # [MANDATORY] [ENV_OVERRIDES]
+  google:
+    - apiKey # [OPTIONAL] [ENV_OVERRIDES]
   neo4j:
     - host # [MANDATORY] [ENV_OVERRIDES]
     - user # [MANDATORY] [ENV_OVERRIDES]
@@ -43,6 +45,7 @@ api:
     - timeout # [OPTIONAL] defaults to ?
   settings:
     - feed_use_location # [OPTIONAL] defaults to false
+    - newsletter_key # [MANDATORY]
 app:
   - api # [MANDATORY]
   - heap # [OPTIONAL]

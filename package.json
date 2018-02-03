@@ -21,14 +21,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/iampossible/gnome.git"
+    "url": "git+https://github.com/iampossible/impossiblepeople.git"
   },
   "author": "",
   "license": "GPL-3.0+",
   "bugs": {
-    "url": "https://github.com/iampossible/gnome/issues"
+    "url": "https://github.com/iampossible/impossiblepeople/issues"
   },
-  "homepage": "https://github.com/iampossible/gnome#readme",
+  "homepage": "https://github.com/iampossible/impossiblepeople#readme",
   "dependencies": {},
   "devDependencies": {
     "eslint": "^2.5.1",

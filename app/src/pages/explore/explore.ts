@@ -2,6 +2,8 @@ import { Component } from '@angular/core';
 import { NavController, NavParams, Platform, Events } from 'ionic-angular';
 
 import { ExploreService } from '../../providers/explore-service/explore-service';
+import { NearMePage } from '../near-me/near-me';
+import { ExploreInterestPage } from '../explore-interest/explore-interest';
 
 interface Interest {
   name: String;
@@ -26,7 +28,6 @@ export class ExplorePage {
   public interests: Array<Interest> = [];
   public pages: Array<Array<Interest>> = [];
   private searchString: String = '';
-  private interest: String = '';
 
   constructor(private exploreService: ExploreService,
     public navCtrl: NavController,
@@ -48,7 +49,6 @@ export class ExplorePage {
       // no cache
     }
     this.pages = this.paginate();
-    this.interest = '';
     this.searchString = '';
     this.exploreService.getInterests(response => {
       if (JSON.stringify(this.interests) !== response.text()) {
@@ -64,30 +64,7 @@ export class ExplorePage {
   }
 
   getExploreFeed(interest, event?) {
-    this.inExplore = false;
-    this.interest = interest;
-    this.loading = true;
-    this.feed = [];
-    console.debug('getExploreFeed for:', this.interest);
-    this.exploreService.getExploreFeed(this.interest, response => {
-      this.feed = response.json();
-      this.loading = false;
-      console.debug('we has explore feed', this.feed);
-    }, (failureResponse: Response) => {
-      console.warn(failureResponse.statusText, failureResponse);
-      this.inExplore = true;
-      this.events.publish('feedback:show', { msg: 'Couldn\'t show ' + this.interest, icon: 'alert' });
-      this.interest = '';
-      this.loading = false;
-    });
-  }
-
-  exitExploreFeed(event) {
-    console.debug('exitExploreFeed');
-    this.inExplore = true;
-    this.feed = [];
-    this.searchString = '';
-    this.interest = '';
+    this.navCtrl.push(ExploreInterestPage, { interest: interest });
   }
 
   ionViewWillEnter() {
@@ -109,27 +86,6 @@ export class ExplorePage {
     return `url(${interest.image.replace('build', 'assets')})`;
   }
 
-  randomExplore(event) {
-    this.inExplore = false;
-    this.loading = true;
-    this.feed = [];
-    let idx = Math.floor(Math.random() * (this.interests.length - 0) + 0);
-    this.interest = (this.interests[idx]).name;
-    console.debug('randomExplore for:', this.interest);
-    this.exploreService.getExploreFeed(this.interest, response => {
-      this.feed = response.json();
-      this.loading = false;
-      console.debug('we has random ', this.interest, ' feed', this.feed);
-    }, (failureResponse: Response) => {
-      console.warn(failureResponse.statusText, failureResponse);
-      this.inExplore = true;
-      this.events.publish('feedback:show', { msg: 'Couldn\'t show ' + this.interest, icon: 'alert' });
-      this.interest = '';
-      this.loading = false;
-    });
-
-  }
-
   onSearch(event) {
     const searchText = this.searchString.toLowerCase();
     console.debug('onSearch = ', searchText);
@@ -143,24 +99,13 @@ export class ExplorePage {
     };
     const failFn = (failureResponse: Response) => {
       console.warn(failureResponse.statusText, failureResponse);
-      if (!searchText) {
-        this.inExplore = true;
-        this.events.publish('feedback:show', { msg: 'Couldn\'t show ' + this.interest, icon: 'alert' });
-        this.interest = '';
-        this.loading = false;
-      } else {
-        this.events.publish('feedback:show', { msg: 'Couldn\'t get ' + this.searchString || this.interest, icon: 'alert' });
-        this.searchString = '';
-        this.feed = fallbackFeed;
-        this.loading = false;
-      }
+      this.events.publish('feedback:show', { msg: 'Couldn\'t get ' + this.searchString, icon: 'alert' });
+      this.searchString = '';
+      this.feed = fallbackFeed;
+      this.loading = false;
     };
-    if (!searchText) {
-      if (this.interest) {
-        this.exploreService.getExploreFeed(this.interest, successFn, failFn);
-      }
-    } else {
-      this.exploreService.getExploreSearch(this.interest || '_', this.searchString.toLowerCase(), successFn, failFn);
+    if (searchText) {
+      this.exploreService.getExploreSearch('_', this.searchString.toLowerCase(), successFn, failFn);
     }
   }
 
@@ -168,23 +113,10 @@ export class ExplorePage {
     if (!this.searchString) {
       return;
     }
-    if (!this.interest) {
-      this.resetPage();
-      return;
-    }
-    this.searchString = '';
-    this.loading = true;
-    this.feed = [];
-    this.exploreService.getExploreFeed(this.interest, response => {
-      this.feed = response.json();
-      this.loading = false;
-      console.debug('we has explore feed', this.feed);
-    }, (failureResponse: Response) => {
-      console.warn(failureResponse.statusText, failureResponse);
-      this.inExplore = true;
-      this.events.publish('feedback:show', { msg: 'Couldn\'t show ' + this.interest, icon: 'alert' });
-      this.interest = '';
-      this.loading = false;
-    });
+    this.resetPage();
+  }
+
+  openNearMe(/*$event*/) {
+    this.navCtrl.push(NearMePage);
   }
 }

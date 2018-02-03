@@ -31,6 +31,8 @@ export class AddLocationContextPage {
     modal.onDidDismiss((result) => {
       if (result.state === 'success') {
         this.continueOnboarding(result.data);
+      } else if (result.state === 'noop') {
+        // do nothing, the user "skipped"
       } else {
         let failAlert = this.alertCtrl.create({
           title: 'Failed to update location',

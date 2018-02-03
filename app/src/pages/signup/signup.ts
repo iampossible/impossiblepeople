@@ -26,7 +26,7 @@ export class SignupPage {
     private userService: UserService,
     private form: FormBuilder,
     private notificationService: NotificationService) {
-    this.signUpForm = form.group({
+    this.signUpForm = this.form.group({
       email: ['', Validators.required],
       firstName: ['', Validators.required],
       lastName: ['', Validators.required],

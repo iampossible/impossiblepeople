@@ -119,26 +119,40 @@ class UserModel extends Model {
   }
 
   _upgradeInvitee(InviteeNode, newUserData) {
-    return this.updateUser(
-      InviteeNode.userID,
-      newUserData
-    ).then((accept, reject, finalUser) => {
-      this.db.query(
-        "MATCH (i:Invitee) WHERE i.userID = {userID} REMOVE i:Invitee RETURN i",
-        { userID: finalUser.userID },
-        (err, result) => {
-          if (err) return reject(err);
-          accept(result.pop());
-        }
-      );
-    });
+    return this.updateUser(InviteeNode.userID, newUserData).then(
+      (accept, reject, finalUser) => {
+        this.db.query(
+          "MATCH (i:Invitee) WHERE i.userID = {userID} REMOVE i:Invitee RETURN i",
+          { userID: finalUser.userID },
+          (err, result) => {
+            if (err) return reject(err);
+            accept(result.pop());
+          }
+        );
+      }
+    );
   }
 
   _createNewUser(userData) {
     userData.email = userData.email.toLowerCase();
     //added for distinguishing between a volunteer and an organisation
-    userData.userType = "";
+    //userData.userType = "";
+    //new implementation has userType
+    if (userData.fromFacebook) {
+      //only individuals should register with facebook and email
+      userData.userType = "volunteer";
+    } else {
+      //the default profile picture till the user changes it
+      userData.imageSource =
+        "https://humankind-assets.s3.eu-west-1.amazonaws.com/profile/zD9QUxoPjea7y";
+    }
+
+    if (userData.userType === "organisation") {
+      userData.approved = false;
+    }
+
     return new Sequence((accept, reject) => {
+      //we have two user type: individula and Orgaisation
       this.db.save(userData, "Person", (error, newUser) => {
         if (error) return reject(error);
         this.db.save(
@@ -208,6 +222,21 @@ class UserModel extends Model {
       );
     });
   }
+  //change the status of an organisation that has the given email address
+  _updateOrganisationStatus(organisationsEmailList, data) {
+    return new Sequence((accept, reject) => {
+      return this.db.query(
+        `MATCH (p:Person) 
+        WHERE p.email in {organisationsEmailList}
+        SET p.approved = true`,
+        { organisationsEmailList, data },
+        err => {
+          if (err) reject(err);
+          accept(true);
+        }
+      );
+    });
+  }
 
   updateUserPassword(user, newPassword) {
     return passwordHelper
@@ -241,11 +270,11 @@ class UserModel extends Model {
             username: creator.firstName + " " + creator.lastName,
             imageSource: creator.imageSource
           },
-          category: {
+          category: collect({
             interestID: category.interestID,
             name: category.name,
             image: category.image
-          }
+          })
         } as r
         ORDER BY r.createdAt DESC
        `,
@@ -480,9 +509,29 @@ class UserModel extends Model {
     );
   }
   //to add type of user
-  updateUserType(user, typeOfUser) {
+  updateUserType(user, userType) {
     return this.updateUser(user.userID, {
-      userType: typeOfUser
+      userType
+    });
+  }
+
+  //to update the status of the organisation to approved
+  updateOrganisationStatus(user, organisationsEmailList) {
+    return this._updateOrganisationStatus(organisationsEmailList, {
+      approved: true
+    });
+  }
+
+  getNotApprovedOrgs() {
+    return new Sequence((accept, reject) => {
+      this.db.query(
+        `MATCH (u:Person {approved: false})
+        RETURN  COLLECT(u.email) `,
+        (err, organisationsEmailList) => {
+          if (err) return reject(err);
+          return accept(organisationsEmailList);
+        }
+      );
     });
   }
 }

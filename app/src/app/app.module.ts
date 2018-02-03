@@ -12,6 +12,9 @@ import { Diagnostic } from '@ionic-native/diagnostic';
 import { Geolocation } from '@ionic-native/geolocation';
 import { Badge } from '@ionic-native/badge';
 import { Network } from '@ionic-native/network';
+import { StatusBar } from '@ionic-native/status-bar';
+import { SplashScreen } from '@ionic-native/splash-screen';
+import { AppVersion } from '@ionic-native/app-version';
 
 import { MyApp } from './app.component';
 
@@ -38,8 +41,6 @@ import { SuggestInterestModalPage } from '../pages/suggest-interest-modal/sugges
 import { EditProfileModalPage } from '../pages/edit-profile-modal/edit-profile-modal';
 import { AddLocationModalPage } from '../pages/add-location-modal/add-location-modal';
 
-import { StatusBar } from '@ionic-native/status-bar';
-import { SplashScreen } from '@ionic-native/splash-screen';
 import { FacebookConnectComponent } from '../components/facebook-connect/facebook-connect';
 import { FacebookService } from '../providers/facebook-service/facebook-service';
 import { InterceptedHttp } from '../providers/intercepted-http/intercepted-http';
@@ -66,6 +67,9 @@ import { InviteContactsComponent } from '../components/invite-contacts/invite-co
 import { QuickFeedbackComponent } from '../components/quick-feedback/quick-feedback';
 import { AddLocationContextPage } from '../pages/add-location-context/add-location-context';
 import { InterestButtonComponent } from '../components/interest-button/interest-button';
+import { NearMePage } from '../pages/near-me/near-me';
+import { ExploreInterestPage } from '../pages/explore-interest/explore-interest';
+import { GoogleMapsProvider } from '../providers/google-maps/google-maps';
 
 export function interceptFactory(backend: XHRBackend, opts: RequestOptions, events: Events) {
   return new InterceptedHttp(backend, opts, events);
@@ -107,7 +111,9 @@ export function interceptFactory(backend: XHRBackend, opts: RequestOptions, even
     InviteContactsComponent,
     QuickFeedbackComponent,
     AddLocationContextPage,
-    InterestButtonComponent
+    InterestButtonComponent,
+    NearMePage,
+    ExploreInterestPage
   ],
   imports: [
     HttpModule,
@@ -143,7 +149,9 @@ export function interceptFactory(backend: XHRBackend, opts: RequestOptions, even
     SuggestInterestModalPage,
     EditProfileModalPage,
     AddLocationModalPage,
-    AddLocationContextPage
+    AddLocationContextPage,
+    NearMePage,
+    ExploreInterestPage
   ],
   providers: [
     StatusBar,
@@ -160,6 +168,7 @@ export function interceptFactory(backend: XHRBackend, opts: RequestOptions, even
     Geolocation,
     Badge,
     Network,
+    AppVersion,
     {
       provide: InterceptedHttp,
       useFactory: interceptFactory,
@@ -176,7 +185,8 @@ export function interceptFactory(backend: XHRBackend, opts: RequestOptions, even
     ProfileService,
     InterestService,
     ImageService,
-    ExploreService
+    ExploreService,
+    GoogleMapsProvider
   ]
 })
 export class AppModule { }

@@ -25,6 +25,7 @@
     "timeout": 1
   },
   "settings": {
-    "feed_use_location": false
+    "feed_use_location": false,
+    "newsletter_key": "97aeffc55e3e38ba0158fff15e0769c2"
   }
 }

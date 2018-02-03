@@ -31,8 +31,11 @@ class FeedController extends Controller {
             resolved: node.post.resolved || false,
             createdAt: node.rel.properties.at,
             createdAtSince: moment(node.rel.properties.at).fromNow(),
-            commentCount: node.commentCount,
             author: {
+              //temporary as we have data in the db that doesn't have organisationName
+              organisationName: node.creator.organisationName
+                ? node.creator.organisationName
+                : "",
               userID: node.creator.userID,
               username: `${node.creator.firstName} ${node.creator.lastName}`,
               imageSource: node.creator.imageSource,
@@ -43,13 +46,11 @@ class FeedController extends Controller {
                 imageSource: friend.imageSource
               }))
             },
-            category: [
-              {
-                interestID: node.category.interestID,
-                name: node.category.name,
-                image: node.category.image || null
-              }
-            ]
+            interests: node.interests.map(interest => ({
+              interestID: interest.interestID,
+              name: interest.name,
+              image: interest.image || null
+            }))
           }))
         );
       })

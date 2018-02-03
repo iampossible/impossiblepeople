@@ -10,8 +10,6 @@ import { InterestPickerComponent } from '../../components/interest-picker/intere
   templateUrl: 'interests.html',
 })
 export class InterestsPage {
-  private featuredInterests: Array<Object> = [];
-  private formattedInterests: Array<Object> = [];
   private selectedInterests: Array<Object> = [];
   private initSelectedInterests: Array<Object> = [];
   private lastPage = false;
@@ -44,7 +42,7 @@ export class InterestsPage {
     this.selectedInterests = selected.map(item => item.interestID);
   }
 
-  private submitInterests() {
+  submitInterests() {
     let interests = this.selectedInterests;
 
     if (this.params.data.editMode) {
@@ -67,7 +65,7 @@ export class InterestsPage {
     }
   }
 
-  private nextPage() {
+  nextPage() {
     this.events.publish('change-slide', 2);
     this.lastPage = true;
   }

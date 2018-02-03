@@ -2,17 +2,17 @@
 
 const Sequence = require('impossible-promise');
 const Model = require('core/Model');
+const config = require('config/server');
 
 class LocationModel extends Model {
 
   constructor() {
     super();
-    this.geoApiEndpoint = 'https://maps.googleapis.com/maps/api/geocode/json?address=';
+    this.geoApiEndpoint = `https://maps.googleapis.com/maps/api/geocode/json?key=${config.google.apiKey}&address=`;
   }
 
   getFriendlyLocation(params) {
     let url = this.geoApiEndpoint + encodeURIComponent(params.join(','));
-
     return new Sequence((next, reject) => {
       this.request.get(url, (err, response) => {
         if (err) return reject(err);

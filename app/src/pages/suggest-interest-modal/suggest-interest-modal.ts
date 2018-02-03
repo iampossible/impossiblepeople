@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NavController, ViewController, AlertController } from 'ionic-angular';
+import { ViewController, AlertController } from 'ionic-angular';
 import { InterestService } from '../../providers/interest-service/interest-service';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 
@@ -12,12 +12,12 @@ export class SuggestInterestModalPage {
 
   private suggestInterestForm: FormGroup;
 
-  constructor(private nav: NavController,
+  constructor(
     private interestService: InterestService,
     private form: FormBuilder,
     private viewCtrl: ViewController,
     private alertCtrl: AlertController) {
-    this.suggestInterestForm = form.group({
+    this.suggestInterestForm = this.form.group({
       suggestion: ['', Validators.required],
     });
   }

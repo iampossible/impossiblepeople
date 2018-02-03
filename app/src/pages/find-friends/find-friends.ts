@@ -43,7 +43,7 @@ export class FindFriendsPage {
           this.nav.parent.select(0);
         },
         (response: Response) => {
-          let failAlert = this.alertCtrl.create({
+          const failAlert = this.alertCtrl.create({
             title: 'Oops!',
             subTitle: 'Something went wrong [' + response.status + ']: ' + JSON.stringify(response.json()),
             buttons: ['OK']
@@ -56,7 +56,7 @@ export class FindFriendsPage {
   }
 
   inviteError() {
-    let failAlert = this.alertCtrl.create({
+    const failAlert = this.alertCtrl.create({
       title: 'Oops!',
       subTitle: 'Unable to invite friends',
       buttons: ['OK']
@@ -65,7 +65,7 @@ export class FindFriendsPage {
   }
 
   fbConnect(auth) {
-    //noinspection TypeScriptUnresolvedVariable
+    // noinspection TypeScriptUnresolvedVariable
     this.facebookService.findFriends(auth.authResponse.accessToken)
       .subscribe(
       (response: Response) => {
@@ -79,7 +79,7 @@ export class FindFriendsPage {
           // TODO which side does this actually happen?
           this.alreadyLinked.present();
         } else {
-          let failAlert = this.alertCtrl.create({
+          const failAlert = this.alertCtrl.create({
             title: 'Oops!',
             subTitle: 'Something went wrong [' + response.status + ']: ' + JSON.stringify(response.json()),
             buttons: ['OK']
@@ -92,11 +92,12 @@ export class FindFriendsPage {
           // TODO which side does this actually happen?
           this.alreadyLinked.present();
         } else {
-          let failAlert = this.alertCtrl.create({
+          const failAlert = this.alertCtrl.create({
             title: 'Oops!',
             subTitle: 'Something went wrong [' + response.status + ']: ' + JSON.stringify(response.json()),
             buttons: ['OK']
           });
+          failAlert.present();
         }
       }
       );
