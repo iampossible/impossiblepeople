@@ -50,8 +50,7 @@ export class PostCardComponent {
     private actionSheetCtrl: ActionSheetController) {
   }
 
-
-  ngOnInit() {
+  ionViewDidLoad() {
     let currentUserID = localStorage.getItem('USER_ID');
     this.isMyPost = (currentUserID === this.post.author.userID);
   }

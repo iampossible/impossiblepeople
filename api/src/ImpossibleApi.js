@@ -9,7 +9,6 @@ for eg. the AuthController.js will initialise the login strategy for the Hapi se
 
 "use strict";
 
-
 const pkg = require("../package.json");
 if (process.env.GNOME_ENV !== "dev" && process.env.NEW_RELIC_LICENSE_KEY) {
   require("newrelic");
@@ -22,7 +21,7 @@ const Sequence = require("impossible-promise");
 const Controller = require("./core/Controller");
 const Model = require("./core/Model");
 const fs = require("fs");
-const path = require('path');
+const path = require("path");
 
 log4js.configure({
   appenders: [{ type: "console" }, { type: "file", filename: "gnome.log" }],
@@ -47,7 +46,6 @@ let ServerOptions = {
   }
 };
 
-
 if ("https" in config && config.https) {
   ServerOptions.tls = {
     key: fs.readFileSync(config.https.key),
@@ -55,7 +53,6 @@ if ("https" in config && config.https) {
     passphrase: config.https.passphrase
   };
 }
-
 
 server.connection(ServerOptions);
 
@@ -91,7 +88,8 @@ if (config.logging === true) {
   "PostController",
   "ProfileController",
   "UserController",
-  "UserActivityController"
+  "UserActivityController",
+  "NewsletterController"
 ].forEach(ctrl => Controller.load(ctrl, server));
 
 if (process.env.GNOME_ENV === "dev" || process.env.GNOME_ENV === "docker") {
@@ -105,7 +103,7 @@ if (process.env.GNOME_ENV === "dev" || process.env.GNOME_ENV === "docker") {
     }
   });
 
-    server.route({
+  server.route({
     method: "GET",
     path: "/status",
     config: { auth: { mode: "try" } },
@@ -131,7 +129,7 @@ if (process.env.GNOME_ENV === "dev" || process.env.GNOME_ENV === "docker") {
     path: "/",
     config: { auth: { mode: "try" } },
     handler: (request, reply) => {
-      reply.file(path.join(__dirname, 'build', 'index.html'));
+      reply.file(path.join(__dirname, "build", "index.html"));
     }
   });
 
@@ -140,7 +138,7 @@ if (process.env.GNOME_ENV === "dev" || process.env.GNOME_ENV === "docker") {
     path: "/interest",
     config: { auth: { mode: "try" } },
     handler: (request, reply) => {
-      reply.file(path.join(__dirname, 'build', 'index.html'));
+      reply.file(path.join(__dirname, "build", "index.html"));
     }
   });
 
@@ -149,7 +147,7 @@ if (process.env.GNOME_ENV === "dev" || process.env.GNOME_ENV === "docker") {
     path: "/feed",
     config: { auth: { mode: "try" } },
     handler: (request, reply) => {
-      reply.file(path.join(__dirname, 'build', 'index.html'));
+      reply.file(path.join(__dirname, "build", "index.html"));
     }
   });
 
@@ -158,7 +156,7 @@ if (process.env.GNOME_ENV === "dev" || process.env.GNOME_ENV === "docker") {
     path: "/updateInterest",
     config: { auth: { mode: "try" } },
     handler: (request, reply) => {
-      reply.file(path.join(__dirname, 'build', 'index.html'));
+      reply.file(path.join(__dirname, "build", "index.html"));
     }
   });
 
@@ -167,7 +165,7 @@ if (process.env.GNOME_ENV === "dev" || process.env.GNOME_ENV === "docker") {
     path: "/service-worker.js",
     config: { auth: { mode: "try" } },
     handler: (request, reply) => {
-      reply.file(path.join(__dirname, 'build', 'service-worker.js'));
+      reply.file(path.join(__dirname, "build", "service-worker.js"));
     }
   });
 
@@ -177,11 +175,10 @@ if (process.env.GNOME_ENV === "dev" || process.env.GNOME_ENV === "docker") {
     config: { auth: { mode: "try" } },
     handler: {
       directory: {
-          path: path.join(__dirname, 'build/static')
+        path: path.join(__dirname, "build/static")
       }
     }
-  });  
-
+  });
 }
 
 module.exports = server;

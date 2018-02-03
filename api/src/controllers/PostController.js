@@ -11,29 +11,29 @@ class PostController extends Controller {
     constructor() {
         super();
 
-        this.route("createPost", {
-            method: "POST",
-            path: "/api/post/create",
-            auth: "session",
-            handler: this.createPostHandler,
-            validate: {
-                postType: Joi.string()
-                    .regex(/^(OFFERS|ASKS)$/)
-                    .required(),
-                content: Joi.string()
-                    .min(3)
-                    .required(),
-                location: Joi.string(),
-                latitude: Joi.number()
-                    .min(-90)
-                    .max(90),
-                longitude: Joi.number()
-                    .min(-180)
-                    .max(180),
-                timeRequired: Joi.number().integer(),
-                interestID: Joi.array().required()
-            }
-        });
+    this.route("createPost", {
+      method: "POST",
+      path: "/api/post/create",
+      auth: "session",
+      handler: this.createPostHandler,
+      validate: {
+        postType: Joi.string()
+          .regex(/^(OFFERS|ASKS)$/)
+          .required(),
+        content: Joi.string()
+          .min(3)
+          .required(),
+        location: Joi.string(),
+        latitude: Joi.number()
+          .min(-90)
+          .max(90),
+        longitude: Joi.number()
+          .min(-180)
+          .max(180),
+        timeRequired: Joi.number().integer(),
+        interests: Joi.array().required()
+      }
+    });
 
         this.route("getPost", {
             method: "GET",
@@ -63,7 +63,7 @@ class PostController extends Controller {
                     .min(-180)
                     .max(180),
                 timeRequired: Joi.number().integer(),
-                interestID: Joi.array().required()
+                interests: Joi.array().required()
             }
         });
 
@@ -125,42 +125,42 @@ class PostController extends Controller {
         const content = request.payload.content;
         const postID = request.params.id;
         postModel
-            .createComment(request.auth.credentials, content, postID)
-            .done(comment => {
-                QueueWorkers.activity("CREATE_COMMENT_EVENT", {
-                    commentID: comment.commentID
-                });
+      .createComment(request.auth.credentials, content, postID)
+      .done((comment) => {
+        QueueWorkers.activity('CREATE_COMMENT_EVENT', {
+          commentID: comment.commentID
+        });
 
-                reply({
-                    content: comment.content,
-                    commentID: comment.commentID,
-                    at: comment.at
-                }).code(200);
-            })
-            .error(msg => reply({ msg }).code(500));
+        reply({
+          content: comment.content,
+          commentID: comment.commentID,
+          at: comment.at,
+        }).code(200);
+      })
+      .error(msg => reply({ msg }).code(500));
     }
 
-    createPostHandler(request, reply) {
-        postModel
-            .createPost(request.auth.credentials, request.payload.postType, {
-                content: request.payload.content,
-                location: request.payload.location,
-                latitude: request.payload.latitude,
-                longitude: request.payload.longitude,
-                timeRequired: request.payload.timeRequired || 0,
-                interestID: request.payload.interestID
-            })
-            .error(e => reply({ msg: e }).code(400))
-            .done(postNode => {
-                QueueWorkers.activity("CREATE_POST_EVENT", { postID: postNode.postID });
-                // reply(postNode).code(200);
-                reply(true).code(200);
-            });
-    }
+
+  createPostHandler(request, reply) {
+    postModel
+      .createPost(request.auth.credentials, request.payload.postType, {
+        content: request.payload.content,
+        location: request.payload.location,
+        latitude: request.payload.latitude,
+        longitude: request.payload.longitude,
+        timeRequired: request.payload.timeRequired || 0,
+        interests: request.payload.interests
+      })
+      .error(e => reply({ msg: e }).code(400))
+      .done(postNode => {
+        QueueWorkers.activity("CREATE_POST_EVENT", { postID: postNode.postID });
+        // reply(postNode).code(200);
+        reply(true).code(200);
+      })
+  }
 
     getPostHandler(request, reply) {
         const userID = request.auth.credentials.userID;
-
         new Sequence((accept, reject) => {
                 postModel
                     .getPost(request.params.id, userID)
@@ -177,10 +177,8 @@ class PostController extends Controller {
                         .done(accept);
                 }
             })
-            .error(e => {
-                reply({ msg: e }).code(e === "post not found" ? 404 : 400);
-            })
             .done((postNode, commentRows) => {
+
                 var post = {
                     postID: postNode.post.postID,
                     postType: postNode.rel.type,
@@ -190,16 +188,16 @@ class PostController extends Controller {
                     createdAtSince: moment(postNode.rel.properties.at).fromNow(),
                     location: postNode.post.location,
                     resolved: postNode.post.resolved || false,
-                    category: {
-                        interestID: postNode.category.interestID,
-                        name: postNode.category.name,
-                        image: postNode.category.image || null
-                    },
+                    interests: postNode.interests.map(interest => ({
+                      interestID: interest.interestID,
+                      name: interest.name,
+                      image: interest.image || null
+                    })),
                     author: {
                         userID: postNode.creator.userID,
                         username: `${postNode.creator.firstName} ${
-              postNode.creator.lastName
-            }`,
+                            postNode.creator.lastName
+                        }`,
                         imageSource: postNode.creator.imageSource
                     },
                     comments: commentRows.map(row => ({
@@ -213,6 +211,9 @@ class PostController extends Controller {
                     }))
                 };
                 reply(post).code(200);
+            })
+            .error(e => { 
+                reply({ msg: e }).code(e === "post not found" ? 404 : 400);
             });
     }
 
@@ -327,23 +328,27 @@ class PostController extends Controller {
     updatePost(request, reply) {
         const postID = request.params.postID;
         const userID = request.auth.credentials.userID;
-        postModel
-            .postBelongsToUser(userID, postID)
-            .then((accept, reject) => {
-                postModel
-                    .updatePost(request.auth.credentials, postID, {
-                        content: request.payload.content,
-                        postType: request.payload.postType,
-                        location: request.payload.location,
-                        latitude: request.payload.latitude,
-                        longitude: request.payload.longitude,
-                        timeRequired: request.payload.timeRequired || 0,
-                        interestID: request.payload.interestID
-                    })
-                    .error(e => reply({ msg: e }).code(400))
-                    .done(postNode => {
-                        reply(postNode).code(200);
-                    });
+        new Sequence((accept, reject) => {
+            postModel
+                .postBelongsToUser(userID, postID)
+                .done(accept)
+                .error(reject);
+        }) 
+        .then((accept, reject) => {
+            postModel
+                .updatePost(request.auth.credentials, postID, {
+                    content: request.payload.content,
+                    postType: request.payload.postType,
+                    location: request.payload.location,
+                    latitude: request.payload.latitude,
+                    longitude: request.payload.longitude,
+                    timeRequired: request.payload.timeRequired || 0,
+                    interests: request.payload.interests
+                })
+                .done(postNode => {
+                    reply(postNode).code(200);
+                })
+                .error(e => reject(e));
             })
             .error(e => {
                 if (e === "permission denied") {
@@ -352,9 +357,6 @@ class PostController extends Controller {
                     reply({ msg: e }).code(500);
                 }
             })
-            .done(() => {
-                reply({}).code(200);
-            });
     }
 }
 

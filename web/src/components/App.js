@@ -2,19 +2,20 @@ import React, { Component } from "react";
 import {
   Switch,
   Route,
-  Redirect,
   withRouter,
   BrowserRouter as Router
 } from "react-router-dom";
 import LandingPage from "./views/LandingPage";
-import Interest from "./views/Interest";
-import Feed from "./views/Feed";
+import BuildOrgProfile from "./views/BuildOrgProfile";
+import BuildIndividualsProfile from "./views/BuildIndividualsProfile";
+import Feed from "../containers/Feed";
 import "bootstrap/dist/css/bootstrap.css";
 import "./App.css";
 import { Row, Col } from "reactstrap";
 import Header from "./views/Header";
 import Footer from "./views/Footer";
 import UpdateInterest from "./views/UpdateInterest";
+import AdminDashBoard from "./views/AdminDashBoard";
 
 const Main = props => {
   return (
@@ -27,15 +28,24 @@ const Main = props => {
         )}
       />
       <Route
-        path="/interest"
-        render={routeProps => (
-          <Interest
-            {...routeProps}
-            user={props.user}
-            setUser={props.setUser}
-            getUser={props.getUser}
-          />
-        )}
+        path="/profile"
+        render={routeProps =>
+          props.user.userType === "organisation" ? (
+            <BuildOrgProfile
+              {...routeProps}
+              user={props.user}
+              setUser={props.setUser}
+              getUser={props.getUser}
+            />
+          ) : (
+            <BuildIndividualsProfile
+              {...routeProps}
+              user={props.user}
+              setUser={props.setUser}
+              getUser={props.getUser}
+            />
+          )
+        }
       />
       <Route
         path="/feed"
@@ -51,6 +61,17 @@ const Main = props => {
           />
         )}
       />
+      <Route
+        path="/admin"
+        render={routeProps => (
+          <AdminDashBoard
+            {...routeProps}
+            user={props.user}
+            setUser={props.setUser}
+            getUser={props.getUser}
+          />
+        )}
+      />
     </Switch>
   );
 };
@@ -63,11 +84,13 @@ class App extends Component {
     };
   }
 
-  componentWillMount() {
-    this.getUser();
+  async componentWillMount() {
+    this.getUser().then(user => {
+      this.setState({ user });
+    });
   }
   getUser = () => {
-    fetch("/api/user/get", {
+    return fetch("/api/user/get", {
       headers: {
         Accept: "application/json",
         "Content-Type": "application/json"
@@ -80,13 +103,12 @@ class App extends Component {
       })
       .then(response => {
         let user = response.user || {};
-        this.setState({ user });
+        return user;
       });
   };
   setUser = user => {
     this.setState({ user });
   };
-
   render() {
     return (
       <Router>

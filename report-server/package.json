@@ -1,7 +1,7 @@
 {
   "name": "report-server",
   "version": "1.0.0",
-  "description": "",
+  "description": "Server meant for periodic work, specifically the sending of reports",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -10,12 +10,20 @@
   "license": "GPL-3.0+",
   "repository": {
     "type": "git",
-    "url": "https://github.com/iampossible/gnome.git"
+    "url": "https://github.com/iampossible/impossiblepeople.git"
   },
   "dependencies": {
+    "inline-css": "^2.2.3",
+    "moment": "^2.19.2",
     "mu2": "^0.5.21",
-    "nodemailer": "^3.1.4",
+    "nodemailer": "^4.4.0",
     "nodemailer-wellknown": "^0.2.2",
     "seraph": "^0.15.2"
+  },
+  "devDependencies": {
+    "@types/inline-css": "^0.0.30",
+    "@types/mu2": "^0.0.30",
+    "@types/node": "^8.0.51",
+    "@types/nodemailer": "^4.3.0"
   }
 }

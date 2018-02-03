@@ -72,7 +72,9 @@ class UserController extends Controller {
         location: Joi.string(),
         longitude: Joi.number()
           .min(-180)
-          .max(180)
+          .max(180),
+        organisationName: Joi.string(),
+        description: Joi.string()
       }
     });
 
@@ -82,6 +84,21 @@ class UserController extends Controller {
       path: "/api/user/userType",
       auth: "session",
       handler: this.updateUserType
+    });
+    //route to update the status of the Organisation
+    this.route("updateOrganisationStatus", {
+      method: "PUT",
+      path: "/api/user/organisations",
+      auth: "session",
+      handler: this.updateOrganisationStatusHandler
+    });
+
+    //route to update the status of the Organisation
+    this.route("getNotApprovedOrganisations", {
+      method: "GET",
+      path: "/api/user/organisations",
+      auth: "session",
+      handler: this.getNotApprovedOrgs
     });
   }
 
@@ -100,6 +117,15 @@ class UserController extends Controller {
         delete user.id;
         delete user.notificationEndpoint;
         reply(Object.assign(user, { posts, friends })).code(200);
+      })
+      .error(err => reply({ msg: err }).code(400));
+  }
+
+  getNotApprovedOrgs(request, reply) {
+    userModel
+      .getNotApprovedOrgs()
+      .done(data => {
+        reply(Object.assign({}, data)).code(200);
       })
       .error(err => reply({ msg: err }).code(400));
   }
@@ -231,9 +257,9 @@ class UserController extends Controller {
 
   //to update user type
   updateUserType(request, reply) {
-    let userType = request.payload.typeOfUser;
+    let userType = request.payload.userType;
 
-    //the value of typeOfUser should only be one of the two
+    //the value of userType should only be one of the two
     let schema = Joi.string().valid(["volunteer", "organisation"]);
     let validated = Joi.validate(userType.toLowerCase(), schema, {
       abortEarly: true
@@ -242,7 +268,6 @@ class UserController extends Controller {
       reply().code(400);
     } else {
       userType = validated.value;
-
       userModel
         .updateUserType(request.auth.credentials, userType)
         .then(accept =>
@@ -257,6 +282,22 @@ class UserController extends Controller {
         })
         .error(err => reply({ msg: err }).code(500));
     }
+    return;
+  }
+
+  //to update organisation status
+  updateOrganisationStatusHandler(request, reply) {
+    let organisationsEmailList = request.payload.organisationsEmailList;
+    userModel
+      .updateOrganisationStatus(
+        request.auth.credentials,
+        organisationsEmailList
+      )
+      .done(data => {
+        reply(data).code(200);
+      })
+      .error(err => reply({ msg: `error: ${err}` }).code(500));
+
     return;
   }
 }

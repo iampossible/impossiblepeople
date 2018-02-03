@@ -11,6 +11,9 @@ if (!GNOME_ENV || GNOME_ENV === 'docker') {
   GNOME_ENV = 'dev'
 }
 
+/* Unlike the other sources, this one must remain in JS due to typescript not 
+   allowing synchronous dynamic imports, or JSON imports;
+   needed for the code below */
 let rawConfig = require(`./config.${GNOME_ENV}`);
 
 let neo4jCreds;
@@ -25,6 +28,7 @@ if (process.env.NEO4J_AUTH) {
 
 let config = {
   workdir: process.env.GNOME_REPORTS_PWD || path.resolve(`${__dirname}/../../`),
+  api: rawConfig.api,
   logging: (process.env.GNOME_LOG == 1) || rawConfig.logging || false,
   neo4j: {
     host: process.env.NEO4J_HOST || rawConfig.neo4j.host,
@@ -32,15 +36,16 @@ let config = {
     pass: neo4jPassword || rawConfig.neo4j.pass,
   },
   smtp: {
-    service: rawConfig.smtp.service || 'sendgrid',
-    user: process.env.SMTP_USER || rawConfig.smtp.user,
-    pass: process.env.SMTP_PASS || rawConfig.smtp.pass,
-    from: rawConfig.smtp.from
+    service: rawConfig.smtp && rawConfig.smtp.service || 'sendgrid',
+    user: process.env.SMTP_USER || rawConfig.smtp && rawConfig.smtp.user,
+    pass: process.env.SMTP_PASS || rawConfig.smtp && rawConfig.smtp.pass,
+    from: rawConfig.smtp && rawConfig.smtp.from
   },
   slack: {
     token: process.env.SLACK_TOKEN || rawConfig.slack && rawConfig.slack.token || false,
     room: rawConfig.slack && rawConfig.slack.room || 'impossiblepeople-bug'
-  }
+  },
+  newsletter_key: rawConfig.newsletter_key
 };
 
 module.exports = config;

@@ -1,16 +1,33 @@
 <ion-header>
 
   <ion-navbar>
-    <ion-buttons start>
-      <button ion-button block secondary (click)="dismissModal()" type="reset" class="button-light">Close</button>
-    </ion-buttons>
-
     <ion-title>Select Location</ion-title>
+    <ion-buttons start>
+      <button ion-button (click)="dismissModal()" type="reset" class="button-light">Cancel</button>
+    </ion-buttons>
   </ion-navbar>
-
 </ion-header>
 
+<ion-content>
+  <ion-searchbar [(ngModel)]="searchString" (ionInput)="onSearch($event)" (ionClear)="onSearch($event)" animated debounce=1200
+    showCancelButton=false type="search" [placeholder]="'Search for Location'">
+  </ion-searchbar>
 
-<ion-content padding>
+  <ion-list *ngIf="myLocationAvailable">
+    <ion-item class="currentLocation" (click)="sendMyLocation()">
+      <ion-spinner *ngIf="!myLocation"></ion-spinner>
+      {{ (myLocation && myLocation.location) || '' }}
+      <ion-icon name="navigate" color="primary" item-end></ion-icon>
+    </ion-item>
+  </ion-list>
+
+  <ion-list>
+    <ion-list-header class="background" padding-horizontal>
+      SEARCH RESULTS
+    </ion-list-header>
+    <button *ngFor="let res of searchResults" ion-item detail-none padding-horizontal (click)="sendLocation(res)">
+    {{ res.friendlyName }}
+    </button>
+  </ion-list>
 
 </ion-content>

@@ -3,26 +3,18 @@ import { Col, Form, FormGroup, Label, Input, Button } from "reactstrap";
 import FontAwesome from "react-fontawesome";
 
 export class UserType extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      typeOfUser: "",
-      redirect: false
-    };
-    this.handleSelection = this.handleSelection.bind(this);
-    this.handleSubmitRequest = this.handleSubmitRequest.bind(this);
-    this.updateUserType = this.updateUserType.bind(this);
-  }
+  state = {
+    userType: "",
+    redirect: false
+  };
 
-  handleSelection(e) {
+  handleSelection = e => {
     this.setState({
-      typeOfUser: e.target.value
+      userType: e.target.value
     });
-    // console.log(this.state);
-  }
-  handleSubmitRequest(e) {
+  };
+  handleSubmitRequest = e => {
     e.preventDefault();
-    // console.log(this.state);
     //the parameter needs to be a JSON
     let interests = JSON.stringify({
       interests: [...this.props.interests]
@@ -43,12 +35,8 @@ export class UserType extends Component {
         this.updateUserType();
       })
       .catch(err => console.error(err));
-  }
-  updateUserType() {
-    //update user type
-    let typeOfUser = JSON.stringify({
-      typeOfUser: this.state.typeOfUser
-    });
+  };
+  updateUserType = () => {
     fetch(`/api/user/userType`, {
       credentials: "same-origin",
       method: "PUT",
@@ -56,13 +44,16 @@ export class UserType extends Component {
         Accept: "application/json",
         "Content-Type": "application/json"
       },
-      body: typeOfUser
+      body: JSON.stringify({
+        userType: this.state.userType
+      })
     })
       //just for see the result of the operation...needs to be removed
       .then(response => response.json())
-      .then(response => this.props.redirectOnSubmit(this.state.typeOfUser))
+      .then(response => this.props.redirectOnSubmit(this.state.userType))
       .catch(err => console.error(err));
-  }
+  };
+
   render() {
     return (
       <Form id="selectUserType">
@@ -114,8 +105,7 @@ export class UserType extends Component {
           <Col sm={2}>
             <Button
               id="submitUserTypeButton"
-              onClick={this.handleSubmitRequest}
-            >
+              onClick={this.handleSubmitRequest}>
               &nbsp;&nbsp;&nbsp;Submit&nbsp;&nbsp;&nbsp;
             </Button>
           </Col>

@@ -83,12 +83,16 @@ class AuthController extends Controller {
       path: "/api/user/create",
       handler: this.createUser,
       validate: {
+        //validation should be done on the frontend
         email: Joi.string()
           .email()
           .lowercase(),
         firstName: Joi.string().required(),
         password: Joi.string().required(),
-        lastName: Joi.string().required()
+        lastName: Joi.string().required(),
+        userType: Joi.string().required(),
+        organisationName: Joi.string(),
+        role: Joi.string()
       }
     });
 
@@ -116,7 +120,7 @@ class AuthController extends Controller {
     let sid = request.auth.credentials.sid;
     userModel
       .getAuthUser({ sid })
-      .done(user => reply({user}).code(200))
+      .done(user => reply({ user }).code(200))
       .error(() => reply({}).code(500));
   }
 
@@ -130,7 +134,6 @@ class AuthController extends Controller {
   }
 
   validateUser(email, password) {
-    console.log("validate user");
     return userModel.getAuthUser({ email }).then((accept, reject, authUser) => {
       if (authUser.fromFacebook && !authUser.password) {
         reject("facebook user");

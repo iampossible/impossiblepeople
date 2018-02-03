@@ -33,40 +33,67 @@ class Header extends Component {
     return (
       <header>
         <Row>
-          <Col xs={1} className="headerImage">
+          <Col sm={1} id="headerImage">
             {location.pathname !== "/" ? <img src={logo} alt="logo" /> : null}
           </Col>
-          <Col
-            xs={
-              location.pathname === "/" ||
-              location.pathname === "/updateInterest" ||
-              location.pathname === "/interest" ||
-              (user && user.userType !== "volunteer")
-                ? 10
-                : 8
-            }
-          >
+          <Col sm={10}>
             <h1> We Are One </h1>
           </Col>
-          {location.pathname === "/feed" &&
-          (user && user.userType === "volunteer") ? (
-            <Col xs={2} className="headerButtonUpdateInterest">
+          <Col sm={1} />
+        </Row>
+        <Row id="headerNavigationButtons">
+          <Col sm={7} />
+          {location.pathname === "/feed" && (user && user.admin) ? (
+            <Col sm={2} id="headerButtonApproveOrgs">
               <Button
                 onClick={() => {
                   this.props.history.push({
-                    pathname: "/updateInterest"
+                    pathname: "/admin"
                   });
-                }}
-              >
-                Update Interest
+                }}>
+                <i className="fa fa-gears" aria-hidden="true" />&nbsp;&nbsp;Manage
+                Users
+              </Button>
+            </Col>
+          ) : (
+            <Col sm={2} />
+          )}
+
+          {location.pathname === "/admin" ||
+          location.pathname === "/profile" ? (
+            <Col sm={1} id="headerButtonHome">
+              <Button
+                onClick={() => {
+                  this.props.history.push({
+                    pathname: "/feed"
+                  });
+                }}>
+                <i className="fa fa-home" aria-hidden="true" />&nbsp;&nbsp;Home
               </Button>
             </Col>
           ) : null}
-          <Col xs={1} className="headerButtonLogout">
-            {location.pathname === "/interest" ||
-            location.pathname === "/feed" ||
-            location.pathname === "/updateInterest" ? (
-              <Button onClick={this.handlelogout}>Logout</Button>
+
+          {location.pathname === "/feed" || location.pathname === "/admin" ? (
+            <Col xs={1} id="headerButtonProfile">
+              <Button
+                onClick={() => {
+                  this.props.history.push({
+                    pathname: "/profile"
+                  });
+                }}
+                block>
+                <i className="fa fa-angle-double-right" aria-hidden="true" />&nbsp;&nbsp;
+                Profile
+              </Button>
+            </Col>
+          ) : null}
+
+          <Col xs={1} id="headerButtonLogout">
+            {location.pathname !== "/" ? (
+              <Button onClick={this.handlelogout}>
+                <i className="fa fa-angle-double-right" aria-hidden="true" />&nbsp;&nbsp;
+                Logout
+              </Button>
             ) : null}
           </Col>
         </Row>

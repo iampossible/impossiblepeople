@@ -16,19 +16,11 @@ class FacebookService {
 
   verifyToken(inputToken) {
     return new Sequence((accept, reject) => {
-      var debugTokenEndpoint = `${baseUrl}/debug_token?access_token=${this
-        .accessToken}&input_token=${inputToken}`;
-      // console.debug(
-      //   "FacebookService@verifyToken:",
-      //   `get: ${debugTokenEndpoint}`
-      // );
+      var debugTokenEndpoint = `${baseUrl}/debug_token?access_token=${
+        this.accessToken
+      }&input_token=${inputToken}`;
 
       request.get(debugTokenEndpoint, (error, response) => {
-        // console.debug(
-        //   "FacebookService@verifyToken:",
-        //   `/debug_token reply: ${response.body}`
-        // );
-        // console.log(error, response.body);
         if (error) {
           reject(error);
         } else {
@@ -49,23 +41,20 @@ class FacebookService {
 
   getUserDetails(facebookUserID) {
     return new Sequence((accept, reject) => {
-      // the bio field is depricated remove it
-      let fields = "email,first_name,last_name,picture.type(large),friends";
-      let facebookUserEndpoint = `${baseUrl}/${facebookUserID}?access_token=${this
-        .accessToken}&fields=${fields}`;
-      // console.debug(
-      //   "FacebookService@getUserDetails:",
-      //   `get: ${facebookUserEndpoint}`
-      // );
+      let fields =
+        "email,about,first_name,last_name,picture.type(large),friends";
+      let facebookUserEndpoint = `${baseUrl}/${facebookUserID}?access_token=${
+        this.accessToken
+      }&fields=${fields}`;
 
       request.get(facebookUserEndpoint, (error, response) => {
         if (error) {
           reject(error);
         } else {
-          // console.debug(
-          //   "FacebookService@getUserDetails:",
-          //   `/user reply: ${response.body}`
-          // );
+          console.debug(
+            "FacebookService@getUserDetails:",
+            `/user reply: ${response.body}`
+          );
           try {
             let facebookData = JSON.parse(response.body);
             accept({
@@ -75,9 +64,10 @@ class FacebookService {
                 email: facebookData.email,
                 firstName: facebookData.first_name,
                 lastName: facebookData.last_name,
-                //bio is deprecated and about is its equivalent
                 biography: facebookData.about,
-                imageSource: `https://graph.facebook.com/${facebookData.id}/picture?type=large`
+                imageSource: `https://graph.facebook.com/${
+                  facebookData.id
+                }/picture?type=large`
               }
             });
           } catch (err) {

@@ -1,0 +1,30 @@
+<ion-header>
+  <ion-navbar>
+    <ion-title>
+      Near Me
+    </ion-title>
+    <ion-buttons end>
+      <ion-spinner *ngIf="loadingLocation"></ion-spinner>
+      <button *ngIf="!loadingLocation" ion-button block color="secondary" (click)="updateLocation()" alt="Location">
+          <ion-icon color="secondary" name="locate"></ion-icon>
+        </button>
+    </ion-buttons>
+  </ion-navbar>
+</ion-header>
+
+
+<ion-content class="feed-tab background">
+  <div *ngIf="!loading && !loadingLocation && feed.length === 0" class="no-feed">
+    <h3 class="title">There are no posts near you</h3>
+  </div>
+
+  <ion-list *ngIf="!isAndroid" [hidden]="loading && feed.length === 0" no-lines class="background">
+    <post-card *ngFor="let post of feed" [post]="post"></post-card>
+  </ion-list>
+  <ion-list *ngIf="isAndroid" [virtualScroll]="feed" [hidden]="loading && feed.length === 0"
+    no-lines class="background" approxItemHeight="100px">
+    <ion-item *virtualItem="let post" class="background">
+      <post-card [post]="post"></post-card>
+    </ion-item>
+  </ion-list>
+</ion-content>

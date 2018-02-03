@@ -140,7 +140,6 @@ class ProfileController extends Controller {
   }
 
   getProfile(request, reply) {
-    console.log(request);
     let userID = request.params.userID;
     let loggedUserID = request.auth.credentials.userID;
 

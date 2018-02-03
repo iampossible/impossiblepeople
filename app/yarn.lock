@@ -44,6 +44,10 @@
   dependencies:
     tsickle "^0.21.0"
 
+"@ionic-native/app-version@^4.3.2":
+  version "4.3.2"
+  resolved "https://registry.yarnpkg.com/@ionic-native/app-version/-/app-version-4.3.2.tgz#712f6ae8d478304dfdc25e1b2330a8f71123650e"
+
 "@ionic-native/badge@^4.2.1":
   version "4.2.1"
   resolved "https://registry.yarnpkg.com/@ionic-native/badge/-/badge-4.2.1.tgz#aea0c7c08e03ca7603e842e8e401c73ee8feeb30"
@@ -76,9 +80,9 @@
   version "4.2.1"
   resolved "https://registry.yarnpkg.com/@ionic-native/in-app-browser/-/in-app-browser-4.2.1.tgz#a1fed3ea095b75733563250ac48edbfec4830b99"
 
-"@ionic-native/network@^4.3.1":
-  version "4.3.1"
-  resolved "https://registry.yarnpkg.com/@ionic-native/network/-/network-4.3.1.tgz#7ada8332f0324dff1eb494299793a7a23f301ec0"
+"@ionic-native/network@^4.3.2":
+  version "4.3.2"
+  resolved "https://registry.yarnpkg.com/@ionic-native/network/-/network-4.3.2.tgz#e0a5dcc74c820c6591f55154145422f73a2e9b87"
 
 "@ionic-native/push@^3.12.1":
   version "3.12.1"
@@ -1082,6 +1086,10 @@ cordova-ios@^4.5.1:
     xcode "^0.9.0"
     xml-escape "^1.1.0"
 
+cordova-plugin-app-version@^0.1.8:
+  version "0.1.9"
+  resolved "https://registry.yarnpkg.com/cordova-plugin-app-version/-/cordova-plugin-app-version-0.1.9.tgz#9db0607863337a710489302e5f50a904f1449bdb"
+
 cordova-plugin-badge@^0.8.2:
   version "0.8.2"
   resolved "https://registry.yarnpkg.com/cordova-plugin-badge/-/cordova-plugin-badge-0.8.2.tgz#1c836766358b36feb8d8732f90a62cbd607459d8"
@@ -1089,6 +1097,10 @@ cordova-plugin-badge@^0.8.2:
 cordova-plugin-camera@^2.4.1:
   version "2.4.1"
   resolved "https://registry.yarnpkg.com/cordova-plugin-camera/-/cordova-plugin-camera-2.4.1.tgz#195e34e12db64f1c49e764f7d4e3f261aa3d94c1"
+
+cordova-plugin-certificates@^0.6.4:
+  version "0.6.4"
+  resolved "https://registry.yarnpkg.com/cordova-plugin-certificates/-/cordova-plugin-certificates-0.6.4.tgz#8051339be00c691c824338d8fa086ff5f6be2bb9"
 
 cordova-plugin-compat@^1.2.0:
   version "1.2.0"

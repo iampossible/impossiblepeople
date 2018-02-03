@@ -57,7 +57,7 @@ class EmailWorker extends Worker {
     // params to pass to template engine: invitedBy.firstName, invitedBy.lastName
     this.sendEmail({
       to: msg.data.inviteAddress,
-      subject: `${msg.invitedBy.firstName} ${msg.invitedBy.lastName} has invited you to join Impossible!`,
+      subject: `${msg.data.invitedBy.firstName} ${msg.data.invitedBy.lastName} has invited you to join Impossible!`,
       // eslint-disable-next-line no-eval, prefer-template
       html: eval('`' + this.templateStrings.invite + '`')
     });
