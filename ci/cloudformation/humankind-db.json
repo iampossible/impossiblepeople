@@ -145,9 +145,7 @@
                         "neo4j-admin set-initial-password ",
                         { "Ref": "Neo4jPassword" },
                         "\n",
-                        "chown neo4j:neo4j -R /var/lib/neo4j\n",
-                        "sudo apt install docker.io\n",
-                        "sudo systemctl enable docker.io\n"
+                        "chown neo4j:neo4j -R /var/lib/neo4j\n"
                 ]]}},
                 "Volumes" : [
                           { "VolumeId" : { "Ref" : "EBSVolume" },
@@ -184,6 +182,7 @@
             }
         },
         "DBRecord" : {
+          "DependsOn": "ElasticIP", 
           "Type" : "AWS::Route53::RecordSet",
           "Properties" : {
             "HostedZoneId" : { "Fn::ImportValue" : "HumankindHostedZoneId" },
