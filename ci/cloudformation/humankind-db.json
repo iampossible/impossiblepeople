@@ -16,10 +16,7 @@
       "ap-northeast-1" : { "64" : "ami-afb09dc8" },
       "sa-east-1"      : { "64" : "ami-4090f22c" }
     }
-
   },
-
-
     "Parameters": {
       "InstanceType" : {
         "Description" : "EC2 instance type",
@@ -185,30 +182,42 @@
                     }
                 ]
             }
+        },
+        "DBRecord" : {
+          "Type" : "AWS::Route53::RecordSet",
+          "Properties" : {
+            "HostedZoneId" : { "Fn::ImportValue" : "HumankindHostedZoneId" },
+            "Comment" : "DNS name for db instance.",
+            "Name" : {
+              "Fn::Join" : [ "", [
+              "db.",
+              {"Fn::ImportValue" : "HumankindHostedZoneName"} ,"."
+              ] ]
+            },
+            "Type" : "A",
+            "TTL" : "900",
+            "ResourceRecords" : [
+            { "Fn::GetAtt" : [ "Server", "PublicIp" ] }
+            ]
+          }
         }
-
     },
-
     "Outputs": {
-        "Neo4jWebadmin" : {
-            "Value" : { "Fn::Join" : ["", ["http://", { "Fn::GetAtt" : [ "Server", "PublicIp" ]}]] },
-            "Description" : "This is the address of your Neo4j server web administration console."
-          },
-        "Neo4jEndPoint" : {
-            "Value" : { "Fn::Join" : ["", ["http://", { "Fn::GetAtt" : [ "Server", "PublicIp" ]}, "/db/data/"]] },
-            "Description" : "This is the address of your Neo4j server, that your application will use."
-          },
-        "SshAccess": {
-            "Value" : {"Fn::Join" : ["", ["ssh -i ${HOME}/.ssh/", {"Ref": "SSHKeyName"}, ".pem -l ubuntu ", { "Fn::GetAtt" : [ "Server", "PublicIp" ]}]]},
-            "Description" : "This is how you gain remote access to the machine."
-        },
-        "PublicIp": {
-            "Value": { "Fn::GetAtt" : [ "Server", "PublicIp" ]},
-            "Description": "Public IP of the DB instance"
-        },
-        "Note" :{
-            "Value" : "It takes a few minutes for your EC2 machine to finish booting and start Neo4j.  Coffee time?",
-            "Description" : ""
-        }
+      "Neo4jWebadmin" : {
+        "Value" : { "Fn::Join" : ["", ["http://", { "Fn::GetAtt" : [ "Server", "PublicIp" ]}]] },
+        "Description" : "This is the address of your Neo4j server web administration console."
+      },
+      "Neo4jEndPoint" : {
+        "Value" : { "Fn::Join" : ["", ["http://", { "Fn::GetAtt" : [ "Server", "PublicIp" ]}, "/db/data/"]] },
+        "Description" : "This is the address of your Neo4j server, that your application will use."
+      },
+      "SshAccess": {
+        "Value" : {"Fn::Join" : ["", ["ssh -i ${HOME}/.ssh/", {"Ref": "SSHKeyName"}, ".pem -l ubuntu ", { "Fn::GetAtt" : [ "Server", "PublicIp" ]}]]},
+        "Description" : "This is how you gain remote access to the machine."
+      },
+      "PublicIp": {
+        "Value": { "Fn::GetAtt" : [ "Server", "PublicIp" ]},
+        "Description": "Public IP of the DB instance"
+      }
     }
 }

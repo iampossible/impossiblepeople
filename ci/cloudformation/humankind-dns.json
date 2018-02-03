@@ -1,0 +1,39 @@
+{
+  "Description": "humankind - creates the hostedzone and the necessary DNS stuff",
+  "AWSTemplateFormatVersion": "2010-09-09",
+  
+  "Parameters": {
+    "HostedZoneName": {
+        "Description" : "Domain name for this zone",
+        "Type" : "String",
+        "Default" : "humankind.codeyourfuture.io"
+    }
+  },
+  "Resources": {
+    "DNS": {
+      "Type": "AWS::Route53::HostedZone",
+      "Properties": {
+        "HostedZoneConfig": {
+          "Comment": { "Ref": "HostedZoneName" } 
+        },
+        "Name": { "Ref": "HostedZoneName" }  
+      }
+    }
+  },
+  "Outputs": {
+    "HumankindHostedZoneName" : {
+      "Value" : { "Ref": "HostedZoneName"  },
+      "Description" : "This is the address of your Neo4j server web administration console.",
+      "Export": {
+        "Name" : "HumankindHostedZoneName"
+      }
+    },
+  "HumankindHostedZoneId" : { 
+      "Value" : { "Ref": "DNS"  },
+      "Description" : "ID of the HostedZone",
+      "Export": {
+        "Name" : "HumankindHostedZoneId" 
+      }
+    }
+  }
+}
