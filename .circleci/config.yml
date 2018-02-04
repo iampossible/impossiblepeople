@@ -21,7 +21,7 @@ jobs:
           command: echo "we should be running some web tests here!" 
       - run:
           name: Build humankind-web image
-          command: docker build -t $DOCKER_REPO/$DOCKER_USER/humankind-web:$VERSION --build-arg version=$VERSION ./web/ && docker tag $DOCKER_REPO/$DOCKER_USER/humankind-web:$VERSION $DOCKER_REPO/$DOCKER_USER/humankind-web:latest
+          command: echo "$VERSION" > ./web/public/version.txt; docker build -t $DOCKER_REPO/$DOCKER_USER/humankind-web:$VERSION --build-arg version=$VERSION ./web/ && docker tag $DOCKER_REPO/$DOCKER_USER/humankind-web:$VERSION $DOCKER_REPO/$DOCKER_USER/humankind-web:latest
       - run:
           name: Build humankind-api image
           command: docker build -t $DOCKER_REPO/$DOCKER_USER/humankind-api:$VERSION --build-arg version=$VERSION ./api/ && docker tag $DOCKER_REPO/$DOCKER_USER/humankind-api:$VERSION $DOCKER_REPO/$DOCKER_USER/humankind-api:latest
@@ -37,7 +37,7 @@ jobs:
   deploy:
     docker:
       # specify the version you desire here
-      - image: circleci/node:7.10
+      - image: circleci/node:7.10.1
     working_directory: ~/repo  
     steps:
       - checkout
@@ -46,13 +46,13 @@ jobs:
           command: echo 'export VERSION=$(echo $CIRCLE_SHA1 | cut -c -7)' >> $BASH_ENV 
       - run: 
          name: Install AWS cli
-         command: apt update && apt install awscli, python-pip
+         command: sudo apt install python-pip python-dev && sudo pip install awscli 
       - run:
           name: Deploy humankind-api to aws
-          command: ./ci/deploy.sh --cluster humankind --service humankind-api --task humankind-api-task docker.io/codeyourfuture/humankind-api:$VERSION
+          command: ./ci/deploy.sh --cluster humankind-cluster --service humankind-api --task humankind-api-task docker.io/codeyourfuture/humankind-api:$VERSION
       - run:
           name: Deploy humankind-web to aws
-          command: ./ci/deploy.sh --cluster humankind --service humankind-web --task humankind-web docker.io/codeyourfuture/humankind-web:$VERSION
+          command: ./ci/deploy.sh --cluster humankind-cluster --service humankind-web --task humankind-web-task docker.io/codeyourfuture/humankind-web:$VERSION
 
 workflows:
   version: 2
