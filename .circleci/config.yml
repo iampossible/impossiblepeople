@@ -42,8 +42,14 @@ jobs:
     steps:
       - checkout
       - run:
-          name: Deploy to aws
-          command: ./ci/deploy.sh
+          name: Set env variables
+          command: echo 'export VERSION=$(echo $CIRCLE_SHA1 | cut -c -7)' >> $BASH_ENV      
+      - run:
+          name: Deploy humankind-api to aws
+          command: ./ci/deploy.sh --cluster humankind --service humankind-api --task humankind-api-task docker.io/codeyourfuture/humankind-api:$VERSION
+      - run:
+          name: Deploy humankind-web to aws
+          command: ./ci/deploy.sh --cluster humankind --service humankind-web --task humankind-web docker.io/codeyourfuture/humankind-web:$VERSION
 
 workflows:
   version: 2

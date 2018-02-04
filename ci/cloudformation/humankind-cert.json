@@ -9,7 +9,8 @@
         "DomainValidationOptions" : [{
           "DomainName" : "humankind.codeyourfuture.io",
           "ValidationDomain" : "codeyourfuture.io"
-        }]
+        }],
+        "SubjectAlternativeNames": ["*.codeyourfuture.io"]
       }
     }
   }
