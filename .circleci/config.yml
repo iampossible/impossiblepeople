@@ -14,7 +14,14 @@ jobs:
       - run:
           name: Run API tests
           #command: cd api && yarn test
-          command: echo "we should be running some tests here!" 
+          command: echo "we should be running some api tests here!" 
+      - run:
+          name: Run Web tests
+          #command: cd web && yarn test
+          command: echo "we should be running some web tests here!" 
+      - run:
+          name: Build humankind-web image
+          command: docker build -t $DOCKER_REPO/$DOCKER_USER/humankind-web:$VERSION --build-arg version=$VERSION ./web/ && docker tag $DOCKER_REPO/$DOCKER_USER/humankind-web:$VERSION $DOCKER_REPO/$DOCKER_USER/humankind-web:latest
       - run:
           name: Build humankind-api image
           command: docker build -t $DOCKER_REPO/$DOCKER_USER/humankind-api:$VERSION --build-arg version=$VERSION ./api/ && docker tag $DOCKER_REPO/$DOCKER_USER/humankind-api:$VERSION $DOCKER_REPO/$DOCKER_USER/humankind-api:latest
@@ -24,12 +31,16 @@ jobs:
       - run:
           name: Docker push humankind-api image
           command: docker push $DOCKER_REPO/$DOCKER_USER/humankind-api
+      - run:
+          name: Docker push humankind-web image
+          command: docker push $DOCKER_REPO/$DOCKER_USER/humankind-web
   deploy:
     docker:
       # specify the version you desire here
       - image: circleci/node:7.10
     working_directory: ~/repo  
     steps:
+      - checkout
       - run:
           name: Deploy to aws
           command: ./ci/deploy.sh
