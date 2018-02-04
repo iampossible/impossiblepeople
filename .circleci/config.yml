@@ -43,7 +43,15 @@ jobs:
       - checkout
       - run:
           name: Set env variables
-          command: echo 'export VERSION=$(echo $CIRCLE_SHA1 | cut -c -7)' >> $BASH_ENV      
+          command: echo 'export VERSION=$(echo $CIRCLE_SHA1 | cut -c -7)' >> $BASH_ENV 
+      -run: 
+         name: Install AWS cli
+         command: |
+            apt-get -y -qq update
+            apt-get -y -qq install python3.4-dev
+            curl -O https://bootstrap.pypa.io/get-pip.py
+            python3.4 get-pip.py --user
+            pip install awscli --upgrade --user
       - run:
           name: Deploy humankind-api to aws
           command: ./ci/deploy.sh --cluster humankind --service humankind-api --task humankind-api-task docker.io/codeyourfuture/humankind-api:$VERSION
