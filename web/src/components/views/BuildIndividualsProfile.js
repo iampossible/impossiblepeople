@@ -94,7 +94,7 @@ export default class BuildIndividualsProfile extends Component {
           return response.json();
         })
         .then(response => {
-          if (!response.ok) {
+          if (response.message) {
             this.setState({
               uploadingImage: false
             });
@@ -203,7 +203,7 @@ export default class BuildIndividualsProfile extends Component {
         <Col sm={10}>
           <Form>
             <FormGroup row id="profilePictureContainer">
-              <Label for="exampleFile" sm={2} id="profilePictureLabel">
+              <Label for="profileImage" sm={2} id="profilePictureLabel">
                 Profile Picture
               </Label>
               <Col sm={10}>

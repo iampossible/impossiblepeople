@@ -1,7 +1,6 @@
-import React, { Component } from "react";
+import React, { Component, Fragment } from "react";
 import { Row, Col, Tooltip } from "reactstrap";
 import * as moment from "moment";
-import currentUserAvatar from "../assets/images/profile.png";
 
 class DisplayPost extends Component {
   state = {
@@ -28,24 +27,33 @@ class DisplayPost extends Component {
       <Row xs={12}>
         <Col sm={3} xs={12}>
           <Row className="feedPhoto">
-            <img
-              className="img-fluid feedPhoto"
-              src={postData.author.imageSource || currentUserAvatar}
-              alt="profile"
-            />
-            <blockquote className="blockquote">
-              <footer className="blockquote-footer">
-                <span className="feedAuthor">
-                  <i className="fa fa-sm fa-chevron-right" aria-hidden="true" />
-                  &nbsp;
-                  {//temporary as we have data in the db that doesn't have organisationName
-                  postData.author.organisationName
-                    ? postData.author.organisationName
-                    : postData.author.username}
-                </span>&nbsp;
-                <p className="feedPostType">{postData.postType}</p>
-              </footer>
-            </blockquote>
+            <Col sm={1} />
+            <Col sm={10}>
+              <img
+                className="img-fluid feedPhoto"
+                src={postData.author.imageSource}
+                alt="profile"
+              />
+              <blockquote className="blockquote">
+                <footer className="blockquote-footer">
+                  <span className="feedAuthor">
+                    {//temporary as we have data in the db that doesn't have organisationName
+                    postData.author.organisationName
+                      ? postData.author.organisationName
+                      : postData.author.username}
+                  </span>&nbsp;
+                  <p className="feedPostType">
+                    <i
+                      className="fa fa-sm fa-chevron-right"
+                      aria-hidden="true"
+                    />
+                    &nbsp;
+                    {postData.postType}
+                  </p>
+                </footer>
+              </blockquote>
+            </Col>
+            <Col sm={1} />
           </Row>
         </Col>
         <Col className="feedBody" sm={9} xs={12}>
@@ -91,8 +99,18 @@ class DisplayPost extends Component {
               ) : null}
             </Col>
           </Row>
+          {postData.imageSource ? (
+            <Row>
+              <Col sm={10} className="postImage">
+                <img src={postData.imageSource} alt={postData.postID} />
+              </Col>
+              <Col sm={2} />
+            </Row>
+          ) : (
+            ""
+          )}
           <Row>
-            <Col xs={12}>
+            <Col sm={11}>
               <blockquote className="blockquote">
                 <p className="feedContent">{postData.content}</p>
                 <footer className="blockquote-footer">
@@ -131,6 +149,22 @@ class DisplayPost extends Component {
                           {moment(postData.createdAt).format("MMM Do, YYYY")}&nbsp;
                         </p>
                       </Col>
+                      {postData.url ? (
+                        <Fragment>
+                          <Col xs={1} className="feedCreatedAtIcon">
+                            <span>
+                              <i className="fa fas fa-link" />
+                            </span>
+                          </Col>
+                          <Col xs={11}>
+                            <a className="feedCreatedAt" href={postData.url}>
+                              Read More ...
+                            </a>
+                          </Col>
+                        </Fragment>
+                      ) : (
+                        ""
+                      )}
                     </Row>
                   </cite>
                 </footer>

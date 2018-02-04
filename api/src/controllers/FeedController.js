@@ -31,6 +31,8 @@ class FeedController extends Controller {
             resolved: node.post.resolved || false,
             createdAt: node.rel.properties.at,
             createdAtSince: moment(node.rel.properties.at).fromNow(),
+            imageSource: node.post.imageSource,
+            url: node.post.url,
             author: {
               //temporary as we have data in the db that doesn't have organisationName
               organisationName: node.creator.organisationName

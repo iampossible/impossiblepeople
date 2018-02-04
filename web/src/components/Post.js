@@ -8,10 +8,11 @@ import {
   FormGroup,
   Label,
   Input,
-  Tooltip
+  Tooltip,
+  Alert
 } from "reactstrap";
 import { RingLoader } from "react-spinners";
-import currentUserAvatar from "../assets/images/profile.png";
+import { getBase64 } from "../utillity/helpers";
 
 export default class Post extends Component {
   state = {
@@ -27,9 +28,15 @@ export default class Post extends Component {
     useCurrentLocationTooltipOpen: false,
     postTypeAskChecked: false,
     postTypeOfferChecked: false,
+    //default image
+    imageSource:
+      "https://humankind-assets.s3.eu-west-1.amazonaws.com/post/gr8QHk31k2Raa",
+    url: "",
     postID: null,
-    updateButton: false
+    updateButton: false,
+    imageLoadError: null
   };
+
   componentWillReceiveProps = nextProps => {
     if (nextProps.postToUpdate !== "") {
       let interests = nextProps.postToUpdate[0].interests.map(interest => {
@@ -63,23 +70,29 @@ export default class Post extends Component {
         longitude: nextProps.postToUpdate[0].longitude,
         timeRequired: nextProps.postToUpdate[0].timeRequired,
         postID: nextProps.postToUpdate[0].postID,
+        url: nextProps.postToUpdate[0].url,
+        imageSource: nextProps.postToUpdate[0].imageSource,
         interests,
         loadingLocation: false,
-        updateButton: true
+        updateButton: true,
+        uploadingImage: false
       });
     }
   };
+
   detectLocation = e => {
     this.setState({
       loadingLocation: true
     });
     this.getLocation();
   };
+
   toggleUseCurrentLocationTooltip = () => {
     this.setState({
       useCurrentLocationTooltipOpen: !this.state.useCurrentLocationTooltipOpen
     });
   };
+
   //to handle multiple selection of Tags
   handleMultipleSelect = event => {
     //https://reactjs.org/docs/events.html#event-pooling
@@ -121,13 +134,14 @@ export default class Post extends Component {
           postTypeAskChecked: false
         });
       }
-    } //We may need an else statement here
+    }
 
     if (name === "location") {
       this.setState({
         loadingLocation: false
       });
     }
+
     this.setState({
       [name]: target.value
     });
@@ -135,10 +149,8 @@ export default class Post extends Component {
 
   handleSubmitRequest = e => {
     e.persist();
-    let buttonText = e.target.textContent.trim();
-    //implement post
-    //remove the redirect state when constructing the body of the request
 
+    let buttonText = e.target.textContent.trim();
     let {
       loadingLocation,
       updateButton,
@@ -147,6 +159,9 @@ export default class Post extends Component {
       selectedOptions,
       useCurrentLocationTooltipOpen,
       postID,
+      uploadingImage,
+      imageLoadError,
+      locationError,
       ...post
     } = this.state;
 
@@ -158,7 +173,7 @@ export default class Post extends Component {
       url = `/api/post/update/${this.state.postID}`;
       method = "PUT";
     }
-    // post.interests = [...this.state.interests];
+
     fetch(url, {
       credentials: "same-origin",
       method: method,
@@ -168,7 +183,6 @@ export default class Post extends Component {
       },
       body: JSON.stringify(post)
     })
-      //just for see the result of the operation...needs to be removed
       .then(response => {
         if (response.status > 399) return { error: response.message };
         return response.json();
@@ -184,9 +198,13 @@ export default class Post extends Component {
               longitude: "",
               timeRequired: "",
               interests: [],
+              url: "",
+              imageSource:
+                "https://humankind-assets.s3.eu-west-1.amazonaws.com/post/gr8QHk31k2Raa",
               postTypeAskChecked: false,
               postTypeOfferChecked: false,
-              updateButton: false
+              updateButton: false,
+              locationError: null
             },
             () => {
               Array.from(
@@ -203,6 +221,7 @@ export default class Post extends Component {
   };
 
   getLocation() {
+    const TIME_OUT_SECOND = 6000;
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(position => {
         fetch(`/api/location`, {
@@ -227,33 +246,156 @@ export default class Post extends Component {
                 loadingLocation: false
               });
             } else {
-              //display can't access your location at the moment
-              throw new Error("Can't locate your location");
+              this.setState({
+                loadingLocation: false
+              });
+              throw new Error(
+                "Can't locate your location. Please, put it maually or try later"
+              );
             }
           })
-          .catch(err => console.log("Error: " + err.message));
+          .catch(err => {
+            this.setState(
+              {
+                locationError: "Error: " + err.message
+              },
+              () => {
+                setTimeout(() => {
+                  this.setState({
+                    locationError: null
+                  });
+                }, TIME_OUT_SECOND);
+              }
+            );
+          });
       });
     } else {
-      alert("Geolocation is not supported by this browser.");
+      this.setState(
+        {
+          locationError: "Error: Geolocation is not supported by this browser."
+        },
+        () => {
+          setTimeout(() => {
+            this.setState({
+              locationError: null
+            });
+          }, TIME_OUT_SECOND);
+        }
+      );
     }
   }
+
+  handleImageSelection = e => {
+    const TIME_OUT_SECOND = 6000;
+    const files = e.target.files;
+    getBase64(files[0]).then(res => {
+      this.setState({
+        uploadingImage: true
+      });
+      fetch(`/api/post/image`, {
+        credentials: "same-origin",
+        ContentType: "image/png",
+        method: "POST",
+        body: JSON.stringify({
+          imageData: res
+        })
+      })
+        .then(response => {
+          return response.json();
+        })
+        .then(response => {
+          if (response.message) {
+            this.setState({
+              uploadingImage: false
+            });
+            throw new Error(response.message);
+          }
+          this.setState({
+            imageSource: response.imageSource,
+            uploadingImage: false
+          });
+        })
+        .catch(err => {
+          this.setState(
+            {
+              imageLoadError: `Can't upload Image: the image size is very large or it is not of JPG/JPEG type`
+            },
+            () => {
+              //clear the error message
+              setTimeout(() => {
+                this.setState({
+                  imageLoadError: null
+                });
+              }, TIME_OUT_SECOND);
+            }
+          );
+        });
+    });
+  };
+
   render() {
     return (
       <div id="post">
         <Row>
           <Col sm={3} xs={12} id="organisationAvatar">
             <img
-              src={this.props.user.imageSource || currentUserAvatar}
+              src={this.props.user.imageSource}
               width="100%"
               alt="Organisation Avatar"
             />
           </Col>
           <Col sm={8} xs={12} id="postForm">
             <Form>
-              <FormGroup row>
-                <Col sm={2} xs={12}>
-                  <Label for="content">Content</Label>
+              <FormGroup row id="postPictureContainer">
+                <Label for="postImageFile" sm={2} id="postImageLabel">
+                  Picture
+                </Label>
+                <Col sm={10}>
+                  <Col sm={12} id="postImageFile">
+                    {this.state.uploadingImage ? (
+                      <RingLoader
+                        id="ringLoader"
+                        color="#123abc"
+                        loading={this.state.loading}
+                        size={100} /*the size of the spinner*/
+                      />
+                    ) : (
+                      <img
+                        id="preview"
+                        src={this.state.imageSource}
+                        alt={"Post image"}
+                      />
+                    )}
+                  </Col>
+                  {this.state.imageLoadError ? (
+                    <Row>
+                      <Col sm={10} id="postImageFileInfo">
+                        <Alert color="danger">
+                          {" "}
+                          {this.state.imageLoadError}
+                        </Alert>
+                      </Col>
+                    </Row>
+                  ) : (
+                    ""
+                  )}
+                  <Row id="uploadPostImageButton">
+                    <Col>
+                      <Input
+                        type="file"
+                        name="postImageFile"
+                        id="upladPostImage"
+                        accept=".jpg, .jpeg, .png"
+                        onChange={this.handleImageSelection}
+                      />
+                    </Col>
+                  </Row>
                 </Col>
+              </FormGroup>
+              <FormGroup row>
+                <Label for="content" sm={2}>
+                  Content
+                </Label>
                 <Col sm={9} xs={12}>
                   <Input
                     type="textarea"
@@ -268,11 +410,9 @@ export default class Post extends Component {
                 <Col sm={1} />
               </FormGroup>
               <FormGroup row>
-                <Col xs={2}>
-                  <Label for="postType">
-                    <p>Type</p>
-                  </Label>
-                </Col>
+                <Label for="postType" sm={2}>
+                  <p>Type</p>
+                </Label>
                 <Col xs={4}>
                   <Label check>
                     <Input
@@ -298,7 +438,23 @@ export default class Post extends Component {
                 <Col sm={2} />
               </FormGroup>
               <FormGroup row>
-                <Label for="timeRequired" sm={2} xs={12}>
+                <Label for="url" sm={2}>
+                  &nbsp; URL&nbsp;
+                </Label>
+                <Col sm={5} xs={12}>
+                  <Input
+                    type="text"
+                    name="url"
+                    id="url"
+                    placeholder="url for more information"
+                    onChange={this.handleChange}
+                    value={this.state.url}
+                  />
+                </Col>
+                <Col sm={5} />
+              </FormGroup>
+              <FormGroup row>
+                <Label for="timeRequired" sm={2}>
                   &nbsp; Duration&nbsp;
                 </Label>
                 <Col sm={5} xs={12}>
@@ -311,12 +467,13 @@ export default class Post extends Component {
                     value={this.state.timeRequired}
                   />
                 </Col>
+                <Col sm={5} />
               </FormGroup>
               <FormGroup row>
-                <Col sm={2} xs={12}>
-                  <Label for="location">&nbsp;Location&nbsp;</Label>
-                </Col>
-                <Col sm={8} xs={12}>
+                <Label for="location" sm={2}>
+                  &nbsp;Location&nbsp;
+                </Label>
+                <Col sm={8}>
                   <Input
                     type="textarea"
                     name="location"
@@ -340,8 +497,8 @@ export default class Post extends Component {
                     Use Current Location
                   </Tooltip>
                 </Col>
-                <Col xs={1}>
-                  {this.state.loadingLocation ? (
+                {this.state.loadingLocation ? (
+                  <Col xs={1}>
                     <div className="RingLoader location-loading">
                       <RingLoader
                         color="#123abc"
@@ -349,11 +506,20 @@ export default class Post extends Component {
                         size={30} /*the size of the spinner*/
                       />
                     </div>
-                  ) : (
-                    ""
-                  )}
-                </Col>
+                  </Col>
+                ) : (
+                  ""
+                )}
               </FormGroup>
+              {this.state.locationError ? (
+                <Row>
+                  <Col sm={10} id="locationErrorInfo">
+                    <Alert color="danger"> {this.state.locationError}</Alert>
+                  </Col>
+                </Row>
+              ) : (
+                ""
+              )}
               <PostInterestTags
                 onClick={this.handleMultipleSelect}
                 tagsRef={el => {
