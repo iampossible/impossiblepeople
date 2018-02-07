@@ -60,8 +60,8 @@ export default class Interest extends Component {
                     <Button
                       className={
                         this.props.interests.has(interest.interestID)
-                          ? "interestButton selectedButton"
-                          : "interestButton"
+                          ? "interestButton btn btn-block btn-md btn-inverse "
+                          : "interestButton btn btn-block btn-md btn-primary"
                       }
                       onClick={e => {
                         this.props.handleInterestSelection(e);
