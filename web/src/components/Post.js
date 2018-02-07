@@ -14,6 +14,9 @@ import {
 import { RingLoader } from "react-spinners";
 import { getBase64 } from "../utillity/helpers";
 
+const DEFAULT_IMAGE =
+  "https://humankind-assets.s3.eu-west-1.amazonaws.com/post/gr8QHk31k2Raa";
+
 export default class Post extends Component {
   state = {
     content: "",
@@ -28,9 +31,9 @@ export default class Post extends Component {
     useCurrentLocationTooltipOpen: false,
     postTypeAskChecked: false,
     postTypeOfferChecked: false,
+    loadingLocationButtonDisabled: false,
     //default image
-    imageSource:
-      "https://humankind-assets.s3.eu-west-1.amazonaws.com/post/gr8QHk31k2Raa",
+    imageSource: DEFAULT_IMAGE,
     url: "",
     postID: null,
     updateButton: false,
@@ -75,7 +78,8 @@ export default class Post extends Component {
         interests,
         loadingLocation: false,
         updateButton: true,
-        uploadingImage: false
+        uploadingImage: false,
+        loadingLocationButtonDisabled: false
       });
     }
   };
@@ -150,7 +154,7 @@ export default class Post extends Component {
   handleSubmitRequest = e => {
     e.persist();
 
-    let buttonText = e.target.textContent.trim();
+    const buttonText = e.target.textContent.trim();
     let {
       loadingLocation,
       updateButton,
@@ -162,6 +166,7 @@ export default class Post extends Component {
       uploadingImage,
       imageLoadError,
       locationError,
+      loadingLocationButtonDisabled,
       ...post
     } = this.state;
 
@@ -204,7 +209,8 @@ export default class Post extends Component {
               postTypeAskChecked: false,
               postTypeOfferChecked: false,
               updateButton: false,
-              locationError: null
+              locationError: null,
+              loadingLocationButtonDisabled: false
             },
             () => {
               Array.from(
@@ -222,53 +228,83 @@ export default class Post extends Component {
 
   getLocation() {
     const TIME_OUT_SECOND = 6000;
+    const TIME_OUT_GEO_LOADING = 27000;
+    this.setState({
+      loadingLocationButtonDisabled: true
+    });
     if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition(position => {
-        fetch(`/api/location`, {
-          credentials: "same-origin",
-          method: "POST",
-          headers: {
-            Accept: "application/json",
-            "Content-Type": "application/json"
-          },
-          body: JSON.stringify({
-            latitude: position.coords.latitude,
-            longitude: position.coords.longitude
+      const geo_options = {
+        enableHighAccuracy: true,
+        timeout: TIME_OUT_GEO_LOADING
+      };
+      navigator.geolocation.getCurrentPosition(
+        position => {
+          fetch(`/api/location`, {
+            credentials: "same-origin",
+            method: "POST",
+            headers: {
+              Accept: "application/json",
+              "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+              latitude: position.coords.latitude,
+              longitude: position.coords.longitude
+            })
           })
-        })
-          .then(response => response.json())
-          .then(location => {
-            if (location.friendlyName) {
-              this.setState({
-                latitude: position.coords.latitude | 0,
-                longitude: position.coords.longitude | 0,
-                location: location.friendlyName,
-                loadingLocation: false
-              });
-            } else {
-              this.setState({
-                loadingLocation: false
-              });
-              throw new Error(
-                "Can't locate your location. Please, put it maually or try later"
-              );
-            }
-          })
-          .catch(err => {
-            this.setState(
-              {
-                locationError: "Error: " + err.message
-              },
-              () => {
-                setTimeout(() => {
-                  this.setState({
-                    locationError: null
-                  });
-                }, TIME_OUT_SECOND);
+            .then(response => response.json())
+            .then(location => {
+              if (location.friendlyName) {
+                this.setState({
+                  latitude: position.coords.latitude | 0,
+                  longitude: position.coords.longitude | 0,
+                  location: location.friendlyName,
+                  loadingLocation: false
+                });
+              } else {
+                this.setState({
+                  loadingLocation: false,
+                  loadingLocationButtonDisabled: false
+                });
+                throw new Error(
+                  "Can't locate your location. Please, put it maually or try later"
+                );
               }
-            );
-          });
-      });
+            })
+            .catch(err => {
+              this.setState(
+                {
+                  locationError: "Error: " + err.message
+                },
+                () => {
+                  setTimeout(() => {
+                    this.setState({
+                      locationError: null
+                    });
+                  }, TIME_OUT_SECOND);
+                }
+              );
+            });
+        },
+        error => {
+          // if(error.code===1){
+          this.setState(
+            {
+              locationError: `Error: you need to allow us to use your browser's Geolocation`,
+              loadingLocation: false,
+              loadingLocationButtonDisabled: false
+            },
+            () => {
+              setTimeout(() => {
+                this.setState({
+                  locationError: null
+                });
+              }, TIME_OUT_SECOND);
+            }
+          );
+          // }
+        },
+        geo_options
+      );
     } else {
       this.setState(
         {
@@ -337,14 +373,8 @@ export default class Post extends Component {
     return (
       <div id="post">
         <Row>
-          <Col sm={3} xs={12} id="organisationAvatar">
-            <img
-              src={this.props.user.imageSource}
-              width="100%"
-              alt="Organisation Avatar"
-            />
-          </Col>
-          <Col sm={8} xs={12} id="postForm">
+          <Col sm={1} />
+          <Col sm={10} xs={12} id="postForm">
             <Form>
               <FormGroup row id="postPictureContainer">
                 <Label for="postImageFile" sm={2} id="postImageLabel">
@@ -473,7 +503,7 @@ export default class Post extends Component {
                 <Label for="location" sm={2}>
                   &nbsp;Location&nbsp;
                 </Label>
-                <Col sm={8}>
+                <Col sm={5}>
                   <Input
                     type="textarea"
                     name="location"
@@ -483,19 +513,15 @@ export default class Post extends Component {
                     value={this.state.location}
                   />
                 </Col>
-                <Col xs={1} id="locationDetectIconContainer">
+                <Col xs={3} id="locationDetectIconContainer">
                   <Button
                     onClick={e => this.detectLocation(e)}
-                    id="ToolTipUseCurrentLocationIcon">
+                    id="ToolTipUseCurrentLocationIcon"
+                    disabled={this.state.loadingLocationButtonDisabled}
+                    block>
+                    Locate me&nbsp;
                     <i className="material-icons">add_location</i>
                   </Button>
-                  <Tooltip
-                    placement="top"
-                    isOpen={this.state.useCurrentLocationTooltipOpen}
-                    target="ToolTipUseCurrentLocationIcon"
-                    toggle={this.toggleUseCurrentLocationTooltip}>
-                    Use Current Location
-                  </Tooltip>
                 </Col>
                 {this.state.loadingLocation ? (
                   <Col xs={1}>
@@ -513,7 +539,7 @@ export default class Post extends Component {
               </FormGroup>
               {this.state.locationError ? (
                 <Row>
-                  <Col sm={10} id="locationErrorInfo">
+                  <Col sm={8} id="locationErrorInfo">
                     <Alert color="danger"> {this.state.locationError}</Alert>
                   </Col>
                 </Row>

@@ -48,7 +48,6 @@ var updateUser = (userID, imageSource, callback) => {
 class ImageController extends Controller {
   constructor() {
     super();
-
     AWS.config.update({
       accessKeyId: config.aws.accessKey,
       logger: console.info,
@@ -74,7 +73,7 @@ class ImageController extends Controller {
       method: "POST",
       path: "/api/post/image",
       auth: "session",
-      handler: this.imagePost_Post_Handler,
+      handler: this.imagePostPostHandler,
       validate: {
         imageData: Joi.string()
           .regex(/^data:image\/png;base64,.+$/)
@@ -97,6 +96,7 @@ class ImageController extends Controller {
 
     let newImageKey = Hasher.encode(request.auth.credentials.id, Date.now());
     let s3 = new AWS.S3();
+    console.log(AWS.config);
 
     uploadImage(s3, body, `profile/${newImageKey}`, (error, data) => {
       if (error) {
@@ -123,7 +123,7 @@ class ImageController extends Controller {
   }
 
   //post
-  imagePost_Post_Handler(request, reply) {
+  imagePostPostHandler(request, reply) {
     let body = new Buffer(
       request.payload.imageData.replace(/data:image\/png;base64,/, ""),
       "base64"

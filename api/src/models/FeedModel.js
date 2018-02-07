@@ -69,6 +69,7 @@ class FeedModel extends Model {
     );
   }
 
+  //include the comment to be returned with the feed
   _getFeedWithoutFriends(userID) {
     return new Sequence((accept, reject) =>
       this.db.query(
@@ -79,8 +80,11 @@ class FeedModel extends Model {
           creator = user 
           OR (${locationSearch} )
          ) 
-                 
-       RETURN creator, rel, post, collect(interest) AS interests,
+       OPTIONAL MATCH (post) <-[comments:COMMENTS]- (:Person)  
+
+       RETURN creator, rel, post, collect(DISTINCT interest) AS interests,
+       COUNT( DISTINCT comments) AS commentCount,
+       
           [] AS commonFriends
           
        ORDER BY rel.at DESC`,

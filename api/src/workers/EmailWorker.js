@@ -1,39 +1,45 @@
-'use strict';
-
-const Fs = require('fs');
-const Nodemailer = require('nodemailer');
-
-const Config = require('config/server');
-const Worker = require('core/Worker');
+"use strict";
+const Fs = require("fs");
+const Nodemailer = require("nodemailer");
+const AWS = require("aws-sdk");
+const Config = require("config/server");
+const Worker = require("core/Worker");
 
 class EmailWorker extends Worker {
   constructor() {
-    super('email');
+    super("email");
+    AWS.config.update({
+      accessKeyId: Config.aws.accessKey,
+      logger: console.info,
+      region: "eu-west-1",
+      secretAccessKey: Config.aws.secretKey,
+      sslEnabled: true
+    });
 
-    this.on('WELCOME_EMAIL_EVENT', this.onWelcome.bind(this));
-    this.on('INVITE_EMAIL_EVENT', this.onInvite.bind(this));
-    this.on('RECOVER_PASSWORD_EMAIL_EVENT', this.onRecoverPassword.bind(this));
+    this.on("WELCOME_EMAIL_EVENT", this.onWelcome.bind(this));
+    this.on("INVITE_EMAIL_EVENT", this.onInvite.bind(this));
+    this.on("RECOVER_PASSWORD_EMAIL_EVENT", this.onRecoverPassword.bind(this));
 
     this.templateStrings = {};
-    Fs.readFile('templates/welcomeEmail.html', 'utf8', (err, data) => {
+    Fs.readFile("templates/welcomeEmail.html", "utf8", (err, data) => {
       if (err) {
         throw err;
       }
       this.templateStrings.welcome = data;
     });
-    Fs.readFile('templates/welcomeMigrated.html', 'utf8', (err, data) => {
+    Fs.readFile("templates/welcomeMigrated.html", "utf8", (err, data) => {
       if (err) {
         throw err;
       }
       this.templateStrings.welcomeMigrated = data;
     });
-    Fs.readFile('templates/recoveryEmail.html', 'utf8', (err, data) => {
+    Fs.readFile("templates/recoveryEmail.html", "utf8", (err, data) => {
       if (err) {
         throw err;
       }
       this.templateStrings.recovery = data;
     });
-    Fs.readFile('templates/inviteEmail.html', 'utf8', (err, data) => {
+    Fs.readFile("templates/inviteEmail.html", "utf8", (err, data) => {
       if (err) {
         throw err;
       }
@@ -42,35 +48,43 @@ class EmailWorker extends Worker {
   }
 
   onWelcome(msg, id) {
-    console.log(id, 'with', msg);
+    console.log(id, "with", msg);
     // params to pass to template engine: userFirstName, userLastName
     this.sendEmail({
       to: msg.data.userAddress,
-      subject: 'Welcome to Impossible',
+      subject: "Welcome to Impossible",
       // eslint-disable-next-line no-eval, prefer-template
-      html: eval('`' + (msg.data.migrated ? this.templateStrings.welcomeMigrated : this.templateStrings.welcome) + '`')
+      html: eval(
+        "`" +
+          (msg.data.migrated
+            ? this.templateStrings.welcomeMigrated
+            : this.templateStrings.welcome) +
+          "`"
+      )
     });
   }
 
   onInvite(msg, id) {
-    console.log(id, 'with', msg);
+    console.log(id, "with", msg);
     // params to pass to template engine: invitedBy.firstName, invitedBy.lastName
     this.sendEmail({
       to: msg.data.inviteAddress,
-      subject: `${msg.data.invitedBy.firstName} ${msg.data.invitedBy.lastName} has invited you to join Impossible!`,
+      subject: `${msg.data.invitedBy.firstName} ${
+        msg.data.invitedBy.lastName
+      } has invited you to join Impossible!`,
       // eslint-disable-next-line no-eval, prefer-template
-      html: eval('`' + this.templateStrings.invite + '`')
+      html: eval("`" + this.templateStrings.invite + "`")
     });
   }
 
   onRecoverPassword(msg, id) {
-    console.log(id, 'with', msg);
+    console.log(id, "with", msg);
     // params to pass to template engine: userFirstName, userLastName, newPassword
     this.sendEmail({
       to: msg.data.userAddress,
-      subject: 'Your new password',
+      subject: "Your new password",
       // eslint-disable-next-line no-eval, prefer-template
-      html: eval('`' + this.templateStrings.recovery + '`')
+      html: eval("`" + this.templateStrings.recovery + "`")
     });
   }
 
@@ -83,7 +97,7 @@ class EmailWorker extends Worker {
       }
     });
     let email = {
-      from: Config.smtp.from,
+      from: Config.smtp.from
     };
     email = Object.assign(email, options);
     transporter.sendMail(email, (err, info) => {
@@ -95,6 +109,5 @@ class EmailWorker extends Worker {
     });
   }
 }
-
 
 module.exports = EmailWorker;

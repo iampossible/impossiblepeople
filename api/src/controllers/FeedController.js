@@ -31,8 +31,10 @@ class FeedController extends Controller {
             resolved: node.post.resolved || false,
             createdAt: node.rel.properties.at,
             createdAtSince: moment(node.rel.properties.at).fromNow(),
+            //included imageSource, url and commentCount to be returned as part of the feed
             imageSource: node.post.imageSource,
             url: node.post.url,
+            commentCount: node.commentCount,
             author: {
               //temporary as we have data in the db that doesn't have organisationName
               organisationName: node.creator.organisationName

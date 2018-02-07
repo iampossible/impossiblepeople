@@ -60,11 +60,11 @@ class UserController extends Controller {
         email: Joi.string().email(),
         firstName: Joi.string()
           .trim()
-          .min(3)
+          .min(2)
           .max(255),
         lastName: Joi.string()
           .trim()
-          .min(3)
+          .min(2)
           .max(255),
         latitude: Joi.number()
           .min(-90)
