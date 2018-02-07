@@ -26,21 +26,8 @@ blockquote:after {
 
 body {
     font: 200 1em/1.5em "Exo 2", "Helvetica Neue", Helvetica, Arial, sans-serif;
-    width: 100%;
-    height: 100%;
-    background: #fff;
-}
-
-body::after {
-    content: "";
-    position: fixed;
-    width: 100vw;
+    width: 100vh;
     height: 100vh;
-    left: 0%;
-    top: 0%;
-    background: #000;
-    opacity: 0.001;
-    z-index: -10;
 }
 
 h1,
@@ -60,60 +47,41 @@ p {
 }
 
 .App {
-    background: transparent !important;
-    min-height: 100vh;
+    background: transparent;
+    height: auto;
     position: relative;
 }
 
 .App-header {
     padding: 30px;
-    padding-top: 25px;
+    padding-top: 15px;
     padding-bottom: 10px;
-    opacity: 0.9;
-    background: #132668;
+    background: #f9e3a2;
     padding-left: 4%;
     padding-right: 1%;
     width: 100vw;
-    height: 170px;
+    height: 70px;
     margin: 0;
 }
 
-.App-header::after {
-    content: "";
-    position: absolute;
-    width: 100vw;
-    height: 170px;
-    left: 0%;
-    top: 0%;
-    background: #000;
-    opacity: 0.3;
-    z-index: -10;
+.App-header #headerImage {
+    text-align: center;
+    margin-top: -5px;
 }
 
-.App-header h1 {
-    padding-left: 35%;
-    font-size: 5em;
-    font-weight: 900;
-    color: #dce2df;
-    font-family: "Lovers Quarrel", cursive;
-    line-height: 1;
-    margin-bottom: 0;
-    padding-bottom: 0;
+.App-header #headerImage img {
+    height: 50px;
+    width: 280px;
 }
 
-.App-header img {
-    width: 80px;
-    height: 80px;
-    padding: 1em;
-    border-radius: 50%;
+.App-header #headerLogoImage img {
+    width: 100%;
+    height: 30px;
     border: 2px solid transparent;
-    background: cornsilk;
-    opacity: 0.6;
 }
 
-#headerImage {
-    padding-top: 0.25%;
-    padding-left: 0;
+#headerLogoImage {
+    padding-top: 0.5em;
 }
 
 #headerNavigationButtons {
@@ -124,24 +92,33 @@ p {
 #headerButtonUpdateInterest,
 #headerButtonApproveOrgs,
 #headerButtonLogout,
-#headerButtonHome,
+#headerButtonFeed,
 #headerButtonProfile {
-    padding-top: 1em;
+    padding-top: 0.5em;
     padding-left: 0;
     padding-right: 0;
-    margin-right: 1em;
+    margin-left: 1.5em;
 }
 
-#headerButtonLogout {
-    margin-right: 0;
+#headerButtonApproveOrgs {
+    margin-left: 0.5em;
 }
+
+#headerButtonLogout,
+#headerButtonProfile,
+#headerButtonFeed {
+    margin-right: 0;
+    margin-left: 0.5em;
+}
+
+
 
 #headerButtonUpdateInterest button,
 #headerButtonApproveOrgs button,
 #headerButtonLogout button,
-#headerButtonHome button,
+#headerButtonFeed button,
 #headerButtonProfile button {
-    background: #c32830;
+    background: #6acf89;
     color: #fff;
     border: none;
     width: 100%;
@@ -150,7 +127,7 @@ p {
 #headerButtonUpdateInterest button:hover,
 #headerButtonApproveOrgs button:hover,
 #headerButtonLogout button:hover,
-#headerButtonHome button:hover,
+#headerButtonFeed button:hover,
 #headerButtonProfile button:hover {
     background: #ff4754;
     color: #fff;
@@ -162,45 +139,47 @@ p {
 }
 
 .App-main {
-    margin-right: auto;
-    margin-left: auto;
-    padding-right: 5%;
-    padding-left: 5%;
+    margin: 0;
+    padding-right: 0;
+    padding-left: 0;
     width: 100vw;
-    padding-bottom: 90px;
+    min-height: 100vh;
+    margin-right: 0;
+    background: #e9e9ef;
+}
+
+.App-main>div {
+    padding-left: 0;
+    padding-right: 0;
+    margin-right: 0;
 }
 
 .App-footer {
-    background: #132668;
-    padding: 1em 0.5em 0 0.5em;
-    position: absolute;
-    bottom: 0%;
-    left: 0%;
+    background: #f9e3a2;
     width: 100vw;
     height: 60px;
     text-align: right;
     margin: 0;
-}
-
-.App-footer::before {
-    content: "";
     position: absolute;
-    width: 100vw;
-    height: 60px;
-    left: 0%;
-    bottom: 0%;
-    background: #000;
-    opacity: 0.3;
+    bottom: -60px;
 }
 
-#register_login_buttonsContainer {
-    margin: 2em auto;
+.App-footer p {
+    margin-top: 0;
+    margin-bottom: 0;
+    font-size: 0.9em;
+}
+
+#termsOfUse,
+#privacyPlicy,
+#footerCopyright {
+    padding-top: 0.7em;
 }
 
 #termsOfUse a,
 #privacyPlicy a {
     font-weight: 400;
-    color: #fff;
+    color: #132668;
 }
 
 #termsOfUse a:hover,
@@ -210,7 +189,7 @@ p {
 }
 
 #footerCopyright {
-    color: cornsilk;
+    color: #132668;
 }
 
 #footerCopyright span {
@@ -219,14 +198,110 @@ p {
     display: inline-block;
 }
 
-#btnFacebook {
-    margin-top: 150px;
-    text-align: center;
+#register_login_buttonsContainer {
+    margin: 0;
+}
+
+#landingPageMain {
+    margin-left: 0;
+    margin-right: 0;
+}
+
+#landingPageSignUpSignInContainer {
+    margin-top: 4em;
+    padding-bottom: 4em;
+}
+
+#landingPageUserType {
+    margin-bottom: 1.5em;
+}
+
+#landingPageUserType p {
+    margin-left: 0.5em;
+}
+
+#landingPageSignUpSignInContainer label {
+    text-align: right;
+}
+
+#landingPageOrganisationButton,
+#landingPageVolunteeButton {
+    border-radius: 0;
+    height: 50px;
+    width: 150px;
+    background: #6acf89;
+    color: #000;
+}
+
+#registerConfirmPassword {
+    padding-right: 0;
+}
+
+#landingPageVolunteeButton {
+    margin-left: 9em;
+}
+
+#landingPageInfo {
+    padding: 2em;
+}
+
+#landingPageInfo {
+    padding-top: 6em;
+    padding-left: 3.5em;
+    background: url("../assets/images/Background illustration web-01.jpg") no-repeat 0% 0%;
+    background-size: cover;
+    color: #fff;
+    min-height: 790px;
+}
+
+#landingPageInfo img {
+    height: 50px;
+    width: 100%;
+    margin-bottom: 4em;
+}
+
+#landingPageInfo i {
+    vertical-align: bottom;
+}
+
+#landingPageInfo p {
+    font-size: 1.5em;
+}
+
+#landingPageOrganisationButton {
+    margin-left: 3em;
+}
+
+#signUpButton {
+    background-color: #fa775b;
+}
+
+#signUpButton:hover {
+    background-color: #c32830;
+}
+
+#signUpFacebook .kep-login-facebook.metro {
+    padding-left: 2.5em;
+    padding-right: 2.5em;
+}
+
+.orLoginWithFacebook {
+    margin: 2em 1em 1em 1em;
+}
+
+#loginFacebook .kep-login-facebook.metro {
+    padding-left: 3em;
+    padding-right: 3em;
+}
+
+#organisationNameLabel {
+    padding-left: 0;
 }
 
 #lists {
     margin-top: 1%;
     padding: 20px 5px;
+    padding-left: 4em;
 }
 
 #lists li {
@@ -238,8 +313,6 @@ p {
 }
 
 .interestButton {
-    background: #363f7f;
-    color: #fff;
     border: none;
 }
 
@@ -387,7 +460,7 @@ hr {
     margin-top: 0;
 }
 
-.filterButtons,
+#filterPosts,
 .feed,
 #post,
 #noFeedMessage,
@@ -399,10 +472,43 @@ hr {
     -moz-border-radius: 5px;
     -webkit-border-radius: 5px;
     border-radius: 5px;
-    margin-top: 2em;
-    padding: 2em 1.5em 1em 1.5em;
     -webkit-box-shadow: 0 1px 6px rgba(0, 0, 0, 0.454);
     box-shadow: 0 3px 5px rgba(0, 0, 0, 0.454);
+}
+
+.feed {
+    padding: 1.5em;
+    margin: 3em auto;
+    padding-bottom: 0;
+}
+
+#post {
+    margin-top: 2em;
+    padding: 1.5em;
+    margin: 2.5em 7em 2.5em 7em;
+}
+
+#noFeedMessage {
+    padding: 1.5em;
+    margin-bottom: 2.5em;
+}
+
+#profile {
+    margin-top: 2em;
+    margin: 2.5em 9em;
+    padding: 2em 3em;
+}
+
+#filterPosts {
+    margin-top: 3em;
+}
+
+#filterPostsAsksOffers,
+#filterPostsMostRecent,
+#filterPostsByTags {
+    margin: 0em 1em;
+    padding: 0.5em 0em;
+    cursor: pointer;
 }
 
 .selectedTag {
@@ -410,6 +516,10 @@ hr {
     background-color: #727b84;
     opacity: 0.65;
     width: 100%;
+}
+
+.activeFilter {
+    font-weight: 700;
 }
 
 .unSelectedTag,
@@ -420,17 +530,17 @@ select option:checked {
 #locationDetectIconContainer {
     padding-left: 0;
     padding-right: 0;
+    align-self: center;
 }
 
 #ToolTipUseCurrentLocationIcon {
-    font-weight: 900;
-    font-size: 1.5em;
-    background: transparent;
-    color: rgb(49, 164, 0);
-    border: 1px solid #132668;
-    padding: 0.4em 0.1em;
+    font-size: 0.9em;
+    color: #fff;
     cursor: pointer;
-    width: 80%;
+}
+
+#ToolTipUseCurrentLocationIcon button {
+    width: 95%;
 }
 
 #ToolTipUseCurrentLocationIcon i {
@@ -453,6 +563,14 @@ select option:checked {
     padding: 0.3em 0.3em;
 }
 
+.input-group .form-control:first-child,
+.input-group .form-control:last-child {
+    border-bottom-left-radius: 6px;
+    border-bottom-right-radius: 6px;
+    border-top-left-radius: 6px;
+    border-top-right-radius: 6px;
+}
+
 #postInterestTags>option {
     padding: 0.3em 0.3em;
     border-bottom: 1px dashed #363f7f;
@@ -472,29 +590,42 @@ select option:checked {
 }
 
 .feedPhoto {
-    justify-content: center;
-    margin-top: 1.5em;
+    margin-top: 1em;
+    padding-left: 0.5em;
+    padding-right: 0.5em;
 }
 
 .feedPhoto img {
-    width: 130px;
-    height: 130px;
+    width: 100%;
+    height: 100%;
     border-radius: 50%;
     border: 1px solid #003366;
 }
 
 .feedTags,
-.feedLocation {
+.feedLocation,
+.feedCreatedAt,
+.feedPostType,
+.feedUrl {
     color: #465362;
     font-size: 1rem;
     opacity: 0.9;
 }
 
+.feedTags {
+    margin-left: 1em;
+    font-style: italic;
+}
+
 .feedTagsIcon,
-.feedLocationIcon,
-.feedCreatedAtIcon {
+.feedLocationIcon {
     color: #003366;
     padding-right: 0;
+    text-align: left;
+}
+
+.feedCreatedAt,
+.feedUrl {
     text-align: right;
 }
 
@@ -513,8 +644,23 @@ select option:checked {
     margin-bottom: 2px;
 }
 
+.separatorHr {
+    margin-top: 1em;
+}
+
+.commentIcon {
+    text-align: right;
+}
+
 #comments {
     margin-top: 1em;
+    background: #d5d5e8;
+    padding: 1em 0.5em;
+    margin-left: -1.6em;
+    margin-right: -1.6em;
+    margin-bottom: -0.2em;
+    border-bottom-left-radius: 6px;
+    border-bottom-right-radius: 6px;
 }
 
 .feedBody {
@@ -523,14 +669,12 @@ select option:checked {
 }
 
 .feedContent {
-    font-size: 0.85em;
+    font-size: 1.2em;
     margin-bottom: 1em;
 }
 
 .currentUserAvatar {
-    padding-left: 0px !important;
-    padding-right: 0px !important;
-    margin-top: 5px;
+    align-self: center;
 }
 
 .currentUserAvatar img {
@@ -538,13 +682,13 @@ select option:checked {
     height: 40px;
     border-radius: 50%;
     border: 1px solid #003366;
+    margin-top: 0.3em;
 }
 
 .commentContainer {
-    padding: 0 1.5em 1em 0;
     border-top-left-radius: 10px;
     border-top-right-radius: 10px;
-    opacity: 0.9;
+    opacity: 0.7;
     color: #0b132b;
 }
 
@@ -559,13 +703,16 @@ button {
 
 .newCommentInputContainer textarea {
     background-color: rgba(0, 0, 0, 0.05);
-    font-family: "Italianno", cursive;
-    font-size: 1.5em;
+    font-size: 0.9em;
     line-height: 1;
+    font-family: "Signika", sans-serif;
 }
 
 .newComment {
-    background: inherit;
+    height: 50px;
+    width: 100%;
+    margin-left: 1em;
+    color: #132668;
 }
 
 .commentButtonContainer {
@@ -608,13 +755,13 @@ button {
 
 .commentPostButton button {
     padding: 0.5em 3em;
-    background: #132668;
-    color: #fff;
+    background: #6acf89;
+    color: #111a49;
     border: none;
 }
 
 .commentPostButton button:hover {
-    background: #111a49;
+    background: #ff4754;
     color: #fff;
 }
 
@@ -665,7 +812,10 @@ button {
 }
 
 .feedAuthor {
-    color: #df4848;
+    align-self: flex-end;
+}
+
+.feedAuthor p {
     font-family: "Exo 2", "Helvetica Neue", Helvetica, Arial, sans-serif;
     font-style: italic;
     font-weight: 600;
@@ -682,6 +832,10 @@ button {
     white-space: nowrap;
 }
 
+.blockquote {
+    border-left: none;
+}
+
 .blockquote-footer::before {
     content: none;
 }
@@ -689,27 +843,7 @@ button {
 .blockquote-footer {
     margin: 1em;
     color: #192243;
-}
-
-.feedBody .blockquote-footer {
-    margin-left: 0;
-}
-
-.blockquote-footer .feedLocation,
-.blockquote-footer .feedTags,
-.blockquote-footer .feedCreatedAt {
-    padding-left: 0px;
-}
-
-.blockquote-footer .feedLocation,
-.blockquote-footer .feedTags {
-    margin: 3px auto !important;
-}
-
-.feedAuthor i {
-    color: #003366;
-    font-weight: 500;
-    font-size: 0.9rem;
+    background: inherit;
 }
 
 .fadeCommentContainer-appear {
@@ -749,7 +883,7 @@ button {
 }
 
 #noFeedMessageContainer {
-    margin-top: 15%;
+    margin-top: 6%;
 }
 
 #noFeedMessage {
@@ -770,7 +904,7 @@ button {
     justify-content: flex-end;
     margin-bottom: 1em;
     padding-right: 0;
-    padding-left: 1.5em;
+    padding-left: 4em;
 }
 
 .updateDeletePostButtonsContainer a {
@@ -779,7 +913,6 @@ button {
 
 .updateDeletePostButtonsContainer a .material-icons {
     font-family: "Material Icons";
-    font-weight: 900;
     font-style: normal;
     line-height: 1;
     vertical-align: -0.3em;
@@ -788,7 +921,7 @@ button {
 
 .updatePostIcon .material-icons {
     color: #132668;
-    margin-right: 1em;
+    margin-right: 0.5em;
     font-size: 1.3em;
 }
 
@@ -810,7 +943,6 @@ button {
     padding-left: 0;
 }
 
-#profilePictureInfo,
 #postImageLabel {
     align-self: center;
 }
@@ -869,7 +1001,7 @@ button {
 
 .feedPostType {
     margin-left: 1em;
-    margin-top: 0.5em;
+    font-size: 1em;
 }
 
 #profilePictureContainer {
@@ -881,13 +1013,13 @@ button {
 #profilePictureContainer #profilePicture {
     width: 250px;
     height: 250px;
-    border-radius: 50%;
 }
 
 #profilePictureContainer #profilePicture img {
     width: 230px;
     height: 230px;
     border-radius: 50%;
+    border: 1px solid #003366;
 }
 
 #profilePictureContainer #profilePicture .css-15s48b {
@@ -900,8 +1032,12 @@ button {
     padding-left: 0;
 }
 
+#orgDescription {
+    height: 150px;
+}
+
 #uploadButton {
-    margin-top: 2em;
+    align-self: flex-end;
 }
 
 #uploadButton .col {
@@ -920,8 +1056,8 @@ button {
         margin-top: 5%;
     }
     .feedPhoto img {
-        width: 80px;
-        height: 80px;
+        width: 50px;
+        height: 50px;
         border-radius: 50%;
     }
     .commentContainer {
@@ -950,14 +1086,8 @@ button {
     .list-group-item {
         padding: 20px !important;
     }
-    #comments .container {
-        padding: auto 0;
-    }
     .commentContent {
         display: block;
-    }
-    #footer {
-        padding: 0;
     }
     #termsOfUse,
     #privacyPlicy,
@@ -966,8 +1096,9 @@ button {
     }
 }
 
-@media (min-width: 1200px) {
+
+/* @media (min-width: 1200px) {
     .App-main {
         max-width: 1140px;
     }
-}
+} */
