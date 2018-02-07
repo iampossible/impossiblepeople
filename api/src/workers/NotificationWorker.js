@@ -155,10 +155,10 @@ class NotificationWorker extends Worker {
     //using nodemailer-ses-transport
     // var transporter = Nodemailer.createTransport(
     //   ses({
-    //     accessKeyId: "AKIAJDSXMCSLYOBYRQ4A",
+    //     accessKeyId: Config.aws.accessKey,
     //     logger: console.info,
     //     region: "eu-west-1",
-    //     secretAccessKey: "WirnJSSQbgQI/zj8rcDszqaeTXng+z7EOc3+8C7+",
+    //     secretAccessKey: Config.aws.secretKey,
     //     sslEnabled: true
     //   })
     // );
