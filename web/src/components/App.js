@@ -10,6 +10,7 @@ import BuildOrgProfile from "./views/BuildOrgProfile";
 import BuildIndividualsProfile from "./views/BuildIndividualsProfile";
 import Feed from "../containers/Feed";
 import "bootstrap/dist/css/bootstrap.css";
+import "../assets/flatUI-css/flat-ui.css";
 import "./App.css";
 import { Row, Col } from "reactstrap";
 import Header from "./views/Header";
@@ -24,7 +25,13 @@ const Main = props => {
         exact
         path="/"
         render={routeProps => (
-          <LandingPage {...routeProps} setUser={props.setUser} />
+          <LandingPage
+            {...routeProps}
+            setUser={props.setUser}
+            register={props.register}
+            login={props.login}
+            toggleDisplayForm={props.toggleDisplayForm}
+          />
         )}
       />
       <Route
@@ -80,7 +87,11 @@ class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      user: {}
+      user: {},
+      //to whether display login form or not
+      login: false,
+      //to whether display registration form or not
+      register: false
     };
   }
 
@@ -89,6 +100,20 @@ class App extends Component {
       this.setState({ user });
     });
   }
+
+  toggleDisplayForm = e => {
+    if (e.target.textContent.trim() !== "Login") {
+      this.setState({
+        register: true,
+        login: false
+      });
+    } else {
+      this.setState({
+        register: false,
+        login: true
+      });
+    }
+  };
   getUser = () => {
     return fetch("/api/user/get", {
       headers: {
@@ -115,7 +140,10 @@ class App extends Component {
         <div className="App">
           <Row className="App-header">
             <Col xs={12}>
-              <Header user={this.state.user} />
+              <Header
+                user={this.state.user}
+                toggleDisplayForm={this.toggleDisplayForm}
+              />
             </Col>
           </Row>
           <Row className="App-main">
@@ -125,13 +153,14 @@ class App extends Component {
                 setUser={this.setUser}
                 getUser={this.getUser}
                 location={this.props.location}
+                register={this.state.register}
+                login={this.state.login}
+                toggleDisplayForm={this.toggleDisplayForm}
               />
             </Col>
           </Row>
           <Row className="App-footer">
-            <Col xs={12}>
-              <Footer />
-            </Col>
+            <Footer />
           </Row>
         </div>
       </Router>
