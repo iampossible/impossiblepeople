@@ -1,7 +1,8 @@
-import React, { Component } from "react";
+import React, { Component, Fragment } from "react";
 import { withRouter } from "react-router-dom";
 import { Row, Col, Button } from "reactstrap";
-import logo from "../../assets/images/logo.png";
+import logo from "../../assets/images/logo-small.png";
+import headerImage from "../../assets/images/Handwritten Black.png";
 
 class Header extends Component {
   state = {
@@ -33,68 +34,96 @@ class Header extends Component {
     return (
       <header>
         <Row>
-          <Col sm={1} id="headerImage">
+          <Col sm={2} id="headerLogoImage">
             {location.pathname !== "/" ? <img src={logo} alt="logo" /> : null}
           </Col>
-          <Col sm={10}>
-            <h1> We Are One </h1>
+          <Col sm={user && user.admin ? 5 : 7} id="headerImage">
+            {/* <h1> HumanKind </h1> */}
+            <img src={headerImage} alt="header" />
           </Col>
-          <Col sm={1} />
-        </Row>
-        <Row id="headerNavigationButtons">
-          <Col sm={7} />
-          {location.pathname === "/feed" && (user && user.admin) ? (
-            <Col sm={2} id="headerButtonApproveOrgs">
-              <Button
-                onClick={() => {
-                  this.props.history.push({
-                    pathname: "/admin"
-                  });
-                }}>
-                <i className="fa fa-gears" aria-hidden="true" />&nbsp;&nbsp;Manage
-                Users
-              </Button>
-            </Col>
-          ) : (
-            <Col sm={2} />
-          )}
+          <Col sm={user && user.admin ? 5 : 3} id="headerNavigationButtons">
+            <Row>
+              {user &&
+              user.admin &&
+              (location.pathname === "/feed" ||
+                location.pathname === "/profile") ? (
+                <Col sm={5} id="headerButtonApproveOrgs">
+                  <Button
+                    onClick={() => {
+                      this.props.history.push({
+                        pathname: "/admin"
+                      });
+                    }}>
+                    Manage Users &nbsp;&nbsp;<i
+                      className="fa fa-gears"
+                      aria-hidden="true"
+                    />
+                  </Button>
+                </Col>
+              ) : null}
 
-          {location.pathname === "/admin" ||
-          location.pathname === "/profile" ? (
-            <Col sm={1} id="headerButtonHome">
-              <Button
-                onClick={() => {
-                  this.props.history.push({
-                    pathname: "/feed"
-                  });
-                }}>
-                <i className="fa fa-home" aria-hidden="true" />&nbsp;&nbsp;Home
-              </Button>
-            </Col>
-          ) : null}
+              {location.pathname === "/admin" ||
+              location.pathname === "/profile" ? (
+                <Col
+                  sm={
+                    user && user.admin && location.pathname !== "/admin" ? 3 : 5
+                  }
+                  id="headerButtonFeed">
+                  <Button
+                    onClick={() => {
+                      this.props.history.push({
+                        pathname: "/feed"
+                      });
+                    }}>
+                    Feed&nbsp;&nbsp;<i
+                      className="fa fa-file-text-o"
+                      aria-hidden="true"
+                    />
+                  </Button>
+                </Col>
+              ) : null}
 
-          {location.pathname === "/feed" || location.pathname === "/admin" ? (
-            <Col xs={1} id="headerButtonProfile">
-              <Button
-                onClick={() => {
-                  this.props.history.push({
-                    pathname: "/profile"
-                  });
-                }}
-                block>
-                <i className="fa fa-angle-double-right" aria-hidden="true" />&nbsp;&nbsp;
-                Profile
-              </Button>
-            </Col>
-          ) : null}
+              {location.pathname === "/feed" ||
+              location.pathname === "/admin" ? (
+                <Col sm={user && user.admin ? 3 : 5} id="headerButtonProfile">
+                  <Button
+                    style={user && user.admin ? { marginLeft: "0em" } : null}
+                    onClick={() => {
+                      this.props.history.push({
+                        pathname: "/profile"
+                      });
+                    }}
+                    block>
+                    Profile&nbsp;&nbsp;
+                    <i className="fa fa fa-user-circle" aria-hidden="true" />
+                  </Button>
+                </Col>
+              ) : null}
 
-          <Col xs={1} id="headerButtonLogout">
-            {location.pathname !== "/" ? (
-              <Button onClick={this.handlelogout}>
-                <i className="fa fa-angle-double-right" aria-hidden="true" />&nbsp;&nbsp;
-                Logout
-              </Button>
-            ) : null}
+              {location.pathname !== "/" ? (
+                <Col sm={user && user.admin ? 3 : 5} id="headerButtonLogout">
+                  <Button onClick={this.handlelogout}>
+                    Logout &nbsp;&nbsp;<i
+                      className="fa fa-sign-out"
+                      aria-hidden="true"
+                    />
+                  </Button>
+                </Col>
+              ) : (
+                <Fragment>
+                  <Col sm={4} />
+                  <Col sm={8} id="register_login_buttonsContainer">
+                    <Button
+                      color="success"
+                      name="dispalyLoginForm"
+                      onClick={this.props.toggleDisplayForm}
+                      block>
+                      &nbsp; Login
+                    </Button>
+                  </Col>
+                </Fragment>
+              )}
+            </Row>
           </Col>
         </Row>
       </header>
