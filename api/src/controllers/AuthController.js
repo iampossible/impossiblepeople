@@ -92,7 +92,8 @@ class AuthController extends Controller {
         lastName: Joi.string().required(),
         userType: Joi.string().required(),
         organisationName: Joi.string(),
-        role: Joi.string()
+        role: Joi.string(),
+        interests: Joi.array()
       }
     });
 
