@@ -35,6 +35,7 @@
     "moment": "^2.12.0",
     "newrelic": "^1.26.1",
     "nodemailer": "^2.7.0",
+    "nodemailer-ses-transport": "^1.5.1",
     "nodemailer-wellknown": "^0.2.0",
     "password": "^0.1.1",
     "path": "^0.12.7",
