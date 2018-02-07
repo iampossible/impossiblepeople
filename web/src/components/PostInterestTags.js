@@ -40,15 +40,13 @@ export class PostInterestTags extends Component {
             id="postInterestTags"
             multiple={true}
             ref={this.props.tagsRef}
-            onClick={this.handleMultipleSelect}
-          >
+            onClick={this.handleMultipleSelect}>
             {featuredInterest.map((interest, index) => {
               return (
                 <option
                   key={interest.interestID}
                   value={interest.interestID}
-                  className="unSelectedTag"
-                >
+                  className="unSelectedTag">
                   {interest.name}
                 </option>
               );
@@ -58,6 +56,7 @@ export class PostInterestTags extends Component {
             <i className="text-info fa fa-info-circle" aria-hidden="true" />&nbsp;&nbsp;
             You can select multiple tags
           </p>
+          <hr />
         </Col>
         <Col xs={1} />
       </FormGroup>
