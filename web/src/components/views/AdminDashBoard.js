@@ -102,8 +102,8 @@ export default class AdminDashboard extends Component {
     return (
       <Fragment>
         <Row id="listOfEmailsForApprovalContainer">
-          <Col sm={3} />
-          <Col xs={12} sm={4}>
+          <Col sm={4} />
+          <Col sm={3}>
             <UncontrolledButtonDropdown>
               <DropdownToggle
                 caret
@@ -161,13 +161,13 @@ export default class AdminDashboard extends Component {
           <Col sm={2} />
         </Row>
         <Row id="noEmailForApprovalErrorMessageContainer">
-          <Col sm={3} />
+          <Col sm={4} />
           <Col sm={7}>
             {this.state.disableDropdownAndApproveButton ? (
               <p>There is no organisation that needs approval at the moment</p>
             ) : null}
           </Col>
-          <Col sm={2} />
+          <Col sm={1} />
         </Row>
       </Fragment>
     );

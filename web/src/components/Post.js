@@ -8,7 +8,6 @@ import {
   FormGroup,
   Label,
   Input,
-  Tooltip,
   Alert
 } from "reactstrap";
 import { RingLoader } from "react-spinners";
@@ -393,7 +392,7 @@ export default class Post extends Component {
                       <img
                         id="preview"
                         src={this.state.imageSource}
-                        alt={"Post image"}
+                        alt={"Post"}
                       />
                     )}
                   </Col>
@@ -441,10 +440,10 @@ export default class Post extends Component {
               </FormGroup>
               <FormGroup row>
                 <Label for="postType" sm={2}>
-                  <p>Type</p>
+                  Type
                 </Label>
                 <Col xs={4}>
-                  <Label check>
+                  <Label check className="radio">
                     <Input
                       type="radio"
                       name="postType"
@@ -492,7 +491,7 @@ export default class Post extends Component {
                     type="text"
                     name="timeRequired"
                     id="timeRequired"
-                    placeholder="e.g. 10"
+                    placeholder="number of days"
                     onChange={this.handleChange}
                     value={this.state.timeRequired}
                   />
@@ -518,7 +517,7 @@ export default class Post extends Component {
                     onClick={e => this.detectLocation(e)}
                     id="ToolTipUseCurrentLocationIcon"
                     disabled={this.state.loadingLocationButtonDisabled}
-                    block>
+                    className="btn btn-block btn-md btn-success">
                     Locate me&nbsp;
                     <i className="material-icons">add_location</i>
                   </Button>
@@ -553,11 +552,11 @@ export default class Post extends Component {
                 }}
               />
               <FormGroup row>
-                <Col sm={2} />
-                <Col sm={9} xs={12} className="submitPost">
-                  <hr />
+                <Col sm={4} />
+                <Col sm={4} xs={12} className="submitPost">
                   <Button
                     onClick={this.handleSubmitRequest}
+                    className="btn btn-block btn-md btn-danger"
                     disabled={
                       // a more accurate validation for location is needed
                       this.state.location !== "" ? false : true
@@ -567,6 +566,7 @@ export default class Post extends Component {
                     &nbsp;
                   </Button>
                 </Col>
+                <Col sm={4} />
               </FormGroup>
             </Form>
           </Col>
