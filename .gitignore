@@ -26,4 +26,8 @@ tmp
 keys
 api/src/build/
 
+.DS_Store
+api/.DS_Store
+
+
 
