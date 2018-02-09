@@ -7,7 +7,7 @@ class DisplayPost extends Component {
     updateTooltipOpen: false,
     deleteTooltipOpen: false,
     loadComment: "",
-    commentButtonText: "fa fa-angle-double-down"
+    showComments: false
   };
 
   toggleComment = e => {
@@ -15,13 +15,13 @@ class DisplayPost extends Component {
     if (!commentsDisplayed) {
       this.setState({
         loadComment: !this.state.loadComment,
-        commentButtonText: "fa fa-angle-double-up",
+        showComments: true,
         commentsDisplayed: true
       });
     } else {
       this.setState({
         loadComment: !this.state.loadComment,
-        commentButtonText: "fa fa-angle-double-down",
+        showComments: false,
         commentsDisplayed: false
       });
     }
@@ -176,7 +176,11 @@ class DisplayPost extends Component {
                   {postData.commentCount}
                   &nbsp; &nbsp;<i
                     onClick={this.toggleComment}
-                    className={this.state.commentButtonText}
+                    className={
+                      this.state.showComments
+                        ? "fa fa-angle-double-up"
+                        : "fa fa-angle-double-down"
+                    }
                     aria-hidden="true"
                   />
                 </Fragment>
