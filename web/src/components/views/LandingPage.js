@@ -241,38 +241,42 @@ export default class LandingPage extends Component {
                 </Row>
                 <Row>
                   <Col sm={1} />
-                  <Col sm={9}>
+                  <Col sm={8}>
                     <img src={headerImage} alt="headerImage" />
                   </Col>
+                  <Col sm={2} />
                 </Row>
                 <Row>
                   <Col sm={1}>
                     <i className="fa fa-check" aria-hidden="true" />
                   </Col>
-                  <Col sm={11}>
+                  <Col sm={10}>
                     <p className="lead">
                       Connect with a community of volunteers and purposeful
                       orgs.
                     </p>
                   </Col>
+                  <Col sm={1} />
                 </Row>
                 <Row>
                   <Col sm={1}>
                     <i className="fa fa-check" aria-hidden="true" />
                   </Col>
-                  <Col sm={11}>
+                  <Col sm={10}>
                     <p className="lead">
                       Coordinate and be more efficient at helping others.
                     </p>
                   </Col>
+                  <Col sm={1} />
                 </Row>
                 <Row>
                   <Col sm={1}>
                     <i className="fa fa-check" aria-hidden="true" />
                   </Col>
-                  <Col sm={11}>
+                  <Col sm={10}>
                     <p className="lead">Measure your impact.</p>
                   </Col>
+                  <Col sm={1} />
                 </Row>
               </Col>
               <Col sm={6} id="landingPageSignUpSignInContainer">
