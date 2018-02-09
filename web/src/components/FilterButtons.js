@@ -1,9 +1,9 @@
 import React, { Component } from "react";
 import {
+  Row,
   Col,
   Form,
   FormGroup,
-  Button,
   ButtonDropdown,
   DropdownToggle,
   DropdownMenu,
@@ -13,39 +13,58 @@ import {
 class FilterButtons extends Component {
   render() {
     return (
-      <div className="filterButtons">
-        <Form id="filterButtons">
-          <FormGroup row>
-            <Col sm={3} />
-            <Col sm={9} xs={12} className="filterPosts">
-              <Button
+      <Form id="filterPosts">
+        <FormGroup>
+          <Row id="filterPostsMostRecent">
+            <Col sm={12}>
+              <span
                 onClick={() => {
                   this.props.updateFilter("MOSTRECENT");
                 }}
-                disabled={this.props.currentFilter === "MOSTRECENT"}>
-                &nbsp; &nbsp; &nbsp; Most Recent &nbsp; &nbsp; &nbsp;
-              </Button>
-              &nbsp; &nbsp;
-              <Button
+                className={
+                  this.props.currentFilter === "MOSTRECENT"
+                    ? "activeFilter"
+                    : ""
+                }>
+                Most Recent
+              </span>
+            </Col>
+          </Row>
+          <Row id="filterPostsAsksOffers">
+            <Col sm={4} id="filterPostsAsks">
+              <span
                 onClick={() => {
                   this.props.updateFilter("ASKS");
                 }}
-                disabled={this.props.currentFilter === "ASKS"}>
-                &nbsp; &nbsp; &nbsp; ASKS &nbsp; &nbsp; &nbsp;
-              </Button>
-              &nbsp; &nbsp;
-              <Button
+                className={
+                  this.props.currentFilter === "ASKS" ? "activeFilter" : ""
+                }>
+                ASKS
+              </span>
+            </Col>
+            <Col sm={1}>
+              <span>&nbsp;|&nbsp;</span>
+            </Col>
+            <Col sm={4} id="filterPostsOffers">
+              <span
                 onClick={() => {
                   this.props.updateFilter("OFFERS");
                 }}
-                disabled={this.props.currentFilter === "OFFERS"}>
-                &nbsp; &nbsp; &nbsp; OFFERS &nbsp; &nbsp; &nbsp;
-              </Button>
-              &nbsp; &nbsp;
+                className={
+                  this.props.currentFilter === "OFFERS" ? "activeFilter" : ""
+                }>
+                OFFERS
+              </span>
+            </Col>
+          </Row>
+          <Row id="filterPostsByTags">
+            <Col sm={12}>
               <ButtonDropdown
                 isOpen={this.props.tagsDropdownOpen}
                 toggle={this.props.toggleTagesDropdown}>
-                <DropdownToggle caret>Post Tags</DropdownToggle>
+                <DropdownToggle caret className="btn btn-primary btn-block">
+                  Post Tags
+                </DropdownToggle>
                 <DropdownMenu>
                   <DropdownItem
                     disabled={this.props.filterTag === ""}
@@ -54,14 +73,17 @@ class FilterButtons extends Component {
                     }}>
                     SHOW ALL
                   </DropdownItem>
+                  <DropdownItem divider />
                   {//just quick fix just as they don't select their interest on registration
                   this.props.interests
                     ? this.props.interests.map((interest, index) => {
                         return (
                           <DropdownItem
                             key={index}
-                            disabled={
+                            className={
                               this.props.filterTag === interest.interestID
+                                ? "activeFilter"
+                                : ""
                             }
                             onClick={() => {
                               this.props.updateFilter(
@@ -77,9 +99,9 @@ class FilterButtons extends Component {
                 </DropdownMenu>
               </ButtonDropdown>
             </Col>
-          </FormGroup>
-        </Form>
-      </div>
+          </Row>
+        </FormGroup>
+      </Form>
     );
   }
 }

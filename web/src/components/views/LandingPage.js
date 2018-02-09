@@ -1,9 +1,9 @@
 import React, { Component, Fragment } from "react";
-import FacebookLogin from "react-facebook-login";
-import { Container, Row, Col, Button } from "reactstrap";
+import { Row, Col, Button } from "reactstrap";
 import { RingLoader } from "react-spinners";
 import CreateUser from "./CreateUser";
 import Login from "./Login";
+import headerImage from "../../assets/images/Handwritten White.png";
 
 function handleErrors(response) {
   if (!response.ok) {
@@ -17,17 +17,13 @@ export default class LandingPage extends Component {
     super();
     this.state = {
       loading: false,
-      //to whether display login form or not
-      login: false,
-      //to whether display registration form or not
-      register: false,
       firstName: "",
       lastName: "",
       organisationName: "",
       role: "",
       email: "",
       password: "",
-      userType: "",
+      userType: "organisation",
       validatePassword: false,
       logInEmail: "",
       logInPassword: "",
@@ -37,19 +33,6 @@ export default class LandingPage extends Component {
     };
   }
 
-  toggleDisplayForm = e => {
-    if (e.target.name === "dispalyRegistrationForm") {
-      this.setState({
-        register: true,
-        login: false
-      });
-    } else {
-      this.setState({
-        register: false,
-        login: true
-      });
-    }
-  };
   handleCreateUser = () => {
     let newUser = {};
     if (this.state.organisationName !== "") {
@@ -142,6 +125,20 @@ export default class LandingPage extends Component {
     );
   };
 
+  handleUserTypeSelection = e => {
+    const value = e.target.textContent.trim();
+    if (value === "Volunteer") {
+      this.setState({
+        userType: "volunteer"
+      });
+    } else if (value === "Organisation") {
+      this.setState({
+        userType: "organisation"
+      });
+    }
+    this.props.toggleDisplayForm(e);
+  };
+
   handleSelect = e => {
     this.setState({
       userType: e.target.value,
@@ -228,67 +225,106 @@ export default class LandingPage extends Component {
     this.props.history.push("/feed");
   };
   render() {
-    let { loading, login, register, ...inputData } = this.state;
+    let { loading, ...inputData } = this.state;
 
     return (
-      <Container id="btnFacebook">
+      <Fragment>
         {!this.state.loading ? (
           <Fragment>
-            <Row>
-              <Col sm={4} />
-              <Col sm={4} xs={12}>
-                <FacebookLogin
-                  appId="138462666798513"
-                  autoLoad={false}
-                  icon="fa-facebook fa-lg"
-                  fields="name,email,picture,friends"
-                  callback={this.responseFacebook}
-                />
+            <Row id="landingPageMain">
+              <Col sm={6} id="landingPageInfo">
+                <Row>
+                  <Col sm={4} />
+                  <Col sm={3}>
+                    <p className="lead">With</p>
+                  </Col>
+                </Row>
+                <Row>
+                  <Col sm={1} />
+                  <Col sm={8}>
+                    <img src={headerImage} alt="headerImage" />
+                  </Col>
+                  <Col sm={2} />
+                </Row>
+                <Row>
+                  <Col sm={1}>
+                    <i className="fa fa-check" aria-hidden="true" />
+                  </Col>
+                  <Col sm={10}>
+                    <p className="lead">
+                      Connect with a community of volunteers and purposeful
+                      orgs.
+                    </p>
+                  </Col>
+                  <Col sm={1} />
+                </Row>
+                <Row>
+                  <Col sm={1}>
+                    <i className="fa fa-check" aria-hidden="true" />
+                  </Col>
+                  <Col sm={10}>
+                    <p className="lead">
+                      Coordinate and be more efficient at helping others.
+                    </p>
+                  </Col>
+                  <Col sm={1} />
+                </Row>
+                <Row>
+                  <Col sm={1}>
+                    <i className="fa fa-check" aria-hidden="true" />
+                  </Col>
+                  <Col sm={10}>
+                    <p className="lead">Measure your impact.</p>
+                  </Col>
+                  <Col sm={1} />
+                </Row>
               </Col>
-              <Col sm={4} />
-            </Row>
-            <Row id="register_login_buttonsContainer">
-              <Col sm={4} />
-              <Col sm={2}>
-                <Button
-                  color="success"
-                  name="dispalyLoginForm"
-                  onClick={this.toggleDisplayForm}>
-                  &nbsp; Login
-                </Button>
+              <Col sm={6} id="landingPageSignUpSignInContainer">
+                <Row id="landingPageUserType">
+                  <Col sm={1} />
+                  <Col sm={10}>
+                    <p>
+                      <u>I&apos;M a</u>
+                    </p>
+                    <Button
+                      id="landingPageVolunteeButton"
+                      onClick={e => this.handleUserTypeSelection(e)}>
+                      Volunteer
+                    </Button>
+                    <Button
+                      id="landingPageOrganisationButton"
+                      onClick={e => this.handleUserTypeSelection(e)}>
+                      Organisation
+                    </Button>
+                    <hr />
+                  </Col>
+                  <Col sm={1} />
+                </Row>
+                <Row>
+                  <Col sm={1} />
+                  <Col sm={10}>
+                    {this.props.login ? (
+                      <Login
+                        logInEmail={this.state.logInEmail}
+                        logInPassword={this.state.logInPassword}
+                        error={this.state.error}
+                        handleLogin={this.handleLogin}
+                        handleChange={this.handleChange}
+                        responseFacebook={this.responseFacebook}
+                      />
+                    ) : (
+                      <CreateUser
+                        handleChange={this.handleChange}
+                        handleSelect={this.handleSelect}
+                        handleCreateUser={this.handleCreateUser}
+                        inputData={inputData}
+                        responseFacebook={this.responseFacebook}
+                      />
+                    )}
+                  </Col>
+                  <Col sm={1} />
+                </Row>
               </Col>
-              <Col sm={2}>
-                <Button
-                  color="danger"
-                  name="dispalyRegistrationForm"
-                  onClick={this.toggleDisplayForm}>
-                  Register
-                </Button>
-              </Col>
-              <Col sm={4} />
-            </Row>
-            <Row>
-              <Col sm={2} />
-              <Col sm={8}>
-                {this.state.register ? (
-                  <CreateUser
-                    handleChange={this.handleChange}
-                    handleSelect={this.handleSelect}
-                    handleCreateUser={this.handleCreateUser}
-                    inputData={inputData}
-                  />
-                ) : null}
-                {this.state.login ? (
-                  <Login
-                    logInEmail={this.state.logInEmail}
-                    logInPassword={this.state.logInPassword}
-                    error={this.state.error}
-                    handleLogin={this.handleLogin}
-                    handleChange={this.handleChange}
-                  />
-                ) : null}
-              </Col>
-              <Col sm={2} />
             </Row>
           </Fragment>
         ) : (
@@ -306,7 +342,7 @@ export default class LandingPage extends Component {
             <Col sm={4} />
           </Row>
         )}
-      </Container>
+      </Fragment>
     );
   }
 }

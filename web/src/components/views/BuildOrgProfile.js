@@ -4,7 +4,6 @@ import {
   Col,
   Form,
   FormGroup,
-  FormText,
   Button,
   Label,
   Input,
@@ -198,8 +197,7 @@ export default class BuildOrgProfile extends Component {
       </Row>
     ) : (
       <Row id="profile">
-        <Col sm={1} />
-        <Col sm={10}>
+        <Col sm={12}>
           <Form>
             <FormGroup row id="profilePictureContainer">
               <Label for="orgProfileImage" sm={2} id="profilePictureLabel">
@@ -227,21 +225,7 @@ export default class BuildOrgProfile extends Component {
                       />
                     )}
                   </Col>
-                  <Col sm={7} id="profilePictureInfo">
-                    <FormText color="muted">
-                      If you don&apos;t upload your organisations profile
-                      picture the one displayed above will be used by default
-                    </FormText>
-                    <br />
-                    {this.state.imageLoadError ? (
-                      <Alert color="danger"> {this.state.imageLoadError}</Alert>
-                    ) : (
-                      ""
-                    )}
-                  </Col>
-                </Row>
-                <Row id="uploadButton">
-                  <Col>
+                  <Col sm={7} id="uploadButton">
                     <Input
                       type="file"
                       name="orgProfileImage"
@@ -249,6 +233,12 @@ export default class BuildOrgProfile extends Component {
                       accept=".jpg, .jpeg, .png"
                       onChange={this.handleImageSelection}
                     />
+                    <br />
+                    {this.state.imageLoadError ? (
+                      <Alert color="danger"> {this.state.imageLoadError}</Alert>
+                    ) : (
+                      ""
+                    )}
                   </Col>
                 </Row>
               </Col>
@@ -288,7 +278,7 @@ export default class BuildOrgProfile extends Component {
               <Label for="description" sm={2}>
                 Description
               </Label>
-              <Col sm={10}>
+              <Col sm={6}>
                 <Input
                   type="textarea"
                   name="description"
@@ -297,6 +287,7 @@ export default class BuildOrgProfile extends Component {
                   onChange={this.handleChange}
                 />
               </Col>
+              <Col sm={3} />
             </FormGroup>
             <FormGroup row>
               <Col sm={12}>
@@ -325,7 +316,6 @@ export default class BuildOrgProfile extends Component {
             </Row>
           </Form>
         </Col>
-        <Col sm={1} />
       </Row>
     );
   }

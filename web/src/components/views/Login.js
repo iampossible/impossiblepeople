@@ -9,6 +9,7 @@ import {
   Input,
   Alert
 } from "reactstrap";
+import FacebookLogin from "react-facebook-login";
 
 export default class Login extends Component {
   render() {
@@ -58,9 +59,29 @@ export default class Login extends Component {
         <Row>
           <Col sm={3} />
           <Col sm={8}>
-            <Button color="danger" onClick={this.props.handleLogin}>
+            <Button color="danger" onClick={this.props.handleLogin} block>
               Login
             </Button>
+          </Col>
+          <Col sm={1} />
+        </Row>
+        <Row className="orLoginWithFacebook">
+          <Col sm={3} />
+          <Col sm={8} style={{ textAlign: "center" }}>
+            <p>&mdash;&mdash;&mdash;&nbsp;OR&nbsp;&mdash;&mdash;&mdash;</p>
+          </Col>
+          <Col sm={1} />
+        </Row>
+        <Row>
+          <Col sm={3} />
+          <Col sm={8} xs={12} id="loginFacebook">
+            <FacebookLogin
+              appId={process.env.REACT_APP_FACEBOOK_APP_ID}
+              autoLoad={false}
+              icon="fa-facebook fa-lg"
+              fields="name,email,picture,friends"
+              callback={this.props.responseFacebook}
+            />
           </Col>
           <Col sm={1} />
         </Row>

@@ -9,48 +9,42 @@ import {
   Input,
   Alert
 } from "reactstrap";
+import FacebookLogin from "react-facebook-login";
 
 export default class CreateUser extends Component {
   render() {
     return (
       <Form>
-        <FormGroup row>
-          <Col sm={3}>
-            <span>I&apos;m registering as</span>
-          </Col>
-          <Col sm={3}>
-            <FormGroup check>
-              <Label check>
-                <Input
-                  type="radio"
-                  name="userType"
-                  value="volunteer"
-                  onChange={this.props.handleSelect}
+        {this.props.inputData.userType === "volunteer" ? (
+          <Fragment>
+            <Row>
+              <Col sm={4} />
+              <Col sm={8} xs={12} id="signUpFacebook">
+                <FacebookLogin
+                  appId={process.env.REACT_APP_FACEBOOK_APP_ID}
+                  autoLoad={false}
+                  icon="fa-facebook fa-lg"
+                  fields="name,email,picture,friends"
+                  callback={this.props.responseFacebook}
+                  textButton="Sign Up with Facebook"
                 />
-                Individual
-              </Label>
-            </FormGroup>
-          </Col>
-          <Col sm={3}>
-            <FormGroup check sm={3}>
-              <Label check>
-                <Input
-                  type="radio"
-                  name="userType"
-                  value="organisation"
-                  onChange={this.props.handleSelect}
-                />
-                Organisation
-              </Label>
-            </FormGroup>
-          </Col>
-          <Col sm={3} />
-        </FormGroup>
+              </Col>
+            </Row>
+            <Row className="orLoginWithFacebook">
+              <Col sm={4} />
+              <Col sm={8} style={{ textAlign: "center" }}>
+                <p>&mdash;&mdash;&mdash;&nbsp;OR&nbsp;&mdash;&mdash;&mdash;</p>
+              </Col>
+            </Row>
+          </Fragment>
+        ) : (
+          ""
+        )}
         {this.props.inputData.userType === "organisation" ? (
           <Fragment>
             <FormGroup row>
-              <Label for="organisationName" sm={3}>
-                Org. Name
+              <Label for="organisationName" sm={4} id="organisationNameLabel">
+                Organisation Name
               </Label>
               <Col sm={8}>
                 <Input
@@ -62,10 +56,9 @@ export default class CreateUser extends Component {
                   value={this.props.inputData.organisationName}
                 />
               </Col>
-              <Col sm={1} />
             </FormGroup>
             <FormGroup row>
-              <Label for="role" sm={3}>
+              <Label for="role" sm={4}>
                 Role
               </Label>
               <Col sm={8}>
@@ -78,7 +71,6 @@ export default class CreateUser extends Component {
                   value={this.props.inputData.role}
                 />
               </Col>
-              <Col sm={1} />
             </FormGroup>
           </Fragment>
         ) : (
@@ -88,7 +80,7 @@ export default class CreateUser extends Component {
         this.props.inputData.userType === "organisation" ? (
           <Fragment>
             <FormGroup row>
-              <Label for="firtsName" sm={3}>
+              <Label for="firtsName" sm={4}>
                 First Name
               </Label>
               <Col sm={8}>
@@ -101,10 +93,9 @@ export default class CreateUser extends Component {
                   value={this.props.inputData.firstName}
                 />
               </Col>
-              <Col sm={1} />
             </FormGroup>
             <FormGroup row>
-              <Label for="lastName" sm={3}>
+              <Label for="lastName" sm={4}>
                 Last Name
               </Label>
               <Col sm={8}>
@@ -117,10 +108,9 @@ export default class CreateUser extends Component {
                   value={this.props.inputData.lastName}
                 />
               </Col>
-              <Col sm={1} />
             </FormGroup>
             <FormGroup row>
-              <Label for="email" sm={3}>
+              <Label for="email" sm={4}>
                 Email
               </Label>
               <Col sm={8}>
@@ -133,10 +123,9 @@ export default class CreateUser extends Component {
                   value={this.props.inputData.email}
                 />
               </Col>
-              <Col sm={1} />
             </FormGroup>
             <FormGroup row>
-              <Label for="password" sm={3}>
+              <Label for="password" sm={4}>
                 Password
               </Label>
               <Col sm={8}>
@@ -149,10 +138,9 @@ export default class CreateUser extends Component {
                   value={this.props.inputData.password}
                 />
               </Col>
-              <Col sm={1} />
             </FormGroup>
             <FormGroup row>
-              <Label for="password" sm={3}>
+              <Label for="password" sm={4} id="registerConfirmPassword">
                 Confirm Password
               </Label>
               <Col sm={8}>
@@ -165,40 +153,39 @@ export default class CreateUser extends Component {
                   value={this.props.inputData.confirmPassword}
                 />
               </Col>
-              <Col sm={1} />
             </FormGroup>
             {this.props.inputData.validatePassword ? (
               <Row>
-                <Col sm={3} />
+                <Col sm={4} />
                 <Col sm={8}>
                   <Alert color="danger">
                     it doesn&apos;t match with your password
                   </Alert>
                 </Col>
-                <Col sm={1} />
               </Row>
             ) : (
               ""
             )}
             {this.props.inputData.error ? (
               <Row>
-                <Col sm={3} />
+                <Col sm={4} />
                 <Col sm={8}>
                   <Alert color="danger"> {this.props.inputData.error}</Alert>
                 </Col>
-                <Col sm={1} />
               </Row>
             ) : (
               ""
             )}
             <Row>
-              <Col sm={3} />
+              <Col sm={4} />
               <Col sm={8}>
-                <Button color="danger" onClick={this.props.handleCreateUser}>
-                  Submit
+                <Button
+                  id="signUpButton"
+                  onClick={this.props.handleCreateUser}
+                  block>
+                  Sign up with email
                 </Button>
               </Col>
-              <Col sm={1} />
             </Row>
           </Fragment>
         ) : (
