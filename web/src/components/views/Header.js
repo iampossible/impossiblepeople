@@ -2,7 +2,6 @@ import React, { Component, Fragment } from "react";
 import { withRouter } from "react-router-dom";
 import { Row, Col, Button } from "reactstrap";
 import logo from "../../assets/images/logo-small.png";
-import headerImage from "../../assets/images/Handwritten Black.png";
 
 class Header extends Component {
   state = {
@@ -30,7 +29,8 @@ class Header extends Component {
   render() {
     const { location } = this.props;
     const { user } = this.props;
-
+    const headerImage =
+      "https://humankind-assets.s3.eu-west-1.amazonaws.com/post/GompTy5bPN3G9";
     return (
       <header>
         <Row>
