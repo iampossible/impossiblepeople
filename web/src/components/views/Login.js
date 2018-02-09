@@ -76,7 +76,7 @@ export default class Login extends Component {
           <Col sm={3} />
           <Col sm={8} xs={12} id="loginFacebook">
             <FacebookLogin
-              appId="138462666798513"
+              appId={process.env.REACT_APP_FACEBOOK_APP_ID}
               autoLoad={false}
               icon="fa-facebook fa-lg"
               fields="name,email,picture,friends"
