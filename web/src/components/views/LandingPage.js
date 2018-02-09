@@ -256,7 +256,12 @@ export default class LandingPage extends Component {
                       <Button
                         id="landingPageVolunteeButton"
                         onClick={e => this.handleUserTypeSelection(e)}
-                        name="volunteer">
+                        name="volunteer"
+                        className={
+                          this.state.userType == "volunteer"
+                            ? "selectedUserTypeButton"
+                            : ""
+                        }>
                         I'm a volunteer
                       </Button>
                     </Col>
@@ -264,7 +269,12 @@ export default class LandingPage extends Component {
                       <Button
                         id="landingPageOrganisationButton"
                         onClick={e => this.handleUserTypeSelection(e)}
-                        name="organisation">
+                        name="organisation"
+                        className={
+                          this.state.userType === "organisation"
+                            ? "selectedUserTypeButton"
+                            : ""
+                        }>
                         I'm an organisation
                       </Button>
                     </Col>

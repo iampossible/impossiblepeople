@@ -244,7 +244,7 @@ p {
     width: 100%;
     background: #fff;
     color: #000;
-    border: 1px solid #000;
+    border: 1px solid #c2c2c2;
 }
 
 #registerConfirmPassword {
@@ -291,6 +291,11 @@ p {
 #landingPageInfo p {
     font-size: 1.2em;
     margin: 0 2em 1.4em 0;
+}
+
+.selectedUserTypeButton {
+    background: #fed976 !important;
+    color: #000;
 }
 
 #landingPageInfo p.lead {
