@@ -30,6 +30,7 @@ const Main = props => {
             setUser={props.setUser}
             register={props.register}
             login={props.login}
+            register={props.register}
             toggleDisplayForm={props.toggleDisplayForm}
           />
         )}
@@ -102,15 +103,15 @@ class App extends Component {
   }
 
   toggleDisplayForm = e => {
-    if (e.target.textContent.trim() !== "Login") {
+    if (e.target.textContent.trim() !== "Sign in") {
       this.setState({
         register: true,
-        login: false
+        login: !this.state.login
       });
     } else {
       this.setState({
         register: false,
-        login: true
+        login: !this.state.login
       });
     }
   };

@@ -19,7 +19,7 @@ export default class CreateUser extends Component {
           <Fragment>
             <Row>
               <Col sm={4} />
-              <Col sm={8} xs={12} id="signUpFacebook">
+              <Col sm={7} xs={12} id="signUpFacebook">
                 <FacebookLogin
                   appId={process.env.REACT_APP_FACEBOOK_APP_ID}
                   autoLoad={false}
@@ -29,6 +29,7 @@ export default class CreateUser extends Component {
                   textButton="Sign Up with Facebook"
                 />
               </Col>
+              <Col sm={1} />
             </Row>
             <Row className="orLoginWithFacebook">
               <Col sm={4} />
@@ -43,10 +44,11 @@ export default class CreateUser extends Component {
         {this.props.inputData.userType === "organisation" ? (
           <Fragment>
             <FormGroup row>
-              <Label for="organisationName" sm={4} id="organisationNameLabel">
+              <Col sm={1} />
+              <Label for="organisationName" sm={3} id="organisationNameLabel">
                 Organisation Name
               </Label>
-              <Col sm={8}>
+              <Col sm={7}>
                 <Input
                   type="text"
                   name="organisationName"
@@ -56,12 +58,14 @@ export default class CreateUser extends Component {
                   value={this.props.inputData.organisationName}
                 />
               </Col>
+              <Col sm={1} />
             </FormGroup>
             <FormGroup row>
-              <Label for="role" sm={4}>
+              <Col sm={1} />
+              <Label for="role" sm={3}>
                 Role
               </Label>
-              <Col sm={8}>
+              <Col sm={7}>
                 <Input
                   type="text"
                   name="role"
@@ -71,6 +75,7 @@ export default class CreateUser extends Component {
                   value={this.props.inputData.role}
                 />
               </Col>
+              <Col sm={1} />
             </FormGroup>
           </Fragment>
         ) : (
@@ -80,10 +85,11 @@ export default class CreateUser extends Component {
         this.props.inputData.userType === "organisation" ? (
           <Fragment>
             <FormGroup row>
-              <Label for="firtsName" sm={4}>
+              <Col sm={1} />
+              <Label for="firtsName" sm={3}>
                 First Name
               </Label>
-              <Col sm={8}>
+              <Col sm={7}>
                 <Input
                   type="text"
                   name="firstName"
@@ -93,12 +99,14 @@ export default class CreateUser extends Component {
                   value={this.props.inputData.firstName}
                 />
               </Col>
+              <Col sm={1} />
             </FormGroup>
             <FormGroup row>
-              <Label for="lastName" sm={4}>
+              <Col sm={1} />
+              <Label for="lastName" sm={3}>
                 Last Name
               </Label>
-              <Col sm={8}>
+              <Col sm={7}>
                 <Input
                   type="text"
                   name="lastName"
@@ -107,13 +115,15 @@ export default class CreateUser extends Component {
                   onChange={this.props.handleChange}
                   value={this.props.inputData.lastName}
                 />
+                <Col sm={1} />
               </Col>
             </FormGroup>
             <FormGroup row>
-              <Label for="email" sm={4}>
+              <Col sm={1} />
+              <Label for="email" sm={3}>
                 Email
               </Label>
-              <Col sm={8}>
+              <Col sm={7}>
                 <Input
                   type="email"
                   name="email"
@@ -123,12 +133,14 @@ export default class CreateUser extends Component {
                   value={this.props.inputData.email}
                 />
               </Col>
+              <Col sm={1} />
             </FormGroup>
             <FormGroup row>
-              <Label for="password" sm={4}>
+              <Col sm={1} />
+              <Label for="password" sm={3}>
                 Password
               </Label>
-              <Col sm={8}>
+              <Col sm={7}>
                 <Input
                   type="password"
                   name="password"
@@ -138,12 +150,14 @@ export default class CreateUser extends Component {
                   value={this.props.inputData.password}
                 />
               </Col>
+              <Col sm={1} />
             </FormGroup>
             <FormGroup row>
-              <Label for="password" sm={4} id="registerConfirmPassword">
+              <Col sm={1} />
+              <Label for="password" sm={3} id="registerConfirmPassword">
                 Confirm Password
               </Label>
-              <Col sm={8}>
+              <Col sm={7}>
                 <Input
                   type="password"
                   name="confirmPassword"
@@ -153,15 +167,17 @@ export default class CreateUser extends Component {
                   value={this.props.inputData.confirmPassword}
                 />
               </Col>
+              <Col sm={1} />
             </FormGroup>
             {this.props.inputData.validatePassword ? (
               <Row>
                 <Col sm={4} />
-                <Col sm={8}>
+                <Col sm={7}>
                   <Alert color="danger">
                     it doesn&apos;t match with your password
                   </Alert>
                 </Col>
+                <Col sm={1} />
               </Row>
             ) : (
               ""
@@ -169,16 +185,17 @@ export default class CreateUser extends Component {
             {this.props.inputData.error ? (
               <Row>
                 <Col sm={4} />
-                <Col sm={8}>
+                <Col sm={7}>
                   <Alert color="danger"> {this.props.inputData.error}</Alert>
                 </Col>
+                <Col sm={1} />
               </Row>
             ) : (
               ""
             )}
             <Row>
               <Col sm={4} />
-              <Col sm={8}>
+              <Col sm={7}>
                 <Button
                   id="signUpButton"
                   onClick={this.props.handleCreateUser}
@@ -186,6 +203,7 @@ export default class CreateUser extends Component {
                   Sign up with email
                 </Button>
               </Col>
+              <Col sm={1} />
             </Row>
           </Fragment>
         ) : (

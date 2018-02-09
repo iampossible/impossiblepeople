@@ -56,7 +56,7 @@ p {
     padding: 30px;
     padding-top: 15px;
     padding-bottom: 10px;
-    background: #f9e3a2;
+    background: #fff;
     padding-left: 4%;
     padding-right: 1%;
     width: 100vw;
@@ -111,8 +111,6 @@ p {
     margin-left: 0.5em;
 }
 
-
-
 #headerButtonUpdateInterest button,
 #headerButtonApproveOrgs button,
 #headerButtonLogout button,
@@ -155,7 +153,7 @@ p {
 }
 
 .App-footer {
-    background: #f9e3a2;
+    background: #fff;
     width: 100vw;
     height: 60px;
     text-align: right;
@@ -179,7 +177,7 @@ p {
 #termsOfUse a,
 #privacyPlicy a {
     font-weight: 400;
-    color: #132668;
+    color: #000;
 }
 
 #termsOfUse a:hover,
@@ -189,7 +187,7 @@ p {
 }
 
 #footerCopyright {
-    color: #132668;
+    color: #000;
 }
 
 #footerCopyright span {
@@ -202,13 +200,28 @@ p {
     margin: 0;
 }
 
+#signIn {
+    background: transparent;
+    border: none;
+    color: #000;
+}
+
+#signUpsignInhr {
+    margin: 2em 4em 2em 4.3em;
+}
+
 #landingPageMain {
     margin-left: 0;
     margin-right: 0;
 }
 
+#landingPageContentSection {
+    background: #fff;
+    margin: 5em auto;
+}
+
 #landingPageSignUpSignInContainer {
-    margin-top: 4em;
+    margin-top: 0;
     padding-bottom: 4em;
 }
 
@@ -228,17 +241,14 @@ p {
 #landingPageVolunteeButton {
     border-radius: 0;
     height: 50px;
-    width: 150px;
-    background: #6acf89;
+    width: 100%;
+    background: #fff;
     color: #000;
+    border: 1px solid #c2c2c2;
 }
 
 #registerConfirmPassword {
     padding-right: 0;
-}
-
-#landingPageVolunteeButton {
-    margin-left: 9em;
 }
 
 #landingPageInfo {
@@ -247,17 +257,31 @@ p {
 
 #landingPageInfo {
     padding-top: 6em;
+    padding-bottom: 5em;
     padding-left: 3.5em;
-    background: url("../assets/images/Background illustration web-01.jpg") no-repeat 0% 0%;
-    background-size: cover;
+    background-image: url("../assets/images/Background illustration web-01.jpg");
     color: #fff;
-    min-height: 790px;
+    background-size: 100% 100%;
+    flex-direction: column;
 }
 
-#landingPageInfo img {
-    height: 50px;
-    width: 100%;
-    margin-bottom: 4em;
+#landingPageInfo hr {
+    background: #fff;
+}
+
+#landingPageWelcome img {
+    height: 35px;
+    width: 150px;
+    margin-left: 0.5em;
+}
+
+#landingPageWelcome h1 {
+    margin-bottom: 0;
+    text-align: center;
+}
+
+#landingPageWelcome h6 {
+    margin-bottom: 1em;
 }
 
 #landingPageInfo i {
@@ -265,11 +289,17 @@ p {
 }
 
 #landingPageInfo p {
-    font-size: 1.5em;
+    font-size: 1.2em;
+    margin: 0 2em 1.4em 0;
 }
 
-#landingPageOrganisationButton {
-    margin-left: 3em;
+.selectedUserTypeButton {
+    background: #fed976 !important;
+    color: #000;
+}
+
+#landingPageInfo p.lead {
+    margin-bottom: 0;
 }
 
 #signUpButton {
@@ -281,8 +311,8 @@ p {
 }
 
 #signUpFacebook .kep-login-facebook.metro {
-    padding-left: 2.5em;
-    padding-right: 2.5em;
+    padding-left: 4em;
+    padding-right: 5em;
 }
 
 .orLoginWithFacebook {
@@ -290,8 +320,8 @@ p {
 }
 
 #loginFacebook .kep-login-facebook.metro {
-    padding-left: 3em;
-    padding-right: 3em;
+    padding-left: 5em;
+    padding-right: 7em;
 }
 
 #organisationNameLabel {

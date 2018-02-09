@@ -1,7 +1,6 @@
 import React, { Component, Fragment } from "react";
 import { withRouter } from "react-router-dom";
 import { Row, Col, Button } from "reactstrap";
-import logo from "../../assets/images/logo-small.png";
 
 class Header extends Component {
   state = {
@@ -34,9 +33,7 @@ class Header extends Component {
     return (
       <header>
         <Row>
-          <Col sm={2} id="headerLogoImage">
-            {location.pathname !== "/" ? <img src={logo} alt="logo" /> : null}
-          </Col>
+          <Col sm={2} id="headerLogoImage" />
           <Col sm={user && user.admin ? 5 : 7} id="headerImage">
             {/* <h1> HumanKind </h1> */}
             <img src={headerImage} alt="header" />
@@ -114,11 +111,11 @@ class Header extends Component {
                   <Col sm={4} />
                   <Col sm={8} id="register_login_buttonsContainer">
                     <Button
-                      color="success"
+                      id="signIn"
                       name="dispalyLoginForm"
-                      onClick={this.props.toggleDisplayForm}
-                      block>
-                      &nbsp; Login
+                      onClick={this.props.toggleDisplayForm}>
+                      &nbsp; Sign in &nbsp; &nbsp;{" "}
+                      <i className="fa fa-lock" aria-hidden="true" />
                     </Button>
                   </Col>
                 </Fragment>

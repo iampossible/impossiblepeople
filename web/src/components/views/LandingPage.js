@@ -22,7 +22,7 @@ export default class LandingPage extends Component {
       role: "",
       email: "",
       password: "",
-      userType: "organisation",
+      userType: "",
       validatePassword: false,
       logInEmail: "",
       logInPassword: "",
@@ -125,12 +125,12 @@ export default class LandingPage extends Component {
   };
 
   handleUserTypeSelection = e => {
-    const value = e.target.textContent.trim();
-    if (value === "Volunteer") {
+    const name = e.target.name.trim();
+    if (name === "volunteer") {
       this.setState({
         userType: "volunteer"
       });
-    } else if (value === "Organisation") {
+    } else if (name === "organisation") {
       this.setState({
         userType: "organisation"
       });
@@ -226,105 +226,149 @@ export default class LandingPage extends Component {
   render() {
     let { loading, ...inputData } = this.state;
     const landinPageInfoImage =
-      "https://humankind-assets.s3.eu-west-1.amazonaws.com/post/oLKQU8Yqxpe2b";
+      "https://humankind-assets.s3.eu-west-1.amazonaws.com/post/GompTy5bPN3G9";
     return (
       <Fragment>
         {!this.state.loading ? (
           <Fragment>
-            <Row id="landingPageMain">
-              <Col sm={6} id="landingPageInfo">
+            <Row>
+              <Col sm={2} />
+              <Col sm={8} id="landingPageContentSection">
                 <Row>
-                  <Col sm={4} />
-                  <Col sm={3}>
-                    <p className="lead">With</p>
-                  </Col>
-                </Row>
-                <Row>
-                  <Col sm={1} />
-                  <Col sm={8}>
-                    <img src={landinPageInfoImage} alt="headerImage" />
+                  <Col sm={2} />
+                  <Col sm={8} id="landingPageWelcome">
+                    <h1 className="lead">
+                      Welcome to
+                      <img src={landinPageInfoImage} alt="headerImage" />
+                    </h1>
+                    {!this.props.login || this.props.register ? (
+                      <h6 className="lead">Please tell us about yourself.</h6>
+                    ) : (
+                      ""
+                    )}
                   </Col>
                   <Col sm={2} />
                 </Row>
-                <Row>
-                  <Col sm={1}>
-                    <i className="fa fa-check" aria-hidden="true" />
-                  </Col>
-                  <Col sm={10}>
-                    <p className="lead">
-                      Connect with a community of volunteers and purposeful
-                      orgs.
-                    </p>
-                  </Col>
-                  <Col sm={1} />
-                </Row>
-                <Row>
-                  <Col sm={1}>
-                    <i className="fa fa-check" aria-hidden="true" />
-                  </Col>
-                  <Col sm={10}>
-                    <p className="lead">
-                      Coordinate and be more efficient at helping others.
-                    </p>
-                  </Col>
-                  <Col sm={1} />
-                </Row>
-                <Row>
-                  <Col sm={1}>
-                    <i className="fa fa-check" aria-hidden="true" />
-                  </Col>
-                  <Col sm={10}>
-                    <p className="lead">Measure your impact.</p>
-                  </Col>
-                  <Col sm={1} />
-                </Row>
+                {!this.props.login || this.props.register ? (
+                  <Row id="landingPageUserType">
+                    <Col sm={2} />
+                    <Col sm={4}>
+                      <Button
+                        id="landingPageVolunteeButton"
+                        onClick={e => this.handleUserTypeSelection(e)}
+                        name="volunteer"
+                        className={
+                          this.state.userType == "volunteer"
+                            ? "selectedUserTypeButton"
+                            : ""
+                        }>
+                        I'm a volunteer
+                      </Button>
+                    </Col>
+                    <Col sm={4}>
+                      <Button
+                        id="landingPageOrganisationButton"
+                        onClick={e => this.handleUserTypeSelection(e)}
+                        name="organisation"
+                        className={
+                          this.state.userType === "organisation"
+                            ? "selectedUserTypeButton"
+                            : ""
+                        }>
+                        I'm an organisation
+                      </Button>
+                    </Col>
+                    <Col sm={2} />
+                  </Row>
+                ) : (
+                  ""
+                )}
+
+                {!this.props.register && !this.props.login ? (
+                  <Row id="landingPageInfo">
+                    <Row>
+                      <Col sm={1}>
+                        <i className="fa fa-check" aria-hidden="true" />
+                      </Col>
+                      <Col sm={11}>
+                        <p className="lead">
+                          Connect with a community of volunteers and purposeful
+                          orgs.
+                        </p>
+                      </Col>
+                    </Row>
+                    <Row>
+                      <Col sm={12}>
+                        <hr />
+                      </Col>
+                    </Row>
+                    <Row>
+                      <Col sm={1}>
+                        <i className="fa fa-check" aria-hidden="true" />
+                      </Col>
+                      <Col sm={11}>
+                        <p className="lead">
+                          Coordinate and be more efficient at helping others.
+                        </p>
+                      </Col>
+                    </Row>
+                    <Row>
+                      <Col sm={12}>
+                        <hr />
+                      </Col>
+                    </Row>
+                    <Row>
+                      <Col sm={1}>
+                        <i className="fa fa-check" aria-hidden="true" />
+                      </Col>
+                      <Col sm={11}>
+                        <p className="lead">Measure your impact.</p>
+                      </Col>
+                    </Row>
+                    <Row>
+                      <Col sm={12}>
+                        <hr />
+                      </Col>
+                    </Row>
+                  </Row>
+                ) : (
+                  <Fragment>
+                    <Row id="signUpsignInhr">
+                      <Col sm={1} />
+                      <Col sm={10}>
+                        <hr />
+                      </Col>
+                      <Col sm={1} />
+                    </Row>
+                    <Row id="landingPageSignUpSignInContainer">
+                      <Col sm={1} />
+                      <Col sm={10}>
+                        {this.props.register ? (
+                          <CreateUser
+                            handleChange={this.handleChange}
+                            handleSelect={this.handleSelect}
+                            handleCreateUser={this.handleCreateUser}
+                            inputData={inputData}
+                            responseFacebook={this.responseFacebook}
+                          />
+                        ) : (
+                          <Login
+                            logInEmail={this.state.logInEmail}
+                            logInPassword={this.state.logInPassword}
+                            error={this.state.error}
+                            handleLogin={this.handleLogin}
+                            handleChange={this.handleChange}
+                            responseFacebook={this.responseFacebook}
+                          />
+                        )}
+                      </Col>
+                      <Col sm={1} />
+                    </Row>
+                  </Fragment>
+                )}
               </Col>
-              <Col sm={6} id="landingPageSignUpSignInContainer">
-                <Row id="landingPageUserType">
-                  <Col sm={1} />
-                  <Col sm={10}>
-                    <p>
-                      <u>I&apos;M a</u>
-                    </p>
-                    <Button
-                      id="landingPageVolunteeButton"
-                      onClick={e => this.handleUserTypeSelection(e)}>
-                      Volunteer
-                    </Button>
-                    <Button
-                      id="landingPageOrganisationButton"
-                      onClick={e => this.handleUserTypeSelection(e)}>
-                      Organisation
-                    </Button>
-                    <hr />
-                  </Col>
-                  <Col sm={1} />
-                </Row>
-                <Row>
-                  <Col sm={1} />
-                  <Col sm={10}>
-                    {this.props.login ? (
-                      <Login
-                        logInEmail={this.state.logInEmail}
-                        logInPassword={this.state.logInPassword}
-                        error={this.state.error}
-                        handleLogin={this.handleLogin}
-                        handleChange={this.handleChange}
-                        responseFacebook={this.responseFacebook}
-                      />
-                    ) : (
-                      <CreateUser
-                        handleChange={this.handleChange}
-                        handleSelect={this.handleSelect}
-                        handleCreateUser={this.handleCreateUser}
-                        inputData={inputData}
-                        responseFacebook={this.responseFacebook}
-                      />
-                    )}
-                  </Col>
-                  <Col sm={1} />
-                </Row>
-              </Col>
+
+              <Col sm={2} />
             </Row>
           </Fragment>
         ) : (
