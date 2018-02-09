@@ -3,6 +3,8 @@ environment
 logs
 *.log
 npm-debug.log*
+yarn.lock
+*.swp
 
 # Runtime data
 pids
@@ -24,10 +26,7 @@ node_modules
 reports
 tmp
 keys
-api/src/build/
 
+api/src/build/
 .DS_Store
 api/.DS_Store
-
-
-

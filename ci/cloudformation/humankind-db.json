@@ -1,0 +1,222 @@
+{
+  "Description": "humankind - creates an EC2 Ubuntu machine, EBS volume, static IP address, and deploys the Neo4j Graph Database on it.",
+  "AWSTemplateFormatVersion": "2010-09-09",
+  "Mappings" : {
+
+    "AWSRegionArch2AMI" : {
+      "us-east-1"      : { "64" : "ami-80861296" },
+      "us-east-2"      : { "64" : "ami-618fab04" },
+      "us-west-2"      : { "64" : "ami-efd0428f" },
+      "us-west-1"      : { "64" : "ami-2afbde4a" },
+      "eu-west-1"      : { "64" : "ami-cc67b9b5" },
+      "ca-central-1"   : { "64" : "ami-b3d965d7" },
+      "eu-central-1"   : { "64" : "ami-060cde69" },
+      "ap-southeast-1" : { "64" : "ami-8fcc75ec" },
+      "ap-southeast-2" : { "64" : "ami-96666ff5" },
+      "ap-northeast-1" : { "64" : "ami-afb09dc8" },
+      "sa-east-1"      : { "64" : "ami-4090f22c" }
+    }
+  },
+    "Parameters": {
+      "InstanceType" : {
+        "Description" : "EC2 instance type",
+        "Type" : "String",
+        "Default" : "t2.micro",
+        "AllowedValues" : [ "m1.medium","m1.large", "t2.micro", "t2.small", "t2.medium","m1.xlarge","m2.xlarge","m2.2xlarge","m2.4xlarge","m3.medium","m3.xlarge","m3.2xlarge","c1.medium","c1.xlarge"],
+        "ConstraintDescription" : "Must be a valid EC2 instance type."
+      },
+      "SSHKeyName": {
+        "Description" : "Name of an existing EC2 KeyPair to enable SSH access to the instances",
+        "Type": "AWS::EC2::KeyPair::KeyName"
+      },
+      "Neo4jPassword": {
+        "Description": "Password for the DB",
+        "Type": "String"
+      },
+        "NetworkWhitelist": {
+            "Description": " The IP address range that can be used to connect to the Neo4j server (by REST or SSH)",
+            "Type": "String",
+            "MinLength": "9",
+            "MaxLength": "18",
+            "Default": "0.0.0.0/0",
+            "AllowedPattern": "(\\d{1,3})\\.(\\d{1,3})\\.(\\d{1,3})\\.(\\d{1,3})/(\\d{1,2})",
+            "ConstraintDescription": "must be a valid IP CIDR range of the form x.x.x.x/x."
+        }
+    },
+    "Resources": {
+        "ElasticIP": {
+            "Type": "AWS::EC2::EIP",
+            "Properties": {
+                "InstanceId": {
+                    "Ref": "Server"
+                }
+            }
+        },
+        "Server": {
+            "Type": "AWS::EC2::Instance",
+            "Properties": {
+                "AvailabilityZone": {
+                    "Fn::Select": [ 0, {
+                        "Fn::GetAZs": ""
+                    }]
+                },
+                "DisableApiTermination": "FALSE",
+                "ImageId": {
+                    "Fn::FindInMap": [ "AWSRegionArch2AMI", {
+                        "Ref": "AWS::Region"
+                    }, "64"]
+                },
+                "InstanceType": {
+                    "Ref": "InstanceType"
+                },
+                "KeyName": {"Ref": "SSHKeyName"},
+                "Monitoring": "false",
+                "SecurityGroups": [
+                    {
+                        "Ref": "sgNeo4jServer"
+                    }
+                ],
+                "Tags": [
+                    {
+                        "Key": "Name",
+                        "Value": "humankinddb"
+                    }
+                ],
+                "UserData"       : { "Fn::Base64" : { "Fn::Join" : ["", [
+                        "#!/bin/bash -v\n",
+                        "# Make the filesystem for the database\n",
+                        "mkdir -p /var/lib/neo4j\n",
+                        "mkfs.ext4 /dev/xvdj\n",
+                        "mount /dev/xvdj /var/lib/neo4j\n",
+                        "echo '/dev/xvdj /var/lib/neo4j auto defaults 0 0' >> /etc/fstab\n",
+                        "/bin/dd if=/dev/zero of=/var/swap bs=1M count=4096\n",
+                        "/sbin/mkswap /var/swap\n",
+                        "chmod 600 /var/swap\n",
+                        "/sbin/swapon /var/swap\n",
+                        "echo \"/var/swap   swap    swap    defaults        0   0\" >> /etc/fstab\n",
+                        "wget -O - http://debian.neo4j.org/neotechnology.gpg.key| apt-key add -\n",
+                        "echo 'deb http://debian.neo4j.org/repo stable/' > /etc/apt/sources.list.d/neo4j.list\n",
+                        "apt-get update -y\n",
+                        "echo neo4j-enterpise neo4j/question string I ACCEPT | debconf-set-selections\n",
+                        "apt-get install -y openjdk-8-jre neo4j-enterprise haproxy\n",
+                        "cat <<EOF > /etc/haproxy/haproxy.cfg\n",
+                        "global\n",
+                        "    daemon\n",
+                        "    maxconn 256\n",
+                        "\n",
+                        "defaults\n",
+                        "    mode http\n",
+                        "    timeout connect 5000ms\n",
+                        "    timeout client 50000ms\n",
+                        "    timeout server 50000ms\n",
+                        "",
+                        "frontend http-in\n",
+                        "    bind *:80\n",
+                        "    default_backend neo4j\n",
+                        "",
+                        "\n",
+                        "backend neo4j\n",
+                        "    server s1 127.0.0.1:7474 maxconn 32\n",
+                        "\n",
+                        "listen admin\n",
+                        "    bind *:8080\n",
+                        "    stats enable\n",
+                        "EOF\n",
+                        "# install the packages \n",
+                        "# tweak the config\n",
+                        "sed -i 's/ENABLED=0/ENABLED=1/' /etc/default/haproxy\n",
+                        "echo 'dbms.connector.bolt.address=0.0.0.0:7687' >> /etc/neo4j/neo4j.conf\n",
+                        "echo 'wrapper.java.additional=-Dneo4j.ext.udc.source=ec2neo' >> /etc/neo4j/neo4j-wrapper.conf\n",
+                        "service neo4j restart\n",
+                        "service haproxy restart\n",
+                        "cat <<EOF > /etc/cron.daily/neo4j_backup\n",
+                        "#!/bin/bash\n",
+                        "set -e\n",
+                        "backup_dir='/var/tmp/neo4j_backup'\n",
+                        "backup_archive='/mnt'\n",
+                        "neo4j-backup --from single://localhost -to \\${backup_dir}\n",
+                        "tar -czf \\${backup_archive}//neo4j_backup.\\$(date +%FT%T).tgz \\${backup_dir}\n",
+                        "rm -rf \\${backup_dir}\n",
+                        "EOF\n",
+                        "chown root:root /etc/cron.daily/neo4j_backup\n",
+                        "systemctl enable neo4j\n",
+                        "chmod 0755 /etc/cron.daily/neo4j_backup\n",
+                        "rm -fr /var/lib/neo4j/data/dbms/auth\n",
+                        "neo4j-admin set-initial-password ",
+                        { "Ref": "Neo4jPassword" },
+                        "\n",
+                        "chown neo4j:neo4j -R /var/lib/neo4j\n"
+                ]]}},
+                "Volumes" : [
+                          { "VolumeId" : { "Ref" : "EBSVolume" },
+                            "Device" : "/dev/sdj"
+                }]
+
+            }
+        },
+        "EBSVolume": {
+            "Type": "AWS::EC2::Volume",
+            "Properties": {
+                "AvailabilityZone": { "Fn::Select" : [ 0, { "Fn::GetAZs" : "" }] },
+                "Size": "10"
+            }
+        },
+        "sgNeo4jServer": {
+            "Type": "AWS::EC2::SecurityGroup",
+            "Properties": {
+                "GroupDescription": "Neo4j Ports",
+                "SecurityGroupIngress": [
+                    {
+                        "IpProtocol": "tcp",
+                        "FromPort": "22",
+                        "ToPort": "22",
+                        "CidrIp": { "Ref": "NetworkWhitelist" }
+                    },
+                    {
+                        "IpProtocol": "tcp",
+                        "FromPort": "80",
+                        "ToPort": "80",
+                        "CidrIp": { "Ref": "NetworkWhitelist" }
+                    }
+                ]
+            }
+        },
+        "DBRecord" : {
+          "DependsOn": "ElasticIP", 
+          "Type" : "AWS::Route53::RecordSet",
+          "Properties" : {
+            "HostedZoneId" : { "Fn::ImportValue" : "HumankindHostedZoneId" },
+            "Comment" : "DNS name for db instance.",
+            "Name" : {
+              "Fn::Join" : [ "", [
+              "db.",
+              {"Fn::ImportValue" : "HumankindHostedZoneName"} ,"."
+              ] ]
+            },
+            "Type" : "A",
+            "TTL" : "900",
+            "ResourceRecords" : [
+            { "Fn::GetAtt" : [ "Server", "PublicIp" ] }
+            ]
+          }
+        }
+    },
+    "Outputs": {
+      "Neo4jWebadmin" : {
+        "Value" : { "Fn::Join" : ["", ["http://", { "Fn::GetAtt" : [ "Server", "PublicIp" ]}]] },
+        "Description" : "This is the address of your Neo4j server web administration console."
+      },
+      "Neo4jEndPoint" : {
+        "Value" : { "Fn::Join" : ["", ["http://", { "Fn::GetAtt" : [ "Server", "PublicIp" ]}, "/db/data/"]] },
+        "Description" : "This is the address of your Neo4j server, that your application will use."
+      },
+      "SshAccess": {
+        "Value" : {"Fn::Join" : ["", ["ssh -i ${HOME}/.ssh/", {"Ref": "SSHKeyName"}, ".pem -l ubuntu ", { "Fn::GetAtt" : [ "Server", "PublicIp" ]}]]},
+        "Description" : "This is how you gain remote access to the machine."
+      },
+      "PublicIp": {
+        "Value": { "Fn::GetAtt" : [ "Server", "PublicIp" ]},
+        "Description": "Public IP of the DB instance"
+      }
+    }
+}
