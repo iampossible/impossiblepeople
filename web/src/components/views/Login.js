@@ -80,6 +80,7 @@ export default class Login extends Component {
               autoLoad={false}
               icon="fa-facebook fa-lg"
               fields="name,email,picture,friends"
+              textButton="Continue with Facebook"
               callback={this.props.responseFacebook}
             />
           </Col>
