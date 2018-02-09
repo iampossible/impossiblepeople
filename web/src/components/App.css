@@ -1,4 +1,4 @@
-@import url(http://fonts.googleapis.com/css?family=Exo+2|Signika|Felipa|Lovers+Quarrel|Italianno:400,200,600,800,900);
+@import url(https://fonts.googleapis.com/css?family=Exo+2|Signika|Felipa|Lovers+Quarrel|Italianno:400,200,600,800,900);
 html {
     line-height: 1;
 }
@@ -143,7 +143,7 @@ p {
     width: 100vw;
     min-height: 100vh;
     margin-right: 0;
-    background: #e9e9ef;
+    background: #f7f6f6;
 }
 
 .App-main>div {
@@ -207,7 +207,7 @@ p {
 }
 
 #signUpsignInhr {
-    margin: 2em 4em 2em 4.3em;
+    margin: 2em 3.5em 2em 3.5em;
 }
 
 #landingPageMain {
@@ -256,17 +256,20 @@ p {
 }
 
 #landingPageInfo {
-    padding-top: 6em;
+    padding-top: 2em;
     padding-bottom: 5em;
     padding-left: 3.5em;
-    background-image: url("../assets/images/Background illustration web-01.jpg");
+    background-image: url("../assets/images/Backgroundillustrationweb-01.jpg");
     color: #fff;
     background-size: 100% 100%;
     flex-direction: column;
+    height: 416px;
 }
 
 #landingPageInfo hr {
     background: #fff;
+    margin-right: 3em;
+    margin-left: 1.5em;
 }
 
 #landingPageWelcome img {
@@ -277,6 +280,10 @@ p {
 
 #landingPageWelcome h1 {
     margin-bottom: 0;
+}
+
+#landingPageWelcome h1,
+#landingPageWelcome h6 {
     text-align: center;
 }
 
@@ -290,7 +297,8 @@ p {
 
 #landingPageInfo p {
     font-size: 1.2em;
-    margin: 0 2em 1.4em 0;
+    margin: 0.5em auto;
+    margin-top: 0.3em;
 }
 
 .selectedUserTypeButton {
@@ -298,21 +306,21 @@ p {
     color: #000;
 }
 
-#landingPageInfo p.lead {
-    margin-bottom: 0;
+#signUpButton,
+#signInSubmit {
+    background-color: #68c5b5;
+    height: 61px;
+    width: 100%;
+    border-radius: 0;
 }
 
-#signUpButton {
-    background-color: #fa775b;
-}
-
-#signUpButton:hover {
+#signUpButton:hover,
+#signInSubmit:hover {
     background-color: #c32830;
 }
 
 #signUpFacebook .kep-login-facebook.metro {
-    padding-left: 4em;
-    padding-right: 5em;
+    width: 100%;
 }
 
 .orLoginWithFacebook {
@@ -320,26 +328,38 @@ p {
 }
 
 #loginFacebook .kep-login-facebook.metro {
-    padding-left: 5em;
-    padding-right: 7em;
+    width: 100%;
 }
 
 #organisationNameLabel {
     padding-left: 0;
 }
 
-#lists {
-    margin-top: 1%;
-    padding: 20px 5px;
-    padding-left: 4em;
+#registrationForm .form-group,
+#signinForm .form-group {
+    margin-bottom: 0;
 }
 
-#lists li {
-    background: transparent;
-    border: none;
-    margin: 0 1em;
-    padding-left: 0;
-    margin-left: 4px;
+#registrationForm .form-group div,
+#signinForm .form-group div {
+    margin-bottom: 0;
+    padding-bottom: 0;
+}
+
+#registrationForm .form-control,
+#signinForm .form-control {
+    border-radius: 0;
+    margin-bottom: 0;
+    height: 61px;
+    width: 100%;
+    padding-bottom: 0;
+    border-width: 1px;
+    border-bottom-width: 0;
+}
+
+#registrationForm input:focus,
+#signinForm input:focus {
+    border-width: 1px;
 }
 
 .interestButton {

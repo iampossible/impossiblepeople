@@ -14,12 +14,12 @@ import FacebookLogin from "react-facebook-login";
 export default class CreateUser extends Component {
   render() {
     return (
-      <Form>
+      <Form id="registrationForm">
         {this.props.inputData.userType === "volunteer" ? (
           <Fragment>
             <Row>
-              <Col sm={4} />
-              <Col sm={7} xs={12} id="signUpFacebook">
+              <Col sm={1} />
+              <Col sm={10} xs={12} id="signUpFacebook">
                 <FacebookLogin
                   appId={process.env.REACT_APP_FACEBOOK_APP_ID}
                   autoLoad={false}
@@ -32,23 +32,28 @@ export default class CreateUser extends Component {
               <Col sm={1} />
             </Row>
             <Row className="orLoginWithFacebook">
-              <Col sm={4} />
+              <Col sm={2} />
               <Col sm={8} style={{ textAlign: "center" }}>
                 <p>&mdash;&mdash;&mdash;&nbsp;OR&nbsp;&mdash;&mdash;&mdash;</p>
               </Col>
+              <Col sm={2} />
             </Row>
           </Fragment>
         ) : (
           ""
         )}
+        <Row>
+          <Col sm={1} />
+          <Col sm={10}>
+            <p>Sign Up with email</p>
+          </Col>
+          <Col sm={1} />
+        </Row>
         {this.props.inputData.userType === "organisation" ? (
           <Fragment>
             <FormGroup row>
               <Col sm={1} />
-              <Label for="organisationName" sm={3} id="organisationNameLabel">
-                Organisation Name
-              </Label>
-              <Col sm={7}>
+              <Col sm={10}>
                 <Input
                   type="text"
                   name="organisationName"
@@ -62,10 +67,7 @@ export default class CreateUser extends Component {
             </FormGroup>
             <FormGroup row>
               <Col sm={1} />
-              <Label for="role" sm={3}>
-                Role
-              </Label>
-              <Col sm={7}>
+              <Col sm={10}>
                 <Input
                   type="text"
                   name="role"
@@ -86,10 +88,7 @@ export default class CreateUser extends Component {
           <Fragment>
             <FormGroup row>
               <Col sm={1} />
-              <Label for="firtsName" sm={3}>
-                First Name
-              </Label>
-              <Col sm={7}>
+              <Col sm={10}>
                 <Input
                   type="text"
                   name="firstName"
@@ -103,10 +102,7 @@ export default class CreateUser extends Component {
             </FormGroup>
             <FormGroup row>
               <Col sm={1} />
-              <Label for="lastName" sm={3}>
-                Last Name
-              </Label>
-              <Col sm={7}>
+              <Col sm={10}>
                 <Input
                   type="text"
                   name="lastName"
@@ -115,15 +111,12 @@ export default class CreateUser extends Component {
                   onChange={this.props.handleChange}
                   value={this.props.inputData.lastName}
                 />
-                <Col sm={1} />
               </Col>
+              <Col sm={1} />
             </FormGroup>
             <FormGroup row>
               <Col sm={1} />
-              <Label for="email" sm={3}>
-                Email
-              </Label>
-              <Col sm={7}>
+              <Col sm={10}>
                 <Input
                   type="email"
                   name="email"
@@ -137,10 +130,7 @@ export default class CreateUser extends Component {
             </FormGroup>
             <FormGroup row>
               <Col sm={1} />
-              <Label for="password" sm={3}>
-                Password
-              </Label>
-              <Col sm={7}>
+              <Col sm={10}>
                 <Input
                   type="password"
                   name="password"
@@ -154,15 +144,12 @@ export default class CreateUser extends Component {
             </FormGroup>
             <FormGroup row>
               <Col sm={1} />
-              <Label for="password" sm={3} id="registerConfirmPassword">
-                Confirm Password
-              </Label>
-              <Col sm={7}>
+              <Col sm={10}>
                 <Input
                   type="password"
                   name="confirmPassword"
                   id="userRegistrationConfirmPassword"
-                  placeholder="password"
+                  placeholder="Confirm Password"
                   onChange={this.props.handleChange}
                   value={this.props.inputData.confirmPassword}
                 />
@@ -171,8 +158,8 @@ export default class CreateUser extends Component {
             </FormGroup>
             {this.props.inputData.validatePassword ? (
               <Row>
-                <Col sm={4} />
-                <Col sm={7}>
+                <Col sm={1} />
+                <Col sm={10}>
                   <Alert color="danger">
                     it doesn&apos;t match with your password
                   </Alert>
@@ -184,8 +171,8 @@ export default class CreateUser extends Component {
             )}
             {this.props.inputData.error ? (
               <Row>
-                <Col sm={4} />
-                <Col sm={7}>
+                <Col sm={1} />
+                <Col sm={10}>
                   <Alert color="danger"> {this.props.inputData.error}</Alert>
                 </Col>
                 <Col sm={1} />
@@ -194,13 +181,13 @@ export default class CreateUser extends Component {
               ""
             )}
             <Row>
-              <Col sm={4} />
-              <Col sm={7}>
+              <Col sm={1} />
+              <Col sm={10}>
                 <Button
                   id="signUpButton"
                   onClick={this.props.handleCreateUser}
                   block>
-                  Sign up with email
+                  Get started!
                 </Button>
               </Col>
               <Col sm={1} />

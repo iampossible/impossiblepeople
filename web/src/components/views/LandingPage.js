@@ -258,7 +258,8 @@ export default class LandingPage extends Component {
                         onClick={e => this.handleUserTypeSelection(e)}
                         name="volunteer"
                         className={
-                          this.state.userType == "volunteer"
+                          this.state.userType == "volunteer" &&
+                          this.props.register
                             ? "selectedUserTypeButton"
                             : ""
                         }>
@@ -271,7 +272,8 @@ export default class LandingPage extends Component {
                         onClick={e => this.handleUserTypeSelection(e)}
                         name="organisation"
                         className={
-                          this.state.userType === "organisation"
+                          this.state.userType === "organisation" &&
+                          this.props.register
                             ? "selectedUserTypeButton"
                             : ""
                         }>

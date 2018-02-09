@@ -14,12 +14,31 @@ import FacebookLogin from "react-facebook-login";
 export default class Login extends Component {
   render() {
     return (
-      <Form>
+      <Form id="signinForm">
+        <Row>
+          <Col sm={1} />
+          <Col sm={10} xs={12} id="loginFacebook">
+            <FacebookLogin
+              appId={process.env.REACT_APP_FACEBOOK_APP_ID}
+              autoLoad={false}
+              icon="fa-facebook fa-lg"
+              fields="name,email,picture,friends"
+              textButton="Continue with Facebook"
+              callback={this.props.responseFacebook}
+            />
+          </Col>
+          <Col sm={1} />
+        </Row>
+        <Row className="orLoginWithFacebook">
+          <Col sm={1} />
+          <Col sm={10} style={{ textAlign: "center" }}>
+            <p>&mdash;&mdash;&mdash;&nbsp;OR&nbsp;&mdash;&mdash;&mdash;</p>
+          </Col>
+          <Col sm={1} />
+        </Row>
         <FormGroup row>
-          <Label for="logInEmail" sm={3}>
-            Email
-          </Label>
-          <Col sm={8}>
+          <Col sm={1} />
+          <Col sm={10}>
             <Input
               type="email"
               name="logInEmail"
@@ -29,12 +48,11 @@ export default class Login extends Component {
               value={this.props.logInEmail}
             />
           </Col>
+          <Col sm={1} />
         </FormGroup>
         <FormGroup row>
-          <Label for="logInPassword" sm={3}>
-            Password
-          </Label>
-          <Col sm={8}>
+          <Col sm={1} />
+          <Col sm={10}>
             <Input
               type="password"
               name="logInPassword"
@@ -44,10 +62,11 @@ export default class Login extends Component {
               value={this.props.logInPassword}
             />
           </Col>
+          <Col sm={1} />
         </FormGroup>
         <Row>
-          <Col sm={3} />
-          <Col sm={8}>
+          <Col sm={1} />
+          <Col sm={10}>
             {this.props.error ? (
               <Alert color="danger"> {this.props.error}</Alert>
             ) : (
@@ -57,32 +76,11 @@ export default class Login extends Component {
           <Col sm={1} />
         </Row>
         <Row>
-          <Col sm={3} />
-          <Col sm={8}>
-            <Button color="danger" onClick={this.props.handleLogin} block>
+          <Col sm={1} />
+          <Col sm={10}>
+            <Button id="signInSubmit" onClick={this.props.handleLogin} block>
               Login
             </Button>
-          </Col>
-          <Col sm={1} />
-        </Row>
-        <Row className="orLoginWithFacebook">
-          <Col sm={3} />
-          <Col sm={8} style={{ textAlign: "center" }}>
-            <p>&mdash;&mdash;&mdash;&nbsp;OR&nbsp;&mdash;&mdash;&mdash;</p>
-          </Col>
-          <Col sm={1} />
-        </Row>
-        <Row>
-          <Col sm={3} />
-          <Col sm={8} xs={12} id="loginFacebook">
-            <FacebookLogin
-              appId={process.env.REACT_APP_FACEBOOK_APP_ID}
-              autoLoad={false}
-              icon="fa-facebook fa-lg"
-              fields="name,email,picture,friends"
-              textButton="Continue with Facebook"
-              callback={this.props.responseFacebook}
-            />
           </Col>
           <Col sm={1} />
         </Row>
