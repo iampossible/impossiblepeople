@@ -153,13 +153,18 @@ p {
 }
 
 .App-footer {
-    background: #fff;
+    display: flex;
+    justify-content: flex-start;
+    background: #68c5b5;
     width: 100vw;
     height: 60px;
-    text-align: right;
     margin: 0;
     position: absolute;
     bottom: -60px;
+}
+
+.App-footer div.col {
+    align-self: center;
 }
 
 .App-footer p {
@@ -168,20 +173,28 @@ p {
     font-size: 0.9em;
 }
 
-#termsOfUse,
+#poweredby,
+#userAggreement,
 #privacyPlicy,
-#footerCopyright {
+#feedback,
+#faq {
     padding-top: 0.7em;
 }
 
-#termsOfUse a,
-#privacyPlicy a {
+#poweredby a,
+#userAggreement a,
+#privacyPlicy a,
+#feedback a,
+#faq a {
     font-weight: 400;
     color: #000;
 }
 
-#termsOfUse a:hover,
-#privacyPlicy a:hover {
+#poweredby a:hover,
+#userAggreement a:hover,
+#privacyPlicy a:hover,
+#feedback a:hover,
+#faq a:hover {
     text-decoration: none;
     color: #ff4754;
 }
