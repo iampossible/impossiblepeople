@@ -101,11 +101,8 @@ class DisplayPost extends Component {
           </Col>
           <Col sm={2}>
             <p className="feedCreatedAt">
-              {/* {moment(postData.createdAt).format("MMM Do, YYYY")}&nbsp; */}
-              <i
-                className="fa fa-clock-o"
-                aria-hidden="true"
-              />&nbsp;&nbsp;{postData.createdAtSince.toUpperCase() + " ago"}
+              <i className="fa fa-clock-o" aria-hidden="true" />&nbsp;&nbsp;{postData.createdAtSince.toUpperCase() +
+                " ago"}
             </p>
           </Col>
         </Row>
