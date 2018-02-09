@@ -3,7 +3,6 @@ import { Row, Col, Button } from "reactstrap";
 import { RingLoader } from "react-spinners";
 import CreateUser from "./CreateUser";
 import Login from "./Login";
-import headerImage from "../../assets/images/Handwritten White.png";
 
 function handleErrors(response) {
   if (!response.ok) {
@@ -226,7 +225,8 @@ export default class LandingPage extends Component {
   };
   render() {
     let { loading, ...inputData } = this.state;
-
+    const landinPageInfoImage =
+      "https://humankind-assets.s3.eu-west-1.amazonaws.com/post/oLKQU8Yqxpe2b";
     return (
       <Fragment>
         {!this.state.loading ? (
@@ -242,7 +242,7 @@ export default class LandingPage extends Component {
                 <Row>
                   <Col sm={1} />
                   <Col sm={8}>
-                    <img src={headerImage} alt="headerImage" />
+                    <img src={landinPageInfoImage} alt="headerImage" />
                   </Col>
                   <Col sm={2} />
                 </Row>
