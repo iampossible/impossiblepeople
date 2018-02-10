@@ -42,6 +42,15 @@ export default class CreateUser extends Component {
         ) : (
           ""
         )}
+        {this.props.facebookLoginError ? (
+          <Row>
+            <Col sm={1} />
+            <Col sm={10}>
+              <Alert color="danger"> {this.props.facebookLoginError}</Alert>
+            </Col>
+            <Col sm={1} />
+          </Row>
+        ) : null}
         <Row>
           <Col sm={1} />
           <Col sm={10}>
