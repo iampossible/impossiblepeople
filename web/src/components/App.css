@@ -320,15 +320,21 @@ p {
 }
 
 #signUpButton,
-#signInSubmit {
+#signInSubmit,
+#doneProfileButton {
     background-color: #68c5b5;
     height: 61px;
     width: 100%;
     border-radius: 0;
 }
 
+#doneProfileButton {
+    height: 50px;
+}
+
 #signUpButton:hover,
-#signInSubmit:hover {
+#signInSubmit:hover,
+#doneProfileButton:hover {
     background-color: #c32830;
 }
 
@@ -349,18 +355,21 @@ p {
 }
 
 #registrationForm .form-group,
-#signinForm .form-group {
+#signinForm .form-group,
+#profile .form-group {
     margin-bottom: 0;
 }
 
 #registrationForm .form-group div,
-#signinForm .form-group div {
+#signinForm .form-group div,
+#profile .form-group div {
     margin-bottom: 0;
     padding-bottom: 0;
 }
 
 #registrationForm .form-control,
-#signinForm .form-control {
+#signinForm .form-control,
+#profile .form-control {
     border-radius: 0;
     margin-bottom: 0;
     height: 61px;
@@ -368,6 +377,71 @@ p {
     padding-bottom: 0;
     border-width: 1px;
     border-bottom-width: 0;
+}
+
+#profile #interest {
+    margin-top: 1.5em;
+}
+
+#profile #interestsHeading {
+    margin-top: 1.5em;
+}
+
+#profile .form-control {
+    border-width: 0;
+    height: 50px;
+    border-bottom-width: 1px;
+}
+
+#profile .list-group-item {
+    padding: 0;
+    border-radius: 0;
+    margin-left: 20px;
+    margin-right: 20px;
+    margin-bottom: 1em;
+    border: 0;
+    margin-bottom: 2em;
+}
+
+#profile #listOfInterests {
+    padding-left: 0;
+    padding-right: 0;
+}
+
+#profile label {
+    margin: 1em 0 0 0.5em;
+}
+
+#profile .interestDetail-info {
+    float: right;
+    cursor: pointer;
+    margin-right: -1.4em;
+    margin-top: -1.3em;
+    color: cornsilk;
+    font-size: 1.1em;
+}
+
+#profile .interestDetail-info::after {
+    content: "";
+    clear: both;
+    display: table;
+}
+
+#profile .relatedTagsHeading {
+    margin-left: 1em;
+    margin-top: 1em;
+    margin-bottom: 0.3em;
+    font-size: 1em;
+    text-decoration: underline;
+    font-weight: 600;
+}
+
+#profile .relatedTags {
+    padding-left: 1em;
+}
+
+#profile .relatedTags li {
+    list-style: none;
 }
 
 #registrationForm input:focus,
@@ -394,8 +468,11 @@ p {
     text-align: center;
     font-size: 1em;
     box-sizing: content-box;
-    width: 200px;
+    min-width: 120px;
     cursor: pointer;
+    border: none;
+    padding: 1.5em 0.8em;
+    border-radius: 0;
     border: none;
 }
 
@@ -527,7 +604,8 @@ hr {
 .feed,
 #post,
 #noFeedMessage,
-#profile {
+#profile,
+#unApprovedOrgsMesage {
     font-family: "Signika", sans-serif;
     color: #192243;
     background-color: rgb(255, 255, 255);
@@ -557,9 +635,29 @@ hr {
 }
 
 #profile {
-    margin-top: 2em;
     margin: 2.5em 9em;
+    margin-top: 2em;
     padding: 2em 3em;
+}
+
+#unApprovedOrgsMesage {
+    margin: 2.5em 9em -1em 9em;
+    margin-top: 2em;
+    padding: 0.5em 1em;
+    background: #ed684b;
+    border: none;
+}
+
+#unApprovedOrgsMesage p {
+    font-size: 1em;
+    margin-bottom: 0;
+    color: #fff;
+    text-align: center;
+}
+
+#unApprovedOrgsMesage p>i {
+    color: #000;
+    vertical-align: middle;
 }
 
 #filterPosts {
@@ -1074,13 +1172,13 @@ button {
 }
 
 #profilePictureContainer #profilePicture {
-    width: 250px;
-    height: 250px;
+    width: 90px;
+    height: 90px;
 }
 
 #profilePictureContainer #profilePicture img {
-    width: 230px;
-    height: 230px;
+    width: 80px;
+    height: 80px;
     border-radius: 50%;
     border: 1px solid #003366;
 }
@@ -1095,16 +1193,44 @@ button {
     padding-left: 0;
 }
 
-#orgDescription {
-    height: 150px;
-}
-
 #uploadButton {
     align-self: flex-end;
 }
 
 #uploadButton .col {
     padding-left: 5px;
+}
+
+#uploadButton {
+    position: relative;
+    overflow: hidden;
+    display: inline-block;
+}
+
+#uploadButton label {
+    margin-left: -1em;
+    margin-top: 3.5em;
+    color: gray;
+    background-color: white;
+    padding: 0;
+    font-size: 1em;
+    width: 200px;
+}
+
+#uploadButton label:hover {
+    text-decoration: underline;
+    color: #df4848;
+    cursor: pointer;
+}
+
+#uploadButton #orgProfileImage,
+#uploadButton #profileImage {
+    position: absolute;
+    left: 0;
+    top: 0;
+    opacity: 0;
+    cursor: pointer;
+    width: 200px;
 }
 
 @media only screen and (max-width: 768px) {
@@ -1158,10 +1284,3 @@ button {
         padding: 0;
     }
 }
-
-
-/* @media (min-width: 1200px) {
-    .App-main {
-        max-width: 1140px;
-    }
-} */

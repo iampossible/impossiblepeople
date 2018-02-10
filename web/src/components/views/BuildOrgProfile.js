@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { Component, Fragment } from "react";
 import {
   Row,
   Col,
@@ -34,7 +34,8 @@ export default class BuildOrgProfile extends Component {
           )
         : "",
       uploadingImage: false,
-      imageLoadError: null
+      imageLoadError: null,
+      showInterestsMoreInfo: false
     };
   }
 
@@ -176,6 +177,31 @@ export default class BuildOrgProfile extends Component {
     this.props.history.push("/feed");
   };
 
+  toggleShowInterestsMoreInfo = interestID => {
+    if (!this.state.showInterestsMoreInfo) {
+      this.setState(
+        {
+          showInterestsMoreInfo: interestID
+        },
+        () => {
+          setTimeout(() => {
+            this.setState({
+              showInterestsMoreInfo: false
+            });
+          }, 25000);
+        }
+      );
+    } else if (this.state.showInterestsMoreInfo !== interestID) {
+      this.setState({
+        showInterestsMoreInfo: interestID
+      });
+    } else {
+      this.setState({
+        showInterestsMoreInfo: false
+      });
+    }
+  };
+
   isPageRady = () => {
     return this.props.user.interests;
   };
@@ -196,127 +222,173 @@ export default class BuildOrgProfile extends Component {
         <Col xs={4} />
       </Row>
     ) : (
-      <Row id="profile">
-        <Col sm={12}>
-          <Form>
-            <FormGroup row id="profilePictureContainer">
-              <Label for="orgProfileImage" sm={2} id="profilePictureLabel">
-                Profile Picture
-              </Label>
-              <Col sm={10}>
-                <Row>
-                  <Col sm={5} id="profilePicture">
-                    {this.state.uploadingImage ? (
-                      <RingLoader
-                        id="ringLoader"
-                        color="#123abc"
-                        loading={this.state.loading}
-                        size={100} /*the size of the spinner*/
-                      />
-                    ) : (
-                      <img
-                        id="preview"
-                        src={
-                          this.state.imageSource !== ""
-                            ? this.state.imageSource
-                            : this.props.user.imageSource
-                        }
-                        alt={this.state.name}
-                      />
-                    )}
-                  </Col>
-                  <Col sm={7} id="uploadButton">
-                    <Input
-                      type="file"
-                      name="orgProfileImage"
-                      id="orgProfileImage"
-                      accept=".jpg, .jpeg, .png"
-                      onChange={this.handleImageSelection}
-                    />
-                    <br />
-                    {this.state.imageLoadError ? (
-                      <Alert color="danger"> {this.state.imageLoadError}</Alert>
-                    ) : (
-                      ""
-                    )}
-                  </Col>
-                </Row>
-              </Col>
-            </FormGroup>
-            <FormGroup row>
-              <Label for="name" sm={2}>
-                Name
-              </Label>
-              <Col sm={6}>
-                <Input
-                  type="text"
-                  name="name"
-                  id="orgName"
-                  value={this.state.name}
-                  onChange={this.handleChange}
-                />
-              </Col>
-              <Col sm={3} />
-            </FormGroup>
-            <FormGroup row>
-              <Label for="url" sm={2}>
-                Url
-              </Label>
-              <Col sm={6}>
-                <Input
-                  type="url"
-                  name="url"
-                  id="orgUrl"
-                  placeholder="your organisation url"
-                  value={this.state.url}
-                  onChange={this.handleChange}
-                />
-              </Col>
-              <Col sm={3} />
-            </FormGroup>
-            <FormGroup row>
-              <Label for="description" sm={2}>
-                Description
-              </Label>
-              <Col sm={6}>
-                <Input
-                  type="textarea"
-                  name="description"
-                  id="orgDescription"
-                  value={this.state.description}
-                  onChange={this.handleChange}
-                />
-              </Col>
-              <Col sm={3} />
-            </FormGroup>
-            <FormGroup row>
-              <Col sm={12}>
-                <Interest
-                  user={this.props.user}
-                  setUser={this.props.setUser}
-                  getUser={this.props.getUser}
-                  handleInterestSelection={this.handleInterestSelection}
-                  interests={this.state.interests}
-                />
-              </Col>
-            </FormGroup>
-            <Row>
-              <Col xs={12}>
-                <hr />
-              </Col>
-            </Row>
-            <Row>
-              <Col sm={4} />
-              <Col sm={4}>
-                <Button color="danger" block onClick={this.handleSubmitRequest}>
-                  Submit
-                </Button>
-              </Col>
-              <Col sm={3} />
-            </Row>
-          </Form>
-        </Col>
-      </Row>
+      <Fragment>
+        {!this.props.user.approved ? (
+          <Row id="unApprovedOrgsMesage">
+            <Col sm={12}>
+              <p>
+                <i className="fa fa-info-circle" aria-hidden="true" />&nbsp;&nbsp;&nbsp;
+                Before you can start posting we need to verify your account.
+                Please fill out the details below to get started.
+              </p>
+            </Col>
+          </Row>
+        ) : null}
+        <Row id="profile">
+          <Col sm={12}>
+            <Form>
+              <FormGroup row id="profilePictureContainer">
+                <Col sm={1} />
+                <Col sm={10}>
+                  <Row>
+                    <Col sm={2} id="profilePicture">
+                      {this.state.uploadingImage ? (
+                        <RingLoader
+                          id="ringLoader"
+                          color="#123abc"
+                          loading={this.state.loading}
+                          size={100} /*the size of the spinner*/
+                        />
+                      ) : (
+                        <img
+                          id="preview"
+                          src={
+                            this.state.imageSource !== ""
+                              ? this.state.imageSource
+                              : this.props.user.imageSource
+                          }
+                          alt={this.state.name}
+                        />
+                      )}
+                    </Col>
+                    <Col sm={4} id="uploadButton">
+                      <Label>
+                        Update Your Profile Picture
+                        <input
+                          type="file"
+                          name="orgProfileImage"
+                          id="orgProfileImage"
+                          accept=".jpg, .jpeg, .png"
+                          onChange={this.handleImageSelection}
+                        />
+                      </Label>
+                      <br />
+                      {this.state.imageLoadError ? (
+                        <Alert color="danger">
+                          {" "}
+                          {this.state.imageLoadError}
+                        </Alert>
+                      ) : (
+                        ""
+                      )}
+                    </Col>
+                  </Row>
+                </Col>
+              </FormGroup>
+              <FormGroup row>
+                <Col sm={1} />
+                <Label for="name" sm={10}>
+                  Name
+                </Label>
+                <Col sm={1} />
+              </FormGroup>
+              <FormGroup row>
+                <Col sm={1} />
+                <Col sm={10} id="orgName">
+                  <Input
+                    type="text"
+                    name="name"
+                    value={this.state.name}
+                    onChange={this.handleChange}
+                  />
+                </Col>
+                <Col sm={1} />
+              </FormGroup>
+
+              <FormGroup row>
+                <Col sm={1} />
+                <Label for="description" sm={10}>
+                  A little bit about you
+                </Label>
+                <Col sm={1} />
+              </FormGroup>
+              <FormGroup row>
+                <Col sm={1} />
+                <Col sm={10} id="orgDescription">
+                  <Input
+                    type="text"
+                    name="description"
+                    placeholder="What brings you here?"
+                    value={this.state.description}
+                    onChange={this.handleChange}
+                  />
+                </Col>
+                <Col sm={1} />
+              </FormGroup>
+              <FormGroup row>
+                <Col sm={1} />
+                <Label for="url" sm={10}>
+                  Url
+                </Label>
+                <Col sm={1} />
+              </FormGroup>
+              <FormGroup row>
+                <Col sm={1} />
+                <Col sm={10} id="orgUrl">
+                  <Input
+                    type="url"
+                    name="url"
+                    placeholder="Add link"
+                    value={this.state.url || ""}
+                    onChange={this.handleChange}
+                  />
+                </Col>
+                <Col sm={1} />
+              </FormGroup>
+              <Row>
+                <Col sm={1} />
+                <Col sm={10} id="interestsHeading">
+                  <p>Which services do you provide (Interests)</p>
+                </Col>
+                <Col sm={1} />
+              </Row>
+              <FormGroup row>
+                <Col sm={12}>
+                  <Interest
+                    user={this.props.user}
+                    setUser={this.props.setUser}
+                    getUser={this.props.getUser}
+                    handleInterestSelection={this.handleInterestSelection}
+                    interests={this.state.interests}
+                    showInterestsMoreInfo={this.state.showInterestsMoreInfo}
+                    toggleShowInterestsMoreInfo={
+                      this.toggleShowInterestsMoreInfo
+                    }
+                  />
+                </Col>
+              </FormGroup>
+              <Row>
+                <Col sm={1} />
+                <Col sm={10}>
+                  <hr />
+                </Col>
+                <Col sm={1} />
+              </Row>
+              <Row>
+                <Col sm={1} />
+                <Col sm={10}>
+                  <Button
+                    id="doneProfileButton"
+                    onClick={this.handleSubmitRequest}>
+                    Done
+                  </Button>
+                </Col>
+                <Col sm={1} />
+              </Row>
+            </Form>
+          </Col>
+        </Row>
+      </Fragment>
     );
   }
 }
