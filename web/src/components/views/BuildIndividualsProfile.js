@@ -33,7 +33,8 @@ export default class BuildIndividualsProfile extends Component {
           )
         : new Set(),
       uploadingImage: false,
-      imageLoadError: null
+      imageLoadError: null,
+      showInterestsMoreInfo: false
     };
   }
 
@@ -177,6 +178,31 @@ export default class BuildIndividualsProfile extends Component {
     this.props.history.push("/feed");
   };
 
+  toggleShowInterestsMoreInfo = interestID => {
+    if (!this.state.showInterestsMoreInfo) {
+      this.setState(
+        {
+          showInterestsMoreInfo: interestID
+        },
+        () => {
+          setTimeout(() => {
+            this.setState({
+              showInterestsMoreInfo: false
+            });
+          }, 25000);
+        }
+      );
+    } else if (this.state.showInterestsMoreInfo !== interestID) {
+      this.setState({
+        showInterestsMoreInfo: interestID
+      });
+    } else {
+      this.setState({
+        showInterestsMoreInfo: false
+      });
+    }
+  };
+
   isPageRady = () => {
     return this.props.user;
   };
@@ -201,12 +227,11 @@ export default class BuildIndividualsProfile extends Component {
         <Col sm={12}>
           <Form>
             <FormGroup row id="profilePictureContainer">
-              <Label for="profileImage" sm={2} id="profilePictureLabel">
-                Profile Picture
-              </Label>
+              <Col sm={1} />
+
               <Col sm={10}>
                 <Row>
-                  <Col sm={5} id="profilePicture">
+                  <Col sm={2} id="profilePicture">
                     {this.state.uploadingImage ? (
                       <RingLoader
                         id="ringLoader"
@@ -226,14 +251,17 @@ export default class BuildIndividualsProfile extends Component {
                       />
                     )}
                   </Col>
-                  <Col sm={7} id="uploadButton">
-                    <Input
-                      type="file"
-                      name="profileImage"
-                      id="profileImage"
-                      accept=".jpg, .jpeg, .png"
-                      onChange={this.handleImageSelection}
-                    />
+                  <Col sm={4} id="uploadButton">
+                    <Label>
+                      Update Your Profile Picture
+                      <input
+                        type="file"
+                        name="profileImage"
+                        id="profileImage"
+                        accept=".jpg, .jpeg, .png"
+                        onChange={this.handleImageSelection}
+                      />
+                    </Label>
                     <br />
                     {this.state.imageLoadError ? (
                       <Alert color="danger"> {this.state.imageLoadError}</Alert>
@@ -245,57 +273,58 @@ export default class BuildIndividualsProfile extends Component {
               </Col>
             </FormGroup>
             <FormGroup row>
-              <Label for="firstName" sm={2}>
+              <Col sm={1} />
+              <Label for="firstName" sm={10}>
                 First Name
               </Label>
-              <Col sm={6}>
+              <Col sm={1} />
+            </FormGroup>
+            <FormGroup row>
+              <Col sm={1} />
+              <Col sm={10} id="firstName">
                 <Input
                   type="text"
                   name="firstName"
-                  id="firstName"
+                  placeholder="First Name"
                   value={this.state.firstName}
                   onChange={this.handleChange}
                 />
               </Col>
-              <Col sm={3} />
+              <Col sm={1} />
             </FormGroup>
             <FormGroup row>
-              <Label for="lastName" sm={2}>
+              <Col sm={1} />
+              <Label for="lastName" sm={10}>
                 Last Name
               </Label>
-              <Col sm={6}>
+              <Col sm={1} />
+            </FormGroup>
+            <FormGroup row>
+              <Col sm={1} />
+              <Col sm={10}>
                 <Input
                   type="text"
                   name="lastName"
                   id="lastName"
+                  placeholder="Last Name"
                   value={this.state.lastName}
                   onChange={this.handleChange}
                 />
               </Col>
-              <Col sm={3} />
+              <Col sm={1} />
             </FormGroup>
             <FormGroup row>
-              <Label for="url" sm={2}>
-                Url
+              <Col sm={1} />
+              <Label for="description" sm={10}>
+                A little bit about you
               </Label>
-              <Col sm={6}>
-                <Input
-                  type="url"
-                  name="url"
-                  id="url"
-                  placeholder="your personal site url"
-                  value={this.state.url}
-                  onChange={this.handleChange}
-                />
-              </Col>
-              <Col sm={3} />
+              <Col sm={1} />
             </FormGroup>
             <FormGroup row>
-              <Label for="description" sm={2}>
-                Description
-              </Label>
-              <Col sm={6}>
+              <Col sm={1} />
+              <Col sm={10}>
                 <Input
+                  placeholder="What brings you here?"
                   type="textarea"
                   name="description"
                   id="description"
@@ -303,8 +332,38 @@ export default class BuildIndividualsProfile extends Component {
                   onChange={this.handleChange}
                 />
               </Col>
-              <Col sm={3} />
+              <Col sm={1} />
             </FormGroup>
+            <FormGroup row>
+              <Col sm={1} />
+              <Label for="url" sm={10}>
+                Url
+              </Label>
+              <Col sm={1} />
+            </FormGroup>
+            <FormGroup row>
+              <Col sm={1} />
+              <Col sm={10}>
+                <Input
+                  type="url"
+                  name="url"
+                  id="url"
+                  placeholder="Add link"
+                  value={this.state.url || ""}
+                  onChange={this.handleChange}
+                />
+              </Col>
+              <Col sm={1} />
+            </FormGroup>
+            <Row>
+              <Col sm={1} />
+              <Col sm={10} id="interestsHeading">
+                <p>
+                  What opportunities would you like to hear about? ( interests )
+                </p>
+              </Col>
+              <Col sm={1} />
+            </Row>
             <FormGroup row>
               <Col sm={12}>
                 <Interest
@@ -313,22 +372,28 @@ export default class BuildIndividualsProfile extends Component {
                   getUser={this.props.getUser}
                   handleInterestSelection={this.handleInterestSelection}
                   interests={this.state.interests}
+                  showInterestsMoreInfo={this.state.showInterestsMoreInfo}
+                  toggleShowInterestsMoreInfo={this.toggleShowInterestsMoreInfo}
                 />
               </Col>
             </FormGroup>
             <Row>
-              <Col xs={12}>
+              <Col sm={1} />
+              <Col sm={10}>
                 <hr />
               </Col>
+              <Col sm={1} />
             </Row>
             <Row>
-              <Col sm={4} />
-              <Col sm={4}>
-                <Button color="danger" block onClick={this.handleSubmitRequest}>
-                  Submit
+              <Col sm={1} />
+              <Col sm={10}>
+                <Button
+                  id="doneProfileButton"
+                  onClick={this.handleSubmitRequest}>
+                  Done
                 </Button>
               </Col>
-              <Col sm={3} />
+              <Col sm={1} />
             </Row>
           </Form>
         </Col>
