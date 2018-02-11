@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { PostInterestTags } from "./PostInterestTags";
+import { PostInterestTags_Amir } from "./PostInterestTags_Amir";
 import {
   Row,
   Col,
@@ -9,10 +9,12 @@ import {
   Label,
   Input,
   Tooltip,
-  Alert
+  Alert,
+  ButtonGroup,
 } from "reactstrap";
 import { RingLoader } from "react-spinners";
 import { getBase64 } from "../utillity/helpers";
+import Interest from './views/Interest';
 
 const DEFAULT_IMAGE =
   "https://humankind-assets.s3.eu-west-1.amazonaws.com/post/gr8QHk31k2Raa";
@@ -32,6 +34,8 @@ export default class Post extends Component {
     postTypeAskChecked: false,
     postTypeOfferChecked: false,
     loadingLocationButtonDisabled: false,
+    activeAsk:false,
+    activeOffer:false,
     //default image
     imageSource: DEFAULT_IMAGE,
     url: "",
@@ -126,19 +130,23 @@ export default class Post extends Component {
     const target = event.currentTarget;
     const name = target.name;
 
-    if (target.type === "radio") {
-      if (target.value === "ASKS") {
+   
+      if (event.target.value === "ASKS") {
         this.setState({
           postTypeAskChecked: true,
-          postTypeOfferChecked: false
+          postTypeOfferChecked: false,
+          activeAsk:true,
+          activeOffer:false
         });
       } else {
         this.setState({
           postTypeOfferChecked: true,
-          postTypeAskChecked: false
+          postTypeAskChecked: false,
+          activeOffer:true,
+          activeAsk:false
         });
       }
-    }
+    
 
     if (name === "location") {
       this.setState({
@@ -375,13 +383,35 @@ export default class Post extends Component {
         <Row>
           <Col sm={1} />
           <Col sm={10} xs={12} id="postForm">
-            <Form>
-              <FormGroup row id="postPictureContainer">
-                <Label for="postImageFile" sm={2} id="postImageLabel">
-                  Picture
+          <div id="askAndOffer">
+            <Button className="askandoffres__button"  onClick={this.handleChange} name="postType" value="ASKS" active = {this.state.activeAsk} >Asks</Button>
+            <Button   className="askandoffres__button"  onClick={this.handleChange} name="postType" value="Offers" active = {this.state.activeOffer}>Offers</Button>
+            
+            </div>
+            <FormGroup  >
+                <Label for="content">
+                  What can you {this.state.postType}
                 </Label>
-                <Col sm={10}>
-                  <Col sm={12} id="postImageFile">
+                <Col id="textArea">
+                  <Input
+                    type="textarea"
+                    name="content"
+                    // style={{ height: 100, width: "100%" }}
+                    id="postContent"
+                    placeholder="eg. I can give drawing lesson "
+                    onChange={this.handleChange}
+                    value={this.state.content}
+                  />
+                </Col>
+                <Col sm={1} />
+              </FormGroup>
+            <Form>
+              <FormGroup id="postPictureContainer">
+                <Label for="postImageFile" id="postImageLabel">
+                  Image (must be in .png, .jpg or jpeg 760px x 250px)
+                </Label>
+                <Col >
+                  <Col  id="postImageFile">
                     {this.state.uploadingImage ? (
                       <RingLoader
                         id="ringLoader"
@@ -410,7 +440,7 @@ export default class Post extends Component {
                     ""
                   )}
                   <Row id="uploadPostImageButton">
-                    <Col>
+                    <label id="uploadImage"><u>Edit</u>
                       <Input
                         type="file"
                         name="postImageFile"
@@ -418,110 +448,52 @@ export default class Post extends Component {
                         accept=".jpg, .jpeg, .png"
                         onChange={this.handleImageSelection}
                       />
-                    </Col>
+                    </label>
                   </Row>
                 </Col>
               </FormGroup>
-              <FormGroup row>
-                <Label for="content" sm={2}>
-                  Content
-                </Label>
-                <Col sm={9} xs={12}>
-                  <Input
-                    type="textarea"
-                    name="content"
-                    style={{ height: 100, width: "100%" }}
-                    id="postContent"
-                    placeholder="Have something to Ask or Offer?"
-                    onChange={this.handleChange}
-                    value={this.state.content}
-                  />
-                </Col>
-                <Col sm={1} />
-              </FormGroup>
-              <FormGroup row>
-                <Label for="postType" sm={2}>
-                  <p>Type</p>
-                </Label>
-                <Col xs={4}>
-                  <Label check>
-                    <Input
-                      type="radio"
-                      name="postType"
-                      value="ASKS"
-                      checked={this.state.postTypeAskChecked}
-                      onChange={this.handleChange}
-                    />&nbsp;&nbsp;&nbsp;&nbsp;ASK
-                  </Label>
-                </Col>
-                <Col xs={4}>
-                  <Label check>
-                    <Input
-                      type="radio"
-                      name="postType"
-                      value="OFFERS"
-                      checked={this.state.postTypeOfferChecked}
-                      onChange={this.handleChange}
-                    />&nbsp;&nbsp;&nbsp;&nbsp;OFFER
-                  </Label>
-                </Col>
-                <Col sm={2} />
-              </FormGroup>
-              <FormGroup row>
-                <Label for="url" sm={2}>
-                  &nbsp; URL&nbsp;
-                </Label>
-                <Col sm={5} xs={12}>
-                  <Input
-                    type="text"
-                    name="url"
-                    id="url"
-                    placeholder="url for more information"
-                    onChange={this.handleChange}
-                    value={this.state.url}
-                  />
-                </Col>
-                <Col sm={5} />
-              </FormGroup>
-              <FormGroup row>
-                <Label for="timeRequired" sm={2}>
+              <FormGroup>
+                <Label for="timeRequired" >
                   &nbsp; Duration&nbsp;
                 </Label>
-                <Col sm={5} xs={12}>
+                <Col >
                   <Input
                     type="text"
                     name="timeRequired"
                     id="timeRequired"
-                    placeholder="e.g. 10"
+                    placeholder="How much time do you have (write in numbers)"
                     onChange={this.handleChange}
                     value={this.state.timeRequired}
                   />
                 </Col>
                 <Col sm={5} />
               </FormGroup>
-              <FormGroup row>
-                <Label for="location" sm={2}>
+              <FormGroup>
+                <Label for="location" >
                   &nbsp;Location&nbsp;
                 </Label>
-                <Col sm={5}>
-                  <Input
+                <Col  row>
+                  <Input 
                     type="textarea"
                     name="location"
                     id="location"
                     placeholder="e.g. London"
                     onChange={this.handleChange}
                     value={this.state.location}
-                  />
-                </Col>
-                <Col xs={3} id="locationDetectIconContainer">
+                  >
+                  
+                  </Input>
                   <Button
                     onClick={e => this.detectLocation(e)}
                     id="ToolTipUseCurrentLocationIcon"
                     disabled={this.state.loadingLocationButtonDisabled}
-                    block>
+                    >
                     Locate me&nbsp;
                     <i className="material-icons">add_location</i>
                   </Button>
+                </Col>
+                <Col id="locationDetectIconContainer">
+                  
                 </Col>
                 {this.state.loadingLocation ? (
                   <Col xs={1}>
@@ -546,24 +518,44 @@ export default class Post extends Component {
               ) : (
                 ""
               )}
-              <PostInterestTags
+              {/* <FormGroup >
+                <Label for="url" sm={2}>
+                  &nbsp; URL&nbsp;
+                </Label>
+                <Col sm={5} xs={12}>
+                  <Input
+                    type="text"
+                    name="url"
+                    id="url"
+                    placeholder="url for more information"
+                    onChange={this.handleChange}
+                    value={this.state.url}
+                  />
+                </Col>
+                <Col sm={5} />
+              </FormGroup>
+               */}
+       
+   
+              <PostInterestTags_Amir
                 onClick={this.handleMultipleSelect}
                 tagsRef={el => {
                   this.selectElement = el;
                 }}
               />
-              <FormGroup row>
-                <Col sm={2} />
-                <Col sm={9} xs={12} className="submitPost">
+              <FormGroup >
+                <Col  />
+                <Col className="submitPost">
                   <hr />
                   <Button
+                  className="submit"
                     onClick={this.handleSubmitRequest}
                     disabled={
                       // a more accurate validation for location is needed
                       this.state.location !== "" ? false : true
                     }>
                     &nbsp; &nbsp; &nbsp;
-                    {this.state.updateButton ? "Update" : "Submit"}&nbsp; &nbsp;
+                    {this.state.updateButton ? "Update" : "Post"}&nbsp; &nbsp;
                     &nbsp;
                   </Button>
                 </Col>

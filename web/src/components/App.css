@@ -340,13 +340,14 @@ hr {
 }
 
 .submitPost button {
-    background: #c32830;
+    background: #abded6;
     color: #fff;
     border: none;
+    width: 100%
 }
 
 .submitPost button:hover {
-    background: #ff4754;
+    background: 69cf88;
     color: #fff;
 }
 
@@ -405,17 +406,7 @@ hr {
     box-shadow: 0 3px 5px rgba(0, 0, 0, 0.454);
 }
 
-.selectedTag {
-    color: #000;
-    background-color: #727b84;
-    opacity: 0.65;
-    width: 100%;
-}
 
-.unSelectedTag,
-select option:checked {
-    background-color: white !important;
-}
 
 #locationDetectIconContainer {
     padding-left: 0;
@@ -423,14 +414,16 @@ select option:checked {
 }
 
 #ToolTipUseCurrentLocationIcon {
-    font-weight: 900;
-    font-size: 1.5em;
     background: transparent;
-    color: rgb(49, 164, 0);
-    border: 1px solid #132668;
+    color: #498a9c;
     padding: 0.4em 0.1em;
     cursor: pointer;
     width: 80%;
+    position: relative;
+    z-index: 999;
+    top:-52px;
+    right:-190px;
+    float: right;
 }
 
 #ToolTipUseCurrentLocationIcon i {
@@ -806,7 +799,8 @@ button {
 }
 
 #uploadPostImageButton {
-    margin-top: 1em;
+    position: relative;
+    top:-210px;
     padding-left: 0;
 }
 
@@ -825,8 +819,9 @@ button {
 }
 
 #postImageFile img {
-    max-height: 230px;
-    width: 100%;
+    margin-left: -10px;
+    max-width:760px ;
+    height: auto;
 }
 
 .postImage {
@@ -907,6 +902,96 @@ button {
 #uploadButton .col {
     padding-left: 5px;
 }
+
+#askAndOffer{
+    border: 2px solid #498a9c;
+    border-radius: 5px 
+}
+.askandoffres__button{
+    width:50%;
+    background-color: white;
+    color: #498a9c;
+    border-radius: 1px
+}
+.askandoffres__button:hover{
+    background-color: #498a9c;
+    color: white
+}
+.btn-secondary:not(:disabled):not(.disabled):active, .btn-secondary:not(:disabled):not(.disabled).active, .show{
+    background-color: #498a9c;
+    color: white
+}
+.form-group {
+    margin-top: 20px
+}
+
+#postContent{
+    margin: 0;
+    width:105%;
+    height: 200px;
+}
+#textArea{
+    margin-left: -15px;
+}
+#uploadImage{
+    width:100px;
+    background-color: rgba(250, 250, 250, 0.159);
+    color:white;
+    margin-left: 10px;
+    text-align: center;
+    font-size: 1.3em;
+
+
+}
+input[type="file"]{
+    display: none;
+}
+.btn___interest{
+    background-color:#d7d7d7;
+    color:black;
+    width: 200px;
+    height: 80px;
+    margin:10px;
+    border-radius: 2px;
+    text-transform: lowercase
+
+}
+
+.btn___interest:hover{
+    background-color: #ec674b;
+    color: white;
+}
+
+    
+
+.selectedTag {
+    width: 202px;
+    height: 80px !important;
+    margin:10px;
+    color: black;
+    background-color: #ffcd47;
+    opacity: 0.65;
+    text-transform:lowercase
+}
+
+.submit{
+    background-color: #abded6;
+    color: white
+}
+.submit:hover{
+    background-color: #69cf88;
+    color: white
+}
+.submit:disabled{
+    background-color: #abded6;
+    color: black;
+    cursor: text;
+}
+/* .unSelectedTag,
+select option:checked {
+    background-color: white !important;
+} */
+
 
 @media only screen and (max-width: 768px) {
     /* for mobile phone */
