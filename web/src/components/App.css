@@ -619,6 +619,7 @@ hr {
     padding: 1.5em;
     margin: 3em auto;
     padding-bottom: 0;
+    position: relative;
 }
 
 #post {
@@ -684,6 +685,10 @@ hr {
     text-align: left;
 }
 
+#filterPostsAsksOffers div:nth-child(2) {
+    padding: 0;
+}
+
 #filterPostsHeading {
     padding-bottom: 0;
     margin-bottom: 1em;
@@ -700,6 +705,21 @@ hr {
 
 #filterPostsByTags .btn-group {
     width: 100%;
+}
+
+#filterPostsByTags div.dropdown-menu {
+    background: #fff;
+    width: 100%;
+    outline: 0;
+}
+
+#filterPostsByTags button.btn-primary,
+#filterPostsByTags div.dropdown-menu button:hover {
+    background: #1abc9c;
+}
+
+#filterPostsByTags button.btn {
+    border: none;
 }
 
 .selectedTag {
@@ -783,12 +803,13 @@ select option:checked {
 .feedPhoto {
     margin-top: 1em;
     padding-left: 0.5em;
-    padding-right: 0.5em;
+    padding-right: 0em;
+    text-align: center;
 }
 
 .feedPhoto img {
-    width: 100%;
-    height: 100%;
+    width: 30px;
+    height: 30px;
     border-radius: 50%;
     border: 1px solid #003366;
 }
@@ -806,6 +827,12 @@ select option:checked {
 .feedTags {
     margin-left: 1em;
     font-style: italic;
+}
+
+.feedTags .individualFeedTags {
+    background: #ed684b;
+    color: #fff;
+    padding: 0.2em 0.5em;
 }
 
 .feedTagsIcon,
@@ -908,6 +935,7 @@ select option:checked {
 
 .currentUserAvatar {
     align-self: center;
+    padding-left: 1px;
 }
 
 .currentUserAvatar img {
@@ -931,13 +959,18 @@ button {
 
 .newCommentInputContainer {
     padding-right: 0;
+    padding-left: 0.5em;
+}
+
+.newCommentInputContainer div:first-child {
+    width: 95%;
 }
 
 .newComment {
     height: 60px;
     width: 100%;
     color: #132668;
-    padding-right: 0;
+    padding-right: 1em;
 }
 
 .commentButtonContainer {
@@ -1051,12 +1084,15 @@ button {
 
 .feedAuthor {
     align-self: flex-end;
+    padding-left: 0em;
 }
 
 .feedAuthor p {
     font-family: "Exo 2", "Helvetica Neue", Helvetica, Arial, sans-serif;
-    font-style: italic;
+    font-size: 1em;
     font-weight: 600;
+    margin-bottom: 0;
+    color: #808184;
 }
 
 .commentContent {
@@ -1075,6 +1111,11 @@ button {
 .commentsList hr {
     background: #498b9d;
     margin-right: 1.5em;
+}
+
+.commentsList hr:first-of-type {
+    margin-top: 0em;
+    margin-bottom: 0em;
 }
 
 .fadeCommentContainer-appear {
@@ -1131,41 +1172,40 @@ button {
     color: #0b132b;
 }
 
-.updateDeletePostButtonsContainer {
-    justify-content: flex-end;
-    margin-bottom: 1em;
-    padding-right: 0;
-    padding-left: 4em;
+.updateDeletePostButtonsContainer div:nth-child(2) {
+    position: absolute;
+    z-index: 100;
+    width: 100%;
+    top: auto;
+    right: 2.4%;
+    padding: 0.3em;
+    text-align: center;
+    padding-top: 0.7em;
 }
 
-.updateDeletePostButtonsContainer a {
-    margin-bottom: 1em;
+.updateDeletePostButtonsContainer div:nth-child(2):before {
+    content: "";
+    background: #000;
+    width: 100%;
+    z-index: -12;
+    position: absolute;
+    top: 3%;
+    right: 2.4%;
+    height: 100%;
+    opacity: 0.4;
 }
 
-.updateDeletePostButtonsContainer a .material-icons {
-    font-family: "Material Icons";
-    font-style: normal;
-    line-height: 1;
-    vertical-align: -0.3em;
+.updateDeletePostButtonsContainer span {
+    color: #fff;
     cursor: pointer;
 }
 
-.updatePostIcon .material-icons {
-    color: #132668;
-    margin-right: 0.5em;
-    font-size: 1.3em;
+.updateDeletePostButtonsContainer span a {
+    color: #fff;
 }
 
-.updatePostIcon .material-icons:hover {
-    color: #3943b7;
-}
-
-.deletePostIcon .material-icons {
-    align-items: flex-end;
-    font-size: 1.4em;
-}
-
-.deletePostIcon .material-icons:hover {
+.updateDeletePostButtonsContainer span a:hover,
+.updateDeletePostButtonsContainer span:last-child:hover {
     color: #c32830;
 }
 
@@ -1208,7 +1248,7 @@ button {
 
 .dropdown-menu {
     min-width: 90%;
-    left: 5% !important;
+    left: 2%;
     transform: translate3d(0px, 35px, 0px) !important;
 }
 
@@ -1313,11 +1353,6 @@ button {
     }
     #organisationAvatar img {
         margin-top: 5%;
-    }
-    .feedPhoto img {
-        width: 50px;
-        height: 50px;
-        border-radius: 50%;
     }
     .commentContainer {
         padding: 1em 0.5em;
