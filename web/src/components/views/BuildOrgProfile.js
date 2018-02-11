@@ -247,7 +247,7 @@ export default class BuildOrgProfile extends Component {
                           id="ringLoader"
                           color="#123abc"
                           loading={this.state.loading}
-                          size={100} /*the size of the spinner*/
+                          size={60} /*the size of the spinner*/
                         />
                       ) : (
                         <img
@@ -261,7 +261,7 @@ export default class BuildOrgProfile extends Component {
                         />
                       )}
                     </Col>
-                    <Col sm={4} id="uploadButton">
+                    <Col sm={10} id="uploadButton">
                       <Label>
                         Update Your Profile Picture
                         <input
