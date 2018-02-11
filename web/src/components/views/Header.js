@@ -33,94 +33,80 @@ class Header extends Component {
     return (
       <header>
         <Row>
-          <Col sm={2} id="headerLogoImage" />
-          <Col sm={user && user.admin ? 5 : 7} id="headerImage">
+          {location.pathname === "/" ? <Col sm={4} /> : null}
+          {location.pathname !== "/" ? (
+            <Col sm={2} id="headerProfileLink">
+              <span
+                className={location.pathname === "/profile" ? "activePage" : ""}
+                onClick={() => {
+                  this.props.history.push({
+                    pathname: "/profile"
+                  });
+                }}>
+                <img src={user.imageSource} id="myProfileLinkImage" />{" "}
+                &nbsp;&nbsp;&nbsp;&nbsp;My Profile
+              </span>
+            </Col>
+          ) : null}
+
+          {location.pathname !== "/" ? (
+            <Col sm={2} id="headerFeedLink">
+              <span
+                className={location.pathname === "/feed" ? "activePage" : ""}
+                onClick={() => {
+                  this.props.history.push({
+                    pathname: "/feed"
+                  });
+                }}>
+                <i className="fa fa-file-text" aria-hidden="true" />
+                &nbsp;&nbsp;&nbsp;&nbsp;My Feed
+              </span>
+            </Col>
+          ) : null}
+
+          <Col sm={4} id="headerImage">
             <img src={headerImage} alt="header" />
           </Col>
-          <Col sm={user && user.admin ? 5 : 3} id="headerNavigationButtons">
-            <Row>
-              {user &&
-              user.admin &&
-              (location.pathname === "/feed" ||
-                location.pathname === "/profile") ? (
-                <Col sm={5} id="headerButtonApproveOrgs">
-                  <Button
-                    onClick={() => {
-                      this.props.history.push({
-                        pathname: "/admin"
-                      });
-                    }}>
-                    Manage Users &nbsp;&nbsp;<i
-                      className="fa fa-gears"
-                      aria-hidden="true"
-                    />
-                  </Button>
-                </Col>
-              ) : null}
 
-              {location.pathname === "/admin" ||
-              location.pathname === "/profile" ? (
-                <Col
-                  sm={
-                    user && user.admin && location.pathname !== "/admin" ? 3 : 5
-                  }
-                  id="headerButtonFeed">
-                  <Button
-                    onClick={() => {
-                      this.props.history.push({
-                        pathname: "/feed"
-                      });
-                    }}>
-                    Feed&nbsp;&nbsp;<i
-                      className="fa fa-file-text-o"
-                      aria-hidden="true"
-                    />
-                  </Button>
-                </Col>
-              ) : null}
+          {user && user.admin ? (
+            <Col sm={2} id="headerApproveOrgsLink">
+              <span
+                className={location.pathname === "/admin" ? "activePage" : ""}
+                onClick={() => {
+                  this.props.history.push({
+                    pathname: "/admin"
+                  });
+                }}>
+                Manage&nbsp;&nbsp;<i
+                  className="fa fa-gears"
+                  aria-hidden="true"
+                />
+              </span>
+            </Col>
+          ) : null}
 
-              {location.pathname === "/feed" ||
-              location.pathname === "/admin" ? (
-                <Col sm={user && user.admin ? 3 : 5} id="headerButtonProfile">
-                  <Button
-                    style={user && user.admin ? { marginLeft: "0em" } : null}
-                    onClick={() => {
-                      this.props.history.push({
-                        pathname: "/profile"
-                      });
-                    }}
-                    block>
-                    Profile&nbsp;&nbsp;
-                    <i className="fa fa fa-user-circle" aria-hidden="true" />
-                  </Button>
-                </Col>
-              ) : null}
-
-              {location.pathname !== "/" ? (
-                <Col sm={user && user.admin ? 3 : 5} id="headerButtonLogout">
-                  <Button onClick={this.handlelogout}>
-                    Logout &nbsp;&nbsp;<i
-                      className="fa fa-sign-out"
-                      aria-hidden="true"
-                    />
-                  </Button>
-                </Col>
-              ) : (
-                <Fragment>
-                  <Col sm={4} />
-                  <Col sm={8} id="register_login_buttonsContainer">
-                    <Button
-                      id="signIn"
-                      name="dispalyLoginForm"
-                      onClick={this.props.toggleDisplayForm}>
-                      &nbsp; Sign in &nbsp; &nbsp;{" "}
-                      <i className="fa fa-lock" aria-hidden="true" />
-                    </Button>
-                  </Col>
-                </Fragment>
-              )}
-            </Row>
-          </Col>
+          {location.pathname !== "/" ? (
+            <Col sm={1} id="headerLogoutLink">
+              <span onClick={this.handlelogout}>
+                Logout &nbsp;&nbsp;<i
+                  className="fa fa-sign-out"
+                  aria-hidden="true"
+                />
+              </span>
+            </Col>
+          ) : (
+            <Fragment>
+              <Col sm={1} />
+              <Col sm={1} id="headerSignInLink">
+                <span
+                  name="dispalyLoginForm"
+                  onClick={this.props.toggleDisplayForm}>
+                  Sign in &nbsp;&nbsp;
+                  <i className="fa fa-lock" aria-hidden="true" />
+                </span>
+              </Col>
+            </Fragment>
+          )}
         </Row>
       </header>
     );
