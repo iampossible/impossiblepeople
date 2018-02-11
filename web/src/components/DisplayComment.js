@@ -139,13 +139,15 @@ export default class DisplayComment extends Component {
                   </ListGroupItem>
                 ) : null}
                 <ListGroupItem className="list-inline-item">
-                  <Comment
-                    postID={this.props.feedData.postID}
-                    user={this.props.user}
-                    newComment={this.props.newComment}
-                    handleChange={this.props.handleChange}
-                    handleKeyUp={this.props.handleKeyUp}
-                  />
+                  <Col sm={12}>
+                    <Comment
+                      postID={this.props.feedData.postID}
+                      user={this.props.user}
+                      newComment={this.props.newComment}
+                      handleChange={this.props.handleChange}
+                      handleKeyUp={this.props.handleKeyUp}
+                    />
+                  </Col>
                 </ListGroupItem>
               </CSSTransitionGroup>
             </ListGroup>

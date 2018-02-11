@@ -9,7 +9,7 @@ export default class Comment extends Component {
           <Col sm={1} className="currentUserAvatar">
             <img src={this.props.user.imageSource} alt="current user" />
           </Col>
-          <Col sm={9} className="newCommentInputContainer">
+          <Col sm={10} className="newCommentInputContainer">
             <InputGroup>
               <Input
                 id={this.props.postID}

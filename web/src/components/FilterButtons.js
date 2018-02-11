@@ -33,7 +33,7 @@ class FilterButtons extends Component {
               </span>
             </Col>
             <Col sm={1}>
-              <span>&nbsp;|&nbsp;</span>
+              <span>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;</span>
             </Col>
             <Col sm={4} id="filterPostsOffers">
               <span

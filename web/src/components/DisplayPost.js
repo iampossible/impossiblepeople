@@ -4,8 +4,6 @@ import DisplayComment from "./DisplayComment";
 
 class DisplayPost extends Component {
   state = {
-    updateTooltipOpen: false,
-    deleteTooltipOpen: false,
     loadComment: "",
     showComments: false
   };
@@ -27,54 +25,33 @@ class DisplayPost extends Component {
     }
   };
 
-  toggleUpdatePost = () => {
-    this.setState({
-      updateTooltipOpen: !this.state.updateTooltipOpen
-    });
-  };
-
-  toggleDeletePost = () => {
-    this.setState({
-      deleteTooltipOpen: !this.state.deleteTooltipOpen
-    });
-  };
-
   render() {
     const postData = this.props.postData;
     const user = this.props.user;
     return (
       <Fragment>
         {postData.author.userID === user.userID || user.admin ? (
-          <Row>
+          <Row className="updateDeletePostButtonsContainer">
             <Col sm={10} />
-            <Col sm={2} className="updateDeletePostButtonsContainer">
-              <a
-                id="ToolTipUpdateIcon"
-                className="updatePostIcon"
-                href="#post"
-                onClick={() => this.props.handlePostUpdate(postData.postID)}>
-                <i className="material-icons">edit</i>
-              </a>
-              <Tooltip
-                placement="left"
-                isOpen={this.state.updateTooltipOpen}
-                target="ToolTipUpdateIcon"
-                toggle={this.toggleUpdatePost}>
-                Update Post
-              </Tooltip>
-              <a
-                id="TooltipDeleteIcon"
-                className="deletePostIcon"
-                onClick={() => this.props.handlePostDelete(postData.postID)}>
-                <i className="material-icons">clear</i>
-              </a>
-              <Tooltip
-                placement="right"
-                isOpen={this.state.deleteTooltipOpen}
-                target="TooltipDeleteIcon"
-                toggle={this.toggleDeletePost}>
-                Delete Post
-              </Tooltip>
+            <Col sm={2}>
+              <span>
+                <span>
+                  <a
+                    className="updatePostIcon"
+                    href="#post"
+                    onClick={() =>
+                      this.props.handlePostUpdate(postData.postID)
+                    }>
+                    <u>Edit</u>
+                  </a>
+                </span>
+                <span>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;</span>
+                <span
+                  className="deletePostIcon"
+                  onClick={() => this.props.handlePostDelete(postData.postID)}>
+                  <u>Delete</u>
+                </span>
+              </span>
             </Col>
           </Row>
         ) : null}
@@ -94,7 +71,7 @@ class DisplayPost extends Component {
               <i className="fa fa-sm fa-tag" aria-hidden="true" />
               &nbsp;&nbsp;&nbsp;
               {/* if the post has more than one tag/interest */}
-              <span>
+              <span className="individualFeedTags">
                 {postData.interests.map(interest => interest.name).join(" / ")}
               </span>
             </p>
@@ -116,17 +93,14 @@ class DisplayPost extends Component {
         <Row>
           <Col sm={12}>
             <p className="feedPostType">
-              {postData.postType}&nbsp;&nbsp;<i
-                className="fa fa-ellipsis-v"
-                aria-hidden="true"
-              />
+              {postData.postType}&nbsp;&nbsp;&#65306;
             </p>
           </Col>
         </Row>
-        <Row>
+        <Row className="feedContent">
           <Col sm={1} />
           <Col sm={10}>
-            <p className="feedContent">{postData.content}</p>
+            <p>{postData.content}</p>
           </Col>
           <Col sm={1} />
         </Row>
