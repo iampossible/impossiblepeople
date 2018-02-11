@@ -613,8 +613,6 @@ hr {
     -moz-border-radius: 5px;
     -webkit-border-radius: 5px;
     border-radius: 5px;
-    -webkit-box-shadow: 0 1px 6px rgba(0, 0, 0, 0.454);
-    box-shadow: 0 3px 5px rgba(0, 0, 0, 0.454);
 }
 
 .feed {
@@ -660,16 +658,48 @@ hr {
     vertical-align: middle;
 }
 
+#feedSection {
+    position: relative;
+    display: flex;
+}
+
 #filterPosts {
-    margin-top: 3em;
+    top: 7.5em;
+    position: fixed;
+    left: 7%;
 }
 
 #filterPostsAsksOffers,
 #filterPostsMostRecent,
-#filterPostsByTags {
-    margin: 0em 1em;
+#filterPostsByTags,
+#filterPostsHeading {
+    margin: 0em;
     padding: 0.5em 0em;
     cursor: pointer;
+    text-align: center;
+}
+
+#filterPostsMostRecent,
+#filterPostsHeading {
+    text-align: left;
+}
+
+#filterPostsHeading {
+    padding-bottom: 0;
+    margin-bottom: 1em;
+    margin-right: 0;
+    margin-left: 0;
+    background: #f7f6f6;
+}
+
+#filterPostsByTags {
+    width: 100%;
+    padding: 0.5em 0em;
+    margin: 0em;
+}
+
+#filterPostsByTags .btn-group {
+    width: 100%;
 }
 
 .selectedTag {
@@ -1045,20 +1075,6 @@ button {
 .commentsList hr {
     background: #498b9d;
     margin-right: 1.5em;
-}
-
-.blockquote {
-    border-left: none;
-}
-
-.blockquote-footer::before {
-    content: none;
-}
-
-.blockquote-footer {
-    margin: 1em;
-    color: #192243;
-    background: inherit;
 }
 
 .fadeCommentContainer-appear {

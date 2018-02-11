@@ -15,19 +15,9 @@ class FilterButtons extends Component {
     return (
       <Form id="filterPosts">
         <FormGroup>
-          <Row id="filterPostsMostRecent">
+          <Row id="filterPostsHeading">
             <Col sm={12}>
-              <span
-                onClick={() => {
-                  this.props.updateFilter("MOSTRECENT");
-                }}
-                className={
-                  this.props.currentFilter === "MOSTRECENT"
-                    ? "activeFilter"
-                    : ""
-                }>
-                Most Recent
-              </span>
+              <p>Filters</p>
             </Col>
           </Row>
           <Row id="filterPostsAsksOffers">
@@ -57,13 +47,31 @@ class FilterButtons extends Component {
               </span>
             </Col>
           </Row>
+          <Row id="filterPostsMostRecent">
+            <Col sm={12}>
+              <span
+                onClick={() => {
+                  this.props.updateFilter("MOSTRECENT");
+                }}
+                className={
+                  this.props.currentFilter === "MOSTRECENT"
+                    ? "activeFilter"
+                    : ""
+                }>
+                Recent
+              </span>
+            </Col>
+          </Row>
           <Row id="filterPostsByTags">
             <Col sm={12}>
               <ButtonDropdown
                 isOpen={this.props.tagsDropdownOpen}
                 toggle={this.props.toggleTagesDropdown}>
-                <DropdownToggle caret className="btn btn-primary btn-block">
-                  Post Tags
+                <DropdownToggle
+                  caret
+                  block
+                  className="btn btn-primary btn-block">
+                  Categories
                 </DropdownToggle>
                 <DropdownMenu>
                   <DropdownItem
@@ -71,7 +79,7 @@ class FilterButtons extends Component {
                     onClick={() => {
                       this.props.updateFilter("TAGS", "");
                     }}>
-                    SHOW ALL
+                    Show ALL
                   </DropdownItem>
                   <DropdownItem divider />
                   {//just quick fix just as they don't select their interest on registration
