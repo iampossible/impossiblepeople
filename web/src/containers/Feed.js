@@ -212,7 +212,7 @@ class Feed extends Component {
         ) : (
           ""
         )}
-        <Row>
+        <Row id="feedSection">
           <Col sm={1} />
           <Col sm={2}>
             <FilterButtons
@@ -224,7 +224,6 @@ class Feed extends Component {
               updateFilter={this.updateFilter}
             />
           </Col>
-
           {this.state.feed.length > 0 ? (
             <Col sm={8}>
               {this.state.feed.map((feedData, i) => {
