@@ -1,6 +1,6 @@
 import React, { Component, Fragment } from "react";
 import { Row, Col, Tooltip } from "reactstrap";
-import DisplayComment from "./displayComment";
+import DisplayComment from "./DisplayComment";
 
 class DisplayPost extends Component {
   state = {
@@ -89,7 +89,7 @@ class DisplayPost extends Component {
           ""
         )}
         <Row>
-          <Col sm={10}>
+          <Col sm={8}>
             <p className="feedTags">
               <i className="fa fa-sm fa-tag" aria-hidden="true" />
               &nbsp;&nbsp;&nbsp;
@@ -99,10 +99,16 @@ class DisplayPost extends Component {
               </span>
             </p>
           </Col>
-          <Col sm={2}>
-            <p className="feedCreatedAt">
-              <i className="fa fa-clock-o" aria-hidden="true" />&nbsp;&nbsp;{postData.createdAtSince.toUpperCase() +
-                " ago"}
+          <Col sm={3} className="feedLocationIcon">
+            <p className="feedLocation">
+              <i className="fa fa-map-marker" aria-hidden="true" />
+              &nbsp;&nbsp;&nbsp;
+              {postData.location}
+            </p>
+          </Col>
+          <Col sm={1} className="feedCreatedAt">
+            <p>
+              <i className="fa fa-clock-o" aria-hidden="true" />&nbsp;&nbsp;{postData.createdAtSince.toUpperCase()}
             </p>
           </Col>
         </Row>
@@ -120,17 +126,20 @@ class DisplayPost extends Component {
         <Row>
           <Col sm={1} />
           <Col sm={10}>
-            <p className="feedContent">
-              <i className="fa fa-quote-left" aria-hidden="true" />&nbsp;&nbsp;{
-                postData.content
-              }&nbsp;&nbsp;<i
-                className="fa fa-quote-right"
-                aria-hidden="true"
-              />
-            </p>
+            <p className="feedContent">{postData.content}</p>
           </Col>
           <Col sm={1} />
         </Row>
+        {postData.url ? (
+          <Row>
+            <Col sm={1} />
+            <Col sm={3} className="feedUrl">
+              <a href={postData.url}>Read More ...</a>
+            </Col>
+          </Row>
+        ) : (
+          ""
+        )}
         <Row>
           <Col sm={1} />
           <Col sm={1} className="feedPhoto">
@@ -157,59 +166,32 @@ class DisplayPost extends Component {
           <Col sm={1} />
         </Row>
         <Row>
-          <Col sm={1} />
-          <Col sm={4} className="feedLocationIcon">
-            <p className="feedLocation">
-              <i className="fa fa-map-marker" aria-hidden="true" />
-              &nbsp;&nbsp;&nbsp;
-              {postData.location}
-            </p>
+          <Col sm={3} />
+          <Col sm={3}>
+            <a href={`#${postData.postID}`} className="sharePost">
+              <i className="fa fa-share" aria-hidden="true" />&nbsp;&nbsp;Share
+            </a>
           </Col>
           <Col sm={3} className="commentIcon">
-            <Fragment>
-              <i className="fa fa-comments" aria-hidden="true" />&nbsp;
-              {postData.commentCount > 0 ? (
-                <Fragment>
-                  {postData.commentCount}
-                  &nbsp; &nbsp;<i
-                    onClick={this.toggleComment}
-                    className={
-                      this.state.showComments
-                        ? "fa fa-angle-double-up"
-                        : "fa fa-angle-double-down"
-                    }
-                    aria-hidden="true"
-                  />
-                </Fragment>
-              ) : (
-                ""
-              )}
-            </Fragment>
+            <a href={`#${postData.postID}`}>
+              <i className="commentNow fa fa-comment" aria-hidden="true" />&nbsp;&nbsp;Comment
+            </a>
           </Col>
-          {postData.url ? (
-            <Col sm={3} className="feedUrl">
-              <span>
-                <i className="fa fas fa-link" />
-              </span>&nbsp;&nbsp;&nbsp;&nbsp;
-              <a className="feedCreatedAt" href={postData.url}>
-                Read More ...
-              </a>
-            </Col>
-          ) : (
-            ""
-          )}
         </Row>
-        {this.state.loadComment ? (
-          <Row>
-            <Col sm={1} />
-            <Col sm={10}>
-              <DisplayComment comments={postData.comments} />
-            </Col>
-            <Col sm={1} />
-          </Row>
-        ) : (
-          ""
-        )}
+        <Row className="comments">
+          <Col sm={12}>
+            <DisplayComment
+              feedData={this.props.postData}
+              user={this.props.user}
+              comments={this.props.postData.comments}
+              newComment={this.props.newComment}
+              handleChange={this.props.handleChange}
+              handleKeyUp={this.props.handleKeyUp}
+              showComments={this.state.showComments}
+              toggleComment={this.state.toggleComment}
+            />
+          </Col>
+        </Row>
       </Fragment>
     );
   }
