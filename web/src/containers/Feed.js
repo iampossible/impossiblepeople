@@ -2,7 +2,7 @@ import React, { Component, Fragment } from "react";
 import { Row, Col } from "reactstrap";
 import { RingLoader } from "react-spinners";
 import Post from "../components/Post";
-import DisplayPost from "../components/displayPost";
+import DisplayPost from "../components/DisplayPost";
 import FilterButtons from "../components/FilterButtons";
 
 const NoFeedMessage = props => (
