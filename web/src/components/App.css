@@ -84,56 +84,78 @@ p {
     padding-top: 0.5em;
 }
 
-#headerNavigationButtons {
-    margin-left: 0px;
-    margin-right: 0px;
-}
-
-#headerButtonUpdateInterest,
-#headerButtonApproveOrgs,
-#headerButtonLogout,
-#headerButtonFeed,
-#headerButtonProfile {
+#headerApproveOrgsLink,
+#headerLogoutLink,
+#headerFeedLink,
+#headerSignInLink,
+#headerProfileLink {
     padding-top: 0.5em;
-    padding-left: 0;
+    padding-left: 0.5em;
     padding-right: 0;
     margin-left: 1.5em;
+    align-self: center;
+    justify-content: flex-end;
+    color: #2b2555;
+    font-weight: bold;
+    margin-right: 2em;
+    text-align: center;
+    cursor: pointer;
 }
 
-#headerButtonApproveOrgs {
-    margin-left: 0.5em;
+#headerFeedLink {
+    text-align: left;
 }
 
-#headerButtonLogout,
-#headerButtonProfile,
-#headerButtonFeed {
+#headerProfileLink {
+    text-align: right;
+}
+
+#headerFeedLink i {
+    color: #68c5b5;
+    font-size: 1.6em;
+}
+
+#headerLogoutLink,
+#headerSignInLink,
+#headerProfileLink,
+#headerFeedLink {
     margin-right: 0;
-    margin-left: 0.5em;
 }
 
-#headerButtonUpdateInterest button,
-#headerButtonApproveOrgs button,
-#headerButtonLogout button,
-#headerButtonFeed button,
-#headerButtonProfile button {
-    background: #6acf89;
-    color: #fff;
-    border: none;
-    width: 100%;
+#headerApproveOrgsLink span,
+#headerLogoutLink span,
+#headerSignInLink span,
+#headerFeedLink span,
+#headerProfileLink span {
+    padding-left: 0.5em;
+    padding-right: 0.5em;
+    padding-bottom: 1em;
 }
 
-#headerButtonUpdateInterest button:hover,
-#headerButtonApproveOrgs button:hover,
-#headerButtonLogout button:hover,
-#headerButtonFeed button:hover,
-#headerButtonProfile button:hover {
-    background: #ff4754;
-    color: #fff;
+.activePage {
+    border-bottom: 4px solid #ffcd48;
 }
 
-#headerButtonLogout {
-    padding-left: 0;
-    padding-right: 0;
+#headerApproveOrgsLink span:hover,
+#headerLogoutLink span:hover,
+#headerSignInLink span:hover,
+#headerFeedLink span:hover,
+#headerProfileLink span:hover {
+    border-bottom: 4px solid #ff4754;
+}
+
+#headerApproveOrgsLink,
+#headerLogoutLink {
+    margin-left: 0;
+    margin-right: 0;
+    text-align: right;
+}
+
+#headerProfileLink img {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    border: 1px solid #003366;
 }
 
 .App-main {
@@ -207,10 +229,6 @@ p {
     font-family: "Lovers Quarrel", cursive;
     font-size: 1.5em;
     display: inline-block;
-}
-
-#register_login_buttonsContainer {
-    margin: 0;
 }
 
 #signIn {
