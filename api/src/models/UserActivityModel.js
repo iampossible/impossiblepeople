@@ -1,16 +1,17 @@
-'use strict';
+"use strict";
 
-const moment = require('core/AppMoment');
-const Sequence = require('impossible-promise');
-const Model = require('core/Model');
-
+const moment = require("core/AppMoment");
+const Sequence = require("impossible-promise");
+const Model = require("core/Model");
 
 function _parseAuthorObject(obj) {
   return {
     userID: obj.userID,
     username: [obj.firstName, obj.lastName].join(" "),
     imageSource: obj.imageSource,
-  }
+    //added to be sent to post author
+    email: obj.email
+  };
 }
 
 function _parsePostObject(obj, type, author) {
@@ -21,8 +22,8 @@ function _parsePostObject(obj, type, author) {
     createdAt: obj.at,
     createdAtSince: moment(obj.at).fromNow(),
     location: obj.location,
-    author: _parseAuthorObject(author),
-  }
+    author: _parseAuthorObject(author)
+  };
 }
 
 function _parseCommentObject(obj, author) {
@@ -31,20 +32,20 @@ function _parseCommentObject(obj, author) {
     content: obj.content,
     createdAt: obj.at,
     createdAtSince: moment(obj.at).fromNow(),
-    author: _parseAuthorObject(author),
-  }
+    author: _parseAuthorObject(author)
+  };
 }
 
 function _getActivityText(obj) {
   switch (obj.type) {
-    case 'N_COMMENT':
+    case "N_COMMENT":
       return `commented on your post`;
-    case 'N_FOLLOW':
+    case "N_FOLLOW":
       return `is now following you!`;
-    case 'N_REPLY':
+    case "N_REPLY":
       return `has replied to your comment!`;
     default:
-      return '';
+      return "";
   }
 }
 
@@ -59,24 +60,33 @@ function _parseActivityRow(row, flag_parsePerson) {
     isRead: !!row.activity.isRead,
     actor: row.actor ? _parseAuthorObject(row.actor) : null,
     groupBy: false,
-    target: {},
+    target: {}
   };
 
   //has target Post
   if (row.target_post) {
     ActivityRow.groupBy = row.target_post.postID;
-    ActivityRow.target.Post = _parsePostObject(row.target_post, row.postType, row.target_post_author);
+    ActivityRow.target.Post = _parsePostObject(
+      row.target_post,
+      row.postType,
+      row.target_post_author
+    );
   }
 
   //has target Comment
   if (row.target_comment) {
-    ActivityRow.target.Comment = _parseCommentObject(row.target_comment.properties, row.actor);
+    ActivityRow.target.Comment = _parseCommentObject(
+      row.target_comment.properties,
+      row.actor
+    );
   }
 
   //has person
   if (row.person && flag_parsePerson) {
-    ActivityRow.person = _parseAuthorObject(row.person)
-    ActivityRow.person.notificationEndpoint = row.person.notificationEndpoint
+    ActivityRow.person = _parseAuthorObject(row.person);
+    //ActivityRow.person.notificationEndpoint = row.person.notificationEndpoint
+    //replaced it to use the emil address
+    ActivityRow.person.notificationEndpoint = row.person.email;
   }
 
   //ASSIGN TEXT
@@ -86,93 +96,141 @@ function _parseActivityRow(row, flag_parsePerson) {
 }
 
 class UserActivityModel extends Model {
-
-
   createActivity(type, userID, authorID, target) {
-
     var nodeID;
     let at = Date.now();
     var activity = {
       type,
       isRead: false,
       isNew: true,
-      at: Date.now(),
-    }
+      at: Date.now()
+    };
 
     //if the activity points to a comment, set it as property (cant do edge->edge relations)
-    if (target.hasOwnProperty('commentID')) {
-      activity.commentID = target.commentID
+    if (target.hasOwnProperty("commentID")) {
+      activity.commentID = target.commentID;
     }
 
-    return new Sequence((accept, reject) => { //create new activity
-      this.db.save(activity, 'Activity', (err, activityNode) => {
+    return new Sequence((accept, reject) => {
+      //create new activity
+      this.db.save(activity, "Activity", (err, activityNode) => {
         if (err) return reject(err);
         accept(activityNode);
       });
-    }).then((accept, reject, activityNode) => { //add activity to the activity stream
-      this.db.getOne(
-        `MATCH (user:Person { userID: {userID}})
+    })
+      .then((accept, reject, activityNode) => {
+        //add activity to the activity stream
+        this.db
+          .getOne(
+            `MATCH (user:Person { userID: {userID}})
         OPTIONAL MATCH (:Person { userID: {userID}})-[link:ACTIVITY_FEED]->(latest:Activity)
         RETURN id(user) as user_index, 
                id(link) as activity_index, 
                id(latest) as latest_activity_index,
                link`,
-        { userID }
-      ).then((next, nope, ids) => Promise.all([
-        new Promise((innerAccept, innerReject) => {//update ActivityID
-          let Link = ids.link ? ids.link : ({ start: ids.user_index, end: activityNode.id, id: 0 })
-          nodeID = this.db.encodeEdgeID(Object.assign(Link, { properties: { at } }));
-          this.db.save(activityNode, 'activityID', nodeID, (err, node) => {
-            if (err) return innerReject(err);
-            innerAccept(node);
+            { userID }
+          )
+          .then((next, nope, ids) =>
+            Promise.all([
+              new Promise((innerAccept, innerReject) => {
+                //update ActivityID
+                let Link = ids.link
+                  ? ids.link
+                  : { start: ids.user_index, end: activityNode.id, id: 0 };
+                nodeID = this.db.encodeEdgeID(
+                  Object.assign(Link, { properties: { at } })
+                );
+                this.db.save(
+                  activityNode,
+                  "activityID",
+                  nodeID,
+                  (err, node) => {
+                    if (err) return innerReject(err);
+                    innerAccept(node);
+                  }
+                );
+              }),
+              new Promise((innerAccept, innerReject) => {
+                //remove old relation
+                if (!ids.activity_index) return innerAccept(false);
+                this.db.rel.delete(ids.activity_index, err => {
+                  if (err) return innerReject(err);
+                  innerAccept(true);
+                });
+              }),
+              new Promise((
+                innerAccept,
+                innerReject //relate new activity
+              ) =>
+                this.db.rel.create(
+                  ids.user_index,
+                  "ACTIVITY_FEED",
+                  activityNode,
+                  err => {
+                    if (err) return innerReject(err);
+                    innerAccept(true);
+                  }
+                )
+              ),
+              new Promise((innerAccept, innerReject) => {
+                //relate old activity
+                if (!ids.latest_activity_index) return innerAccept(false);
+                this.db.rel.create(
+                  activityNode,
+                  "ACTIVITY_NEXT",
+                  ids.latest_activity_index,
+                  err => {
+                    if (err) return innerReject(err);
+                    innerAccept(true);
+                  }
+                );
+              })
+            ])
+              .then(a => accept(activityNode))
+              .catch(reject)
+          )
+          .error(reject);
+      })
+      .then((accept, reject, activityNode) => {
+        //set (Activity)-[actor]->(Person), linking the activity to a Person
+        this.db
+          .getOne(
+            `MATCH (author:Person {userID: {authorID}}) RETURN id(author) as author_index`,
+            { authorID }
+          )
+          .done(row => {
+            this.db.rel.create(activityNode, "ACTOR", row.author_index, err => {
+              if (err) return reject(err);
+              accept(activityNode);
+            });
           })
-        }),
-        new Promise((innerAccept, innerReject) => { //remove old relation
-          if (!ids.activity_index) return innerAccept(false)
-          this.db.rel.delete(ids.activity_index, (err) => {
-            if (err) return innerReject(err);
-            innerAccept(true)
-          })
-        }),
-        new Promise((innerAccept, innerReject) => //relate new activity
-          this.db.rel.create(ids.user_index, 'ACTIVITY_FEED', activityNode, (err) => {
-            if (err) return innerReject(err);
-            innerAccept(true)
-          })),
-        new Promise((innerAccept, innerReject) => { //relate old activity
-          if (!ids.latest_activity_index) return innerAccept(false)
-          this.db.rel.create(activityNode, 'ACTIVITY_NEXT', ids.latest_activity_index, (err) => {
-            if (err) return innerReject(err);
-            innerAccept(true)
-          })
-        }),
-      ]).then((a) => accept(activityNode)).catch(reject)).error(reject)
-
-    }).then((accept, reject, activityNode) => {
-      //set (Activity)-[actor]->(Person), linking the activity to a Person
-      this.db.getOne(`MATCH (author:Person {userID: {authorID}}) RETURN id(author) as author_index`,
-        { authorID }
-      ).done((row) => {
-        this.db.rel.create(activityNode, 'ACTOR', row.author_index, (err) => {
-          if (err) return reject(err);
-          accept(activityNode);
-        })
-      }).error(reject);
-    }).then((accept, reject, activityNode) => {
-      //set (Activity)-[actor]->(Post), linking the activity to a Post
-      if (target.hasOwnProperty('postID')) {
-        this.db.getOne(`MATCH (post:Post {postID: {postID}}) RETURN id(post) as post_index`,
-          { postID: target.postID }
-        ).done((row) => {
-          this.db.rel.create(activityNode, 'TARGET', row.post_index, (err) => {
-            if (err) return reject(err);
-            accept(activityNode);
-          })
-        }).error(reject);
-      } else {
-        accept(false)
-      }
-    }).done(() => nodeID);
+          .error(reject);
+      })
+      .then((accept, reject, activityNode) => {
+        //set (Activity)-[actor]->(Post), linking the activity to a Post
+        if (target.hasOwnProperty("postID")) {
+          this.db
+            .getOne(
+              `MATCH (post:Post {postID: {postID}}) RETURN id(post) as post_index`,
+              { postID: target.postID }
+            )
+            .done(row => {
+              this.db.rel.create(
+                activityNode,
+                "TARGET",
+                row.post_index,
+                err => {
+                  if (err) return reject(err);
+                  accept(activityNode);
+                }
+              );
+            })
+            .error(reject);
+        } else {
+          accept(false);
+        }
+      })
+      .done(() => nodeID);
   }
 
   getInteractionsWithPost(postID) {
@@ -180,11 +238,13 @@ class UserActivityModel extends Model {
       this.db.query(
         `MATCH (u:Person)-[:COMMENTS]->(:Post {postID: {postID}}) 
          RETURN distinct u.userID as userID`,
-        { postID }, (err, data) => {
+        { postID },
+        (err, data) => {
           if (err) return reject(err);
           accept(data.map(i => i.userID));
-        });
-    })
+        }
+      );
+    });
   }
 
   getUserActivityCount(userID) {
@@ -194,7 +254,8 @@ class UserActivityModel extends Model {
          AND NOT (p)-[:BLOCKED]-(:Person)<-[:ACTOR]-(a)
          RETURN sum(CASE WHEN a.isRead = false THEN 1 ELSE 0 END) as unRead,
                 sum(CASE WHEN a.isNew = true THEN 1 ELSE 0 END) as unSeen`,
-      { userID });
+      { userID }
+    );
   }
 
   setAsRead(activityID) {
@@ -202,7 +263,8 @@ class UserActivityModel extends Model {
       `MATCH (a:Activity {activityID: {activityID}})
          SET a.isRead = true
       RETURN count(a)`,
-      { activityID })
+      { activityID }
+    );
   }
 
   setAsSeen(userID) {
@@ -210,11 +272,11 @@ class UserActivityModel extends Model {
       `MATCH (p:Person {userID: {userID}})-[:ACTIVITY_FEED]->()-[:ACTIVITY_NEXT*0..9999]->(a:Activity {isNew:true})
            SET a.isNew = false
         RETURN count(a);`,
-      { userID });
+      { userID }
+    );
   }
 
   getUserActivities(userID) {
-
     let limitStart = 0;
     let limitEnd = 100;
 
@@ -243,10 +305,14 @@ class UserActivityModel extends Model {
           return accept(activity);
         }
       );
-    }).then((accept, reject, rows) => {
-      if (!rows) { return reject('empty activity'); }
-      return accept(rows.map(_parseActivityRow));
-    }).done((result, ActivityArray) => ActivityArray);
+    })
+      .then((accept, reject, rows) => {
+        if (!rows) {
+          return reject("empty activity");
+        }
+        return accept(rows.map(_parseActivityRow));
+      })
+      .done((result, ActivityArray) => ActivityArray);
   }
 
   getUserActivityByID(activityID) {
@@ -272,16 +338,20 @@ class UserActivityModel extends Model {
         { activityID },
         (err, activity) => {
           if (err) return reject(err);
-          if (!activity || activity.length < 1) return reject(`did not find activity ${activityID}`);
+          if (!activity || activity.length < 1)
+            return reject(`did not find activity ${activityID}`);
           accept(activity.pop());
         }
       );
-    }).then((accept, reject, rows) => {
-      if (!rows) return reject('empty activity')
-      accept(_parseActivityRow(rows, true));
-    }).done((result, ActivityArray) => {
-      return ActivityArray
-    }).error(console.log.bind(console));
+    })
+      .then((accept, reject, rows) => {
+        if (!rows) return reject("empty activity");
+        accept(_parseActivityRow(rows, true));
+      })
+      .done((result, ActivityArray) => {
+        return ActivityArray;
+      })
+      .error(console.log.bind(console));
   }
 }
 
