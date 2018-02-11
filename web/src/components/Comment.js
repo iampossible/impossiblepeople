@@ -9,18 +9,20 @@ export default class Comment extends Component {
           <Col sm={1} className="currentUserAvatar">
             <img src={this.props.user.imageSource} alt="current user" />
           </Col>
-          <Col sm={11} className="newCommentInputContainer">
+          <Col sm={9} className="newCommentInputContainer">
             <InputGroup>
               <Input
+                id={this.props.postID}
                 type="text"
                 className="newComment"
-                placeholder="Interested ?... drop your line here"
+                placeholder="Interested? Drop your line here. Hit enter to sent."
                 onChange={e => this.props.handleChange(e)}
                 onKeyUp={e => this.props.handleKeyUp(e, this.props.postID)}
                 value={this.props.newComment}
               />
             </InputGroup>
           </Col>
+          <Col sm={1} />
         </Row>
       </Fragment>
     );
