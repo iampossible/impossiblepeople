@@ -1,7 +1,6 @@
 import React, { Component, Fragment } from "react";
 import { Row, Col } from "reactstrap";
 import { RingLoader } from "react-spinners";
-import Comment from "../components/Comment";
 import Post from "../components/Post";
 import DisplayPost from "../components/displayPost";
 import FilterButtons from "../components/FilterButtons";
@@ -274,19 +273,10 @@ class Feed extends Component {
                       user={user}
                       handlePostUpdate={this.handlePostUpdate}
                       handlePostDelete={this.handlePostDelete}
+                      newComment={this.state.newComment}
+                      handleChange={this.handleChange}
+                      handleKeyUp={this.handleKeyUp}
                     />
-                    <Row id="comments">
-                      <Col sm={2} />
-                      <Col sm={9}>
-                        <Comment
-                          postID={feedData.postID}
-                          user={user}
-                          newComment={this.state.newComment}
-                          handleChange={this.handleChange}
-                          handleKeyUp={this.handleKeyUp}
-                        />
-                      </Col>
-                    </Row>
                   </div>
                 );
               })}
