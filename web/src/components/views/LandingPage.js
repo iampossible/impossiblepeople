@@ -27,6 +27,7 @@ export default class LandingPage extends Component {
       logInEmail: "",
       logInPassword: "",
       confirmPassword: "",
+      facebookLoginError: null,
       //to display error message if the user can't be allowed to login
       error: null
     };
@@ -44,6 +45,7 @@ export default class LandingPage extends Component {
         logInEmail,
         logInPassword,
         error,
+        facebookLoginError,
         ...user
       } = this.state;
       Object.assign(newUser, user);
@@ -59,6 +61,7 @@ export default class LandingPage extends Component {
         logInEmail,
         logInPassword,
         error,
+        facebookLoginError,
         ...user
       } = this.state;
       Object.assign(newUser, user);
@@ -163,6 +166,7 @@ export default class LandingPage extends Component {
               //must be set else for next request you will get 401:unauthorised
               credentials: "same-origin"
             })
+              .then(handleErrors)
               //if it is valid create the user and return some of his/her data
               .then(response => response.json())
               .then(response => {
@@ -179,7 +183,22 @@ export default class LandingPage extends Component {
                   this.props.history.push("/feed");
                 }
               })
-              .catch(err => console.log(err))
+              .catch(err => {
+                this.setState(
+                  {
+                    facebookLoginError:
+                      "There seems to be a problem logging you in through Facebook. Please, try again later",
+                    loading: false
+                  },
+                  () => {
+                    setTimeout(() => {
+                      this.setState({
+                        facebookLoginError: ""
+                      });
+                    }, 5000);
+                  }
+                );
+              })
           );
         }
       );
@@ -352,6 +371,7 @@ export default class LandingPage extends Component {
                             handleCreateUser={this.handleCreateUser}
                             inputData={inputData}
                             responseFacebook={this.responseFacebook}
+                            facebookLoginError={this.state.facebookLoginError}
                           />
                         ) : (
                           <Login
@@ -361,6 +381,7 @@ export default class LandingPage extends Component {
                             handleLogin={this.handleLogin}
                             handleChange={this.handleChange}
                             responseFacebook={this.responseFacebook}
+                            facebookLoginError={this.state.facebookLoginError}
                           />
                         )}
                       </Col>

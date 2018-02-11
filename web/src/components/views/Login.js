@@ -29,6 +29,15 @@ export default class Login extends Component {
           </Col>
           <Col sm={1} />
         </Row>
+        {this.props.facebookLoginError ? (
+          <Row>
+            <Col sm={1} />
+            <Col sm={10}>
+              <Alert color="danger"> {this.props.facebookLoginError}</Alert>
+            </Col>
+            <Col sm={1} />
+          </Row>
+        ) : null}
         <Row className="orLoginWithFacebook">
           <Col sm={1} />
           <Col sm={10} style={{ textAlign: "center" }}>

@@ -35,7 +35,6 @@ class Header extends Component {
         <Row>
           <Col sm={2} id="headerLogoImage" />
           <Col sm={user && user.admin ? 5 : 7} id="headerImage">
-            {/* <h1> HumanKind </h1> */}
             <img src={headerImage} alt="header" />
           </Col>
           <Col sm={user && user.admin ? 5 : 3} id="headerNavigationButtons">
