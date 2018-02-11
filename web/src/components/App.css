@@ -785,9 +785,17 @@ select option:checked {
     text-align: left;
 }
 
-.feedCreatedAt,
-.feedUrl {
+.feedCreatedAt {
     text-align: right;
+}
+
+.feedUrl {
+    margin-bottom: 1em;
+}
+
+.feedUrl a {
+    color: #498b9d;
+    text-decoration: underline;
 }
 
 .feedLocationIcon i,
@@ -803,6 +811,11 @@ select option:checked {
     color: #465362;
     font-size: 0.9rem;
     margin-bottom: 2px;
+    padding-left: 0;
+}
+
+.feedCreatedAt p {
+    font-size: 1em;
 }
 
 .separatorHr {
@@ -811,15 +824,39 @@ select option:checked {
 
 .commentIcon {
     text-align: right;
+    color: #498b9d;
 }
 
-#comments {
-    margin-top: 1em;
-    background: #d5d5e8;
+.commentIcon a {
+    color: #498b9d;
+}
+
+.sharePost {
+    color: #498b9d;
+}
+
+.comments {
+    background: #498b9d;
     padding: 1em 0.5em;
     margin-left: -1.6em;
     margin-right: -1.6em;
     margin-bottom: -0.2em;
+    border-bottom-left-radius: 6px;
+    border-bottom-right-radius: 6px;
+    position: relative;
+    z-index: 10;
+    margin-top: 1em;
+}
+
+.comments:before {
+    content: "";
+    left: 0;
+    top: 0;
+    position: absolute;
+    background: #fff;
+    width: 100%;
+    height: 100%;
+    opacity: 0.58;
     border-bottom-left-radius: 6px;
     border-bottom-right-radius: 6px;
 }
@@ -832,6 +869,11 @@ select option:checked {
 .feedContent {
     font-size: 1.2em;
     margin-bottom: 1em;
+}
+
+.feedContent i {
+    font-size: 0.3em;
+    vertical-align: text-top;
 }
 
 .currentUserAvatar {
@@ -858,22 +900,14 @@ button {
 }
 
 .newCommentInputContainer {
-    padding-top: 5px;
-    padding-left: 0;
-}
-
-.newCommentInputContainer textarea {
-    background-color: rgba(0, 0, 0, 0.05);
-    font-size: 0.9em;
-    line-height: 1;
-    font-family: "Signika", sans-serif;
+    padding-right: 0;
 }
 
 .newComment {
-    height: 50px;
+    height: 60px;
     width: 100%;
-    margin-left: 1em;
     color: #132668;
+    padding-right: 0;
 }
 
 .commentButtonContainer {
@@ -932,15 +966,18 @@ button {
     font-size: 0.7em;
 }
 
-.list-group-item {
+.commentsList .list-group-item {
     background: inherit;
     font-size: 1.2em;
     padding: 0.75rem 0 0.75rem 2rem;
+    border: none;
 }
 
 .commentContentContainer {
-    padding-top: 0.2em;
-    padding-left: 0.3em;
+    margin-left: 1em;
+    padding: 1.5em 1em;
+    background: #fff;
+    border-radius: 6px;
 }
 
 .commentContentContainer hr {
@@ -954,15 +991,15 @@ button {
 }
 
 .commenterAvatar {
-    padding-left: 5px;
+    align-self: center;
 }
 
 .commenterAvatar img {
+    vertical-align: middle;
     width: 35px;
     height: 35px;
     border-radius: 50%;
     border: 1px solid #003366;
-    margin: auto;
 }
 
 .commentAuthor {
@@ -970,6 +1007,16 @@ button {
     font-family: "Exo 2", "Helvetica Neue", Helvetica, Arial, sans-serif;
     font-style: italic;
     font-weight: 600;
+}
+
+.showComment {
+    text-decoration: underline;
+    color: #498b9d;
+}
+
+.showComment:hover {
+    color: #df4848;
+    cursor: pointer;
 }
 
 .feedAuthor {
@@ -989,8 +1036,15 @@ button {
 
 .commentCreatedAtSince {
     font-size: 0.9em;
-    color: #af905d;
+    color: #498b9d;
     white-space: nowrap;
+    padding-right: 0;
+    align-self: center;
+}
+
+.commentsList hr {
+    background: #498b9d;
+    margin-right: 1.5em;
 }
 
 .blockquote {
@@ -1268,9 +1322,6 @@ button {
     }
     .commentsList ul li {
         margin-right: 0px;
-    }
-    #comments {
-        margin-top: 2em;
     }
     .list-group-item {
         padding: 20px !important;
