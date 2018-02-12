@@ -69,13 +69,12 @@ class FilterButtons extends Component {
                 toggle={this.props.toggleTagsDropdown}>
                 <DropdownToggle
                   caret
-                  block
-                  className="btn btn-primary btn-block">
+                  className="btn btn-primary btn-block"
+                  disabled={this.props.interests.length === 0}>
                   Categories
                 </DropdownToggle>
                 <DropdownMenu>
                   <DropdownItem
-                    disabled={this.props.filterTag === ""}
                     onClick={() => {
                       this.props.updateFilter("TAGS", "");
                     }}>
