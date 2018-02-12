@@ -28,6 +28,8 @@ export default class LandingPage extends Component {
       logInPassword: "",
       confirmPassword: "",
       facebookLoginError: null,
+      submit: true,
+
       //to display error message if the user can't be allowed to login
       error: null
     };
@@ -46,6 +48,7 @@ export default class LandingPage extends Component {
         logInPassword,
         error,
         facebookLoginError,
+        submit,
         ...user
       } = this.state;
       Object.assign(newUser, user);
@@ -62,6 +65,7 @@ export default class LandingPage extends Component {
         logInPassword,
         error,
         facebookLoginError,
+        submit,
         ...user
       } = this.state;
       Object.assign(newUser, user);
@@ -104,7 +108,11 @@ export default class LandingPage extends Component {
         );
       });
   };
-
+  handleUserAgreement = e => {
+    this.setState({
+      submit: !this.state.submit
+    });
+  };
   handleChange = e => {
     const name = e.target.name;
     const value = e.target.value;
@@ -372,6 +380,8 @@ export default class LandingPage extends Component {
                             inputData={inputData}
                             responseFacebook={this.responseFacebook}
                             facebookLoginError={this.state.facebookLoginError}
+                            handleUserAgreement={this.handleUserAgreement}
+                            submit={this.state.submit}
                           />
                         ) : (
                           <Login
