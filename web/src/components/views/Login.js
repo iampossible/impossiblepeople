@@ -73,17 +73,7 @@ export default class Login extends Component {
           </Col>
           <Col sm={1} />
         </FormGroup>
-        <Row>
-          <Col sm={1} />
-          <Col sm={10}>
-            {this.props.error ? (
-              <Alert color="danger"> {this.props.error}</Alert>
-            ) : (
-              ""
-            )}
-          </Col>
-          <Col sm={1} />
-        </Row>
+
         <Row>
           <Col sm={1} />
           <Col sm={10}>
@@ -93,6 +83,32 @@ export default class Login extends Component {
           </Col>
           <Col sm={1} />
         </Row>
+        {this.props.loginError.length > 0 ? (
+          <Row>
+            <Col sm={1} />
+            <Col sm={10} id="loginError">
+              <Alert color="danger">
+                {this.props.loginError.map((error, i) => (
+                  <p key={i}>&ndash;{error}</p>
+                ))}
+              </Alert>
+            </Col>
+            <Col sm={1} />
+          </Row>
+        ) : (
+          ""
+        )}
+        {this.props.error ? (
+          <Row>
+            <Col sm={1} />
+            <Col sm={10}>
+              <Alert color="danger"> {this.props.error}</Alert>
+            </Col>
+            <Col sm={1} />
+          </Row>
+        ) : (
+          ""
+        )}
       </Form>
     );
   }
