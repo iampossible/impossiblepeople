@@ -336,6 +336,14 @@ p {
     margin-top: 0.3em;
 }
 
+#userAggrementCheckbox {
+    margin: 1em;
+}
+
+#userAggrementCheckbox input {
+    margin-top: 0.8em;
+}
+
 .selectedUserTypeButton {
     background: #fed976 !important;
     color: #000;
@@ -400,6 +408,11 @@ p {
     padding-bottom: 0;
     border-width: 1px;
     border-bottom-width: 0;
+}
+
+#registrationForm #userRegistrationConfirmPassword.form-control,
+#signinForm #userRegistrationConfirmPassword.form-control {
+    border-bottom-width: 1px;
 }
 
 #profile #interest {
