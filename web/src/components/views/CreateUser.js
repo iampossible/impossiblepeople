@@ -173,37 +173,13 @@ export default class CreateUser extends Component {
                   <Input
                     type="checkbox"
                     onClick={this.props.handleUserAgreement}
-                  />{" "}
-                  I have read the
-                  <a href="/userAgreement">user aggrement </a> and agree
+                  />&nbsp;&nbsp;&nbsp; I have read the
+                  <a href="/userAgreement"> user aggrement </a> and agree
                 </Label>
               </Col>
               <Col sm={1} />
             </FormGroup>
-            {this.props.inputData.validatePassword ? (
-              <Row>
-                <Col sm={1} />
-                <Col sm={10}>
-                  <Alert color="danger">
-                    it doesn&apos;t match with your password
-                  </Alert>
-                </Col>
-                <Col sm={1} />
-              </Row>
-            ) : (
-              ""
-            )}
-            {this.props.inputData.error ? (
-              <Row>
-                <Col sm={1} />
-                <Col sm={10}>
-                  <Alert color="danger"> {this.props.inputData.error}</Alert>
-                </Col>
-                <Col sm={1} />
-              </Row>
-            ) : (
-              ""
-            )}
+
             <Row>
               <Col sm={1} />
               <Col sm={10}>
@@ -217,6 +193,47 @@ export default class CreateUser extends Component {
               </Col>
               <Col sm={1} />
             </Row>
+
+            {this.props.inputData.validatePassword ? (
+              <Row>
+                <Col sm={1} />
+                <Col sm={10} className="createUserError">
+                  <Alert color="danger">
+                    it doesn&apos;t match with your password
+                  </Alert>
+                </Col>
+                <Col sm={1} />
+              </Row>
+            ) : (
+              ""
+            )}
+
+            {this.props.inputData.error ? (
+              <Row>
+                <Col sm={1} />
+                <Col sm={10} className="createUserError">
+                  <Alert color="danger"> {this.props.inputData.error}</Alert>
+                </Col>
+                <Col sm={1} />
+              </Row>
+            ) : (
+              ""
+            )}
+            {this.props.createUserError.length > 0 ? (
+              <Row>
+                <Col sm={1} />
+                <Col sm={10} className="createUserError">
+                  <Alert color="danger">
+                    {this.props.createUserError.map((error, i) => (
+                      <p key={i}>&ndash;{error}</p>
+                    ))}
+                  </Alert>
+                </Col>
+                <Col sm={1} />
+              </Row>
+            ) : (
+              ""
+            )}
           </Fragment>
         ) : (
           ""
