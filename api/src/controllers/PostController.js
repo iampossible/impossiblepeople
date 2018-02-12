@@ -33,7 +33,7 @@ class PostController extends Controller {
         timeRequired: Joi.number().integer(),
         interests: Joi.array().required(),
         imageSource: Joi.string(),
-        url: Joi.string()
+        url: Joi.string().allow("")
       }
     });
 
