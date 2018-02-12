@@ -28,6 +28,7 @@ body {
     font: 200 1em/1.5em "Exo 2", "Helvetica Neue", Helvetica, Arial, sans-serif;
     width: 100vh;
     height: 100vh;
+    overflow-x: hidden;
 }
 
 h1,
@@ -378,6 +379,12 @@ p {
 
 #loginFacebook .kep-login-facebook.metro {
     width: 100%;
+}
+
+#loginError,
+.createUserError {
+    margin-top: 1em;
+    margin-bottom: 0;
 }
 
 #organisationNameLabel {
@@ -788,6 +795,8 @@ hr {
     background: #fff;
     width: 100%;
     outline: 0;
+    max-height: 250px;
+    overflow: scroll;
 }
 
 #filterPostsByTags button.btn-primary,
@@ -1442,12 +1451,13 @@ button {
     color: white;
 }
 
-.btn-secondary:not(:disabled):not(.disabled):active,
-.btn-secondary:not(:disabled):not(.disabled).active,
+
+/* #post .btn-secondary:not(:disabled):not(.disabled):active,
+#post .btn-secondary:not(:disabled):not(.disabled).active,
 .show {
     background-color: #498a9c;
     color: white;
-}
+} */
 
 .form-group {
     margin-top: 20px;
