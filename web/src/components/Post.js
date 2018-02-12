@@ -49,50 +49,53 @@ export default class Post extends Component {
       postTypeDispalyText: "What do you want to Ask?",
       interests: [...interests]
     });
+    if (this.props.postToUpdate !== "") {
+      this.updatePostContent(this.props.postToUpdate[0]);
+    }
   }
 
-  componentWillReceiveProps = nextProps => {
-    if (nextProps.postToUpdate !== "") {
-      let interests = nextProps.postToUpdate[0].interests.map(interest => {
-        if (this.selectElement.props.children.length > 0) {
-          Array.from(
-            this.selectElement._reactInternalFiber.child.stateNode
-          ).map(option => {
+  updatePostContent = post => {
+    let interests = post.interests.map(interest => {
+      if (interest.length > 0) {
+        Array.from(this.selectElement._reactInternalFiber.child.stateNode).map(
+          option => {
             if (option.value === interest.interestID) {
               option.className = "selectedTag";
             }
             return;
-          });
-        }
-        return interest.interestID;
-      });
-
-      if (nextProps.postToUpdate[0].postType === "ASKS") {
-        this.setState({
-          postTypeAskChecked: true
-        });
-      } else if (nextProps.postToUpdate[0].postType === "OFFERS") {
-        this.setState({
-          postTypeOfferChecked: true
-        });
+          }
+        );
       }
+      return interest.interestID;
+    });
+
+    if (post.postType === "ASKS") {
       this.setState({
-        content: nextProps.postToUpdate[0].content,
-        postType: nextProps.postToUpdate[0].postType,
-        location: nextProps.postToUpdate[0].location,
-        latitude: nextProps.postToUpdate[0].latitude,
-        longitude: nextProps.postToUpdate[0].longitude,
-        timeRequired: nextProps.postToUpdate[0].timeRequired,
-        postID: nextProps.postToUpdate[0].postID,
-        url: nextProps.postToUpdate[0].url,
-        imageSource: nextProps.postToUpdate[0].imageSource,
-        interests,
-        loadingLocation: false,
-        updateButton: true,
-        uploadingImage: false,
-        loadingLocationButtonDisabled: false
+        postTypeAskChecked: true,
+        postTypeOfferChecked: false
+      });
+    } else if (post.postType === "OFFERS") {
+      this.setState({
+        postTypeOfferChecked: true,
+        postTypeAskChecked: false
       });
     }
+    this.setState({
+      content: post.content,
+      postType: post.postType,
+      location: post.location,
+      latitude: post.latitude,
+      longitude: post.longitude,
+      timeRequired: post.timeRequired,
+      postID: post.postID,
+      url: post.url,
+      imageSource: post.imageSource,
+      interests,
+      loadingLocation: false,
+      updateButton: true,
+      uploadingImage: false,
+      loadingLocationButtonDisabled: false
+    });
   };
 
   detectLocation = e => {
@@ -171,7 +174,7 @@ export default class Post extends Component {
 
   handleSubmitRequest = e => {
     e.persist();
-    console.log(e.target.textContent.trim());
+
     const buttonText = e.target.textContent.trim();
     let {
       loadingLocation,
