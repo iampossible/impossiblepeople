@@ -122,6 +122,11 @@ p {
     margin-right: 0;
 }
 
+#headerSignInLink {
+    text-align: center;
+    margin-left: -1em;
+}
+
 #headerApproveOrgsLink span,
 #headerLogoutLink span,
 #headerSignInLink span,
@@ -221,16 +226,6 @@ p {
     color: #ff4754;
 }
 
-#footerCopyright {
-    color: #000;
-}
-
-#footerCopyright span {
-    font-family: "Lovers Quarrel", cursive;
-    font-size: 1.5em;
-    display: inline-block;
-}
-
 #signIn {
     background: transparent;
     border: none;
@@ -249,6 +244,8 @@ p {
 #landingPageContentSection {
     background: #fff;
     margin: 5em auto;
+    max-width: 650px;
+    min-height: 550px;
 }
 
 #landingPageSignUpSignInContainer {
@@ -294,13 +291,20 @@ p {
     color: #fff;
     background-size: 100% 100%;
     flex-direction: column;
-    height: 416px;
+    height: 500px;
+    max-height: 556px;
+    max-width: 780px;
 }
 
 #landingPageInfo hr {
     background: #fff;
     margin-right: 3em;
     margin-left: 1.5em;
+}
+
+#landingPageInfo hr:nth-of-type(2) {
+    margin-top: 4em;
+    margin-bottom: 0;
 }
 
 #landingPageWelcome img {
@@ -376,6 +380,7 @@ p {
 #signinForm .form-group,
 #profile .form-group {
     margin-bottom: 0;
+    margin-top: 0;
 }
 
 #registrationForm .form-group div,
@@ -570,12 +575,6 @@ hr {
     text-align: center;
 }
 
-.submitPost button {
-    background: #c32830;
-    color: #fff;
-    border: none;
-}
-
 .submitPost button:hover {
     background: #ff4754;
     color: #fff;
@@ -608,6 +607,10 @@ hr {
 #updateInterestRingLoader,
 #feedRingLoader {
     margin-top: 15%;
+}
+
+#postImageFile #postUploadImageringLoader>div {
+    left: 35%;
 }
 
 .center-loading {
@@ -644,6 +647,23 @@ hr {
     margin-top: 2em;
     padding: 1.5em;
     margin: 2.5em 7em 2.5em 7em;
+    position: relative;
+}
+
+#post #closePostPopup {
+    color: #df4848;
+    position: absolute;
+    right: -2em;
+    top: -1em;
+    font-size: 1.5em;
+}
+
+#post #closePostPopup i:hover,
+#post #closePostPopup i:focus {
+    color: #df4848;
+    text-decoration: none;
+    cursor: pointer;
+    font-size: 1.6em;
 }
 
 #noFeedMessage {
@@ -682,10 +702,36 @@ hr {
     display: flex;
 }
 
-#filterPosts {
+#filterPosts,
+#createPostButton {
     top: 7.5em;
     position: fixed;
-    left: 7%;
+}
+
+#filterPosts {
+    left: 1em;
+}
+
+#createPostButton {
+    right: 0.5em;
+    z-index: 999;
+}
+
+#createPostButton .postBtn {
+    border: none;
+    background: #fff;
+    color: #000;
+}
+
+#createPostButton i {
+    color: #6acf89;
+    font-size: 1.5em;
+    vertical-align: middle;
+}
+
+#createPostButton button:hover {
+    background: #ed684b;
+    color: #fff;
 }
 
 #filterPostsAsksOffers,
@@ -763,9 +809,15 @@ select option:checked {
 }
 
 #ToolTipUseCurrentLocationIcon {
+    position: absolute;
+    right: 1.1em;
+    top: 0.15em;
     font-size: 0.9em;
-    color: #fff;
+    color: #498b9d;
     cursor: pointer;
+    background: transparent;
+    border: 0;
+    padding: 0.5em;
 }
 
 #ToolTipUseCurrentLocationIcon button {
@@ -780,8 +832,7 @@ select option:checked {
 }
 
 .location-loading {
-    margin-top: 0.5em;
-    margin-left: 0;
+    top: 0;
 }
 
 #postInterestTags {
@@ -1361,6 +1412,131 @@ button {
     width: 200px;
 }
 
+#askAndOffer {
+    border: 2px solid #498a9c;
+    border-radius: 5px;
+}
+
+.askandoffres__button {
+    width: 50%;
+    background-color: white;
+    color: #498a9c;
+    border-radius: 1px;
+}
+
+.askandoffres__button:hover {
+    background-color: #498a9c;
+    color: white;
+}
+
+.btn-secondary:not(:disabled):not(.disabled):active,
+.btn-secondary:not(:disabled):not(.disabled).active,
+.show {
+    background-color: #498a9c;
+    color: white;
+}
+
+.form-group {
+    margin-top: 20px;
+}
+
+#postContent {
+    margin: 0;
+    width: 105%;
+    height: 200px;
+}
+
+#textArea {
+    margin-left: -15px;
+}
+
+#uploadImage {
+    position: absolute;
+    width: 100px;
+    background-color: #000;
+    color: #fff;
+    margin-left: 10px;
+    text-align: center;
+    font-size: 1em;
+    top: 2.6em;
+    right: 0.9em;
+    opacity: 0.5;
+    cursor: pointer;
+}
+
+#uploadImage:hover {
+    color: #df4848;
+}
+
+#post input[type="file"] {
+    display: none;
+}
+
+.btn___interest {
+    background-color: #d7d7d7;
+    color: black;
+    width: 169px;
+    height: 80px;
+    margin: 9px;
+    border-radius: 2px;
+    text-transform: lowercase;
+}
+
+.btn___interest:hover {
+    background-color: #ec674b;
+    color: white;
+}
+
+.selectedTag {
+    color: black;
+    background-color: #ffcd47;
+    opacity: 0.65;
+    text-transform: lowercase;
+}
+
+.submitPost .submit {
+    background-color: #68c5b5;
+    color: white;
+}
+
+.submitPost.submit:hover {
+    background-color: #ec674b;
+    color: white;
+}
+
+.submitPost .submit:disabled {
+    background-color: #abded6;
+    color: black;
+    cursor: text;
+}
+
+#post {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 55vw;
+    margin-left: 22em;
+}
+
+#popup {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    margin: auto;
+    z-index: 999;
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+.popup_inner {
+    position: absolute;
+    top: 3%;
+    margin: auto;
+}
+
 @media only screen and (max-width: 768px) {
     /* for mobile phone */
     #post {
@@ -1404,3 +1580,10 @@ button {
         padding: 0;
     }
 }
+
+
+/* @media (min-width: 1200px) {
+    .App-main {
+        max-width: 1340px;
+    }
+} */
