@@ -80,8 +80,12 @@ class Header extends Component {
         <Col sm={4} id="headerImage">
           <img src={headerImage} alt="header" />
         </Col>
+        {user && !user.admin && location.pathname !== "/" ? (
+          <Col sm={1} />
+        ) : null}
         {user &&
         user.admin &&
+        location.pathname !== "/" &&
         location.pathname !== "/userAgreement" &&
         location.pathname !== "/privacyPolicy" &&
         location.pathname !== "/faq" &&
@@ -105,7 +109,7 @@ class Header extends Component {
         location.pathname !== "/privacyPolicy" &&
         location.pathname !== "/faq" &&
         location.pathname !== "/feedback" ? (
-          <Col sm={2} id="headerLogoutLink">
+          <Col sm={1} id="headerLogoutLink">
             <span onClick={this.handlelogout}>
               Logout &nbsp;&nbsp;<i
                 className="fa fa-sign-out"
