@@ -4,6 +4,7 @@ const Nodemailer = require("nodemailer");
 const AWS = require("aws-sdk");
 const Config = require("config/server");
 const Worker = require("core/Worker");
+const ses = require("nodemailer-ses-transport");
 
 class EmailWorker extends Worker {
   constructor() {
@@ -21,7 +22,7 @@ class EmailWorker extends Worker {
     this.on("RECOVER_PASSWORD_EMAIL_EVENT", this.onRecoverPassword.bind(this));
 
     this.templateStrings = {};
-    Fs.readFile("templates/welcomeEmail.html", "utf8", (err, data) => {
+    Fs.readFile("templates/welcomeEmailHumankind.html", "utf8", (err, data) => {
       if (err) {
         throw err;
       }
@@ -52,7 +53,7 @@ class EmailWorker extends Worker {
     // params to pass to template engine: userFirstName, userLastName
     this.sendEmail({
       to: msg.data.userAddress,
-      subject: "Welcome to Impossible",
+      subject: "Welcome to Humankind",
       // eslint-disable-next-line no-eval, prefer-template
       html: eval(
         "`" +
@@ -89,15 +90,19 @@ class EmailWorker extends Worker {
   }
 
   sendEmail(options) {
-    let transporter = Nodemailer.createTransport({
-      service: Config.smtp.service,
-      auth: {
-        user: Config.smtp.user,
-        pass: Config.smtp.pass
-      }
-    });
+    //using nodemailer-ses-transport
+    var transporter = Nodemailer.createTransport(
+      ses({
+        accessKeyId: Config.aws.accessKey,
+        logger: console.info,
+        region: "eu-west-1",
+        secretAccessKey: Config.aws.secretKey,
+        sslEnabled: true
+      })
+    );
+
     let email = {
-      from: Config.smtp.from
+      from: Config.aws.ses.from
     };
     email = Object.assign(email, options);
     transporter.sendMail(email, (err, info) => {
