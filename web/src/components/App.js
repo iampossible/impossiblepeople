@@ -17,6 +17,10 @@ import Header from "./views/Header";
 import Footer from "./views/Footer";
 import UpdateInterest from "./views/UpdateInterest";
 import AdminDashBoard from "./views/AdminDashBoard";
+import UserAgreement from "./views/UserAgreement";
+import PrivacyPolicy from "./views/PrivacyPolicy";
+import Faq from "./views/Faq";
+import Feedback from "./views/Feedback";
 
 const Main = props => {
   return (
@@ -80,6 +84,10 @@ const Main = props => {
           />
         )}
       />
+      <Route path="/userAgreement" render={() => <UserAgreement />} />
+      <Route path="/privacyPolicy" render={() => <PrivacyPolicy />} />
+      <Route path="/faq" render={() => <Faq />} />
+      <Route path="/feedback" render={() => <Feedback />} />
     </Switch>
   );
 };
@@ -141,10 +149,12 @@ class App extends Component {
         <div className="App">
           <Row className="App-header">
             <Col xs={12}>
-              <Header
-                user={this.state.user}
-                toggleDisplayForm={this.toggleDisplayForm}
-              />
+              <header>
+                <Header
+                  user={this.state.user}
+                  toggleDisplayForm={this.toggleDisplayForm}
+                />
+              </header>
             </Col>
           </Row>
           <Row className="App-main">

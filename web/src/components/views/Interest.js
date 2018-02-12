@@ -33,8 +33,7 @@ export default class Interest extends Component {
 
   render() {
     const { featuredInterest } = this.state;
-    const TRANSITION_ENTER_TIMEOUT = 500,
-      TRANSITION_LEAVE_TIMEOUT = 300;
+    const TRANSITION_APPEAR_TIMEOUT = 3000;
 
     return this.state.loading ? (
       <Row>
@@ -87,7 +86,7 @@ export default class Interest extends Component {
                       <CSSTransitionGroup
                         transitionName="fadeCommentContainer"
                         transitionAppear={true}
-                        transitionAppearTimeout={3000}
+                        transitionAppearTimeout={TRANSITION_APPEAR_TIMEOUT}
                         transitionEnter={false}
                         transitionLeave={false}>
                         <p className="relatedTagsHeading">It includes</p>

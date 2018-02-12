@@ -1,5 +1,5 @@
 import React, { Component, Fragment } from "react";
-import { Row, Col } from "reactstrap";
+import { Row, Col, Button } from "reactstrap";
 import { RingLoader } from "react-spinners";
 import Post from "../components/Post";
 import DisplayPost from "../components/DisplayPost";
@@ -32,7 +32,8 @@ class Feed extends Component {
     filterTag: "",
     tagsDropdownOpen: false,
     newComment: "",
-    commentsDisplayed: false
+    commentsDisplayed: false,
+    createPostClicked: false
   };
 
   componentWillMount() {
@@ -144,7 +145,7 @@ class Feed extends Component {
     }
   };
 
-  toggleTagesDropdown = () => {
+  toggleTagsDropdown = () => {
     this.setState({
       tagsDropdownOpen: !this.state.tagsDropdownOpen
     });
@@ -181,6 +182,14 @@ class Feed extends Component {
       );
     }
   };
+
+  loadPost = () => {
+    window.scrollTo(0, 0);
+    this.setState({
+      createPostClicked: !this.state.createPostClicked
+    });
+  };
+
   render() {
     let counter = 0; // to track number of filtered results based on tag
     //getting the user type that is passed from the App redirect
@@ -201,26 +210,14 @@ class Feed extends Component {
       </Row>
     ) : (
       <Fragment>
-        {/* if user is an organisation display the post component at the top */}
-        {(user && (user.userType === "organisation" && user.approved)) ||
-        user.admin ? (
-          <Post
-            user={user}
-            updateFeeds={this.getFeeds}
-            postToUpdate={this.state.postToUpdate}
-          />
-        ) : (
-          ""
-        )}
         <Row id="feedSection">
-          <Col sm={1} />
           <Col sm={2}>
             <FilterButtons
               interests={user.interests}
               currentFilter={this.state.currentFilter}
               filterTag={this.state.filterTag}
               tagsDropdownOpen={this.state.tagsDropdownOpen}
-              toggleTagesDropdown={this.toggleTagesDropdown}
+              toggleTagsDropdown={this.toggleTagsDropdown}
               updateFilter={this.updateFilter}
             />
           </Col>
@@ -281,9 +278,35 @@ class Feed extends Component {
               })}
             </Col>
           ) : (
-            <NoFeedMessage message="." />
+            <Col sm={8}>
+              <NoFeedMessage message="." />
+            </Col>
           )}
-          <Col sm={1} />
+
+          {/* if user is an organisation display the post component at the top */}
+          {(user && (user.userType === "organisation" && user.approved)) ||
+          user.admin ? (
+            <Col sm={2} id="createPostButton">
+              <Button
+                className="btn btn-primary btn btn-secondary postBtn"
+                onClick={this.loadPost}>
+                <i className="fa fa-plus-circle" aria-hidden="true" />&nbsp;&nbsp;
+                create a new post
+              </Button>
+            </Col>
+          ) : (
+            ""
+          )}
+          {this.state.createPostClicked ? (
+            <Post
+              loadingPost={this.loadPost}
+              user={user}
+              updateFeeds={this.getFeeds}
+              postToUpdate={this.state.postToUpdate}
+            />
+          ) : (
+            ""
+          )}
         </Row>
       </Fragment>
     );

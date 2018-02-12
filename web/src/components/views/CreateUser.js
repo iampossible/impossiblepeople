@@ -165,6 +165,21 @@ export default class CreateUser extends Component {
               </Col>
               <Col sm={1} />
             </FormGroup>
+
+            <FormGroup row>
+              <Col sm={1} />
+              <Col sm={10} id="userAggrementCheckbox">
+                <Label check>
+                  <Input
+                    type="checkbox"
+                    onClick={this.props.handleUserAgreement}
+                  />{" "}
+                  I have read the
+                  <a href="/userAgreement">user aggrement </a> and agree
+                </Label>
+              </Col>
+              <Col sm={1} />
+            </FormGroup>
             {this.props.inputData.validatePassword ? (
               <Row>
                 <Col sm={1} />
@@ -193,6 +208,7 @@ export default class CreateUser extends Component {
               <Col sm={1} />
               <Col sm={10}>
                 <Button
+                  disabled={this.props.submit}
                   id="signUpButton"
                   onClick={this.props.handleCreateUser}
                   block>

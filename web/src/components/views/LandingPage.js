@@ -28,6 +28,8 @@ export default class LandingPage extends Component {
       logInPassword: "",
       confirmPassword: "",
       facebookLoginError: null,
+      submit: true,
+
       //to display error message if the user can't be allowed to login
       error: null
     };
@@ -46,6 +48,7 @@ export default class LandingPage extends Component {
         logInPassword,
         error,
         facebookLoginError,
+        submit,
         ...user
       } = this.state;
       Object.assign(newUser, user);
@@ -62,6 +65,7 @@ export default class LandingPage extends Component {
         logInPassword,
         error,
         facebookLoginError,
+        submit,
         ...user
       } = this.state;
       Object.assign(newUser, user);
@@ -104,7 +108,11 @@ export default class LandingPage extends Component {
         );
       });
   };
-
+  handleUserAgreement = e => {
+    this.setState({
+      submit: !this.state.submit
+    });
+  };
   handleChange = e => {
     const name = e.target.name;
     const value = e.target.value;
@@ -256,12 +264,12 @@ export default class LandingPage extends Component {
                 <Row>
                   <Col sm={2} />
                   <Col sm={8} id="landingPageWelcome">
-                    <h1 className="lead">
+                    <h1>
                       Welcome to
                       <img src={landinPageInfoImage} alt="headerImage" />
                     </h1>
                     {!this.props.login || this.props.register ? (
-                      <h6 className="lead">Please tell us about yourself.</h6>
+                      <h6>Please tell us about yourself.</h6>
                     ) : (
                       ""
                     )}
@@ -312,7 +320,7 @@ export default class LandingPage extends Component {
                         <i className="fa fa-check" aria-hidden="true" />
                       </Col>
                       <Col sm={11}>
-                        <p className="lead">
+                        <p>
                           Connect with a community of volunteers and purposeful
                           orgs.
                         </p>
@@ -328,7 +336,7 @@ export default class LandingPage extends Component {
                         <i className="fa fa-check" aria-hidden="true" />
                       </Col>
                       <Col sm={11}>
-                        <p className="lead">
+                        <p>
                           Coordinate and be more efficient at helping others.
                         </p>
                       </Col>
@@ -343,7 +351,7 @@ export default class LandingPage extends Component {
                         <i className="fa fa-check" aria-hidden="true" />
                       </Col>
                       <Col sm={11}>
-                        <p className="lead">Measure your impact.</p>
+                        <p>Measure your impact.</p>
                       </Col>
                     </Row>
                     <Row>
@@ -372,6 +380,8 @@ export default class LandingPage extends Component {
                             inputData={inputData}
                             responseFacebook={this.responseFacebook}
                             facebookLoginError={this.state.facebookLoginError}
+                            handleUserAgreement={this.handleUserAgreement}
+                            submit={this.state.submit}
                           />
                         ) : (
                           <Login

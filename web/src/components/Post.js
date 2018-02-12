@@ -28,7 +28,7 @@ export default class Post extends Component {
     loadingLocation: false,
     selectedOptions: [],
     useCurrentLocationTooltipOpen: false,
-    postTypeAskChecked: false,
+    postTypeAskChecked: true,
     postTypeOfferChecked: false,
     loadingLocationButtonDisabled: false,
     //default image
@@ -36,8 +36,20 @@ export default class Post extends Component {
     url: "",
     postID: null,
     updateButton: false,
-    imageLoadError: null
+    imageLoadError: null,
+    postTypeDispalyText: ""
   };
+  componentWillMount() {
+    let interests = new Set();
+    this.props.user.interests.map(interest =>
+      interests.add(interest.interestID)
+    );
+    this.setState({
+      postType: "ASKS",
+      postTypeDispalyText: "What do you want to Ask?",
+      interests: [...interests]
+    });
+  }
 
   componentWillReceiveProps = nextProps => {
     if (nextProps.postToUpdate !== "") {
@@ -87,6 +99,7 @@ export default class Post extends Component {
     this.setState({
       loadingLocation: true
     });
+
     this.getLocation();
   };
 
@@ -125,20 +138,6 @@ export default class Post extends Component {
     const target = event.currentTarget;
     const name = target.name;
 
-    if (target.type === "radio") {
-      if (target.value === "ASKS") {
-        this.setState({
-          postTypeAskChecked: true,
-          postTypeOfferChecked: false
-        });
-      } else {
-        this.setState({
-          postTypeOfferChecked: true,
-          postTypeAskChecked: false
-        });
-      }
-    }
-
     if (name === "location") {
       this.setState({
         loadingLocation: false
@@ -150,9 +149,29 @@ export default class Post extends Component {
     });
   };
 
+  handleAskAndOffer = event => {
+    event.persist();
+    const target = event.currentTarget;
+    if (event.target.value === "ASKS") {
+      this.setState({
+        postTypeAskChecked: true,
+        postType: "ASKS",
+        postTypeOfferChecked: false,
+        postTypeDispalyText: "What do you want to Ask?"
+      });
+    } else {
+      this.setState({
+        postType: "OFFERS",
+        postTypeOfferChecked: true,
+        postTypeAskChecked: false,
+        postTypeDispalyText: "What can you offer?"
+      });
+    }
+  };
+
   handleSubmitRequest = e => {
     e.persist();
-
+    console.log(e.target.textContent.trim());
     const buttonText = e.target.textContent.trim();
     let {
       loadingLocation,
@@ -166,11 +185,12 @@ export default class Post extends Component {
       imageLoadError,
       locationError,
       loadingLocationButtonDisabled,
+      postTypeDispalyText,
       ...post
     } = this.state;
 
     let url, method;
-    if (buttonText === "Submit") {
+    if (buttonText === "Post") {
       url = `/api/post/create`;
       method = "POST";
     } else if (buttonText === "Update") {
@@ -218,6 +238,8 @@ export default class Post extends Component {
                 option.className = "unSelectedTag";
               });
               this.props.updateFeeds();
+              this.props.loadingPost();
+              window.scrollTo(0, 0);
             }
           );
         }
@@ -327,6 +349,7 @@ export default class Post extends Component {
       this.setState({
         uploadingImage: true
       });
+
       fetch(`/api/post/image`, {
         credentials: "same-origin",
         ContentType: "image/png",
@@ -368,210 +391,212 @@ export default class Post extends Component {
     });
   };
 
+  handleClosePopup = () => {
+    this.props.loadingPost();
+    window.scrollTo(0, 0);
+  };
+
   render() {
     return (
-      <div id="post">
-        <Row>
-          <Col sm={1} />
-          <Col sm={10} xs={12} id="postForm">
-            <Form>
-              <FormGroup row id="postPictureContainer">
-                <Label for="postImageFile" sm={2} id="postImageLabel">
-                  Picture
-                </Label>
-                <Col sm={10}>
-                  <Col sm={12} id="postImageFile">
-                    {this.state.uploadingImage ? (
-                      <RingLoader
-                        id="ringLoader"
-                        color="#123abc"
-                        loading={this.state.loading}
-                        size={100} /*the size of the spinner*/
-                      />
-                    ) : (
-                      <img
-                        id="preview"
-                        src={this.state.imageSource}
-                        alt={"Post"}
-                      />
-                    )}
+      <div id="popup">
+        <div id="post" className="popupInner">
+          <Row>
+            <Row>
+              <Col sm={1} />
+              <Col id="postForm" sm={10}>
+                <span id="closePostPopup" onClick={this.handleClosePopup}>
+                  &nbsp;<i
+                    className="fa fa-times-circle-o"
+                    aria-hidden="true"
+                  />
+                </span>
+                <div id="askAndOffer">
+                  <Button
+                    className="askandoffres__button"
+                    onClick={e => {
+                      this.handleAskAndOffer(e);
+                    }}
+                    name="postType"
+                    value="ASKS"
+                    active={this.state.postTypeAskChecked}>
+                    ASKS
+                  </Button>
+                  <Button
+                    className="askandoffres__button"
+                    onClick={e => {
+                      this.handleAskAndOffer(e);
+                    }}
+                    name="postType"
+                    value="OFFERS"
+                    active={this.state.postTypeOfferChecked}>
+                    OFFERS
+                  </Button>
+                </div>
+                <FormGroup>
+                  <Label for="content">{this.state.postTypeDispalyText}</Label>
+                  <Col id="textArea">
+                    <Input
+                      type="textarea"
+                      name="content"
+                      // style={{ height: 100, width: "100%" }}
+                      id="postContent"
+                      placeholder="eg. I can give drawing lesson "
+                      onChange={this.handleChange}
+                      value={this.state.content}
+                    />
                   </Col>
-                  {this.state.imageLoadError ? (
+                  <Col sm={1} />
+                </FormGroup>
+                <Form>
+                  <FormGroup id="postPictureContainer">
+                    <Label for="postImageFile" id="postImageLabel">
+                      Image (must be in .png, .jpg or jpeg 740px x 250px)
+                    </Label>
+                    <div>
+                      <Col id="postImageFile">
+                        {this.state.uploadingImage ? (
+                          <span id="postUploadImageringLoader">
+                            <RingLoader
+                              color="#123abc"
+                              loading={this.state.loading}
+                              size={50} /*the size of the spinner*/
+                            />
+                          </span>
+                        ) : (
+                          <img
+                            id="preview"
+                            src={this.state.imageSource}
+                            alt={"Post"}
+                          />
+                        )}
+                      </Col>
+                      {this.state.imageLoadError ? (
+                        <Row>
+                          <Col sm={10} id="postImageFileInfo">
+                            <Alert color="danger">
+                              {this.state.imageLoadError}
+                            </Alert>
+                          </Col>
+                        </Row>
+                      ) : (
+                        ""
+                      )}
+                      <Row id="uploadPostImageButton">
+                        <label id="uploadImage">
+                          <u>Edit</u>
+                          <Input
+                            type="file"
+                            name="postImageFile"
+                            id="uploadPostImage"
+                            accept=".jpg, .jpeg, .png"
+                            onChange={this.handleImageSelection}
+                          />
+                        </label>
+                      </Row>
+                    </div>
+                  </FormGroup>
+                  <FormGroup>
+                    <Label for="timeRequired">&nbsp; Duration&nbsp;</Label>
+                    <Col>
+                      <Input
+                        type="text"
+                        name="timeRequired"
+                        id="timeRequired"
+                        placeholder="number of days"
+                        onChange={this.handleChange}
+                        value={this.state.timeRequired}
+                      />
+                    </Col>
+                    <Col sm={5} />
+                  </FormGroup>
+                  <FormGroup>
+                    <Label for="location">&nbsp;Location&nbsp;</Label>
+                    <Col>
+                      <Input
+                        type="textarea"
+                        name="location"
+                        id="location"
+                        placeholder="eg. Vauxhall, London"
+                        onChange={this.handleChange}
+                        value={this.state.location}
+                      />
+                      <Button
+                        onClick={e => this.detectLocation(e)}
+                        id="ToolTipUseCurrentLocationIcon"
+                        disabled={this.state.loadingLocationButtonDisabled}
+                        className="btn btn-md btn-success">
+                        {this.state.loadingLocation ? (
+                          <div className="RingLoader location-loading">
+                            <RingLoader
+                              color="#123abc"
+                              loading={this.state.loading}
+                              size={30} /*the size of the spinner*/
+                            />
+                          </div>
+                        ) : (
+                          <span>
+                            Locate me&nbsp;
+                            <i className="material-icons">add_location</i>
+                          </span>
+                        )}
+                      </Button>
+                    </Col>
+                  </FormGroup>
+                  {this.state.locationError ? (
                     <Row>
-                      <Col sm={10} id="postImageFileInfo">
-                        <Alert color="danger">
-                          {" "}
-                          {this.state.imageLoadError}
-                        </Alert>
+                      <Col id="locationErrorInfo">
+                        <Alert color="danger">{this.state.locationError}</Alert>
                       </Col>
                     </Row>
                   ) : (
                     ""
                   )}
-                  <Row id="uploadPostImageButton">
+                  <FormGroup>
+                    <Label for="url">&nbsp; URL&nbsp;</Label>
                     <Col>
                       <Input
-                        type="file"
-                        name="postImageFile"
-                        id="upladPostImage"
-                        accept=".jpg, .jpeg, .png"
-                        onChange={this.handleImageSelection}
+                        type="text"
+                        name="url"
+                        id="url"
+                        placeholder="url for more information"
+                        onChange={this.handleChange}
+                        value={this.state.url}
                       />
                     </Col>
-                  </Row>
-                </Col>
-              </FormGroup>
-              <FormGroup row>
-                <Label for="content" sm={2}>
-                  Content
-                </Label>
-                <Col sm={9} xs={12}>
-                  <Input
-                    type="textarea"
-                    name="content"
-                    style={{ height: 100, width: "100%" }}
-                    id="postContent"
-                    placeholder="Have something to Ask or Offer?"
-                    onChange={this.handleChange}
-                    value={this.state.content}
+                    <Col sm={5} />
+                  </FormGroup>
+
+                  <PostInterestTags
+                    interests={new Set(this.state.interests)}
+                    onClick={this.handleMultipleSelect}
+                    tagsRef={el => {
+                      this.selectElement = el;
+                    }}
                   />
-                </Col>
-                <Col sm={1} />
-              </FormGroup>
-              <FormGroup row>
-                <Label for="postType" sm={2}>
-                  Type
-                </Label>
-                <Col xs={4}>
-                  <Label check className="radio">
-                    <Input
-                      type="radio"
-                      name="postType"
-                      value="ASKS"
-                      checked={this.state.postTypeAskChecked}
-                      onChange={this.handleChange}
-                    />&nbsp;&nbsp;&nbsp;&nbsp;ASK
-                  </Label>
-                </Col>
-                <Col xs={4}>
-                  <Label check>
-                    <Input
-                      type="radio"
-                      name="postType"
-                      value="OFFERS"
-                      checked={this.state.postTypeOfferChecked}
-                      onChange={this.handleChange}
-                    />&nbsp;&nbsp;&nbsp;&nbsp;OFFER
-                  </Label>
-                </Col>
-                <Col sm={2} />
-              </FormGroup>
-              <FormGroup row>
-                <Label for="url" sm={2}>
-                  &nbsp; URL&nbsp;
-                </Label>
-                <Col sm={5} xs={12}>
-                  <Input
-                    type="text"
-                    name="url"
-                    id="url"
-                    placeholder="url for more information"
-                    onChange={this.handleChange}
-                    value={this.state.url}
-                  />
-                </Col>
-                <Col sm={5} />
-              </FormGroup>
-              <FormGroup row>
-                <Label for="timeRequired" sm={2}>
-                  &nbsp; Duration&nbsp;
-                </Label>
-                <Col sm={5} xs={12}>
-                  <Input
-                    type="text"
-                    name="timeRequired"
-                    id="timeRequired"
-                    placeholder="number of days"
-                    onChange={this.handleChange}
-                    value={this.state.timeRequired}
-                  />
-                </Col>
-                <Col sm={5} />
-              </FormGroup>
-              <FormGroup row>
-                <Label for="location" sm={2}>
-                  &nbsp;Location&nbsp;
-                </Label>
-                <Col sm={5}>
-                  <Input
-                    type="textarea"
-                    name="location"
-                    id="location"
-                    placeholder="e.g. London"
-                    onChange={this.handleChange}
-                    value={this.state.location}
-                  />
-                </Col>
-                <Col xs={3} id="locationDetectIconContainer">
-                  <Button
-                    onClick={e => this.detectLocation(e)}
-                    id="ToolTipUseCurrentLocationIcon"
-                    disabled={this.state.loadingLocationButtonDisabled}
-                    className="btn btn-block btn-md btn-success">
-                    Locate me&nbsp;
-                    <i className="material-icons">add_location</i>
-                  </Button>
-                </Col>
-                {this.state.loadingLocation ? (
-                  <Col xs={1}>
-                    <div className="RingLoader location-loading">
-                      <RingLoader
-                        color="#123abc"
-                        loading={this.state.loading}
-                        size={30} /*the size of the spinner*/
-                      />
-                    </div>
-                  </Col>
-                ) : (
-                  ""
-                )}
-              </FormGroup>
-              {this.state.locationError ? (
-                <Row>
-                  <Col sm={8} id="locationErrorInfo">
-                    <Alert color="danger"> {this.state.locationError}</Alert>
-                  </Col>
-                </Row>
-              ) : (
-                ""
-              )}
-              <PostInterestTags
-                onClick={this.handleMultipleSelect}
-                tagsRef={el => {
-                  this.selectElement = el;
-                }}
-              />
-              <FormGroup row>
-                <Col sm={4} />
-                <Col sm={4} xs={12} className="submitPost">
-                  <Button
-                    onClick={this.handleSubmitRequest}
-                    className="btn btn-block btn-md btn-danger"
-                    disabled={
-                      // a more accurate validation for location is needed
-                      this.state.location !== "" ? false : true
-                    }>
-                    &nbsp; &nbsp; &nbsp;
-                    {this.state.updateButton ? "Update" : "Submit"}&nbsp; &nbsp;
-                    &nbsp;
-                  </Button>
-                </Col>
-                <Col sm={4} />
-              </FormGroup>
-            </Form>
-          </Col>
-          <Col sm={1} />
-        </Row>
+                  <FormGroup>
+                    <Col />
+                    <Col className="submitPost">
+                      <hr />
+                      <Button
+                        onClick={this.handleSubmitRequest}
+                        className="submit btn btn-block btn-md"
+                        disabled={
+                          // a more accurate validation for location is needed
+                          this.state.location !== "" ? false : true
+                        }>
+                        &nbsp; &nbsp; &nbsp;
+                        {this.state.updateButton ? "Update" : "Post"}&nbsp;
+                        &nbsp; &nbsp;
+                      </Button>
+                    </Col>
+                    <Col sm={4} />
+                  </FormGroup>
+                </Form>
+              </Col>
+              <Col sm={1} />
+            </Row>
+          </Row>
+        </div>
       </div>
     );
   }
