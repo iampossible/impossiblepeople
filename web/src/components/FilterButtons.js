@@ -66,7 +66,7 @@ class FilterButtons extends Component {
             <Col sm={12}>
               <ButtonDropdown
                 isOpen={this.props.tagsDropdownOpen}
-                toggle={this.props.toggleTagesDropdown}>
+                toggle={this.props.toggleTagsDropdown}>
                 <DropdownToggle
                   caret
                   block
