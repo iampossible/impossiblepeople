@@ -16,23 +16,31 @@ export default class Footer extends Component {
         </Col>
         <Col sm={2} id="userAggreement">
           <p>
-            <a href="#">User Agreement</a>
+            <a href="/userAgreement" target="_blank">
+              User Agreement
+            </a>
           </p>
         </Col>
         <Col sm={2} id="privacyPlicy">
           <p>
-            <a href="#">Privacy Policy</a>
+            <a href="/privacyPolicy" target="_blank">
+              Privacy Policy
+            </a>
           </p>
         </Col>
         <Col sm={2} id="faq">
           <p>
-            <a href="#">FAQ</a>
+            <a href="/faq" target="_blank">
+              FAQ
+            </a>
           </p>
         </Col>
 
         <Col sm={2} id="feedback">
           <p>
-            <a href="#">Feedback</a>
+            <a href="/feedback" target="_blank">
+              Feedback
+            </a>
           </p>
         </Col>
       </Fragment>
