@@ -1,5 +1,6 @@
 import React, { Component } from "react";
-import { FormGroup, Col, Label, Input } from "reactstrap";
+import { Button } from "reactstrap";
+
 export class PostInterestTags extends Component {
   constructor(props) {
     super(props);
@@ -20,46 +21,37 @@ export class PostInterestTags extends Component {
         });
       });
   }
+
   handleChange = e => {
     this.props.onChange(e);
   };
+
   handleMultipleSelect = e => {
     this.props.onClick(e);
   };
+
   render() {
     const { featuredInterest } = this.state;
     return (
-      <FormGroup row>
-        <Col sm={2} xs={12}>
-          <Label for="interest">Tags</Label>
-        </Col>
-        <Col sm={9}>
-          <Input
-            type="select"
-            name="postInterestTags"
-            id="postInterestTags"
-            multiple={true}
-            ref={this.props.tagsRef}
-            onClick={this.handleMultipleSelect}>
-            {featuredInterest.map((interest, index) => {
-              return (
-                <option
-                  key={interest.interestID}
-                  value={interest.interestID}
-                  className="unSelectedTag">
-                  {interest.name}
-                </option>
-              );
-            })}
-          </Input>
-          <p id="selectInfo">
-            <i className="text-info fa fa-info-circle" aria-hidden="true" />&nbsp;&nbsp;
-            You can select multiple tags
-          </p>
-          <hr />
-        </Col>
-        <Col xs={1} />
-      </FormGroup>
+      <div id="interest">
+        <p> Interest </p>
+        {featuredInterest.map((interest, index) => {
+          return (
+            <Button
+              key={interest.interestID}
+              className={
+                this.props.interests.has(interest.interestID)
+                  ? "selectedTag btn___interest"
+                  : "btn___interest"
+              }
+              onClick={this.handleMultipleSelect}
+              value={interest.interestID}
+              ref={this.props.tagsRef}>
+              {interest.name}
+            </Button>
+          );
+        })}
+      </div>
     );
   }
 }
