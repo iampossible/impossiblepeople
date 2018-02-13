@@ -30,4 +30,13 @@ module.exports = class EmailService {
       newPassword: recoveredPassword
     });
   }
+  static sendFeedbackEmail(message) {
+    console.debug("EmailService@sendFeedbackEmail", message.email);
+    QueueWorkers.email("FEEDBACK_EMAIL_EVENT", {
+      fullName: message.fullName,
+      email: message.email,
+      subject: message.subject,
+      body: message.body
+    });
+  }
 };

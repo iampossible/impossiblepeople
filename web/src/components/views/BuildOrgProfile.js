@@ -108,7 +108,7 @@ export default class BuildOrgProfile extends Component {
         .catch(err => {
           this.setState(
             {
-              imageLoadError: `Can't upload Image: the image size is very large or it is not of JPG/JPEG type`
+              imageLoadError: `Can't upload Image: the image size is very large or it is not of JPG/JPEG/PNG/GIF type`
             },
             () => {
               //clear the error message
@@ -262,13 +262,17 @@ export default class BuildOrgProfile extends Component {
                       )}
                     </Col>
                     <Col sm={10} id="uploadButton">
+                      <span id="profileImageInfo">
+                        Image (must be in .png, .jpg or jpeg and not bigger than
+                        100px x 100px)
+                      </span>
                       <Label>
                         Update Your Profile Picture
                         <input
                           type="file"
                           name="orgProfileImage"
                           id="orgProfileImage"
-                          accept=".jpg, .jpeg, .png"
+                          accept=".jpg, .jpeg, .png, .gif"
                           onChange={this.handleImageSelection}
                         />
                       </Label>

@@ -84,6 +84,7 @@ if (config.logging === true) {
   "ImageController",
   "InterestController",
   "LocationController",
+  "FeedbackController",
   "PushNotificationController",
   "PostController",
   "ProfileController",

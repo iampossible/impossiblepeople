@@ -36,14 +36,13 @@ class DisplayPost extends Component {
             <Col sm={2}>
               <span>
                 <span>
-                  <a
+                  <span
                     className="updatePostIcon"
-                    href="#post"
-                    onClick={() =>
-                      this.props.handlePostUpdate(postData.postID)
-                    }>
+                    onClick={() => {
+                      return this.props.handlePostUpdate(postData.postID);
+                    }}>
                     <u>Edit</u>
-                  </a>
+                  </span>
                 </span>
                 <span>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;</span>
                 <span

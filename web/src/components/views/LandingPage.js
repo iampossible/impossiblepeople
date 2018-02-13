@@ -3,13 +3,7 @@ import { Row, Col, Button } from "reactstrap";
 import { RingLoader } from "react-spinners";
 import CreateUser from "./CreateUser";
 import Login from "./Login";
-
-function handleErrors(response) {
-  if (!response.ok) {
-    throw new Error(response.statusText);
-  }
-  return response;
-}
+import { handleErrors } from "../../utillity/helpers";
 
 export default class LandingPage extends Component {
   constructor() {
@@ -29,6 +23,8 @@ export default class LandingPage extends Component {
       confirmPassword: "",
       facebookLoginError: null,
       submit: true,
+      createUserError: "",
+      loginError: "",
 
       //to display error message if the user can't be allowed to login
       error: null
@@ -36,77 +32,129 @@ export default class LandingPage extends Component {
   }
 
   handleCreateUser = () => {
-    let newUser = {};
-    if (this.state.organisationName !== "") {
-      let {
-        validatePassword,
-        confirmPassword,
-        loading,
-        login,
-        register,
-        logInEmail,
-        logInPassword,
-        error,
-        facebookLoginError,
-        submit,
-        ...user
-      } = this.state;
-      Object.assign(newUser, user);
+    let error = [];
+    if (this.state.userType === "organisation") {
+      if (this.state.organisationName === "") {
+        error.push("You need to put your Organisation name");
+      }
+      if (this.state.role === "") {
+        error.push("You need to put your role");
+      }
+    }
+    if (this.state.firstName === "") {
+      error.push("You need to put your first name");
+    }
+    if (this.state.lastName === "") {
+      error.push("You need to put your last name");
+    }
+    if (this.state.email === "") {
+      error.push("You need to put your email address");
     } else {
-      let {
-        validatePassword,
-        organisationName,
-        role,
-        confirmPassword,
-        loading,
-        login,
-        register,
-        logInEmail,
-        logInPassword,
-        error,
-        facebookLoginError,
-        submit,
-        ...user
-      } = this.state;
-      Object.assign(newUser, user);
+      // regular expression to validate if the email address is in a valid format
+      let emailRegExp = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+      //verify the email address and notify success or error
+      if (!emailRegExp.test(this.state.email)) {
+        error.push("The email address " + this.state.email + " is not valid");
+      }
+    }
+    if (this.state.password === "") {
+      error.push("You need to put your password");
+    }
+    if (this.state.confirmPassword === "") {
+      error.push("You need to put your confirmation password");
     }
 
-    fetch("/api/user/create", {
-      credentials: "same-origin",
-      method: "POST",
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify(newUser)
-    })
-      .then(handleErrors)
-      .then(response => response.json())
-      .then(response => {
-        this.redirectOnSubmit(response);
+    if (error.length > 0) {
+      this.setState(
+        {
+          createUserError: error
+        },
+        () => {
+          //clear the error message
+          setTimeout(() => {
+            this.setState({
+              createUserError: ""
+            });
+          }, 5000);
+        }
+      );
+    } else {
+      let newUser = {};
+      if (this.state.organisationName !== "") {
+        let {
+          validatePassword,
+          confirmPassword,
+          loading,
+          login,
+          register,
+          logInEmail,
+          logInPassword,
+          error,
+          facebookLoginError,
+          submit,
+          createUserError,
+          loginError,
+          ...user
+        } = this.state;
+        Object.assign(newUser, user);
+      } else {
+        let {
+          validatePassword,
+          organisationName,
+          role,
+          confirmPassword,
+          loading,
+          login,
+          register,
+          logInEmail,
+          logInPassword,
+          error,
+          facebookLoginError,
+          submit,
+          createUserError,
+          loginError,
+          ...user
+        } = this.state;
+        Object.assign(newUser, user);
+      }
+
+      fetch("/api/user/create", {
+        credentials: "same-origin",
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(newUser)
       })
-      .catch(err => {
-        this.setState(
-          {
-            firstName: "",
-            lastName: "",
-            organisationName: "",
-            role: "",
-            email: "",
-            password: "",
-            confirmPassword: "",
-            error: err.message + " : the user already exists"
-          },
-          () => {
-            //clear the error message
-            setTimeout(() => {
-              this.setState({
-                error: ""
-              });
-            }, 5000);
-          }
-        );
-      });
+        .then(handleErrors)
+        .then(response => response.json())
+        .then(response => {
+          this.redirectOnSubmit(response);
+        })
+        .catch(err => {
+          this.setState(
+            {
+              firstName: "",
+              lastName: "",
+              organisationName: "",
+              role: "",
+              email: "",
+              password: "",
+              confirmPassword: "",
+              error: "Error : the user already exists"
+            },
+            () => {
+              //clear the error message
+              setTimeout(() => {
+                this.setState({
+                  error: ""
+                });
+              }, 5000);
+            }
+          );
+        });
+    }
   };
   handleUserAgreement = e => {
     this.setState({
@@ -214,36 +262,67 @@ export default class LandingPage extends Component {
   };
 
   handleLogin = () => {
-    const credentials = {
-      email: this.state.logInEmail,
-      password: this.state.logInPassword
-    };
+    let error = [];
 
-    fetch("/api/auth/login", {
-      credentials: "same-origin",
-      method: "POST",
-      body: JSON.stringify(credentials)
-    })
-      .then(handleErrors)
-      .then(response => response.json())
-      .then(response => {
-        if (response) {
-          this.redirectOnSubmit(response);
+    if (this.state.logInEmail === "") {
+      error.push("You need to put your email address");
+    } else {
+      // regular expression to validate if the email address is in a valid format
+      let emailRegExp = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+      //verify the email address and notify success or error
+      if (!emailRegExp.test(this.state.logInEmail)) {
+        error.push(
+          "The email address " + this.state.logInEmail + " is not valid"
+        );
+      }
+    }
+    if (this.state.logInPassword === "") {
+      error.push("You need to put your password");
+    }
+
+    if (error.length > 0) {
+      this.setState(
+        {
+          loginError: error
+        },
+        () => {
+          //clear the error message
+          setTimeout(() => {
+            this.setState({
+              loginError: ""
+            });
+          }, 5000);
         }
+      );
+    } else {
+      const credentials = {
+        email: this.state.logInEmail,
+        password: this.state.logInPassword
+      };
+
+      fetch("/api/auth/login", {
+        credentials: "same-origin",
+        method: "POST",
+        body: JSON.stringify(credentials)
       })
-      .catch(err => {
-        this.setState(
-          { error: err.message + ": The credentials are invalid " },
-          () => {
+        .then(handleErrors)
+        .then(response => response.json())
+        .then(response => {
+          if (response) {
+            this.redirectOnSubmit(response);
+          }
+        })
+        .catch(err => {
+          this.setState({ error: "oops: The credentials are invalid " }, () => {
             //clear the error message
             setTimeout(() => {
               this.setState({
                 error: ""
               });
             }, 5000);
-          }
-        );
-      });
+          });
+        });
+    }
   };
 
   redirectOnSubmit = user => {
@@ -290,7 +369,7 @@ export default class LandingPage extends Component {
                             ? "selectedUserTypeButton"
                             : ""
                         }>
-                        I'm a volunteer
+                        I'm an Individual
                       </Button>
                     </Col>
                     <Col sm={4}>
@@ -304,7 +383,7 @@ export default class LandingPage extends Component {
                             ? "selectedUserTypeButton"
                             : ""
                         }>
-                        I'm an organisation
+                        I'm a group
                       </Button>
                     </Col>
                     <Col sm={2} />
@@ -322,7 +401,7 @@ export default class LandingPage extends Component {
                       <Col sm={11}>
                         <p>
                           Connect with a community of volunteers and purposeful
-                          orgs.
+                          organisations.
                         </p>
                       </Col>
                     </Row>
@@ -382,6 +461,7 @@ export default class LandingPage extends Component {
                             facebookLoginError={this.state.facebookLoginError}
                             handleUserAgreement={this.handleUserAgreement}
                             submit={this.state.submit}
+                            createUserError={this.state.createUserError}
                           />
                         ) : (
                           <Login
@@ -392,6 +472,7 @@ export default class LandingPage extends Component {
                             handleChange={this.handleChange}
                             responseFacebook={this.responseFacebook}
                             facebookLoginError={this.state.facebookLoginError}
+                            loginError={this.state.loginError}
                           />
                         )}
                       </Col>
@@ -403,6 +484,19 @@ export default class LandingPage extends Component {
 
               <Col sm={2} />
             </Row>
+            <Row id="betaVersionInfo">
+              <Col sm={12}>
+                <p>
+                  <strong>TESTING TESTING</strong> ……
+                </p>
+                <p>
+                  Welcome to the Beta test version for Humankind . This is a
+                  work in progress. There will be lots of issues and we need you
+                  to help us to identify them. Please give us your feedback
+                  using the link below ( in footer)
+                </p>
+              </Col>
+            </Row>
           </Fragment>
         ) : (
           <Row>
@@ -412,7 +506,7 @@ export default class LandingPage extends Component {
                 <RingLoader
                   color="#123abc"
                   loading={this.state.loading}
-                  size={100} /*the size of the spinner*/
+                  size={70} /*the size of the spinner*/
                 />
               </div>
             </Col>

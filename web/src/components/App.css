@@ -25,25 +25,11 @@ blockquote:after {
 }
 
 body {
-    font: 200 1em/1.5em "Exo 2", "Helvetica Neue", Helvetica, Arial, sans-serif;
-    width: 100vh;
-    height: 100vh;
+    color: #000;
 }
 
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
-    font: 200 1.5em/1.5em "Exo 2", "Helvetica Neue", Helvetica, Arial, sans-serif;
-    color: #192243;
-    font-weight: 600;
-}
-
-p {
-    font-weight: 200;
-    /* padding-bottom: 10px; */
+strong {
+    font-weight: bold;
 }
 
 .App {
@@ -89,13 +75,12 @@ p {
 #headerFeedLink,
 #headerSignInLink,
 #headerProfileLink {
-    padding-top: 0.5em;
     padding-left: 0.5em;
     padding-right: 0;
-    margin-left: 1.5em;
+    padding-top: 0.5em;
     align-self: center;
     justify-content: flex-end;
-    color: #2b2555;
+    color: #000;
     font-weight: bold;
     margin-right: 2em;
     text-align: center;
@@ -107,7 +92,7 @@ p {
 }
 
 #headerProfileLink {
-    text-align: right;
+    text-align: center;
 }
 
 #headerFeedLink i {
@@ -127,6 +112,21 @@ p {
     margin-left: -1em;
 }
 
+#headerSignInLink {
+    text-align: right;
+}
+
+#headerLogoutLink {
+    padding-left: 0;
+    text-align: right;
+    margin-left: -1em;
+}
+
+#headerApproveOrgsLink {
+    text-align: right;
+    padding-right: 1em;
+}
+
 #headerApproveOrgsLink span,
 #headerLogoutLink span,
 #headerSignInLink span,
@@ -134,7 +134,7 @@ p {
 #headerProfileLink span {
     padding-left: 0.5em;
     padding-right: 0.5em;
-    padding-bottom: 1em;
+    padding-bottom: 0.7em;
 }
 
 .activePage {
@@ -153,7 +153,6 @@ p {
 #headerLogoutLink {
     margin-left: 0;
     margin-right: 0;
-    text-align: right;
 }
 
 #headerProfileLink img {
@@ -171,6 +170,18 @@ p {
     min-height: 100vh;
     margin-right: 0;
     background: #f7f6f6;
+    position: relative;
+}
+
+.App-main:before {
+    content: "";
+    background: #000;
+    width: 100vw;
+    height: 100%;
+    top: 0;
+    z-index: -3;
+    position: absolute;
+    opacity: 0.1;
 }
 
 .App-main>div {
@@ -206,6 +217,17 @@ p {
 #feedback,
 #faq {
     padding-top: 0.7em;
+}
+
+#userAggreement,
+#privacyPlicy,
+#feedback,
+#faq {
+    text-align: center;
+}
+
+#poweredby {
+    text-align: left;
 }
 
 #poweredby a,
@@ -246,6 +268,7 @@ p {
     margin: 5em auto;
     max-width: 650px;
     min-height: 550px;
+    margin-bottom: 2.5em;
 }
 
 #landingPageSignUpSignInContainer {
@@ -378,6 +401,14 @@ p {
 
 #loginFacebook .kep-login-facebook.metro {
     width: 100%;
+}
+
+#loginError,
+.createUserError,
+.feedbackError,
+.feedbackSucccess {
+    margin-top: 1em;
+    margin-bottom: 0;
 }
 
 #organisationNameLabel {
@@ -635,13 +666,14 @@ hr {
 }
 
 #filterPosts,
+#betaVersionInfo,
 .feed,
 #post,
 #noFeedMessage,
 #profile,
+.footerLinks,
 #unApprovedOrgsMesage {
     font-family: "Signika", sans-serif;
-    color: #192243;
     background-color: rgb(255, 255, 255);
     border: 1px solid #e6e7e9;
     -moz-border-radius: 5px;
@@ -684,13 +716,15 @@ hr {
     margin-bottom: 2.5em;
 }
 
-#profile {
+#profile,
+.footerLinks {
     margin: 2.5em 9em;
     margin-top: 2em;
     padding: 2em 3em;
 }
 
-#unApprovedOrgsMesage {
+#unApprovedOrgsMesage,
+#betaVersionInfo {
     margin: 2.5em 9em -1em 9em;
     margin-top: 2em;
     padding: 0.5em 1em;
@@ -698,11 +732,20 @@ hr {
     border: none;
 }
 
-#unApprovedOrgsMesage p {
+#unApprovedOrgsMesage p,
+#betaVersionInfo p {
     font-size: 1em;
     margin-bottom: 0;
     color: #fff;
+}
+
+#unApprovedOrgsMesage p {
     text-align: center;
+}
+
+#betaVersionInfo {
+    margin: 0 9em 1em 9em;
+    text-align: justify;
 }
 
 #unApprovedOrgsMesage p>i {
@@ -710,19 +753,20 @@ hr {
     vertical-align: middle;
 }
 
-#feedSection {
+#feedSection,
+#landingPage {
     position: relative;
     display: flex;
 }
 
 #filterPosts,
 #createPostButton {
-    top: 7.5em;
+    top: 6.9em;
     position: fixed;
 }
 
 #filterPosts {
-    left: 1em;
+    left: 0.5em;
 }
 
 #createPostButton {
@@ -788,6 +832,8 @@ hr {
     background: #fff;
     width: 100%;
     outline: 0;
+    max-height: 250px;
+    overflow: scroll;
 }
 
 #filterPostsByTags button.btn-primary,
@@ -962,7 +1008,7 @@ select option:checked {
 }
 
 .commentIcon {
-    text-align: right;
+    text-align: center;
     color: #498b9d;
 }
 
@@ -1259,10 +1305,9 @@ button {
     z-index: 100;
     width: 100%;
     top: auto;
-    right: 2.4%;
+    right: 2.5em;
     padding: 0.3em;
     text-align: center;
-    padding-top: 0.7em;
 }
 
 .updateDeletePostButtonsContainer div:nth-child(2):before {
@@ -1272,7 +1317,7 @@ button {
     z-index: -12;
     position: absolute;
     top: 3%;
-    right: 2.4%;
+    right: 0.3em;
     height: 100%;
     opacity: 0.4;
 }
@@ -1317,10 +1362,12 @@ button {
 .postImage {
     margin: 1em auto;
     margin-top: 0;
+    text-align: center;
 }
 
 .postImage img {
-    max-height: 200px;
+    max-height: 250px;
+    max-width: 740px;
     width: 100%;
 }
 
@@ -1364,6 +1411,7 @@ button {
 }
 
 #profilePictureContainer #profilePicture {
+    margin-top: 1em;
     width: 90px;
     height: 90px;
 }
@@ -1387,6 +1435,7 @@ button {
 
 #uploadButton {
     align-self: flex-end;
+    margin-top: 1em;
 }
 
 #uploadButton .col {
@@ -1400,13 +1449,19 @@ button {
 }
 
 #uploadButton label {
-    margin-left: -1em;
-    margin-top: 3.5em;
+    margin-left: 0.5em;
+    margin-top: 1em;
     color: gray;
     background-color: white;
     padding: 0;
-    font-size: 1em;
+    font-size: 0.9em;
+    width: 100%;
+}
+
+#post #uploadButton label {
     width: 200px;
+    font-size: 1em;
+    margin-top: 3.5em;
 }
 
 #uploadButton label:hover {
@@ -1423,6 +1478,12 @@ button {
     opacity: 0;
     cursor: pointer;
     width: 200px;
+}
+
+#profileImageInfo {
+    font-size: 0.8em;
+    color: inherit;
+    padding-left: 0.8em;
 }
 
 #askAndOffer {
@@ -1442,12 +1503,13 @@ button {
     color: white;
 }
 
-.btn-secondary:not(:disabled):not(.disabled):active,
-.btn-secondary:not(:disabled):not(.disabled).active,
+
+/* #post .btn-secondary:not(:disabled):not(.disabled):active,
+#post .btn-secondary:not(:disabled):not(.disabled).active,
 .show {
     background-color: #498a9c;
     color: white;
-}
+} */
 
 .form-group {
     margin-top: 20px;
@@ -1465,16 +1527,18 @@ button {
 
 #uploadImage {
     position: absolute;
+    color: #fff;
+    cursor: pointer;
+}
+
+#postPictureContainer #uploadImage {
     width: 100px;
     background-color: #000;
-    color: #fff;
     margin-left: 10px;
     text-align: center;
-    font-size: 1em;
-    top: 2.6em;
-    right: 0.9em;
+    top: 2.8em;
+    right: 1em;
     opacity: 0.5;
-    cursor: pointer;
 }
 
 #uploadImage:hover {
@@ -1548,6 +1612,21 @@ button {
     position: absolute;
     top: 3%;
     margin: auto;
+}
+
+#feedbackMessagebody {
+    height: 250px;
+}
+
+#feedbackMessageSendButton {
+    background-color: #68c5b5;
+    height: 61px;
+    width: 100%;
+    border-radius: 0;
+}
+
+#feedbackMessageSendButton:hover {
+    background-color: #c32830;
 }
 
 @media only screen and (max-width: 768px) {

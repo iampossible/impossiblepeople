@@ -46,6 +46,9 @@ let config = {
     sns: {
       Apple: process.env.AWS_SNS_APPLE || rawConfig.aws.sns.Apple,
       Android: process.env.AWS_SNS_ANDROID || rawConfig.aws.sns.Android
+    },
+    ses: {
+      from: process.env.SES_FROM || rawConfig.aws.ses.from
     }
   },
   facebook: {

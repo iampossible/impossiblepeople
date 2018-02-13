@@ -33,7 +33,7 @@ export default class DisplayComment extends Component {
             {this.props.comments && this.props.comments.length > 2 ? (
               <Fragment>
                 <ListGroupItem className="list-inline-item">
-                  <Col sm={3} className="commentIcon">
+                  <Col sm={4} className="commentIcon">
                     <span>
                       <i className="fa fa-comments" aria-hidden="true" />&nbsp;&nbsp;
                       <span

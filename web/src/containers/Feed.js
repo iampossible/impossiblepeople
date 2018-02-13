@@ -108,7 +108,9 @@ class Feed extends Component {
     let postToUpdate = this.state.feed.filter(
       feedData => feedData.postID === postID
     );
-    this.setState({ postToUpdate });
+    this.setState({ postToUpdate }, () => {
+      this.loadPost();
+    });
   };
 
   handlePostDelete = postID => {
@@ -160,7 +162,6 @@ class Feed extends Component {
     const keyCode = e.keyCode;
     //detecting enter key
     if (keyCode === 13) {
-      console.log("made comment");
       fetch(`/api/post/${postID}/comment`, {
         method: "POST",
         body: JSON.stringify({ content: this.state.newComment }),

@@ -5,8 +5,7 @@ export default class Footer extends Component {
   render() {
     return (
       <Fragment>
-        <Col sm={1} />
-        <Col sm={3} id="poweredby">
+        <Col sm={4} id="poweredby">
           <p>
             powered by&nbsp;&nbsp;&nbsp;&nbsp;
             <a href="#">
