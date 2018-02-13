@@ -175,7 +175,7 @@ export default class CreateUser extends Component {
                     onClick={this.props.handleUserAgreement}
                   />&nbsp;&nbsp;&nbsp;I have read the
                   <a target="_blank" href="/userAgreement">
-                    &nbsp;user aggrement&nbsp;
+                    &nbsp;&nbsp;user agreement&nbsp;&nbsp;
                   </a>
                   and agreed to that
                 </Label>
