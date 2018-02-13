@@ -1411,6 +1411,7 @@ button {
 }
 
 #profilePictureContainer #profilePicture {
+    margin-top: 1em;
     width: 90px;
     height: 90px;
 }
@@ -1434,6 +1435,7 @@ button {
 
 #uploadButton {
     align-self: flex-end;
+    margin-top: 1em;
 }
 
 #uploadButton .col {
@@ -1447,13 +1449,19 @@ button {
 }
 
 #uploadButton label {
-    margin-left: -1em;
-    margin-top: 3.5em;
+    margin-left: 0.5em;
+    margin-top: 1em;
     color: gray;
     background-color: white;
     padding: 0;
-    font-size: 1em;
+    font-size: 0.9em;
+    width: 100%;
+}
+
+#post #uploadButton label {
     width: 200px;
+    font-size: 1em;
+    margin-top: 3.5em;
 }
 
 #uploadButton label:hover {
@@ -1470,6 +1478,12 @@ button {
     opacity: 0;
     cursor: pointer;
     width: 200px;
+}
+
+#profileImageInfo {
+    font-size: 0.8em;
+    color: inherit;
+    padding-left: 0.8em;
 }
 
 #askAndOffer {
@@ -1513,16 +1527,18 @@ button {
 
 #uploadImage {
     position: absolute;
+    color: #fff;
+    cursor: pointer;
+}
+
+#postPictureContainer #uploadImage {
     width: 100px;
     background-color: #000;
-    color: #fff;
     margin-left: 10px;
     text-align: center;
-    font-size: 1em;
-    top: 2.6em;
-    right: 0.9em;
+    top: 2.8em;
+    right: 1em;
     opacity: 0.5;
-    cursor: pointer;
 }
 
 #uploadImage:hover {
