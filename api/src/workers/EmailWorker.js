@@ -20,6 +20,7 @@ class EmailWorker extends Worker {
     this.on("WELCOME_EMAIL_EVENT", this.onWelcome.bind(this));
     this.on("INVITE_EMAIL_EVENT", this.onInvite.bind(this));
     this.on("RECOVER_PASSWORD_EMAIL_EVENT", this.onRecoverPassword.bind(this));
+    this.on("FEEDBACK_EMAIL_EVENT", this.onFeedback.bind(this));
 
     this.templateStrings = {};
     Fs.readFile("templates/welcomeEmailHumankind.html", "utf8", (err, data) => {
@@ -64,7 +65,23 @@ class EmailWorker extends Worker {
       )
     });
   }
-
+  onFeedback(msg, id) {
+    console.log(id, "with", msg);
+    // params to pass to template engine: userFirstName, userLastName
+    this.sendEmail({
+      to: Config.aws.ses.from,
+      subject: "Feedback Message : " + msg.data.subject,
+      html:
+        "<p>you have got a feedback from " +
+        msg.data.fullName +
+        "&nbsp;&mdash;&nbsp;<u>" +
+        msg.data.email +
+        "</u></p>" +
+        "<p><b><u>Feedback:</u></b>&nbsp;" +
+        msg.data.body +
+        "</p>"
+    });
+  }
   onInvite(msg, id) {
     console.log(id, "with", msg);
     // params to pass to template engine: invitedBy.firstName, invitedBy.lastName
