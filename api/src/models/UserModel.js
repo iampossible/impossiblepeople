@@ -144,7 +144,7 @@ class UserModel extends Model {
     } else {
       //the default profile picture till the user changes it
       userData.imageSource =
-        "https://humankind-assets.s3.eu-west-1.amazonaws.com/profile/zD9QUxoPjea7y";
+        "https://humankind-assets.s3.eu-west-1.amazonaws.com/profile/pL8Pt4exeg4dZ";
     }
 
     if (userData.userType === "organisation") {
