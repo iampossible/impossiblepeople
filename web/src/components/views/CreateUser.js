@@ -173,8 +173,11 @@ export default class CreateUser extends Component {
                   <Input
                     type="checkbox"
                     onClick={this.props.handleUserAgreement}
-                  />&nbsp;&nbsp;&nbsp; I have read the
-                  <a href="/userAgreement"> user aggrement </a> and agree
+                  />&nbsp;&nbsp;&nbsp;I have read the
+                  <a target="_blank" href="/userAgreement">
+                    &nbsp;user aggrement&nbsp;
+                  </a>
+                  and agreed to that
                 </Label>
               </Col>
               <Col sm={1} />
