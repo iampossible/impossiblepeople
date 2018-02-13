@@ -63,7 +63,7 @@ class ImageController extends Controller {
       handler: this.imagePostHandler,
       validate: {
         imageData: Joi.string()
-          .regex(/^data:image\/jpe?g;base64,.+$/)
+          .regex(/^data:image\/((jpe?g)|(png)|(gif));base64,.+$/)
           .required()
       }
     });
@@ -76,7 +76,7 @@ class ImageController extends Controller {
       handler: this.imagePostPostHandler,
       validate: {
         imageData: Joi.string()
-          .regex(/^data:image\/png;base64,.+$/)
+          .regex(/^data:image\/((jpe?g)|(png));base64,.+$/)
           .required()
       }
     });
@@ -84,19 +84,25 @@ class ImageController extends Controller {
 
   imagePostHandler(request, reply) {
     let body = new Buffer(
-      request.payload.imageData.replace(/data:image\/jpe?g;base64,/, ""),
+      request.payload.imageData.replace(
+        /data:image\/((jpe?g?)|(png)|(gif));base64,/,
+        ""
+      ),
       "base64"
     );
 
     let hex = body.toString("hex", 0, 4);
 
-    if (hex !== validImages.jpg) {
-      return reply({ msg: "not a JPEG file" }).code(400);
+    if (
+      hex !== validImages.jpg &&
+      hex !== validImages.png &&
+      hex !== validImages.gif
+    ) {
+      return reply({ msg: "not a PNG, JPEG, JPG, GIF file" }).code(400);
     }
 
     let newImageKey = Hasher.encode(request.auth.credentials.id, Date.now());
     let s3 = new AWS.S3();
-    console.log(AWS.config);
 
     uploadImage(s3, body, `profile/${newImageKey}`, (error, data) => {
       if (error) {
@@ -125,14 +131,17 @@ class ImageController extends Controller {
   //post
   imagePostPostHandler(request, reply) {
     let body = new Buffer(
-      request.payload.imageData.replace(/data:image\/png;base64,/, ""),
+      request.payload.imageData.replace(
+        /data:image\/((jpe?g?)|(png));base64,/,
+        ""
+      ),
       "base64"
     );
 
     let hex = body.toString("hex", 0, 4);
 
-    if (hex !== validImages.png) {
-      return reply({ msg: "not a PNG file" }).code(400);
+    if (hex !== validImages.png && hex !== validImages.jpg) {
+      return reply({ msg: "not a PNG, JPEG, JPG file" }).code(400);
     }
 
     let newImageKey = Hasher.encode(request.auth.credentials.id, Date.now());
