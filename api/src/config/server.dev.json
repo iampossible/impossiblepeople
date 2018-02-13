@@ -12,14 +12,14 @@
             "Android": ""
         },
         "ses": {
-            "from": "hello@humakindhub.org"
+            "from": "hello@humankindhub.org"
         }
     },
     "neo4j": {
         "host": "http://neo4j:7474"
     },
     "smtp": {
-        "from": "hello@humakindhub.org"
+        "from": "hello@humankindhub.org"
     },
     "cookieTTL": 86400000,
     "login": {
