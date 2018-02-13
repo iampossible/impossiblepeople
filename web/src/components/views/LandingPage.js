@@ -487,11 +487,13 @@ export default class LandingPage extends Component {
             <Row id="betaVersionInfo">
               <Col sm={12}>
                 <p>
-                  <strong>TESTING TESTING</strong> ……. Welcome to the Beta test
-                  version for Humankind . This is a work in progress. There will
-                  be lots of issues and we need you to help us to identify them.
-                  Please give us your feedback using the button below ( in
-                  footer)
+                  <strong>TESTING TESTING</strong> ……
+                </p>
+                <p>
+                  Welcome to the Beta test version for Humankind . This is a
+                  work in progress. There will be lots of issues and we need you
+                  to help us to identify them. Please give us your feedback
+                  using the link below ( in footer)
                 </p>
               </Col>
             </Row>
