@@ -70,7 +70,9 @@ class FilterButtons extends Component {
                 <DropdownToggle
                   caret
                   className="btn btn-primary btn-block"
-                  disabled={this.props.interests.length === 0}>
+                  disabled={
+                    this.props.interests && this.props.interests.length === 0
+                  }>
                   Categories
                 </DropdownToggle>
                 <DropdownMenu>
