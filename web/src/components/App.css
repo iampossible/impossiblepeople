@@ -25,26 +25,11 @@ blockquote:after {
 }
 
 body {
-    font: 200 1em/1.5em "Exo 2", "Helvetica Neue", Helvetica, Arial, sans-serif;
-    width: 100vh;
-    height: 100vh;
-    overflow-x: hidden;
+    color: #000;
 }
 
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
-    font: 200 1.5em/1.5em "Exo 2", "Helvetica Neue", Helvetica, Arial, sans-serif;
-    color: #192243;
-    font-weight: 600;
-}
-
-p {
-    font-weight: 200;
-    /* padding-bottom: 10px; */
+strong {
+    font-weight: bold;
 }
 
 .App {
@@ -90,13 +75,12 @@ p {
 #headerFeedLink,
 #headerSignInLink,
 #headerProfileLink {
-    padding-top: 0.5em;
     padding-left: 0.5em;
     padding-right: 0;
-    margin-left: 1.5em;
+    padding-top: 0.5em;
     align-self: center;
     justify-content: flex-end;
-    color: #2b2555;
+    color: #000;
     font-weight: bold;
     margin-right: 2em;
     text-align: center;
@@ -108,7 +92,7 @@ p {
 }
 
 #headerProfileLink {
-    text-align: right;
+    text-align: center;
 }
 
 #headerFeedLink i {
@@ -128,6 +112,21 @@ p {
     margin-left: -1em;
 }
 
+#headerSignInLink {
+    text-align: right;
+}
+
+#headerLogoutLink {
+    padding-left: 0;
+    text-align: right;
+    margin-left: -1em;
+}
+
+#headerApproveOrgsLink {
+    text-align: right;
+    padding-right: 1em;
+}
+
 #headerApproveOrgsLink span,
 #headerLogoutLink span,
 #headerSignInLink span,
@@ -135,7 +134,7 @@ p {
 #headerProfileLink span {
     padding-left: 0.5em;
     padding-right: 0.5em;
-    padding-bottom: 1em;
+    padding-bottom: 0.7em;
 }
 
 .activePage {
@@ -154,7 +153,6 @@ p {
 #headerLogoutLink {
     margin-left: 0;
     margin-right: 0;
-    text-align: right;
 }
 
 #headerProfileLink img {
@@ -172,6 +170,18 @@ p {
     min-height: 100vh;
     margin-right: 0;
     background: #f7f6f6;
+    position: relative;
+}
+
+.App-main:before {
+    content: "";
+    background: #000;
+    width: 100vw;
+    height: 100%;
+    top: 0;
+    z-index: -3;
+    position: absolute;
+    opacity: 0.1;
 }
 
 .App-main>div {
@@ -207,6 +217,17 @@ p {
 #feedback,
 #faq {
     padding-top: 0.7em;
+}
+
+#userAggreement,
+#privacyPlicy,
+#feedback,
+#faq {
+    text-align: center;
+}
+
+#poweredby {
+    text-align: left;
 }
 
 #poweredby a,
@@ -382,7 +403,9 @@ p {
 }
 
 #loginError,
-.createUserError {
+.createUserError,
+.feedbackError,
+.feedbackSucccess {
     margin-top: 1em;
     margin-bottom: 0;
 }
@@ -642,13 +665,14 @@ hr {
 }
 
 #filterPosts,
+#betaVersionInfo,
 .feed,
 #post,
 #noFeedMessage,
 #profile,
+.footerLinks,
 #unApprovedOrgsMesage {
     font-family: "Signika", sans-serif;
-    color: #192243;
     background-color: rgb(255, 255, 255);
     border: 1px solid #e6e7e9;
     -moz-border-radius: 5px;
@@ -691,13 +715,15 @@ hr {
     margin-bottom: 2.5em;
 }
 
-#profile {
+#profile,
+.footerLinks {
     margin: 2.5em 9em;
     margin-top: 2em;
     padding: 2em 3em;
 }
 
-#unApprovedOrgsMesage {
+#unApprovedOrgsMesage,
+#betaVersionInfo {
     margin: 2.5em 9em -1em 9em;
     margin-top: 2em;
     padding: 0.5em 1em;
@@ -705,7 +731,12 @@ hr {
     border: none;
 }
 
-#unApprovedOrgsMesage p {
+#betaVersionInfo {
+    margin: 0 9em 1em 9em;
+}
+
+#unApprovedOrgsMesage p,
+#betaVersionInfo p {
     font-size: 1em;
     margin-bottom: 0;
     color: #fff;
@@ -717,19 +748,20 @@ hr {
     vertical-align: middle;
 }
 
-#feedSection {
+#feedSection,
+#landingPage {
     position: relative;
     display: flex;
 }
 
 #filterPosts,
 #createPostButton {
-    top: 7.5em;
+    top: 6.9em;
     position: fixed;
 }
 
 #filterPosts {
-    left: 1em;
+    left: 0.5em;
 }
 
 #createPostButton {
@@ -971,7 +1003,7 @@ select option:checked {
 }
 
 .commentIcon {
-    text-align: right;
+    text-align: center;
     color: #498b9d;
 }
 
@@ -1268,10 +1300,9 @@ button {
     z-index: 100;
     width: 100%;
     top: auto;
-    right: 2.4%;
+    right: 2.5em;
     padding: 0.3em;
     text-align: center;
-    padding-top: 0.7em;
 }
 
 .updateDeletePostButtonsContainer div:nth-child(2):before {
@@ -1281,7 +1312,7 @@ button {
     z-index: -12;
     position: absolute;
     top: 3%;
-    right: 2.4%;
+    right: 0.3em;
     height: 100%;
     opacity: 0.4;
 }
@@ -1326,10 +1357,12 @@ button {
 .postImage {
     margin: 1em auto;
     margin-top: 0;
+    text-align: center;
 }
 
 .postImage img {
-    max-height: 200px;
+    max-height: 250px;
+    max-width: 740px;
     width: 100%;
 }
 
@@ -1558,6 +1591,21 @@ button {
     position: absolute;
     top: 3%;
     margin: auto;
+}
+
+#feedbackMessagebody {
+    height: 250px;
+}
+
+#feedbackMessageSendButton {
+    background-color: #68c5b5;
+    height: 61px;
+    width: 100%;
+    border-radius: 0;
+}
+
+#feedbackMessageSendButton:hover {
+    background-color: #c32830;
 }
 
 @media only screen and (max-width: 768px) {
