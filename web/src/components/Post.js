@@ -379,7 +379,7 @@ export default class Post extends Component {
         .catch(err => {
           this.setState(
             {
-              imageLoadError: `Can't upload Image: the image size is very large or it is not of JPG/JPEG type`
+              imageLoadError: `Can't upload Image: the image size is very large or it is not of JPG/JPEG/PNG type`
             },
             () => {
               //clear the error message
