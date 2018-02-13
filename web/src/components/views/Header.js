@@ -81,7 +81,7 @@ class Header extends Component {
           <img src={headerImage} alt="header" />
         </Col>
         {user && !user.admin && location.pathname !== "/" ? (
-          <Col sm={1} />
+          <Col sm={3} />
         ) : null}
         {user &&
         user.admin &&
@@ -90,7 +90,7 @@ class Header extends Component {
         location.pathname !== "/privacyPolicy" &&
         location.pathname !== "/faq" &&
         location.pathname !== "/feedback" ? (
-          <Col sm={2} id="headerApproveOrgsLink">
+          <Col sm={3} id="headerApproveOrgsLink">
             <span
               className={location.pathname === "/admin" ? "activePage" : ""}
               onClick={() => {
@@ -98,12 +98,13 @@ class Header extends Component {
                   pathname: "/admin"
                 });
               }}>
-              Manage&nbsp;&nbsp;<i className="fa fa-gears" aria-hidden="true" />
+              Manage User&nbsp;&nbsp;<i
+                className="fa fa-gears"
+                aria-hidden="true"
+              />
             </span>
           </Col>
-        ) : (
-          <Col sm={1} />
-        )}
+        ) : null}
         {location.pathname !== "/" &&
         location.pathname !== "/userAgreement" &&
         location.pathname !== "/privacyPolicy" &&
@@ -125,7 +126,7 @@ class Header extends Component {
         location.pathname === "/" ? (
           <Fragment>
             <Col sm={2} />
-            <Col sm={1} id="headerSignInLink">
+            <Col sm={2} id="headerSignInLink">
               <span
                 name="dispalyLoginForm"
                 onClick={this.props.toggleDisplayForm}>
