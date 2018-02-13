@@ -152,17 +152,6 @@ class NotificationWorker extends Worker {
   }
 
   sendCommentNotificationEmail(notificationEndpoint, body) {
-    //using nodemailer-ses-transport
-    // var transporter = Nodemailer.createTransport(
-    //   ses({
-    //     accessKeyId: Config.aws.accessKey,
-    //     logger: console.info,
-    //     region: "eu-west-1",
-    //     secretAccessKey: Config.aws.secretKey,
-    //     sslEnabled: true
-    //   })
-    // );
-
     // using sms directly
     var params = {
       Destination: {
@@ -185,7 +174,7 @@ class NotificationWorker extends Worker {
           Data: "humankind: a comment is made on your post"
         }
       },
-      Source: Config.smtp.from
+      Source: Config.aws.ses.from
     };
 
     // Create the promise and SES service object
