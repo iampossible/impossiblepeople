@@ -3,13 +3,7 @@ import { Row, Col, Button } from "reactstrap";
 import { RingLoader } from "react-spinners";
 import CreateUser from "./CreateUser";
 import Login from "./Login";
-
-function handleErrors(response) {
-  if (!response.ok) {
-    throw new Error(response.statusText);
-  }
-  return response;
-}
+import { handleErrors } from "../../utillity/helpers";
 
 export default class LandingPage extends Component {
   constructor() {
@@ -375,7 +369,7 @@ export default class LandingPage extends Component {
                             ? "selectedUserTypeButton"
                             : ""
                         }>
-                        I'm a volunteer
+                        I'm an Individual
                       </Button>
                     </Col>
                     <Col sm={4}>
@@ -389,7 +383,7 @@ export default class LandingPage extends Component {
                             ? "selectedUserTypeButton"
                             : ""
                         }>
-                        I'm an organisation
+                        I'm a group
                       </Button>
                     </Col>
                     <Col sm={2} />
@@ -407,7 +401,7 @@ export default class LandingPage extends Component {
                       <Col sm={11}>
                         <p>
                           Connect with a community of volunteers and purposeful
-                          orgs.
+                          organisations.
                         </p>
                       </Col>
                     </Row>
@@ -489,6 +483,17 @@ export default class LandingPage extends Component {
               </Col>
 
               <Col sm={2} />
+            </Row>
+            <Row id="betaVersionInfo">
+              <Col sm={12}>
+                <p>
+                  <strong>TESTING TESTING</strong> ……. Welcome to the Beta test
+                  version for Humankind . This is a work in progress. There will
+                  be lots of issues and we need you to help us to identify them.
+                  Please give us your feedback using the button below ( in
+                  footer)
+                </p>
+              </Col>
             </Row>
           </Fragment>
         ) : (
