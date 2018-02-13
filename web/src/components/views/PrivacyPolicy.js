@@ -385,6 +385,10 @@ export default class PrivacyPolicy extends Component {
                 policy, please send them to
                 <strong>support@humankindhub.org</strong>
               </p>
+              <p>
+                Registered data owner is : weareonecollective Registration ICO
+                reg number : ZA316041
+              </p>
             </Col>
             <Col sm={1} />
           </Row>
