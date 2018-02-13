@@ -108,7 +108,7 @@ export default class BuildIndividualsProfile extends Component {
         .catch(err => {
           this.setState(
             {
-              imageLoadError: `Can't upload Image: the image size is very large or it is not of JPG/JPEG type`
+              imageLoadError: `Can't upload Image: the image size is very large or it is not of JPG/JPEG/PNG/GIF type`
             },
             () => {
               //clear the error message
@@ -237,7 +237,7 @@ export default class BuildIndividualsProfile extends Component {
                         id="ringLoader"
                         color="#123abc"
                         loading={this.state.loading}
-                        size={100} /*the size of the spinner*/
+                        size={60} /*the size of the spinner*/
                       />
                     ) : (
                       <img
@@ -251,14 +251,18 @@ export default class BuildIndividualsProfile extends Component {
                       />
                     )}
                   </Col>
-                  <Col sm={4} id="uploadButton">
+                  <Col sm={10} id="uploadButton">
+                    <span id="profileImageInfo">
+                      Image (must be in .png, .jpg or jpeg and not bigger than
+                      100px x 100px)
+                    </span>
                     <Label>
                       Update Your Profile Picture
                       <input
                         type="file"
                         name="profileImage"
                         id="profileImage"
-                        accept=".jpg, .jpeg, .png"
+                        accept=".jpg, .jpeg, .png, .gif"
                         onChange={this.handleImageSelection}
                       />
                     </Label>
