@@ -56,8 +56,10 @@ class Header extends Component {
                       pathname: "/profile"
                     });
                   }}>
-                  <img src={user.imageSource} id="myProfileLinkImage" />{" "}
-                  &nbsp;&nbsp;&nbsp;&nbsp;My Profile
+                  <img src={user.imageSource} id="myProfileLinkImage" />
+                  <span className="headerLinkTextContent">
+                    &nbsp;&nbsp;&nbsp;&nbsp;My Profile
+                  </span>
                 </span>
               </Col>
             ) : null}
@@ -71,7 +73,10 @@ class Header extends Component {
                     });
                   }}>
                   <i className="fa fa-file-text" aria-hidden="true" />
-                  &nbsp;&nbsp;&nbsp;&nbsp;My Feed
+                  <span className="headerLinkTextContent">
+                    {" "}
+                    &nbsp;&nbsp;&nbsp;&nbsp;My Feed
+                  </span>
                 </span>
               </Col>
             ) : null}
@@ -98,10 +103,11 @@ class Header extends Component {
                   pathname: "/admin"
                 });
               }}>
-              Manage User&nbsp;&nbsp;<i
-                className="fa fa-gears"
-                aria-hidden="true"
-              />
+              <span className="headerLinkTextContent">
+                {" "}
+                Manage User&nbsp;&nbsp;
+              </span>
+              <i className="fa fa-gears" aria-hidden="true" />
             </span>
           </Col>
         ) : null}
@@ -112,10 +118,8 @@ class Header extends Component {
         location.pathname !== "/feedback" ? (
           <Col sm={1} id="headerLogoutLink">
             <span onClick={this.handlelogout}>
-              Logout &nbsp;&nbsp;<i
-                className="fa fa-sign-out"
-                aria-hidden="true"
-              />
+              <span className="headerLinkTextContent">Logout&nbsp;&nbsp;</span>
+              <i className="fa fa-sign-out" aria-hidden="true" />
             </span>
           </Col>
         ) : null}

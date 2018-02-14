@@ -147,7 +147,7 @@ class App extends Component {
     return (
       <Router>
         <div className="App">
-          <Row className="App-header">
+          <Row className="App-header fullheight">
             <Col xs={12}>
               <header>
                 <Header
@@ -157,7 +157,7 @@ class App extends Component {
               </header>
             </Col>
           </Row>
-          <Row className="App-main">
+          <Row className="App-main fullheight">
             <Col xs={12}>
               <Main
                 user={this.state.user}
@@ -170,7 +170,7 @@ class App extends Component {
               />
             </Col>
           </Row>
-          <Row className="App-footer">
+          <Row className="App-footer fullheight">
             <Footer />
           </Row>
         </div>

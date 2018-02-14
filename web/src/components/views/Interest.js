@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { Component, Fragment } from "react";
 import { Button, ListGroup, ListGroupItem, Row, Col } from "reactstrap";
 import { RingLoader } from "react-spinners";
 import { CSSTransitionGroup } from "react-transition-group";
@@ -31,9 +31,56 @@ export default class Interest extends Component {
       });
   }
 
+  displayInterestButton = interest => {
+    const TRANSITION_APPEAR_TIMEOUT = 3000;
+    return (
+      <ListGroupItem key={interest.interestID}>
+        <Button
+          className={
+            this.props.interests.has(interest.interestID)
+              ? "interestButton  btn-block btn-md selectedButton"
+              : "interestButton  btn-block btn-md"
+          }
+          onClick={e => {
+            this.props.handleInterestSelection(e);
+          }}
+          value={interest.interestID}>
+          {interest.name}
+        </Button>
+        {interest.tags ? (
+          <p
+            className="interestDetail-info"
+            onClick={() =>
+              this.props.toggleShowInterestsMoreInfo(interest.interestID)
+            }>
+            <i className="fa fa-info-circle" aria-hidden="true" />
+          </p>
+        ) : null}
+        {this.props.showInterestsMoreInfo === interest.interestID &&
+        interest.tags ? (
+          <CSSTransitionGroup
+            transitionName="fadeCommentContainer"
+            transitionAppear={true}
+            transitionAppearTimeout={TRANSITION_APPEAR_TIMEOUT}
+            transitionEnter={false}
+            transitionLeave={false}>
+            <p className="relatedTagsHeading">It includes</p>
+            <ul className="relatedTags">
+              {interest.tags.map(tag => (
+                <li key={`interest.id ${tag}`}>&ndash;&nbsp;{tag}</li>
+              ))}
+            </ul>
+          </CSSTransitionGroup>
+        ) : null}
+      </ListGroupItem>
+    );
+  };
   render() {
     const { featuredInterest } = this.state;
-    const TRANSITION_APPEAR_TIMEOUT = 3000;
+
+    const OTHER_INTERESTID = "cddf8db1";
+    const otherInterest = { interestID: OTHER_INTERESTID, name: "Other" };
+    let i = 0;
 
     return this.state.loading ? (
       <Row>
@@ -56,51 +103,17 @@ export default class Interest extends Component {
           <Col sm={10} id="listOfInterests">
             <ListGroup className="d-flex flex-row flex-wrap align-content-center">
               {featuredInterest.map((interest, index) => {
-                return (
-                  <ListGroupItem key={interest.interestID}>
-                    <Button
-                      className={
-                        this.props.interests.has(interest.interestID)
-                          ? "interestButton  btn-block btn-md btn-inverse "
-                          : "interestButton  btn-block btn-md btn-primary"
-                      }
-                      onClick={e => {
-                        this.props.handleInterestSelection(e);
-                      }}
-                      value={interest.interestID}>
-                      {interest.name}
-                    </Button>
-                    {interest.tags ? (
-                      <p
-                        className="interestDetail-info"
-                        onClick={() =>
-                          this.props.toggleShowInterestsMoreInfo(
-                            interest.interestID
-                          )
-                        }>
-                        <i className="fa fa-info-circle" aria-hidden="true" />
-                      </p>
-                    ) : null}
-                    {this.props.showInterestsMoreInfo === interest.interestID &&
-                    interest.tags ? (
-                      <CSSTransitionGroup
-                        transitionName="fadeCommentContainer"
-                        transitionAppear={true}
-                        transitionAppearTimeout={TRANSITION_APPEAR_TIMEOUT}
-                        transitionEnter={false}
-                        transitionLeave={false}>
-                        <p className="relatedTagsHeading">It includes</p>
-                        <ul className="relatedTags">
-                          {interest.tags.map(tag => (
-                            <li key={`interest.id ${tag}`}>
-                              &ndash;&nbsp;{tag}
-                            </li>
-                          ))}
-                        </ul>
-                      </CSSTransitionGroup>
-                    ) : null}
-                  </ListGroupItem>
-                );
+                i++;
+                if (interest.interestID !== OTHER_INTERESTID) {
+                  return (
+                    <Fragment>
+                      {this.displayInterestButton(interest)}
+                      {i === featuredInterest.length
+                        ? this.displayInterestButton(otherInterest)
+                        : null}
+                    </Fragment>
+                  );
+                }
               })}
             </ListGroup>
           </Col>
