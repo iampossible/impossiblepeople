@@ -38,41 +38,42 @@ export class PostInterestTags extends Component {
     return (
       <div id="interest">
         <p> Interest </p>
-        {featuredInterest.map((interest, index) => {
-          i++;
-          if (interest.interestID !== OTHER_INTERESTID) {
-            return (
-              <Fragment>
-                <Button
-                  key={interest.interestID}
-                  className={
-                    this.props.interests.has(interest.interestID)
-                      ? "selectedTag btn___interest"
-                      : "btn___interest"
-                  }
-                  onClick={this.handleMultipleSelect}
-                  value={interest.interestID}
-                  ref={this.props.tagsRef}>
-                  {interest.name}
-                </Button>
-                {i === featuredInterest.length ? (
+        {featuredInterest &&
+          featuredInterest.map((interest, index) => {
+            i++;
+            if (interest.interestID !== OTHER_INTERESTID) {
+              return (
+                <Fragment>
                   <Button
-                    key={otherInterest.interestID}
+                    key={interest.interestID}
                     className={
-                      this.props.interests.has(otherInterest.interestID)
+                      this.props.interests.has(interest.interestID)
                         ? "selectedTag btn___interest"
                         : "btn___interest"
                     }
                     onClick={this.handleMultipleSelect}
-                    value={otherInterest.interestID}
+                    value={interest.interestID}
                     ref={this.props.tagsRef}>
-                    {otherInterest.name}
+                    {interest.name}
                   </Button>
-                ) : null}
-              </Fragment>
-            );
-          }
-        })}
+                  {i === featuredInterest.length ? (
+                    <Button
+                      key={otherInterest.interestID}
+                      className={
+                        this.props.interests.has(otherInterest.interestID)
+                          ? "selectedTag btn___interest"
+                          : "btn___interest"
+                      }
+                      onClick={this.handleMultipleSelect}
+                      value={otherInterest.interestID}
+                      ref={this.props.tagsRef}>
+                      {otherInterest.name}
+                    </Button>
+                  ) : null}
+                </Fragment>
+              );
+            }
+          })}
       </div>
     );
   }
