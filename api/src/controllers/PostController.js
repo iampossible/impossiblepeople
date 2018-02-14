@@ -26,11 +26,15 @@ class PostController extends Controller {
         location: Joi.string(),
         latitude: Joi.number()
           .min(-90)
-          .max(90),
+          .max(90)
+          .allow(""),
         longitude: Joi.number()
           .min(-180)
-          .max(180),
-        timeRequired: Joi.number().integer(),
+          .max(180)
+          .allow(""),
+        timeRequired: Joi.number()
+          .integer()
+          .allow(""),
         interests: Joi.array().required(),
         imageSource: Joi.string(),
         url: Joi.string().allow("")
@@ -60,11 +64,15 @@ class PostController extends Controller {
         location: Joi.string(),
         latitude: Joi.number()
           .min(-90)
-          .max(90),
+          .max(90)
+          .allow(""),
         longitude: Joi.number()
           .min(-180)
-          .max(180),
-        timeRequired: Joi.number().integer(),
+          .max(180)
+          .allow(""),
+        timeRequired: Joi.number()
+          .integer()
+          .allow(""),
         interests: Joi.array().required(),
         imageSource: Joi.string(),
         url: Joi.string().allow("")
