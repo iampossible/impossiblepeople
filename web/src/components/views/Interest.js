@@ -102,19 +102,20 @@ export default class Interest extends Component {
           <Col sm={1} />
           <Col sm={10} id="listOfInterests">
             <ListGroup className="d-flex flex-row flex-wrap align-content-center">
-              {featuredInterest.map((interest, index) => {
-                i++;
-                if (interest.interestID !== OTHER_INTERESTID) {
-                  return (
-                    <Fragment>
-                      {this.displayInterestButton(interest)}
-                      {i === featuredInterest.length
-                        ? this.displayInterestButton(otherInterest)
-                        : null}
-                    </Fragment>
-                  );
-                }
-              })}
+              {featuredInterest &&
+                featuredInterest.map((interest, index) => {
+                  i++;
+                  if (interest.interestID !== OTHER_INTERESTID) {
+                    return (
+                      <Fragment>
+                        {this.displayInterestButton(interest)}
+                        {i === featuredInterest.length
+                          ? this.displayInterestButton(otherInterest)
+                          : null}
+                      </Fragment>
+                    );
+                  }
+                })}
             </ListGroup>
           </Col>
           <Col sm={1} />
