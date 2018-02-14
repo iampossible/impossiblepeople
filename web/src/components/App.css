@@ -25,7 +25,12 @@ blockquote:after {
 }
 
 body {
-    color: #000;
+    background: #ffffff;
+    color: #000000;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    font-size: 16px;
 }
 
 strong {
@@ -39,6 +44,8 @@ strong {
 }
 
 .App-header {
+    max-width: 1420px;
+    display: flex;
     padding: 30px;
     padding-top: 15px;
     padding-bottom: 10px;
@@ -77,7 +84,7 @@ strong {
 #headerProfileLink {
     padding-left: 0.5em;
     padding-right: 0;
-    padding-top: 0.5em;
+    padding-top: 0.8em;
     align-self: center;
     justify-content: flex-end;
     color: #000;
@@ -89,6 +96,7 @@ strong {
 
 #headerFeedLink {
     text-align: left;
+    padding-top: 0.5em;
 }
 
 #headerProfileLink {
@@ -107,6 +115,8 @@ strong {
     margin-right: 0;
 }
 
+#headerFeedLink {}
+
 #headerSignInLink {
     text-align: center;
     margin-left: -1em;
@@ -120,6 +130,10 @@ strong {
     padding-left: 0;
     text-align: right;
     margin-left: -1em;
+}
+
+#headerLogoutLink .headerLinkTextContent {
+    padding-left: 0;
 }
 
 #headerApproveOrgsLink {
@@ -156,6 +170,7 @@ strong {
 }
 
 #headerProfileLink img {
+    margin-bottom: 0.5em;
     width: 30px;
     height: 30px;
     border-radius: 50%;
@@ -163,6 +178,8 @@ strong {
 }
 
 .App-main {
+    display: flex;
+    max-width: 1420px;
     margin: 0;
     padding-right: 0;
     padding-left: 0;
@@ -171,6 +188,7 @@ strong {
     margin-right: 0;
     background: #f7f6f6;
     position: relative;
+    overflow-x: hidden;
 }
 
 .App-main:before {
@@ -192,6 +210,7 @@ strong {
 
 .App-footer {
     display: flex;
+    max-width: 1420px;
     justify-content: flex-start;
     background: #68c5b5;
     width: 100vw;
@@ -463,11 +482,12 @@ strong {
 #profile .list-group-item {
     padding: 0;
     border-radius: 0;
-    margin-left: 20px;
-    margin-right: 20px;
+    margin-left: 1.5em;
+    margin-right: 1.5em;
     margin-bottom: 1em;
     border: 0;
     margin-bottom: 2em;
+    flex-basis: 26%;
 }
 
 #profile #listOfInterests {
@@ -484,7 +504,7 @@ strong {
     cursor: pointer;
     margin-right: -1.4em;
     margin-top: -1.3em;
-    color: cornsilk;
+    color: #6acf89;
     font-size: 1.1em;
 }
 
@@ -518,12 +538,13 @@ strong {
 
 .interestButton {
     border: none;
+    background-color: #d8d8d8;
+    color: #000;
 }
 
 .selectedButton {
     color: #000;
-    background-color: #727b84;
-    opacity: 0.65;
+    background-color: #fed976;
 }
 
 .interest {
@@ -554,7 +575,7 @@ strong {
 
 .interestButton:hover,
 .selectedButton:hover {
-    background-color: #34324b;
+    background-color: #c32830;
     color: #fff;
     border-color: transparent !important;
 }
@@ -563,6 +584,7 @@ strong {
 .btn-secondary.focus {
     -webkit-box-shadow: none;
     box-shadow: none;
+    color: #000;
 }
 
 #selectUserType:not(button) {
@@ -686,9 +708,15 @@ hr {
     margin: 3em auto;
     padding-bottom: 0;
     position: relative;
+    max-width: 760px;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 #post {
+    max-width: 700px;
+    margin-left: auto;
+    margin-right: auto;
     margin-top: 2em;
     padding: 1.5em;
     margin: 2.5em 7em 2.5em 7em;
@@ -716,10 +744,15 @@ hr {
     margin-bottom: 2.5em;
 }
 
-#profile,
 .footerLinks {
     margin: 2.5em 9em;
     margin-top: 2em;
+    padding: 2em 3em;
+}
+
+#profile {
+    max-width: 944px;
+    margin: 2.5em auto;
     padding: 2em 3em;
 }
 
@@ -761,16 +794,20 @@ hr {
 
 #filterPosts,
 #createPostButton {
-    top: 6.9em;
+    top: 21.5%;
     position: fixed;
 }
 
 #filterPosts {
-    left: 0.5em;
+    left: 3%;
+}
+
+#filterPosts .form-group {
+    margin-top: 0;
 }
 
 #createPostButton {
-    right: 0.5em;
+    right: 2%;
     z-index: 999;
 }
 
@@ -971,7 +1008,7 @@ select option:checked {
 }
 
 .feedCreatedAt {
-    text-align: right;
+    text-align: left;
 }
 
 .feedUrl {
@@ -1305,7 +1342,7 @@ button {
     z-index: 100;
     width: 100%;
     top: auto;
-    right: 2.5em;
+    right: 1.5em;
     padding: 0.3em;
     text-align: center;
 }
@@ -1316,8 +1353,8 @@ button {
     width: 100%;
     z-index: -12;
     position: absolute;
-    top: 3%;
-    right: 0.3em;
+    top: 0.1em;
+    right: 0em;
     height: 100%;
     opacity: 0.4;
 }
@@ -1496,6 +1533,7 @@ button {
     background-color: white;
     color: #498a9c;
     border-radius: 1px;
+    border: none;
 }
 
 .askandoffres__button:hover {
@@ -1503,13 +1541,11 @@ button {
     color: white;
 }
 
-
-/* #post .btn-secondary:not(:disabled):not(.disabled):active,
-#post .btn-secondary:not(:disabled):not(.disabled).active,
-.show {
+#askAndOffer .btn-secondary:not(:disabled):not(.disabled):active,
+#askAndOffer .btn-secondary:not(:disabled):not(.disabled).active {
     background-color: #498a9c;
     color: white;
-} */
+}
 
 .form-group {
     margin-top: 20px;
@@ -1552,7 +1588,8 @@ button {
 .btn___interest {
     background-color: #d7d7d7;
     color: black;
-    width: 169px;
+    max-width: 200px;
+    width: 160px;
     height: 80px;
     margin: 9px;
     border-radius: 2px;
@@ -1567,7 +1604,6 @@ button {
 .selectedTag {
     color: black;
     background-color: #ffcd47;
-    opacity: 0.65;
     text-transform: lowercase;
 }
 
@@ -1592,7 +1628,8 @@ button {
     align-items: center;
     justify-content: center;
     width: 55vw;
-    margin-left: 22em;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 #popup {
@@ -1674,8 +1711,29 @@ button {
 }
 
 
-/* @media (min-width: 1200px) {
-    .App-main {
-        max-width: 1340px;
+/* media query section*/
+
+@media (min-width: 0) and (max-width: 650px) {}
+
+@media (min-width: 450px) and (max-width: 650px) {}
+
+@media (min-width: 650px) {}
+
+@media (max-width: 650px) {}
+
+@media (min-width: 650px) and (max-width: 960px) {
+    .headerLinkTextContent {
+        display: none;
     }
-} */
+    #headerProfileLink,
+    #headerLogoutLink {
+        text-align: left;
+    }
+    .App-footer {
+        flex-direction: row;
+    }
+}
+
+@media (min-width: 960px) {}
+
+@media (min-width: 1200px) {}
