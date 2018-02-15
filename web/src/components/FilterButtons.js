@@ -58,7 +58,7 @@ class FilterButtons extends Component {
                     ? "activeFilter"
                     : ""
                 }>
-                Recent
+                RECENT
               </span>
             </Col>
           </Row>
