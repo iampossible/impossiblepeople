@@ -107,7 +107,7 @@ export default class Interest extends Component {
                   i++;
                   if (interest.interestID !== OTHER_INTERESTID) {
                     return (
-                      <Fragment>
+                      <Fragment key={interest.interestID}>
                         {this.displayInterestButton(interest)}
                         {i === featuredInterest.length
                           ? this.displayInterestButton(otherInterest)
