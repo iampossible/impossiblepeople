@@ -26,7 +26,6 @@ export default class Post extends Component {
     timeRequired: "",
     interests: new Set(),
     loadingLocation: false,
-    selectedOptions: [],
     useCurrentLocationTooltipOpen: false,
     postTypeAskChecked: true,
     postTypeOfferChecked: false,
@@ -37,7 +36,8 @@ export default class Post extends Component {
     postID: null,
     updateButton: false,
     imageLoadError: null,
-    postTypeDispalyText: ""
+    postTypeDispalyText: "",
+    postError: null
   };
   componentWillMount() {
     let interests = new Set();
@@ -154,7 +154,6 @@ export default class Post extends Component {
 
   handleAskAndOffer = event => {
     event.persist();
-    const target = event.currentTarget;
     if (event.target.value === "ASKS") {
       this.setState({
         postTypeAskChecked: true,
@@ -174,80 +173,104 @@ export default class Post extends Component {
 
   handleSubmitRequest = e => {
     e.persist();
-
-    const buttonText = e.target.textContent.trim();
-    let {
-      loadingLocation,
-      updateButton,
-      postTypeAskChecked,
-      postTypeOfferChecked,
-      selectedOptions,
-      useCurrentLocationTooltipOpen,
-      postID,
-      uploadingImage,
-      imageLoadError,
-      locationError,
-      loadingLocationButtonDisabled,
-      postTypeDispalyText,
-      ...post
-    } = this.state;
-
-    let url, method;
-    if (buttonText === "Post") {
-      url = `/api/post/create`;
-      method = "POST";
-    } else if (buttonText === "Update") {
-      url = `/api/post/update/${this.state.postID}`;
-      method = "PUT";
+    let error = [];
+    if (this.state.content === "") {
+      error.push("You need to put the content of your post");
+    }
+    if (this.state.interests.length === 0) {
+      error.push("You need select at least the 'Other' interest category");
     }
 
-    fetch(url, {
-      credentials: "same-origin",
-      method: method,
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify(post)
-    })
-      .then(response => {
-        if (response.status > 399) return { error: response.message };
-        return response.json();
-      })
-      .then(response => {
-        if (response) {
-          this.setState(
-            {
-              content: "",
-              postType: "",
-              location: "",
-              latitude: "",
-              longitude: "",
-              timeRequired: "",
-              interests: [],
-              url: "",
-              imageSource:
-                "https://humankind-assets.s3.eu-west-1.amazonaws.com/post/gr8QHk31k2Raa",
-              postTypeAskChecked: false,
-              postTypeOfferChecked: false,
-              updateButton: false,
-              locationError: null,
-              loadingLocationButtonDisabled: false
-            },
-            () => {
-              Array.from(
-                this.selectElement._reactInternalFiber.child.stateNode
-              ).map(option => {
-                option.className = "unSelectedTag";
-              });
-              this.props.updateFeeds();
-              this.props.loadingPost();
-              window.scrollTo(0, 0);
-            }
-          );
+    if (error.length > 0) {
+      this.setState(
+        {
+          postError: error
+        },
+        () => {
+          //clear the error message
+          setTimeout(() => {
+            this.setState({
+              postError: ""
+            });
+          }, 5000);
         }
+      );
+    } else {
+      const buttonText = e.target.textContent.trim();
+      let {
+        loadingLocation,
+        updateButton,
+        postTypeAskChecked,
+        postTypeOfferChecked,
+
+        useCurrentLocationTooltipOpen,
+        postID,
+        uploadingImage,
+        imageLoadError,
+        locationError,
+        loadingLocationButtonDisabled,
+        postTypeDispalyText,
+        postError,
+        ...post
+      } = this.state;
+
+      let url, method;
+      if (buttonText === "Post") {
+        url = `/api/post/create`;
+        method = "POST";
+      } else if (buttonText === "Update") {
+        url = `/api/post/update/${this.state.postID}`;
+        method = "PUT";
+      }
+
+      fetch(url, {
+        credentials: "same-origin",
+        method: method,
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(post)
       })
-      .catch(err => console.error(err));
+        .then(response => {
+          if (response.status > 399) return { error: response.message };
+          return response.json();
+        })
+        .then(response => {
+          if (response) {
+            this.setState(
+              {
+                content: "",
+                postType: "",
+                location: "",
+                latitude: "",
+                longitude: "",
+                timeRequired: "",
+                interests: [],
+                url: "",
+                imageSource:
+                  "https://humankind-assets.s3.eu-west-1.amazonaws.com/post/gr8QHk31k2Raa",
+                postTypeAskChecked: false,
+                postTypeOfferChecked: false,
+                updateButton: false,
+                locationError: null,
+                loadingLocationButtonDisabled: false
+              },
+              () => {
+                Array.from(
+                  this.selectElement._reactInternalFiber.child.stateNode
+                ).map(option => {
+                  option.className = "unSelectedTag";
+                });
+                this.props.updateFeeds();
+                this.props.loadingPost();
+                window.scrollTo(0, 0);
+              }
+            );
+          }
+        })
+        .catch(err => console.error(err));
+    }
   };
 
   getLocation() {
@@ -594,6 +617,21 @@ export default class Post extends Component {
                     </Col>
                     <Col sm={4} />
                   </FormGroup>
+                  {this.state.postError && this.state.postError.length > 0 ? (
+                    <Row>
+                      <Col sm={1} />
+                      <Col sm={10} className="createUserError">
+                        <Alert color="danger">
+                          {this.state.postError.map((error, i) => (
+                            <p key={i}>&ndash;{error}</p>
+                          ))}
+                        </Alert>
+                      </Col>
+                      <Col sm={1} />
+                    </Row>
+                  ) : (
+                    ""
+                  )}
                 </Form>
               </Col>
               <Col sm={1} />
