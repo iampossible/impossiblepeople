@@ -292,7 +292,7 @@ class Feed extends Component {
                 className="btn btn-primary btn btn-secondary postBtn"
                 onClick={this.loadPost}>
                 <i className="fa fa-plus-circle" aria-hidden="true" />&nbsp;&nbsp;
-                create a new post
+                Create a new post
               </Button>
             </Col>
           ) : (
