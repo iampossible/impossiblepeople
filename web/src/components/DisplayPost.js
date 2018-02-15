@@ -1,5 +1,5 @@
 import React, { Component, Fragment } from "react";
-import { Row, Col, Tooltip } from "reactstrap";
+import { Row, Col } from "reactstrap";
 import DisplayComment from "./DisplayComment";
 
 class DisplayPost extends Component {
