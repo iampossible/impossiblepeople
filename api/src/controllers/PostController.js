@@ -215,7 +215,9 @@ class PostController extends Controller {
           comments: commentRows.map(row => ({
             commentID: row.rel.properties.commentID,
             content: row.rel.properties.content,
-            author: `${row.user.firstName} ${row.user.lastName}`,
+            author: row.user.organisationName
+              ? row.user.organisationName
+              : `${row.user.firstName} ${row.user.lastName}`,
             authorID: row.user.userID,
             imageSource: row.user.imageSource,
             createdAt: row.rel.properties.at,
