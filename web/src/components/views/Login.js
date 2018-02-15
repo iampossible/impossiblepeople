@@ -1,14 +1,5 @@
 import React, { Component } from "react";
-import {
-  Row,
-  Col,
-  Button,
-  Form,
-  FormGroup,
-  Label,
-  Input,
-  Alert
-} from "reactstrap";
+import { Row, Col, Button, Form, FormGroup, Input, Alert } from "reactstrap";
 import FacebookLogin from "react-facebook-login";
 
 export default class Login extends Component {
