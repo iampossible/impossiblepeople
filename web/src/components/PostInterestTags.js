@@ -43,7 +43,7 @@ export class PostInterestTags extends Component {
             i++;
             if (interest.interestID !== OTHER_INTERESTID) {
               return (
-                <Fragment>
+                <Fragment key={interest.interestID}>
                   <Button
                     key={interest.interestID}
                     className={

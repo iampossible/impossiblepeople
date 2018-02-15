@@ -32,7 +32,6 @@ const Main = props => {
           <LandingPage
             {...routeProps}
             setUser={props.setUser}
-            register={props.register}
             login={props.login}
             register={props.register}
             toggleDisplayForm={props.toggleDisplayForm}
@@ -147,7 +146,7 @@ class App extends Component {
     return (
       <Router>
         <div className="App">
-          <Row className="App-header fullheight">
+          <Row className="App-header">
             <Col xs={12}>
               <header>
                 <Header
@@ -157,7 +156,7 @@ class App extends Component {
               </header>
             </Col>
           </Row>
-          <Row className="App-main fullheight">
+          <Row className="App-main">
             <Col xs={12}>
               <Main
                 user={this.state.user}
@@ -170,7 +169,7 @@ class App extends Component {
               />
             </Col>
           </Row>
-          <Row className="App-footer fullheight">
+          <Row className="App-footer">
             <Footer />
           </Row>
         </div>

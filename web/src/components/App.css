@@ -1,5 +1,14 @@
-@import url(https://fonts.googleapis.com/css?family=Exo+2|Signika|Felipa|Lovers+Quarrel|Italianno:400,200,600,800,900);
-html {
+@font-face {
+    font-family: "Quicksand Book";
+    src: url("/../../assets/css/fonts/Quicksand_Book.otf") format("opentype");
+}
+
+@font-face {
+    font-family: "Quicksand Bold";
+    src: url("/../../assets/css/fonts/Quicksand_Bold.otf") format("opentype");
+}
+
+Quicksand_Bold html {
     line-height: 1;
 }
 
@@ -145,11 +154,16 @@ strong {
 }
 
 #headerApproveOrgsLink span,
-#headerLogoutLink span,
 #headerSignInLink span,
 #headerFeedLink span,
 #headerProfileLink span {
     padding-left: 0.5em;
+    padding-right: 0.5em;
+    padding-bottom: 0.7em;
+}
+
+#headerLogoutLink span {
+    padding-left: 0em;
     padding-right: 0.5em;
     padding-bottom: 0.7em;
 }
@@ -696,7 +710,7 @@ hr {
 #profile,
 .footerLinks,
 #unApprovedOrgsMesage {
-    font-family: "Signika", sans-serif;
+    font-family: "Quicksand Book";
     background-color: rgb(255, 255, 255);
     border: 1px solid #e6e7e9;
     -moz-border-radius: 5px;
@@ -705,9 +719,8 @@ hr {
 }
 
 .feed {
-    padding: 1.5em;
+    padding: 0 1.5em;
     margin: 3em auto;
-    padding-bottom: 0;
     position: relative;
     max-width: 760px;
     margin-left: auto;
@@ -816,12 +829,14 @@ hr {
     border: none;
     background: #fff;
     color: #000;
+    font-weight: 600;
 }
 
 #createPostButton i {
     color: #6acf89;
     font-size: 1.5em;
     vertical-align: middle;
+    font-weight: 900;
 }
 
 #createPostButton button:hover {
@@ -993,7 +1008,6 @@ select option:checked {
 .feedTags {
     margin-left: 1em;
     font-style: italic;
-    text-overflow: ellipsis;
 }
 
 .feedTags .individualFeedTags {
@@ -1092,7 +1106,6 @@ select option:checked {
 
 .feedContent {
     font-size: 1.2em;
-    margin-bottom: 1em;
 }
 
 .feedContent i {
@@ -1126,11 +1139,12 @@ button {
 
 .newCommentInputContainer {
     padding-right: 0;
-    padding-left: 0.5em;
+    padding-left: 0;
+    margin-right: 0.5em;
 }
 
 .newCommentInputContainer div:first-child {
-    width: 95%;
+    width: 94%;
 }
 
 .newComment {
@@ -1199,7 +1213,7 @@ button {
 .commentsList .list-group-item {
     background: inherit;
     font-size: 1.2em;
-    padding: 0.75rem 0 0.75rem 2rem;
+    padding: 0.5em 0 0.5em 2rem;
     border: none;
 }
 
@@ -1234,7 +1248,7 @@ button {
 
 .commentAuthor {
     color: #df4848;
-    font-family: "Exo 2", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-family: "Quicksand Book";
     font-style: italic;
     font-weight: 600;
 }
@@ -1255,7 +1269,7 @@ button {
 }
 
 .feedAuthor p {
-    font-family: "Exo 2", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-family: "Quicksand Book";
     font-size: 1em;
     font-weight: 600;
     margin-bottom: 0;
