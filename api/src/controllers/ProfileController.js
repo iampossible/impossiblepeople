@@ -142,6 +142,7 @@ class ProfileController extends Controller {
   getProfile(request, reply) {
     let userID = request.params.userID;
     let loggedUserID = request.auth.credentials.userID;
+    let posts;
 
     profileModel
       .getProfile(userID, request.auth.credentials.userID)
@@ -154,23 +155,30 @@ class ProfileController extends Controller {
           if (status !== null) {
             return accept([]);
           }
+
           userModel
             .getUserPosts(userID)
             .done(postsResult => {
-              let posts = postsResult.map(postNode =>
+              posts = postsResult.map(postNode =>
                 Object.assign(postNode, {
                   createdAtSince: moment(postNode.createdAt).fromNow(),
                   timeRequired: postNode.timeRequired || 0
                 })
               );
-              accept(posts);
+
+              userModel
+                .getInterests({ userID: userID })
+                .done(interests => accept({ posts, interests }))
+                .error(reject);
             })
             .error(reject);
         });
       })
-      .done((raw, profile, posts) =>
-        reply(Object.assign(profile.user, { posts })).code(200)
-      )
+      .done((raw, profile, postsAndInterests) => {
+        const interests = postsAndInterests.interests;
+        const posts = postsAndInterests.posts;
+        reply(Object.assign(profile.user, { posts }, { interests })).code(200);
+      })
       .error(error => reply({ msg: error }).code(400));
   }
 }
