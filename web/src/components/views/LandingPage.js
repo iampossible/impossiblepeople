@@ -313,14 +313,17 @@ export default class LandingPage extends Component {
           }
         })
         .catch(err => {
-          this.setState({ error: "oops: The credentials are invalid " }, () => {
-            //clear the error message
-            setTimeout(() => {
-              this.setState({
-                error: ""
-              });
-            }, 5000);
-          });
+          this.setState(
+            { error: "oops: Your email address or password is wrong " },
+            () => {
+              //clear the error message
+              setTimeout(() => {
+                this.setState({
+                  error: ""
+                });
+              }, 5000);
+            }
+          );
         });
     }
   };
