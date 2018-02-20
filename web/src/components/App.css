@@ -1,14 +1,14 @@
 @font-face {
     font-family: "Quicksand Book";
-    src: url("/../../assets/css/fonts/Quicksand_Book.otf") format("opentype");
+    src: url("../assets/css/Fonts/Quicksand_Book.otf") format("opentype");
 }
 
 @font-face {
     font-family: "Quicksand Bold";
-    src: url("/../../assets/css/fonts/Quicksand_Bold.otf") format("opentype");
+    src: url("../assets/css/Fonts/Quicksand_Bold.otf") format("opentype");
 }
 
-Quicksand_Bold html {
+html {
     line-height: 1;
 }
 
@@ -708,6 +708,7 @@ hr {
 #post,
 #noFeedMessage,
 #profile,
+#showProfile,
 .footerLinks,
 #unApprovedOrgsMesage {
     font-family: "Quicksand Book";
@@ -737,16 +738,35 @@ hr {
     position: relative;
 }
 
-#post #closePostPopup {
+#showProfile {
+    max-width: 760px;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 2em;
+    padding: 1.5em 3em;
+    position: relative;
+}
+
+#post #closePostPopup,
+#showProfile #closePostPopup {
     color: #df4848;
     position: absolute;
-    right: -2em;
     top: -1em;
     font-size: 1.5em;
 }
 
+#post #closePostPopup {
+    right: -2em;
+}
+
+#showProfile #closePostPopup {
+    right: -1em;
+}
+
 #post #closePostPopup i:hover,
-#post #closePostPopup i:focus {
+#post#closePostPopup i:focus,
+#showProfile #closePostPopup i:hover,
+#showProfile #closePostPopup i:focus {
     color: #df4848;
     text-decoration: none;
     cursor: pointer;
@@ -993,6 +1013,11 @@ select option:checked {
     height: 30px;
     border-radius: 50%;
     border: 1px solid #003366;
+    cursor: pointer;
+}
+
+.feedPhoto img:hover {
+    border-color: #ed684b;
 }
 
 .feedTags,
@@ -1244,6 +1269,11 @@ button {
     height: 35px;
     border-radius: 50%;
     border: 1px solid #003366;
+    cursor: pointer;
+}
+
+.commenterAvatar img:hover {
+    border-color: #ed684b;
 }
 
 .commentAuthor {
@@ -1680,6 +1710,44 @@ button {
 
 #feedbackMessageSendButton:hover {
     background-color: #c32830;
+}
+
+#profileImage {
+    display: flex;
+    justify-content: center;
+}
+
+#profileImage div {
+    max-height: 150px;
+    max-width: 150px;
+    margin-bottom: 2em;
+    margin-top: 2em;
+    text-align: center;
+}
+
+#profileImage p img {
+    height: 140px;
+    width: 140px;
+    border-radius: 10%;
+}
+
+#profileImage p {
+    text-align: center;
+}
+
+#profileName {
+    display: flex;
+    justify-content: center;
+}
+
+#profileName h5 {
+    text-transform: capitalize;
+    text-align: center;
+}
+
+#profileDescription div:first-child p,
+#profileUrl div:first-child p {
+    text-align: right;
 }
 
 @media only screen and (max-width: 768px) {
