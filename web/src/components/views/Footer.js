@@ -5,7 +5,7 @@ export default class Footer extends Component {
   render() {
     return (
       <Fragment>
-        <Col sm={4} id="poweredby">
+        <Col sm={3} className="d-xs-none" id="poweredby">
           <p>
             powered by&nbsp;&nbsp;&nbsp;&nbsp;
             <a href="#">
@@ -13,7 +13,7 @@ export default class Footer extends Component {
             </a>
           </p>
         </Col>
-        <Col sm={2} id="userAggreement">
+        <Col sm={3} id="userAggreement">
           <p>
             <a href="/userAgreement" target="_blank">
               User Agreement
