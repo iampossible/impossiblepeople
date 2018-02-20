@@ -74,7 +74,7 @@ class UserController extends Controller {
           .min(-180)
           .max(180),
         organisationName: Joi.string(),
-        description: Joi.string()
+        description: Joi.string().allow("")
       }
     });
 
