@@ -132,9 +132,13 @@ class UserController extends Controller {
 
   updateUser(request, reply) {
     let payload = request.payload;
-    if (request.payload.url && !/^https?:\/\//.test(request.payload.url)) {
-      payload.url = `http://${request.payload.url}`;
-    }
+    // if (request.payload.url && !/^https?:\/\//.test(request.payload.url)) {
+    //   payload.url = `http://${request.payload.url}`;
+    // }
+    payload.url = payload.url.replace(
+      /^(http[s]?:\/\/(www\.)?|\/\/(www\.)?|\/\/?|www\.){1}?/g,
+      ""
+    );
     userModel
       .updateUser(request.auth.credentials.userID, payload)
       .then((accept, reject, user) =>
