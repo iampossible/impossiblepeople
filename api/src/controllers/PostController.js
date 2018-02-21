@@ -166,7 +166,10 @@ class PostController extends Controller {
         timeRequired: request.payload.timeRequired || 0,
         interests: request.payload.interests,
         imageSource: request.payload.imageSource,
-        url: request.payload.url
+        url: request.payload.url.replace(
+          /^(http[s]?:\/\/(www\.)?|\/\/(www\.)?|\/\/?|www\.){1}?/g,
+          ""
+        )
       })
       .error(e => reply({ msg: e }).code(400))
       .done(postNode => {
@@ -362,7 +365,10 @@ class PostController extends Controller {
             longitude: request.payload.longitude,
             timeRequired: request.payload.timeRequired || 0,
             interests: request.payload.interests,
-            url: request.payload.url,
+            url: request.payload.url.replace(
+              /^(http[s]?:\/\/(www\.)?|\/\/(www\.)?|\/\/?|www\.){1}?/g,
+              ""
+            ),
             imageSource: request.payload.imageSource
           })
           .done(postNode => {
