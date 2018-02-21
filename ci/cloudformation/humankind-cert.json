@@ -1,0 +1,17 @@
+{
+"Description": "humankind - creates the necessary certificates for humankind project",
+  "AWSTemplateFormatVersion": "2010-09-09",
+  "Resources": {
+    "HumankindCert" : {
+      "Type" : "AWS::CertificateManager::Certificate",
+      "Properties" : {
+        "DomainName" : "humankind.codeyourfuture.io",
+        "DomainValidationOptions" : [{
+          "DomainName" : "humankind.codeyourfuture.io",
+          "ValidationDomain" : "codeyourfuture.io"
+        }],
+        "SubjectAlternativeNames": ["*.codeyourfuture.io"]
+      }
+    }
+  }
+}

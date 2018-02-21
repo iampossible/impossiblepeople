@@ -17,4 +17,4 @@ The database is Neo4j 3.0.0. In the staging environment it was installed by:
 
  3. Configuring for online browsing by editing `neo4j.conf` to uncomment the line
 
-    dbms.connector.http.address=0.0.0.0:7474
+    dbms.connector.http.address=localhost:7474

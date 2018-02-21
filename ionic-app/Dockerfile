@@ -36,7 +36,7 @@ COPY ./script /usr/src/ionic-app/script
 COPY ./www /usr/src/ionic-app/www
 
 ENV APP_PORT 8090
-ENV APP_HOST 0.0.0.0
+ENV APP_HOST localhost
 
 ENV NEO4J_HOST 'http://neo4j:7474'
 ENV E2E_CLIENT 'http://client:'
