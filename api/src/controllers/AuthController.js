@@ -201,7 +201,7 @@ class AuthController extends Controller {
           let newPassword = passwordHelper.generatePassword();
           userModel.updateUserPassword(authUser, newPassword).then(() => {
             EmailService.sendRecoverPasswordEmail(authUser, newPassword);
-            reply().code(200);
+            reply(true).code(200);
           });
         }
       })
