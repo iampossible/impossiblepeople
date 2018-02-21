@@ -408,6 +408,7 @@ strong {
 
 #signUpButton,
 #signInSubmit,
+#forgotPasswordSubmit,
 #doneProfileButton {
     background-color: #68c5b5;
     height: 61px;
@@ -421,6 +422,7 @@ strong {
 
 #signUpButton:hover,
 #signInSubmit:hover,
+#forgotPasswordSubmit,
 #doneProfileButton:hover {
     background-color: #c32830;
 }
@@ -443,6 +445,21 @@ strong {
 .feedbackSucccess {
     margin-top: 1em;
     margin-bottom: 0;
+}
+
+#forgotPassword {
+    margin: 1em auto;
+}
+
+#forgotPassword span {
+    color: #68c5b5;
+    font-size: 0.9em;
+}
+
+#forgotPassword span:hover {
+    color: #c32830;
+    text-decoration: underline;
+    cursor: pointer;
 }
 
 #organisationNameLabel {
@@ -473,6 +490,10 @@ strong {
     padding-bottom: 0;
     border-width: 1px;
     border-bottom-width: 0;
+}
+
+#signinForm .form-control#userLoginPassword {
+    border-bottom-width: 1px;
 }
 
 #registrationForm #userRegistrationConfirmPassword.form-control,
