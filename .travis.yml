@@ -21,7 +21,7 @@ before_install:
   - chmod +x docker-compose
   - sudo mv docker-compose /usr/local/bin
   - npm install -g typescript
-  - cd report-server && npm install && tsc && cd ..
+  - cd report-server && npm install && tsc --listEmittedFiles && cd ..
 install:
   - travis_retry docker-compose build
 script:
@@ -33,8 +33,8 @@ script:
 after_success:
   - if [ "$TRAVIS_BRANCH" == "master" ]; then
     docker login -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD";
-    docker tag gnome_api:latest impossible/gnome-api:latest;
+    docker tag impossiblepeople_api:latest impossible/gnome-api:latest;
     docker push impossible/gnome-api:latest;
-    docker tag gnome_reports:latest impossible/gnome-reports:latest;
+    docker tag impossiblepeople_reports:latest impossible/gnome-reports:latest;
     docker push impossible/gnome-reports:latest;
     fi
