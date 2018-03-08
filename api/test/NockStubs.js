@@ -20,14 +20,14 @@ class NockStubs {
   userDetailsScope(code, response) {
     return nock('https://graph.facebook.com/v2.6')
       .get('/someUserID')
-      .query({ access_token, fields: 'email,bio,first_name,last_name,picture.type(large),friends' })
+      .query({ access_token, fields: 'email,about,first_name,last_name,picture.type(large),friends' })
       .reply(code, response);
   }
 
   userDetailsErrorScope(response) {
     return nock('https://graph.facebook.com/v2.6')
       .get('/someUserID')
-      .query({ access_token, fields: 'email,bio,first_name,last_name,picture.type(large),friends' })
+      .query({ access_token, fields: 'email,about,first_name,last_name,picture.type(large),friends' })
       .replyWithError(response);
   }
 
