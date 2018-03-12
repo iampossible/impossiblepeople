@@ -232,20 +232,20 @@ const main = () => {
         }
         return Promise.resolve(files.map((userID: string) =>
           ({
-            id: userID, failed: false, error: undefined
+            id: userID, failed: false, error: undefined, noop: true,
           })));
       }
       return Promise.all(files.map((userID: string) =>
-        processUser(userID, globalOffers, globalAsks)
+        processUser(userID, globalAsks, globalOffers)
       ))
     })
-    .then((allResults: Array<{ id: string, failed: boolean, error: undefined | any }>) => {
+    .then((allResults: Array<{ id: string, failed: boolean, error: undefined | any, noop: undefined | boolean }>) => {
       let processed = {
         success: allResults.filter(x => !x.failed),
         failed: allResults.filter(x => x.failed)
       }
       for (let result of processed.success) {
-        if (config.logging) {
+        if (config.logging && !result.noop) {
           console.log(`Successfully processed report of ${result.id}`)
         }
         promisify(fs.unlink, `${config.workdir}/reports/unprocessed/${result.id}`)
