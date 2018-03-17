@@ -205,7 +205,7 @@ const mailReport = (data: any, htmlContent: string): Promise<any> => {
   let email = {
     from: config.smtp.from,
     to: data.user.email,
-    subject: 'Weekly highlights',
+    subject: config.smtp.subject || 'Weekly highlights',
     html: htmlContent,
     attachments: attachmentList
   }
