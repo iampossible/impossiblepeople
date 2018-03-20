@@ -35,7 +35,7 @@ mu.root = __dirname + '/../templates'
 const unsubscribeDate = Date.now().valueOf();
 const cipherAlgo = 'aes256';
 
-const postLimitPerType = 10;
+const postLimitPerType = 2;
 
 const weekStart = moment().subtract(1, 'week').startOf('week');
 const weekEnd = moment().subtract(1, 'week').endOf('week');
