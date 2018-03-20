@@ -35,6 +35,8 @@ mu.root = __dirname + '/../templates'
 const unsubscribeDate = Date.now().valueOf();
 const cipherAlgo = 'aes256';
 
+const postLimitPerType = 10;
+
 const weekStart = moment().subtract(1, 'week').startOf('week');
 const weekEnd = moment().subtract(1, 'week').endOf('week');
 
@@ -137,11 +139,11 @@ const processUser = (userID: string, globalAsks: any[], globalOffers: any[]): Pr
         feedQuery(userID)
           .then((feedData: any[]) => {
             templateData.feed = feedData
-            let offers = feedData.filter(p => p.rel.type === 'OFFERS').slice(0, 2).map(x => Object.assign(x, { categoryCID: templateData.cidify(x.category) }))
-            templateData.offers = offers.length >= 2 ? offers : globalOffers;
+            let offers = feedData.filter(p => p.rel.type === 'OFFERS').slice(0, postLimitPerType).map(x => Object.assign(x, { categoryCID: templateData.cidify(x.category) }))
+            templateData.offers = offers.length >= postLimitPerType ? offers : globalOffers;
             templateData.hasOffers = templateData.offers.length > 0;
-            let asks = feedData.filter(p => p.rel.type === 'ASKS').slice(0, 2).map(x => Object.assign(x, { categoryCID: templateData.cidify(x.category) }))
-            templateData.asks = asks.length >= 2 ? asks : globalAsks;
+            let asks = feedData.filter(p => p.rel.type === 'ASKS').slice(0, postLimitPerType).map(x => Object.assign(x, { categoryCID: templateData.cidify(x.category) }))
+            templateData.asks = asks.length >= postLimitPerType ? asks : globalAsks;
             templateData.hasAsks = templateData.asks.length > 0;
             templateData.interestsInFeed = Array.from(new Set((templateData.asks.concat(templateData.offers)).map(p => cidify(p.category))));
 
@@ -220,8 +222,8 @@ const main = () => {
   Promise.all([platformHighlights(), promisify(fs.readdir, `${config.workdir}/reports/unprocessed`)])
     .then((result: any[]) => {
       const globalFeed: any[] = result[0]
-      const globalOffers: any[] = globalFeed.filter(p => p.rel.type === 'OFFERS').slice(0, 2).map(x => Object.assign(x, { categoryCID: cidify(x.category) }))
-      const globalAsks: any[] = globalFeed.filter(p => p.rel.type === 'ASKS').slice(0, 2).map(x => Object.assign(x, { categoryCID: cidify(x.category) }))
+      const globalOffers: any[] = globalFeed.filter(p => p.rel.type === 'OFFERS').slice(0, postLimitPerType).map(x => Object.assign(x, { categoryCID: cidify(x.category) }))
+      const globalAsks: any[] = globalFeed.filter(p => p.rel.type === 'ASKS').slice(0, postLimitPerType).map(x => Object.assign(x, { categoryCID: cidify(x.category) }))
 
       const files: string[] = result[1];
 
