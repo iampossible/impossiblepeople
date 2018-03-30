@@ -363,7 +363,9 @@ class UserModel extends Model {
       this.db.query(
         `MATCH (u:Person {userID: {userID}})
         OPTIONAL MATCH (u) -[:INTERESTED_IN]-> (i:Interest {suggested: false})
-        RETURN { interests: COLLECT(i) }`,
+        WITH i
+        ORDER BY i.name ASC
+        RETURN { interests: COLLECT(i) } `,
         { userID: user.userID },
         (err, userNodes) => {
           if (err) return reject(err);

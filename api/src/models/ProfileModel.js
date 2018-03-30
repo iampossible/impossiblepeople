@@ -1,10 +1,9 @@
-'use strict';
+"use strict";
 
-const Model = require('core/Model');
-const Sequence = require('impossible-promise');
+const Model = require("core/Model");
+const Sequence = require("impossible-promise");
 
 class ProfileModel extends Model {
-
   getProfile(userID, currentUserID) {
     return new Sequence((accept, reject) => {
       this.db.query(
@@ -13,10 +12,12 @@ class ProfileModel extends Model {
         WHERE NOT p:Invitee
         RETURN {
           user: {
+            userType:p.userType,
+            organisationName:p.organisationName,
             userID: p.userID,
             firstName: p.firstName,
             lastName: p.lastName,
-            biography: p.biography,
+            description: p.description,
             location: p.location,
             latitude: p.latitude,
             longitude: p.longitude,
@@ -48,7 +49,7 @@ class ProfileModel extends Model {
        MERGE (u2) -[r2:FOLLOWS]-> (u1)
           ON CREATE SET r2.at = timestamp()
       RETURN r1, r2`,
-      'user not found'
+      "user not found"
     );
   }
 
@@ -64,7 +65,7 @@ class ProfileModel extends Model {
       MERGE (u1) -[r:FOLLOWS]-> (u2)
       ON CREATE SET r.at = timestamp()
       RETURN r`,
-      'user not found'
+      "user not found"
     );
   }
 
@@ -79,7 +80,7 @@ class ProfileModel extends Model {
       `MATCH (u1:Person { userID: { followerID } })-[f:FOLLOWS]-> (u2:Person { userID: { followeeID } })
       DELETE f
       RETURN u2`,
-      'user not found or not followed'
+      "user not found or not followed"
     );
   }
 

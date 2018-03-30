@@ -12,6 +12,7 @@ import {
 } from 'reactstrap';
 import { RingLoader } from 'react-spinners';
 import { getBase64 } from '../utillity/helpers';
+import { handleErrors } from '../utillity/helpers';
 
 const DEFAULT_IMAGE =
   'https://humankind-assets.s3.eu-west-1.amazonaws.com/post/gr8QHk31k2Raa';
@@ -384,24 +385,21 @@ export default class Post extends Component {
           imageData: res
         })
       })
+        .then(handleErrors)
         .then(response => {
           return response.json();
         })
         .then(response => {
-          if (response.message) {
-            this.setState({
-              uploadingImage: false
-            });
-            throw new Error(response.message);
-          }
           this.setState({
             imageSource: response.imageSource,
             uploadingImage: false
           });
         })
         .catch(err => {
+          console.log(err);
           this.setState(
             {
+              uploadingImage: false,
               imageLoadError: `Can't upload Image: the image size is very large or it is not of JPG/JPEG/PNG type`
             },
             () => {
@@ -570,7 +568,7 @@ export default class Post extends Component {
                         type="text"
                         name="url"
                         id="url"
-                        placeholder="url for more information"
+                        placeholder="url for more information. E.g: humankindhub.org"
                         onChange={this.handleChange}
                         value={this.state.url}
                       />

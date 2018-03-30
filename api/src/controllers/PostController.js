@@ -37,7 +37,9 @@ class PostController extends Controller {
           .allow(""),
         interests: Joi.array().required(),
         imageSource: Joi.string(),
-        url: Joi.string().allow("")
+        url: Joi.string()
+          .uri({ scheme: [/https?/], allowRelative: true })
+          .allow("")
       }
     });
 
@@ -75,7 +77,9 @@ class PostController extends Controller {
           .allow(""),
         interests: Joi.array().required(),
         imageSource: Joi.string(),
-        url: Joi.string().allow("")
+        url: Joi.string()
+          .uri({ scheme: [/https?/], allowRelative: true })
+          .allow("")
       }
     });
 
@@ -162,7 +166,10 @@ class PostController extends Controller {
         timeRequired: request.payload.timeRequired || 0,
         interests: request.payload.interests,
         imageSource: request.payload.imageSource,
-        url: request.payload.url
+        url: request.payload.url.replace(
+          /^(http[s]?:\/\/(www\.)?|\/\/(www\.)?|\/\/?|www\.){1}?/g,
+          ""
+        )
       })
       .error(e => reply({ msg: e }).code(400))
       .done(postNode => {
@@ -233,10 +240,10 @@ class PostController extends Controller {
 
   deletePostHandler(request, reply) {
     const postID = request.params.postID;
-    const userID = request.auth.credentials.userID;
+    const user = request.auth.credentials;
 
     postModel
-      .postBelongsToUser(userID, postID)
+      .postBelongsToUser(user, postID)
       .then((accept, reject) => {
         postModel
           .deletePost(postID)
@@ -317,10 +324,10 @@ class PostController extends Controller {
 
   resolvePostHandler(request, reply) {
     const postID = request.params.postID;
-    const userID = request.auth.credentials.userID;
+    const user = request.auth.credentials;
 
     postModel
-      .postBelongsToUser(userID, postID)
+      .postBelongsToUser(user, postID)
       .then((accept, reject) => {
         postModel
           .resolvePost(postID)
@@ -341,10 +348,10 @@ class PostController extends Controller {
   //added to update posts
   updatePost(request, reply) {
     const postID = request.params.postID;
-    const userID = request.auth.credentials.userID;
+    const user = request.auth.credentials;
     new Sequence((accept, reject) => {
       postModel
-        .postBelongsToUser(userID, postID)
+        .postBelongsToUser(user, postID)
         .done(accept)
         .error(reject);
     })
@@ -358,7 +365,10 @@ class PostController extends Controller {
             longitude: request.payload.longitude,
             timeRequired: request.payload.timeRequired || 0,
             interests: request.payload.interests,
-            url: request.payload.url,
+            url: request.payload.url.replace(
+              /^(http[s]?:\/\/(www\.)?|\/\/(www\.)?|\/\/?|www\.){1}?/g,
+              ""
+            ),
             imageSource: request.payload.imageSource
           })
           .done(postNode => {

@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { Component, Fragment } from "react";
 import { Row, Col, Button, Form, FormGroup, Input, Alert } from "reactstrap";
 import FacebookLogin from "react-facebook-login";
 
@@ -36,44 +36,102 @@ export default class Login extends Component {
           </Col>
           <Col sm={1} />
         </Row>
-        <FormGroup row>
-          <Col sm={1} />
-          <Col sm={10}>
-            <Input
-              type="email"
-              name="logInEmail"
-              id="userLoginEmail"
-              placeholder="e.g: you@someProvider.com"
-              onChange={this.props.handleChange}
-              value={this.props.logInEmail}
-            />
-          </Col>
-          <Col sm={1} />
-        </FormGroup>
-        <FormGroup row>
-          <Col sm={1} />
-          <Col sm={10}>
-            <Input
-              type="password"
-              name="logInPassword"
-              id="userLoginPassword"
-              placeholder="password"
-              onChange={this.props.handleChange}
-              value={this.props.logInPassword}
-            />
-          </Col>
-          <Col sm={1} />
-        </FormGroup>
+        {!this.props.forgotPasswordFlag ? (
+          <Fragment>
+            <FormGroup row>
+              <Col sm={1} />
+              <Col sm={10}>
+                <Input
+                  type="email"
+                  name="logInEmail"
+                  id="userLoginEmail"
+                  placeholder="e.g: you@someProvider.com"
+                  onChange={this.props.handleChange}
+                  value={this.props.logInEmail}
+                />
+              </Col>
+              <Col sm={1} />
+            </FormGroup>
+            <FormGroup row>
+              <Col sm={1} />
+              <Col sm={10}>
+                <Input
+                  type="password"
+                  name="logInPassword"
+                  id="userLoginPassword"
+                  placeholder="password"
+                  onChange={this.props.handleChange}
+                  value={this.props.logInPassword}
+                />
+              </Col>
+              <Col sm={1} />
+            </FormGroup>
+            <Row>
+              <Col sm={1} />
+              <Col sm={10} id="forgotPassword">
+                <span onClick={this.props.toggleForgotPassword}>
+                  Forgot my password
+                </span>
+              </Col>
+              <Col sm={1} />
+            </Row>
+            <Row>
+              <Col sm={1} />
+              <Col sm={10}>
+                <Button
+                  id="signInSubmit"
+                  onClick={this.props.handleLogin}
+                  block>
+                  Login
+                </Button>
+              </Col>
+              <Col sm={1} />
+            </Row>
+          </Fragment>
+        ) : (
+          <Fragment>
+            <FormGroup row>
+              <Col sm={1} />
+              <Col sm={10}>
+                <Input
+                  type="email"
+                  name="recoverPasswordEmail"
+                  id="recoverPasswordEmail"
+                  placeholder="e.g: you@someProvider.com"
+                  onChange={this.props.handleChange}
+                  value={this.props.recoverPasswordEmail}
+                />
+              </Col>
+              <Col sm={1} />
+            </FormGroup>
+            <Row>
+              <Col sm={1} />
+              <Col sm={10}>
+                <Button
+                  id="forgotPasswordSubmit"
+                  onClick={this.props.handleForgotPassword}
+                  block>
+                  Submit
+                </Button>
+              </Col>
+              <Col sm={1} />
+            </Row>
+            {this.props.forgotPasswordMessage ? (
+              <Row>
+                <Col sm={1} />
+                <Col sm={10}>
+                  <Alert color="success">
+                    {this.props.forgotPasswordMessage}
+                  </Alert>
+                </Col>
+                <Col sm={1} />
+              </Row>
+            ) : (
+              ""
+            )}
+          </Fragment>
+        )}
 
-        <Row>
-          <Col sm={1} />
-          <Col sm={10}>
-            <Button id="signInSubmit" onClick={this.props.handleLogin} block>
-              Login
-            </Button>
-          </Col>
-          <Col sm={1} />
-        </Row>
         {this.props.loginError.length > 0 ? (
           <Row>
             <Col sm={1} />

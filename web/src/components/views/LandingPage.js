@@ -25,6 +25,9 @@ export default class LandingPage extends Component {
       submit: true,
       createUserError: "",
       loginError: "",
+      forgotPasswordFlag: false,
+      recoverPasswordEmail: "",
+      forgotPasswordMessage: null,
 
       //to display error message if the user can't be allowed to login
       error: null
@@ -94,6 +97,9 @@ export default class LandingPage extends Component {
           submit,
           createUserError,
           loginError,
+          forgotPasswordFlag,
+          recoverPasswordEmail,
+          forgotPasswordMessage,
           ...user
         } = this.state;
         Object.assign(newUser, user);
@@ -113,6 +119,9 @@ export default class LandingPage extends Component {
           submit,
           createUserError,
           loginError,
+          forgotPasswordFlag,
+          recoverPasswordEmail,
+          forgotPasswordMessage,
           ...user
         } = this.state;
         Object.assign(newUser, user);
@@ -269,7 +278,7 @@ export default class LandingPage extends Component {
     } else {
       // regular expression to validate if the email address is in a valid format
       let emailRegExp = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-      //verify the email address and notify success or error
+      //verify the email address and notify for error, if there is one
       if (!emailRegExp.test(this.state.logInEmail)) {
         error.push(
           "The email address " + this.state.logInEmail + " is not valid"
@@ -313,7 +322,82 @@ export default class LandingPage extends Component {
           }
         })
         .catch(err => {
-          this.setState({ error: "oops: The credentials are invalid " }, () => {
+          this.setState(
+            { error: "oops: Your email address or password is wrong " },
+            () => {
+              //clear the error message
+              setTimeout(() => {
+                this.setState({
+                  error: ""
+                });
+              }, 5000);
+            }
+          );
+        });
+    }
+  };
+  handleForgotPassword = () => {
+    let error = [];
+
+    if (this.state.recoverPasswordEmail === "") {
+      error.push("You need to put your email address");
+    } else {
+      // regular expression to validate if the email address is in a valid format
+      let emailRegExp = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+      //verify the email address and notify for error, if there is one
+      if (!emailRegExp.test(this.state.recoverPasswordEmail)) {
+        error.push(
+          "The email address " +
+            this.state.recoverPasswordEmail +
+            " is not valid"
+        );
+      }
+    }
+    if (error.length > 0) {
+      this.setState(
+        {
+          error: error
+        },
+        () => {
+          //clear the error message
+          setTimeout(() => {
+            this.setState({
+              error: ""
+            });
+          }, 5000);
+        }
+      );
+    } else {
+      fetch("/api/auth/recover", {
+        credentials: "same-origin",
+        method: "POST",
+        body: JSON.stringify({ email: this.state.recoverPasswordEmail })
+      })
+        .then(response => response.json())
+        .then(response => {
+          if (response.msg) {
+            throw new Error(response.msg);
+          }
+
+          this.setState(
+            {
+              forgotPasswordMessage:
+                "Please, check your email. We have sent you a new password",
+              recoverPasswordEmail: ""
+            },
+            () => {
+              //clear the error message
+              setTimeout(() => {
+                this.setState({
+                  forgotPasswordMessage: ""
+                });
+                this.toggleForgotPassword();
+              }, 5000);
+            }
+          );
+        })
+        .catch(err => {
+          this.setState({ error: "Oops: " + err.message }, () => {
             //clear the error message
             setTimeout(() => {
               this.setState({
@@ -324,7 +408,11 @@ export default class LandingPage extends Component {
         });
     }
   };
-
+  toggleForgotPassword = () => {
+    this.setState({
+      forgotPasswordFlag: !this.state.forgotPasswordFlag
+    });
+  };
   redirectOnSubmit = user => {
     this.props.setUser(user);
     this.props.history.push("/feed");
@@ -473,6 +561,15 @@ export default class LandingPage extends Component {
                             responseFacebook={this.responseFacebook}
                             facebookLoginError={this.state.facebookLoginError}
                             loginError={this.state.loginError}
+                            handleForgotPassword={this.handleForgotPassword}
+                            toggleForgotPassword={this.toggleForgotPassword}
+                            forgotPasswordFlag={this.state.forgotPasswordFlag}
+                            forgotPasswordMessage={
+                              this.state.forgotPasswordMessage
+                            }
+                            recoverPasswordEmail={
+                              this.state.recoverPasswordEmail
+                            }
                           />
                         )}
                       </Col>

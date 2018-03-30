@@ -93,13 +93,8 @@ export default class BuildIndividualsProfile extends Component {
         .then(response => {
           return response.json();
         })
+        .then(handleErrors)
         .then(response => {
-          if (response.message) {
-            this.setState({
-              uploadingImage: false
-            });
-            throw new Error(response.message);
-          }
           this.setState({
             imageSource: response.imageSource,
             uploadingImage: false
@@ -108,6 +103,7 @@ export default class BuildIndividualsProfile extends Component {
         .catch(err => {
           this.setState(
             {
+              uploadingImage: false,
               imageLoadError: `Can't upload Image: the image size is very large or it is not of JPG/JPEG/PNG/GIF type`
             },
             () => {

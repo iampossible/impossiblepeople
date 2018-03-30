@@ -151,14 +151,16 @@ class PostModel extends Model {
     );
   }
 
-  postBelongsToUser(userID, postID) {
+  postBelongsToUser(user, postID) {
+    let userID = user.userID;
     return new Sequence((accept, reject) => {
       this.db.query(
         "MATCH(u:Person {userID: {userID}}) -[:OFFERS|:ASKS]->(p:Post {postID: {postID}}) RETURN p, count(*)",
         { userID, postID },
         (err, data) => {
           if (err) return reject(err);
-          if (data.length === 0) return reject("permission denied");
+          if (data.length === 0 && !user.admin)
+            return reject("permission denied");
 
           return accept();
         }
