@@ -11,7 +11,7 @@ describe('Facebook Service', () => {
     it('should retrieve the user name, email and biography', (done) => {
       let scope = nockStubs.userDetailsScope(200,
         {
-          bio: 'Hi I\'m Steve',
+          about: 'Hi I\'m Steve',
           email: 'steve@austin.stonecold',
           first_name: 'Steve',
           id: 456789,
