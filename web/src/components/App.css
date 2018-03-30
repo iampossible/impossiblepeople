@@ -1071,6 +1071,7 @@ select option:checked {
 
 .feedCreatedAt {
   text-align: left;
+  padding-right: 0;
 }
 
 .feedUrl {
