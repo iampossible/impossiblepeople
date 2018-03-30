@@ -9,10 +9,11 @@ import {
   Label,
   Input,
   Alert
-} from "reactstrap";
-import { RingLoader } from "react-spinners";
-import { getBase64 } from "../utillity/helpers";
-import { handleErrors } from "../utillity/helpers";
+} from 'reactstrap';
+import { RingLoader } from 'react-spinners';
+import { getBase64 } from '../utillity/helpers';
+import { handleErrors } from '../utillity/helpers';
+
 const DEFAULT_IMAGE =
   'https://humankind-assets.s3.eu-west-1.amazonaws.com/post/gr8QHk31k2Raa';
 
