@@ -1,5 +1,5 @@
-import React, { Component } from "react";
-import { PostInterestTags } from "./PostInterestTags";
+import React, { Component } from 'react';
+import { PostInterestTags } from './PostInterestTags';
 import {
   Row,
   Col,
@@ -13,17 +13,19 @@ import {
 import { RingLoader } from "react-spinners";
 import { getBase64 } from "../utillity/helpers";
 import { handleErrors } from "../utillity/helpers";
+
+
 const DEFAULT_IMAGE =
-  "https://humankind-assets.s3.eu-west-1.amazonaws.com/post/gr8QHk31k2Raa";
+  'https://humankind-assets.s3.eu-west-1.amazonaws.com/post/gr8QHk31k2Raa';
 
 export default class Post extends Component {
   state = {
-    content: "",
-    postType: "",
-    location: "",
+    content: '',
+    postType: '',
+    location: '',
     latitude: 0,
     longitude: 0,
-    timeRequired: "",
+    timeRequired: 0,
     interests: new Set(),
     loadingLocation: false,
     useCurrentLocationTooltipOpen: false,
@@ -32,11 +34,11 @@ export default class Post extends Component {
     loadingLocationButtonDisabled: false,
     //default image
     imageSource: DEFAULT_IMAGE,
-    url: "",
+    url: '',
     postID: null,
     updateButton: false,
     imageLoadError: null,
-    postTypeDispalyText: "",
+    postTypeDispalyText: '',
     postError: null
   };
   componentWillMount() {
@@ -45,11 +47,11 @@ export default class Post extends Component {
       interests.add(interest.interestID)
     );
     this.setState({
-      postType: "ASKS",
-      postTypeDispalyText: "What do you want to Ask?",
+      postType: 'ASKS',
+      postTypeDispalyText: 'What do you want to Ask?',
       interests: [...interests]
     });
-    if (this.props.postToUpdate !== "") {
+    if (this.props.postToUpdate !== '') {
       this.updatePostContent(this.props.postToUpdate[0]);
     }
   }
@@ -60,7 +62,7 @@ export default class Post extends Component {
         Array.from(this.selectElement._reactInternalFiber.child.stateNode).map(
           option => {
             if (option.value === interest.interestID) {
-              option.className = "selectedTag";
+              option.className = 'selectedTag';
             }
             return;
           }
@@ -69,12 +71,12 @@ export default class Post extends Component {
       return interest.interestID;
     });
 
-    if (post.postType === "ASKS") {
+    if (post.postType === 'ASKS') {
       this.setState({
         postTypeAskChecked: true,
         postTypeOfferChecked: false
       });
-    } else if (post.postType === "OFFERS") {
+    } else if (post.postType === 'OFFERS') {
       this.setState({
         postTypeOfferChecked: true,
         postTypeAskChecked: false
@@ -126,10 +128,10 @@ export default class Post extends Component {
       event.ctrlKey
     ) {
       interests.add(target.value);
-      target.className = "selectedTag";
+      target.className = 'selectedTag';
     } else if (interests.has(target.value)) {
       interests.delete(target.value);
-      target.className = "unSelectedTag";
+      target.className = 'unSelectedTag';
     }
     this.setState({
       interests: [...interests]
@@ -141,7 +143,7 @@ export default class Post extends Component {
     const target = event.currentTarget;
     const name = target.name;
 
-    if (name === "location") {
+    if (name === 'location') {
       this.setState({
         loadingLocation: false
       });
@@ -154,19 +156,19 @@ export default class Post extends Component {
 
   handleAskAndOffer = event => {
     event.persist();
-    if (event.target.value === "ASKS") {
+    if (event.target.value === 'ASKS') {
       this.setState({
         postTypeAskChecked: true,
-        postType: "ASKS",
+        postType: 'ASKS',
         postTypeOfferChecked: false,
-        postTypeDispalyText: "What do you want to Ask?"
+        postTypeDispalyText: 'What do you want to Ask?'
       });
     } else {
       this.setState({
-        postType: "OFFERS",
+        postType: 'OFFERS',
         postTypeOfferChecked: true,
         postTypeAskChecked: false,
-        postTypeDispalyText: "What can you offer?"
+        postTypeDispalyText: 'What can you offer?'
       });
     }
   };
@@ -174,8 +176,8 @@ export default class Post extends Component {
   handleSubmitRequest = e => {
     e.persist();
     let error = [];
-    if (this.state.content === "") {
-      error.push("You need to put the content of your post");
+    if (this.state.content === '') {
+      error.push('You need to put the content of your post');
     }
     if (this.state.interests.length === 0) {
       error.push("You need select at least the 'Other' interest category");
@@ -190,7 +192,7 @@ export default class Post extends Component {
           //clear the error message
           setTimeout(() => {
             this.setState({
-              postError: ""
+              postError: ''
             });
           }, 5000);
         }
@@ -215,20 +217,20 @@ export default class Post extends Component {
       } = this.state;
 
       let url, method;
-      if (buttonText === "Post") {
+      if (buttonText === 'Post') {
         url = `/api/post/create`;
-        method = "POST";
-      } else if (buttonText === "Update") {
+        method = 'POST';
+      } else if (buttonText === 'Update') {
         url = `/api/post/update/${this.state.postID}`;
-        method = "PUT";
+        method = 'PUT';
       }
 
       fetch(url, {
-        credentials: "same-origin",
+        credentials: 'same-origin',
         method: method,
         headers: {
-          Accept: "application/json",
-          "Content-Type": "application/json"
+          Accept: 'application/json',
+          'Content-Type': 'application/json'
         },
         body: JSON.stringify(post)
       })
@@ -240,16 +242,16 @@ export default class Post extends Component {
           if (response) {
             this.setState(
               {
-                content: "",
-                postType: "",
-                location: "",
-                latitude: "",
-                longitude: "",
-                timeRequired: "",
+                content: '',
+                postType: '',
+                location: '',
+                latitude: '',
+                longitude: '',
+                timeRequired: 0,
                 interests: [],
-                url: "",
+                url: '',
                 imageSource:
-                  "https://humankind-assets.s3.eu-west-1.amazonaws.com/post/gr8QHk31k2Raa",
+                  'https://humankind-assets.s3.eu-west-1.amazonaws.com/post/gr8QHk31k2Raa',
                 postTypeAskChecked: false,
                 postTypeOfferChecked: false,
                 updateButton: false,
@@ -260,7 +262,7 @@ export default class Post extends Component {
                 Array.from(
                   this.selectElement._reactInternalFiber.child.stateNode
                 ).map(option => {
-                  option.className = "unSelectedTag";
+                  option.className = 'unSelectedTag';
                 });
                 this.props.updateFeeds();
                 this.props.loadingPost();
@@ -287,11 +289,11 @@ export default class Post extends Component {
       navigator.geolocation.getCurrentPosition(
         position => {
           fetch(`/api/location`, {
-            credentials: "same-origin",
-            method: "POST",
+            credentials: 'same-origin',
+            method: 'POST',
             headers: {
-              Accept: "application/json",
-              "Content-Type": "application/json"
+              Accept: 'application/json',
+              'Content-Type': 'application/json'
             },
             body: JSON.stringify({
               latitude: position.coords.latitude,
@@ -320,7 +322,7 @@ export default class Post extends Component {
             .catch(err => {
               this.setState(
                 {
-                  locationError: "Error: " + err.message
+                  locationError: 'Error: ' + err.message
                 },
                 () => {
                   setTimeout(() => {
@@ -355,7 +357,7 @@ export default class Post extends Component {
     } else {
       this.setState(
         {
-          locationError: "Error: Geolocation is not supported by this browser."
+          locationError: 'Error: Geolocation is not supported by this browser.'
         },
         () => {
           setTimeout(() => {
@@ -377,9 +379,9 @@ export default class Post extends Component {
       });
 
       fetch(`/api/post/image`, {
-        credentials: "same-origin",
-        ContentType: "image/png",
-        method: "POST",
+        credentials: 'same-origin',
+        ContentType: 'image/png',
+        method: 'POST',
         body: JSON.stringify({
           imageData: res
         })
@@ -489,7 +491,7 @@ export default class Post extends Component {
                           <img
                             id="preview"
                             src={this.state.imageSource}
-                            alt={"Post"}
+                            alt={'Post'}
                           />
                         )}
                       </Col>
@@ -502,7 +504,7 @@ export default class Post extends Component {
                           </Col>
                         </Row>
                       ) : (
-                        ""
+                        ''
                       )}
                       <Row id="uploadPostImageButton">
                         <label id="uploadImage">
@@ -517,20 +519,6 @@ export default class Post extends Component {
                         </label>
                       </Row>
                     </div>
-                  </FormGroup>
-                  <FormGroup>
-                    <Label for="timeRequired">&nbsp; Duration&nbsp;</Label>
-                    <Col>
-                      <Input
-                        type="text"
-                        name="timeRequired"
-                        id="timeRequired"
-                        placeholder="number of days"
-                        onChange={this.handleChange}
-                        value={this.state.timeRequired}
-                      />
-                    </Col>
-                    <Col sm={5} />
                   </FormGroup>
                   <FormGroup>
                     <Label for="location">&nbsp;Location&nbsp;</Label>
@@ -572,7 +560,7 @@ export default class Post extends Component {
                       </Col>
                     </Row>
                   ) : (
-                    ""
+                    ''
                   )}
                   <FormGroup>
                     <Label for="url">&nbsp; URL&nbsp;</Label>
@@ -605,10 +593,10 @@ export default class Post extends Component {
                         className="submit btn btn-block btn-md"
                         disabled={
                           // a more accurate validation for location is needed
-                          this.state.location !== "" ? false : true
+                          this.state.location !== '' ? false : true
                         }>
                         &nbsp; &nbsp; &nbsp;
-                        {this.state.updateButton ? "Update" : "Post"}&nbsp;
+                        {this.state.updateButton ? 'Update' : 'Post'}&nbsp;
                         &nbsp; &nbsp;
                       </Button>
                     </Col>
@@ -627,7 +615,7 @@ export default class Post extends Component {
                       <Col sm={1} />
                     </Row>
                   ) : (
-                    ""
+                    ''
                   )}
                 </Form>
               </Col>
