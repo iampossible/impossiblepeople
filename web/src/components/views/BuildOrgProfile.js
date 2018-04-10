@@ -13,6 +13,7 @@ import Interest from "./Interest";
 import { RingLoader } from "react-spinners";
 import { getBase64 } from "../../utillity/helpers";
 import { handleErrors } from "../../utillity/helpers";
+import "../../assets/css/view/BuildOrgProfile.css"
 
 export default class BuildOrgProfile extends Component {
   constructor(props) {
@@ -316,10 +317,10 @@ export default class BuildOrgProfile extends Component {
                 <Col sm={1} />
                 <Col sm={10} id="orgDescription">
                   <Input
-                    type="text"
-                    name="description"
-                    placeholder="What brings you here?"
-                    value={this.state.description}
+                    id="textarea"
+                    type="textarea"
+                    name="description" 
+                     value={this.state.description}
                     onChange={this.handleChange}
                   />
                 </Col>
