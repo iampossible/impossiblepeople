@@ -13,9 +13,6 @@ import {
 import { RingLoader } from 'react-spinners';
 import { getBase64 } from '../utillity/helpers';
 
-const DEFAULT_IMAGE =
-  'https://humankind-assets.s3.eu-west-1.amazonaws.com/post/gr8QHk31k2Raa';
-
 export default class Post extends Component {
   state = {
     content: '',
@@ -31,7 +28,7 @@ export default class Post extends Component {
     postTypeOfferChecked: false,
     loadingLocationButtonDisabled: false,
     //default image
-    imageSource: DEFAULT_IMAGE,
+    imageSource:'',
     url: '',
     postID: null,
     updateButton: false,
@@ -39,6 +36,26 @@ export default class Post extends Component {
     postTypeDispalyText: '',
     postError: null
   };
+
+  componentDidMount(){
+ 
+    let Images={
+    0:'https://www.planwallpaper.com/static/images/offset_WaterHouseMarineImages_62652-2-660x440.jpg',
+    1:'https://www.planwallpaper.com/static/images/images_1_05GM1zY.jpg',
+    2:'https://www.planwallpaper.com/static/images/canberra_hero_image_JiMVvYU.jpg',
+    3:'https://www.planwallpaper.com/static/images/6775415-beautiful-images.jpg',
+    4:'https://www.planwallpaper.com/static/images/9-credit-1.jpg',
+    5:'https://www.planwallpaper.com/static/images/background-gmail-google-images_FG2XwaO.jpg' 
+    }
+         
+    let imagesLength=Object.keys(Images).length ;
+    let randomNum = Math.floor((Math.random() * imagesLength));
+
+    this.setState({
+      imageSource:Images[randomNum]
+    })  
+}
+  
   componentWillMount() {
     let interests = new Set();
     this.props.user.interests.map(interest =>
@@ -248,8 +265,6 @@ export default class Post extends Component {
                 timeRequired: 0,
                 interests: [],
                 url: '',
-                imageSource:
-                  'https://humankind-assets.s3.eu-west-1.amazonaws.com/post/gr8QHk31k2Raa',
                 postTypeAskChecked: false,
                 postTypeOfferChecked: false,
                 updateButton: false,
