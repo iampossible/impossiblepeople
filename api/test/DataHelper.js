@@ -3,12 +3,17 @@
 var request = require('requestretry');
 var Sequence = require('impossible-promise');
 
-// var config = require('../src/config/server');
+var config = require('../src/config/server');
 var DataGenerator = require('./DataGenerator');
 
 // const neo4jAuth = `http://${config.neo4j.user}:${config.neo4j.pass}@`;
-const neo4jBatchEndpoint = `http://neo4j:RJHTFzJWQWVJT2L3EudP@127.0.0.1:7474/db/data/batch`;
-const neo4jQueryEndpoint = `http://neo4j:RJHTFzJWQWVJT2L3EudP@127.0.0.1:7474/db/data/transaction/commit`;
+//const neo4jBatchEndpoint = `http://neo4j:RJHTFzJWQWVJT2L3EudP@127.0.0.1:7474/db/data/batch`;
+//const neo4jQueryEndpoint = `http://neo4j:RJHTFzJWQWVJT2L3EudP@127.0.0.1:7474/db/data/transaction/commit`;
+
+const neo4jAuth = `http://${config.neo4j.user}:${config.neo4j.pass}@`;
+const neo4jBatchEndpoint = `${config.neo4j.host.replace('http://', neo4jAuth)}/db/data/batch`;
+const neo4jQueryEndpoint = `${config.neo4j.host.replace('http://', neo4jAuth)}/db/data/transaction/commit`;
+
 
 class DataHelper {
 
