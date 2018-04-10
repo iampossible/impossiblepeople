@@ -22,9 +22,9 @@
     "url": "https://github.com/iampossible/impossiblepeople.git"
   },
   "dependencies": {
-    "aws-sdk": "^2.3.3",
+    "aws-sdk": "^2.222.1",
     "bcrypt": "^0.8.6",
-    "btoa": "^1.1.2",
+    "btoa": "^1.2.1",
     "hapi": "^13.2.1",
     "hapi-auth-cookie": "^6.1.1",
     "hashids": "^1.0.2",
@@ -32,19 +32,19 @@
     "joi": "^8.0.5",
     "log4js": "^0.6.35",
     "memory-cache": "^0.1.5",
-    "moment": "^2.21.0",
+    "moment": "^2.22.0",
     "newrelic": "^1.26.1",
     "nodemailer": "^2.7.0",
     "nodemailer-ses-transport": "^1.5.1",
     "nodemailer-wellknown": "^0.2.0",
     "password": "^0.1.1",
     "path": "^0.12.7",
-    "request": "^2.69.0",
+    "request": "^2.85.0",
     "sequence": "^3.0.0",
     "seraph": "^0.14.2",
     "sqs-consumer": "^3.2.0",
-    "sqs-producer": "^1.3.4",
-    "yarn": "^1.3.2"
+    "sqs-producer": "^1.6.2",
+    "yarn": "^1.5.1"
   },
   "devDependencies": {
     "eslint": "^4.11.0",
@@ -54,12 +54,12 @@
     "eslint-plugin-react": "^7.4.0",
     "inert": "4.1.0",
     "istanbul": "^0.4.3",
-    "jasmine": "^2.4.1",
+    "jasmine": "^2.99.0",
     "jasmine-spec-reporter": "^3.0.0",
     "lout": "9.2.0",
     "nock": "^8.0.0",
-    "pm2": "^2.9.3",
-    "requestretry": "^1.8.0",
+    "pm2": "^2.10.2",
+    "requestretry": "^1.13.0",
     "vision": "4.1.1"
   },
   "jshintConfig": {
