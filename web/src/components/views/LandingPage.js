@@ -481,6 +481,23 @@ export default class LandingPage extends Component {
                 )}
 
                 {!this.props.register && !this.props.login ? (
+
+                  <Row>
+                   <Row id="betaVersionInfo">
+                   <Col sm={12}>
+                    <p>
+                      <strong>TESTING TESTING</strong> ……
+                    </p>
+                    <p>
+                      Welcome to the Beta test version for Humankind.<br/>
+                      This is a work in progress.<br/>
+                      There will be lots of issues and we need you
+                      to help us to identify them.<br/>
+                      Please give us your feedback
+                      using the link below ( in the footer)
+                    </p>
+                  </Col>
+                  </Row>
                   <Row id="landingPageInfo">
                     <Row>
                       <Col sm={1}>
@@ -526,6 +543,7 @@ export default class LandingPage extends Component {
                         <hr />
                       </Col>
                     </Row>
+                  </Row>
                   </Row>
                 ) : (
                   <Fragment>
@@ -580,19 +598,6 @@ export default class LandingPage extends Component {
               </Col>
 
               <Col sm={2} />
-            </Row>
-            <Row id="betaVersionInfo">
-              <Col sm={12}>
-                <p>
-                  <strong>TESTING TESTING</strong> ……
-                </p>
-                <p>
-                  Welcome to the Beta test version for Humankind . This is a
-                  work in progress. There will be lots of issues and we need you
-                  to help us to identify them. Please give us your feedback
-                  using the link below ( in footer)
-                </p>
-              </Col>
             </Row>
           </Fragment>
         ) : (
