@@ -45,15 +45,25 @@ export default class Post extends Component {
     2:'https://www.planwallpaper.com/static/images/canberra_hero_image_JiMVvYU.jpg',
     3:'https://www.planwallpaper.com/static/images/6775415-beautiful-images.jpg',
     4:'https://www.planwallpaper.com/static/images/9-credit-1.jpg',
-    5:'https://www.planwallpaper.com/static/images/background-gmail-google-images_FG2XwaO.jpg' 
+    5:'https://www.planwallpaper.com/static/images/background-gmail-google-images_FG2XwaO.jpg',
+    6:'https://www.w3schools.com/w3css/img_fjords.jpg',
+    7:'https://www.w3schools.com/w3css/img_lights.jpg',
+    8:'https://www.elastic.co/assets/bltada7771f270d08f6/enhanced-buzz-1492-1379411828-15.jpg',
+    9:'http://images.all-free-download.com/images/graphiclarge/canoe_water_nature_221611.jpg',
+    10:'http://images.all-free-download.com/images/graphiclarge/landscape_meadow_nature_216362.jpg' 
     }
-         
-    let imagesLength=Object.keys(Images).length ;
-    let randomNum = Math.floor((Math.random() * imagesLength));
+       
+    const getRandomImage=()=>{
+      let imagesLength=Object.keys(Images).length ;
+      let randomNum = Math.floor((Math.random() * imagesLength));
+  
+      this.setState({
+        imageSource:Images[randomNum]
+      })  
+    }
 
-    this.setState({
-      imageSource:Images[randomNum]
-    })  
+    getRandomImage();
+    
 }
   
   componentWillMount() {
