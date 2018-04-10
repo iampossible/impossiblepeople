@@ -68,7 +68,9 @@ match (n)
 with n limit 10000  
 DETACH DELETE n;  
 
-b-Go To: impossible-gnome/api/test/
+b-You need to  populate the dabase manually.
+
+Go To: impossible-gnome/api/test/
 copy environment file from immpossible-gnome folder to this folder
 
 open termenal 
