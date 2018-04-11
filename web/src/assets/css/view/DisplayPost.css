@@ -1,0 +1,8 @@
+.profile-name-link{
+    width: max-content;
+    cursor: pointer;
+ }
+ .profile-name-link:hover{
+    color: #003366;
+ 
+  }
