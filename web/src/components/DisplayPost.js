@@ -1,7 +1,7 @@
 import React, { Component, Fragment } from "react";
 import { Row, Col } from "reactstrap";
 import DisplayComment from "./DisplayComment";
-
+import '../assets/css/view/DisplayPost.css'
 class DisplayPost extends Component {
   state = {
     loadComment: "",
@@ -132,7 +132,13 @@ class DisplayPost extends Component {
             />
           </Col>
           <Col sm={4} className="feedAuthor">
-            <p>
+            <p className="profile-name-link" onClick={() => {
+                if (this.props.user.userID === postData.author.userID) {
+                  this.props.history.push("/profile");
+                } else {
+                  this.props.handleShowProfile(postData.author.userID);
+                }
+              }}>
               {//temporary as we have data in the db that doesn't have organisationName
               postData.author.organisationName
                 ? postData.author.organisationName
