@@ -1,0 +1,8 @@
+span.commentAuthor{
+    width: max-content;
+    cursor: pointer;
+  }
+ span.commentAuthor:hover{
+    color: #003366;
+ 
+  }
