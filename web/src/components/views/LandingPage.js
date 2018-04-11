@@ -456,7 +456,8 @@ export default class LandingPage extends Component {
                           this.props.register
                             ? "selectedUserTypeButton"
                             : ""
-                        }>
+                        }
+                      >
                         I'm an Individual
                       </Button>
                     </Col>
@@ -470,7 +471,8 @@ export default class LandingPage extends Component {
                           this.props.register
                             ? "selectedUserTypeButton"
                             : ""
-                        }>
+                        }
+                      >
                         I'm a group
                       </Button>
                     </Col>
@@ -481,69 +483,68 @@ export default class LandingPage extends Component {
                 )}
 
                 {!this.props.register && !this.props.login ? (
-
                   <Row>
-                   <Row id="betaVersionInfo">
-                   <Col sm={12}>
-                    <p>
-                      <strong>TESTING TESTING</strong> ……
-                    </p>
-                    <p>
-                      Welcome to the Beta test version for Humankind.<br/>
-                      This is a work in progress.<br/>
-                      There will be lots of issues and we need you
-                      to help us to identify them.<br/>
-                      Please give us your feedback
-                      using the link below ( in the footer)
-                    </p>
-                  </Col>
-                  </Row>
-                  <Row id="landingPageInfo">
-                    <Row>
-                      <Col sm={1}>
-                        <i className="fa fa-check" aria-hidden="true" />
-                      </Col>
-                      <Col sm={11}>
+                    <Row id="betaVersionInfo">
+                      <Col sm={12}>
                         <p>
-                          Connect with a community of volunteers and purposeful
-                          organisations.
+                          <strong>TESTING TESTING</strong> ……
+                        </p>
+                        <p>
+                          Welcome to the Beta test version for Humankind.<br />
+                          This is a work in progress.<br />
+                          There will be lots of issues and we need you to help
+                          us to identify them.<br />
+                          Please give us your feedback using the link below ( in
+                          the footer)
                         </p>
                       </Col>
                     </Row>
-                    <Row>
-                      <Col sm={12}>
-                        <hr />
-                      </Col>
+                    <Row id="landingPageInfo">
+                      <Row>
+                        <Col sm={1}>
+                          <i className="fa fa-check" aria-hidden="true" />
+                        </Col>
+                        <Col sm={11}>
+                          <p>
+                            Connect with a community of volunteers and
+                            purposeful organisations.
+                          </p>
+                        </Col>
+                      </Row>
+                      <Row>
+                        <Col sm={12}>
+                          <hr />
+                        </Col>
+                      </Row>
+                      <Row>
+                        <Col sm={1}>
+                          <i className="fa fa-check" aria-hidden="true" />
+                        </Col>
+                        <Col sm={11}>
+                          <p>
+                            Coordinate and be more efficient at helping others.
+                          </p>
+                        </Col>
+                      </Row>
+                      <Row>
+                        <Col sm={12}>
+                          <hr />
+                        </Col>
+                      </Row>
+                      <Row>
+                        <Col sm={1}>
+                          <i className="fa fa-check" aria-hidden="true" />
+                        </Col>
+                        <Col sm={11}>
+                          <p>Measure your impact.</p>
+                        </Col>
+                      </Row>
+                      <Row>
+                        <Col sm={12}>
+                          <hr />
+                        </Col>
+                      </Row>
                     </Row>
-                    <Row>
-                      <Col sm={1}>
-                        <i className="fa fa-check" aria-hidden="true" />
-                      </Col>
-                      <Col sm={11}>
-                        <p>
-                          Coordinate and be more efficient at helping others.
-                        </p>
-                      </Col>
-                    </Row>
-                    <Row>
-                      <Col sm={12}>
-                        <hr />
-                      </Col>
-                    </Row>
-                    <Row>
-                      <Col sm={1}>
-                        <i className="fa fa-check" aria-hidden="true" />
-                      </Col>
-                      <Col sm={11}>
-                        <p>Measure your impact.</p>
-                      </Col>
-                    </Row>
-                    <Row>
-                      <Col sm={12}>
-                        <hr />
-                      </Col>
-                    </Row>
-                  </Row>
                   </Row>
                 ) : (
                   <Fragment>
