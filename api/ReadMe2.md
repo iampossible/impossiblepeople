@@ -78,7 +78,7 @@ run command:source environment
 then do:npm install
 then node DataHelper.js
 
-#Change proxey to  localhost:3000
+#Change proxy to  localhost:3000
 go to Web folder
 
 open package.json
