@@ -79,6 +79,18 @@ export default class DisplayComment extends Component {
                                 <img
                                   src={comment.imageSource}
                                   alt={comment.author}
+                                  onClick={() => {
+                                    if (
+                                      this.props.user.userID ===
+                                      comment.authorID
+                                    ) {
+                                      this.props.history.push("/profile");
+                                    } else {
+                                      this.props.handleShowProfile(
+                                        comment.authorID
+                                      );
+                                    }
+                                  }}
                                 />
                               </Col>
                               <Col sm={9} className="commentContentContainer">
