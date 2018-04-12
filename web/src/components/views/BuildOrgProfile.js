@@ -13,6 +13,7 @@ import Interest from "./Interest";
 import { RingLoader } from "react-spinners";
 import { getBase64 } from "../../utillity/helpers";
 import { handleErrors } from "../../utillity/helpers";
+import "../../assets/css/view/BuildOrgProfile.css"
 
 export default class BuildOrgProfile extends Component {
   constructor(props) {
@@ -93,13 +94,8 @@ export default class BuildOrgProfile extends Component {
         .then(response => {
           return response.json();
         })
+        .then(handleErrors)
         .then(response => {
-          if (response.message) {
-            this.setState({
-              uploadingImage: false
-            });
-            throw new Error(response.message);
-          }
           this.setState({
             imageSource: response.imageSource,
             uploadingImage: false
@@ -108,6 +104,7 @@ export default class BuildOrgProfile extends Component {
         .catch(err => {
           this.setState(
             {
+              uploadingImage: false,
               imageLoadError: `Can't upload Image: the image size is very large or it is not of JPG/JPEG/PNG/GIF type`
             },
             () => {
@@ -320,10 +317,10 @@ export default class BuildOrgProfile extends Component {
                 <Col sm={1} />
                 <Col sm={10} id="orgDescription">
                   <Input
-                    type="text"
-                    name="description"
-                    placeholder="What brings you here?"
-                    value={this.state.description}
+                    id="textarea"
+                    type="textarea"
+                    name="description" 
+                     value={this.state.description}
                     onChange={this.handleChange}
                   />
                 </Col>

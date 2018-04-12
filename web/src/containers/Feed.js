@@ -4,6 +4,7 @@ import { RingLoader } from "react-spinners";
 import Post from "../components/Post";
 import DisplayPost from "../components/DisplayPost";
 import FilterButtons from "../components/FilterButtons";
+import Profile from "../components/views/Profile";
 
 const NoFeedMessage = props => (
   <div id="noFeedMessageContainer">
@@ -33,7 +34,9 @@ class Feed extends Component {
     tagsDropdownOpen: false,
     newComment: "",
     commentsDisplayed: false,
-    createPostClicked: false
+    createPostClicked: false,
+    showProfile: false,
+    pofileUserID: ""
   };
 
   componentWillMount() {
@@ -183,6 +186,12 @@ class Feed extends Component {
       );
     }
   };
+  handleShowProfile = userID => {
+    this.setState({
+      showProfile: !this.state.showProfile,
+      pofileUserID: this.state.pofileUserID === "" ? userID : ""
+    });
+  };
 
   getRandomImage = () => {
     let Images = {
@@ -296,6 +305,8 @@ class Feed extends Component {
                       newComment={this.state.newComment}
                       handleChange={this.handleChange}
                       handleKeyUp={this.handleKeyUp}
+                      handleShowProfile={this.handleShowProfile}
+                      history={this.props.history}
                     />
                   </div>
                 );
@@ -329,6 +340,14 @@ class Feed extends Component {
               user={user}
               updateFeeds={this.getFeeds}
               postToUpdate={this.state.postToUpdate}
+            />
+          ) : (
+            ""
+          )}
+          {this.state.showProfile ? (
+            <Profile
+              userID={this.state.pofileUserID}
+              handleShowProfile={this.handleShowProfile}
             />
           ) : (
             ""

@@ -107,7 +107,9 @@ class DisplayPost extends Component {
           <Row>
             <Col sm={1} />
             <Col sm={3} className="feedUrl">
-              <a href={postData.url}>Read More ...</a>
+              <a href={postData.url} target="_blank">
+                Read More ...
+              </a>
             </Col>
           </Row>
         ) : (
@@ -120,6 +122,13 @@ class DisplayPost extends Component {
               className="img-fluid"
               src={postData.author.imageSource}
               alt="profile"
+              onClick={() => {
+                if (this.props.user.userID === postData.author.userID) {
+                  this.props.history.push("/profile");
+                } else {
+                  this.props.handleShowProfile(postData.author.userID);
+                }
+              }}
             />
           </Col>
           <Col sm={4} className="feedAuthor">
@@ -162,6 +171,8 @@ class DisplayPost extends Component {
               handleKeyUp={this.props.handleKeyUp}
               showComments={this.state.showComments}
               toggleComment={this.state.toggleComment}
+              handleShowProfile={this.props.handleShowProfile}
+              history={this.props.history}
             />
           </Col>
         </Row>
