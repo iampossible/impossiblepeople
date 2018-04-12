@@ -458,7 +458,7 @@ export default class LandingPage extends Component {
                             : ""
                         }
                       >
-                        I'm an Individual
+                        {"I'm an Individual"}
                       </Button>
                     </Col>
                     <Col sm={4}>
