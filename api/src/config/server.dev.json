@@ -16,7 +16,7 @@
         }
     },
     "neo4j": {
-        "host": "http://172.18.0.3:7474"
+        "host": "http://neo4j:7474"
     },
     "smtp": {
         "from": "hello@humankindhub.org"
