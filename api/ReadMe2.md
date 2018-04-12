@@ -78,5 +78,17 @@ run command:source environment
 then do:npm install
 then node DataHelper.js
 
+#Change proxy to  localhost:3000
+go to Web folder
+
+open package.json
+
+change
+  "proxy": "http://api.humankind.codeyourfuture.io"
+To
+  "proxy": "http://localhost:3000/"
+
+##--Important-- 
+#You have to add the name of all changed files to .gitignore file to aviod change these files in upstream remote. 
 
 
