@@ -2,7 +2,7 @@ import React, { Component, Fragment } from "react";
 import { Row, Col, ListGroup, ListGroupItem } from "reactstrap";
 import { CSSTransitionGroup } from "react-transition-group";
 import Comment from "../components/Comment";
-
+import '../assets/css/view/DisplayComment.css'
 export default class DisplayComment extends Component {
   state = {
     showAllcomments: false
@@ -94,7 +94,18 @@ export default class DisplayComment extends Component {
                                 />
                               </Col>
                               <Col sm={9} className="commentContentContainer">
-                                <span className="commentAuthor">
+                                <span onClick={() => {
+                                    if (
+                                      this.props.user.userID ===
+                                      comment.authorID
+                                    ) {
+                                      this.props.history.push("/profile");
+                                    } else {
+                                      this.props.handleShowProfile(
+                                        comment.authorID
+                                      );
+                                    }
+                                  }} className="commentAuthor">
                                   {comment.author} :&nbsp;&nbsp;&nbsp;
                                 </span>
                                 <span className="commentContent">
