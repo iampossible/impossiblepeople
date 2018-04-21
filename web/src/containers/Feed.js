@@ -187,6 +187,7 @@ class Feed extends Component {
     }
   };
   handleShowProfile = userID => {
+    {window.scrollTo(0,0)}
     this.setState({
       showProfile: !this.state.showProfile,
       pofileUserID: this.state.pofileUserID === "" ? userID : ""
