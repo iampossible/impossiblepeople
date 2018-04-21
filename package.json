@@ -29,7 +29,9 @@
     "url": "https://github.com/iampossible/impossiblepeople/issues"
   },
   "homepage": "https://github.com/iampossible/impossiblepeople#readme",
-  "dependencies": {},
+  "dependencies": {
+    "request": "^2.85.0"
+  },
   "devDependencies": {
     "eslint": "^2.5.1",
     "eslint-config-airbnb": "^6.2.0",
