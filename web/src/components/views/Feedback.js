@@ -10,6 +10,8 @@ import {
   Alert
 } from "reactstrap";
 import { handleErrors } from "../../utillity/helpers";
+import ReCAPTCHA from "react-google-recaptcha";
+
 
 export default class Feedback extends Component {
   state = {
@@ -18,7 +20,8 @@ export default class Feedback extends Component {
     subject: "",
     body: "",
     error: [],
-    successMessage: null
+    successMessage: null,
+    recaptchaChecked: false
   };
 
   handleChange = e => {
@@ -47,6 +50,9 @@ export default class Feedback extends Component {
     if (this.state.subject === "") {
       error.push("You need to put the subject of your feedback");
     }
+    if (!this.state.recaptchaChecked) {
+      error.push("You need to select I am not robot");
+    }
     if (this.state.body === "") {
       error.push("You need to write your feedback");
     }
@@ -64,6 +70,7 @@ export default class Feedback extends Component {
             });
           }, 5000);
         }
+        
       );
     } else {
       const { error, successMessage, ...feedback } = this.state;
@@ -76,6 +83,7 @@ export default class Feedback extends Component {
         .then(response => response.json())
         .then(response => {
           if (response) {
+
             this.setState(
               {
                 fullName: "",
@@ -91,7 +99,7 @@ export default class Feedback extends Component {
                   this.setState({
                     successMessage: null
                   });
-                }, 5000);
+                                }, 5000);
               }
             );
           }
@@ -115,6 +123,12 @@ export default class Feedback extends Component {
         });
     }
   };
+  onChangeRecaptcha(response) {
+    this.setState({
+      recaptchaResponse: response,
+      recaptchaChecked: true
+    });
+  }
   render() {
     return (
       <Row className="footerLinks">
@@ -220,9 +234,15 @@ export default class Feedback extends Component {
             <FormGroup row>
               <Col sm={3} />
               <Col sm={8}>
+                <ReCAPTCHA
+                  ref="recaptcha"
+                  sitekey="6LeaUVMUAAAAAJxBWHfpFFI3urwt_P-dNZEUsaJh"
+                  onChange={this.onChangeRecaptcha.bind(this)}
+                />
                 <Button
                   id="feedbackMessageSendButton"
-                  onClick={this.handleSubmit}>
+                  onClick={this.handleSubmit}
+                >
                   Send
                 </Button>
               </Col>
