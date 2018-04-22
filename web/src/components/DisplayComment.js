@@ -123,7 +123,7 @@ export default class DisplayComment extends Component {
                                 <span>
                                   <i className="fa fa-clock-o" />&nbsp;{comment.createdAtSince.toUpperCase() +
                                     " ago"}&nbsp; &nbsp; 
-                                  {comment.authorID === user.userID || user.admin ? (
+                                  {comment.authorID === user.userID ? (
                                   <i title="remove comment" onClick={()=>(this.handleCommentDelete(this.props.feedData.postID,comment.commentID))} class="fa fa-trash" aria-hidden="true"/>
                                    ):
                                     null}
@@ -156,7 +156,7 @@ export default class DisplayComment extends Component {
                                 <span>
                                   <i className="fa fa-clock-o" />&nbsp;{comment.createdAtSince.toUpperCase() +
                                     " ago"}&nbsp;
-                                 {comment.authorID === user.userID || user.admin ? (
+                                 {comment.authorID === user.userID  ? (
                                   <i title="remove comment" onClick={()=>(this.handleCommentDelete(this.props.feedData.postID,comment.commentID))} class="fa fa-trash" aria-hidden="true"/>
                                    ):
                                  null}
