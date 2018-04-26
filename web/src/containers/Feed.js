@@ -336,7 +336,7 @@ class Feed extends Component {
 
            {(user && (user.userType === "organisation" && !user.approved))?(
             <Col sm={2} id="textWarning">
-            <Alert color="danger">Your account must be verified before you can start add posts</Alert>
+            <Alert color="danger">I'm sorry you cannot post until you are verified</Alert>
            </Col>
           ) : (
             ""
