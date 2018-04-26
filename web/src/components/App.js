@@ -21,6 +21,7 @@ import UserAgreement from "./views/UserAgreement";
 import PrivacyPolicy from "./views/PrivacyPolicy";
 import Faq from "./views/Faq";
 import Feedback from "./views/Feedback";
+import MobileLandingPage from "./views/MobileLandingPage"
 
 const Main = props => {
   return (
@@ -169,6 +170,10 @@ class App extends Component {
               />
             </Col>
           </Row>
+            <MobileLandingPage  />
+          <Row>
+              
+           </Row>
           <Row className="App-footer">
             <Footer />
           </Row>
