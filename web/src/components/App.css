@@ -849,10 +849,11 @@ hr {
 }
 
 #filterPosts,
-#createPostButton {
+#createPostButton,#textWarning {
   top: 21.5%;
   position: fixed;
 }
+ 
 
 #filterPosts {
   left: 3%;
@@ -862,7 +863,7 @@ hr {
   margin-top: 0;
 }
 
-#createPostButton {
+#createPostButton,#textWarning {
   right: 2%;
   z-index: 999;
 }
