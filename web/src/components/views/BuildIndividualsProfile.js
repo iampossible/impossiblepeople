@@ -359,7 +359,7 @@ export default class BuildIndividualsProfile extends Component {
               <Col sm={1} />
               <Col sm={10} id="interestsHeading">
                 <p>
-                  What opportunities would you like to hear about? ( interests )
+                  What opportunities would you like to hear about? ( Remit )
                 </p>
               </Col>
               <Col sm={1} />
