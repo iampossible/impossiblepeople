@@ -53,7 +53,7 @@ class FeedbackController extends Controller {
         if (body.success !== undefined && !body.success) {
           reply({ msg: `error: ${err}` }).code(500);
         }
-        //EmailService.sendFeedbackEmail(request.payload);
+        EmailService.sendFeedbackEmail(request.payload);
         reply(true).code(200);
       })
       .error(err => reply({ msg: `error: ${err}` }).code(500));
