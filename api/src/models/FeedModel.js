@@ -3,7 +3,7 @@
 const Sequence = require("impossible-promise");
 const Model = require("core/Model");
 const config = require("config/server");
-
+const request = require("request");
 const maxDistance = 25; // km
 
 const locationSearch = config.settings.feed_use_location
@@ -94,6 +94,14 @@ class FeedModel extends Model {
           return accept(response);
         }
       )
+    );
+  }
+  googleRecaptchaCheckResponse(verificationUrl) {
+    return new Sequence((accept, reject) =>
+      request(verificationUrl, (err, response, body) => {
+        if (err) return reject(err);
+        return accept(body);
+      })
     );
   }
 }

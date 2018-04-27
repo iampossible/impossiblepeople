@@ -2,8 +2,8 @@
 
 const Joi = require("joi");
 const Controller = require("core/Controller");
-const request = require("request");
 const EmailService = require("middleware/EmailService");
+const userModel = require("models/FeedModel");
 
 class FeedbackController extends Controller {
   constructor() {
@@ -44,16 +44,19 @@ class FeedbackController extends Controller {
       req.payload.recaptchaResponse +
       "&remoteip=" +
       req.connection.remoteAddress;
-    // Hitting GET request to the URL, Google will respond with success or error scenario.
-    request(verificationUrl, function(error, response, body) {
-      body = JSON.parse(body);
-      // Success will be true or false depending upon captcha validation.
-      if (body.success !== undefined && !body.success) {
-        reply(true).code(400);
-      }
-      EmailService.sendFeedbackEmail(request.payload);
-      reply(true).code(200);
-    });
+
+    userModel
+      .googleRecaptchaCheckResponse(verificationUrl)
+      .done(body => {
+        body = JSON.parse(body);
+        // Success will be true or false depending upon captcha validation.
+        if (body.success !== undefined && !body.success) {
+          reply({ msg: `error: ${err}` }).code(500);
+        }
+        //EmailService.sendFeedbackEmail(request.payload);
+        reply(true).code(200);
+      })
+      .error(err => reply({ msg: `error: ${err}` }).code(500));
   }
 }
 
