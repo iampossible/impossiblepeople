@@ -9,6 +9,7 @@ import {
   Input,
   Alert
 } from "reactstrap";
+import "../../assets/css/view/feedBack.css";
 import { handleErrors } from "../../utillity/helpers";
 
 export default class Feedback extends Component {
@@ -222,7 +223,8 @@ export default class Feedback extends Component {
               <Col sm={8}>
                 <Button
                   id="feedbackMessageSendButton"
-                  onClick={this.handleSubmit}>
+                  onClick={this.handleSubmit}
+                >
                   Send
                 </Button>
               </Col>
@@ -232,6 +234,7 @@ export default class Feedback extends Component {
               <Row>
                 <Col sm={3} />
                 <Col sm={8} className="feedbackError">
+                {window.scrollTo(0,window.innerHeight)} 
                   <Alert color="danger">
                     {this.state.error.map((error, i) => (
                       <p key={i}>&ndash;{error}</p>
@@ -248,7 +251,25 @@ export default class Feedback extends Component {
                 <Col sm={3} />
                 <Col sm={8} className="feedbackSuccess">
                   <Alert color="success">
-                    <p>&ndash;&nbsp;&nbsp;{this.state.successMessage}</p>
+                    <svg
+                      class="checkmark"
+                      xmlns="http://www.w3.org/2000/svg"
+                      viewBox="0 0 52 52"
+                    >
+                      <circle
+                        class="checkmark__circle"
+                        cx="26"
+                        cy="26"
+                        r="25"
+                        fill="none"
+                      />
+                      <path
+                        class="checkmark__check"
+                        fill="none"
+                        d="M14.1 27.2l7.1 7.2 16.7-16.8"
+                      />
+                    </svg>
+                    <p>{this.state.successMessage}</p>
                   </Alert>
                 </Col>
                 <Col sm={1} />
