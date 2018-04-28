@@ -179,6 +179,8 @@ class DisplayPost extends Component {
               toggleComment={this.state.toggleComment}
               handleShowProfile={this.props.handleShowProfile}
               history={this.props.history}
+              handleCommentDelete={this.props.handleCommentDelete}
+
             />
           </Col>
         </Row>
