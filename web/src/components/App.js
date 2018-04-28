@@ -171,9 +171,6 @@ class App extends Component {
             </Col>
           </Row>
             <MobileLandingPage  />
-          <Row>
-              
-           </Row>
           <Row className="App-footer">
             <Footer />
           </Row>
