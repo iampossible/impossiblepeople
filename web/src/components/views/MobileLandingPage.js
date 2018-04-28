@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { Row, Col } from "reactstrap";
 
-function MobileLandingPage(props) {
+function MobileLandingPage() {
   return (
     <Row className="mobile-landing" id="landingPageInfo">
       <img
