@@ -1,5 +1,5 @@
 import React, { Component, Fragment } from "react";
-import { Row, Col, Button,Alert } from "reactstrap";
+import { Row, Col, Button, Alert } from "reactstrap";
 import { RingLoader } from "react-spinners";
 import Post from "../components/Post";
 import DisplayPost from "../components/DisplayPost";
@@ -334,10 +334,12 @@ class Feed extends Component {
             ""
           )}
 
-           {(user && (user.userType === "organisation" && !user.approved))?(
+          {user && (user.userType === "organisation" && !user.approved) ? (
             <Col sm={2} id="textWarning">
-            <Alert color="danger">I'm sorry you cannot post until you are verified</Alert>
-           </Col>
+              <Alert color="danger">
+                {"I'm sorry you cannot post until you are verified"}
+              </Alert>
+            </Col>
           ) : (
             ""
           )}
