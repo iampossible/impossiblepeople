@@ -138,7 +138,7 @@ class Feed extends Component {
     }
   };
   handleCommentDelete = (postID,commentID) => {
-    if (window.confirm("Do you really want to delete this post ?")) {
+    if (window.confirm("Do you really want to delete this comment ?")) {
        fetch(`/api/post/${postID}/comment/${commentID}`, {
         method: "DELETE",
         headers: {
