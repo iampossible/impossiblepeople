@@ -349,7 +349,7 @@ export default class BuildOrgProfile extends Component {
               <Row>
                 <Col sm={1} />
                 <Col sm={10} id="interestsHeading">
-                  <p>Which services do you provide (Interests)</p>
+                  <p>Which services do you provide (Remit)</p>
                 </Col>
                 <Col sm={1} />
               </Row>

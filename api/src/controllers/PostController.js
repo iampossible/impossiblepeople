@@ -106,6 +106,17 @@ class PostController extends Controller {
       }
     });
 
+    this.route("deleteComment", {
+      path: "/api/post/{postID}/comment/{commentID}",
+      handler: this.deleteCommentHandler,
+      method: "DELETE",
+      auth: "session",
+      validateParams: {
+        postID: Joi.string().alphanum(),
+        commentID: Joi.string().alphanum()
+      }
+    });
+
     this.route("reportPost", {
       method: "GET",
       path: "/api/post/{postID}/report",
@@ -241,7 +252,6 @@ class PostController extends Controller {
   deletePostHandler(request, reply) {
     const postID = request.params.postID;
     const user = request.auth.credentials;
-
     postModel
       .postBelongsToUser(user, postID)
       .then((accept, reject) => {
@@ -260,6 +270,30 @@ class PostController extends Controller {
       .done(() => {
         reply({}).code(200);
       });
+  }
+
+  deleteCommentHandler(request, reply) {
+     const commentID = request.params.commentID;
+    const postID = request.params.postID;
+    const user = request.auth.credentials;
+      postModel
+      .commentBelongsToUser(user,commentID, postID)
+      .then((accept, reject) => {
+        postModel
+          .deleteComment(user,commentID, postID)
+          .error(reject)
+          .done(accept);
+      })
+        .error(e => {
+          if (e === "permission denied") {
+            reply({}).code(403);
+          } else {
+            reply({ msg: e }).code(500);
+          }
+        })
+        .done(() => {
+          reply({}).code(200);
+        });
   }
 
   reportPostHandler(request, reply) {

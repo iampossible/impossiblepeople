@@ -221,7 +221,22 @@ class PostModel extends Model {
       );
     });
   }
-
+  deleteComment(user, commentID , postID) {
+    let userID = user.userID;
+    return new Sequence((accept, reject) => {
+      this.db.query(
+        "MATCH(u:Person {userID:{userID}})-[c:COMMENTS{commentID:{commentID}}]->(p:Post{postID:{postID}}) DELETE c",
+        { userID, commentID,postID},
+        (err, data) => {
+          if (err) {
+            reject(err);
+          } else {
+            accept(data);
+          }
+        }
+      );
+    });
+  }
   resolvePost(postID) {
     return this.db.getOne(
       "MATCH (p:Post{postID: { postID }}) SET p.resolved = true RETURN p;",
@@ -229,6 +244,23 @@ class PostModel extends Model {
     );
   }
 
+  commentBelongsToUser(user, commentID , postID) {
+    let userID = user.userID;
+    return new Sequence((accept, reject) => {
+      this.db.query(
+        "MATCH(u:Person {userID:{userID}})-[c:COMMENTS{commentID:{commentID}}]->(p:Post{postID:{postID}}) RETURN c, count(*)" ,
+        { userID, commentID,postID},
+        (err, data) => {
+          console.log(data)
+          if (err) return reject(err);
+          if (data.length === 0 && !user.admin)
+            return reject("permission denied");
+
+          return accept();
+        }
+      );
+    });
+  }
   //added to update post
   updatePost(userNode, postID, data) {
     let interests = data.interests;

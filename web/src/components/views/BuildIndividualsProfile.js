@@ -13,6 +13,7 @@ import Interest from "./Interest";
 import { RingLoader } from "react-spinners";
 import { getBase64 } from "../../utillity/helpers";
 import { handleErrors } from "../../utillity/helpers";
+import '../../assets/css/view/BuildIndividualsProfile.css'
 
 export default class BuildIndividualsProfile extends Component {
   constructor(props) {
@@ -323,7 +324,7 @@ export default class BuildIndividualsProfile extends Component {
             <FormGroup row>
               <Col sm={1} />
               <Col sm={10}>
-                <Input
+                <Input className="about-me-profile"
                   placeholder="What brings you here?"
                   type="textarea"
                   name="description"
@@ -359,7 +360,7 @@ export default class BuildIndividualsProfile extends Component {
               <Col sm={1} />
               <Col sm={10} id="interestsHeading">
                 <p>
-                  What opportunities would you like to hear about? ( interests )
+                  What opportunities would you like to hear about? (Remit)
                 </p>
               </Col>
               <Col sm={1} />
