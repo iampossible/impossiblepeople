@@ -82,6 +82,17 @@ strong {
   width: 280px;
 }
 
+ .mobile-landing #LandingHeader{
+  text-align: center;
+  margin: 10px;
+  margin-bottom:40px;
+}
+
+.mobile-landing #LandingHeader {
+  height: 50px;
+  width: 280px;
+}
+
 .App-header #headerLogoImage img {
   width: 100%;
   height: 30px;
@@ -1817,10 +1828,23 @@ button {
     padding: 0;
   }
 }
+.mobile-landing{
+  display: none;
+  margin-top:30px;
+}
 
 /* media query section*/
 
 @media (min-width: 0) and (max-width: 650px) {
+  .App-main,.App-footer,.App-header{
+    display: none!important;
+  }
+
+  .mobile-landing{
+    display: block;
+  }
+  
+
 }
 
 @media (min-width: 450px) and (max-width: 650px) {
