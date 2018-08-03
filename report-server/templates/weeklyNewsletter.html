@@ -166,8 +166,9 @@
     <div class="top-level post-container">
         <table class="post-list" border="0" cellpadding="0" cellspacing="15px">
             <tbody>
+                {{#offers}}
                 <tr>
-                    {{#offers}}
+                    {{#.}}
                     <td class="post-content" valign="top">
                         <img src="cid:interest/{{ categoryCID }}" width=280 height=87>
                         <p class="post-text">
@@ -183,8 +184,9 @@
                             </tr>
                         </table>
                     </td>
-                    {{/offers}}
+                    {{/.}}
                 </tr>
+                {{/offers}}
             </tbody>
         </table>
     </div>
@@ -196,8 +198,9 @@
     <div class="top-level post-container">
         <table class="post-list" border="0" cellpadding="0" cellspacing="15px">
             <tbody>
+                {{#asks}}
                 <tr>
-                    {{#asks}}
+                    {{#.}}
                     <td class="post-content" valign="top">
                         <img src="cid:interest/{{ categoryCID }}" width=280 height=87>
                         <p class="post-text">
@@ -213,8 +216,9 @@
                             </tr>
                         </table>
                     </td>
-                    {{/asks}}
+                    {{/.}}
                 </tr>
+                {{/asks}}
             </tbody>
         </table>
     </div>

@@ -35,15 +35,29 @@ mu.root = __dirname + '/../templates'
 const unsubscribeDate = Date.now().valueOf();
 const cipherAlgo = 'aes256';
 
-const postLimitPerType = 2;
+const postMinimum = 1;
+const postLimitPerType = 10;
 
-const weekStart = moment().subtract(1, 'week').startOf('week');
-const weekEnd = moment().subtract(1, 'week').endOf('week');
+const weekStart = moment().subtract(99, 'week').startOf('week');
+const weekEnd = moment().subtract(0, 'week').endOf('week');
 
 if (config.logging) {
   console.log('weekStart', weekStart.format('MMM. D YYYY'), weekStart.format('x'))
   console.log('weekEnd', weekEnd.format('MMM. D YYYY'), weekEnd.format('x'))
 }
+
+const nByN = (n: number) =>
+  (l: any[]) =>
+    l.reduce((accum: any[][], x: any) => {
+      if (accum.length === 0 || accum[accum.length - 1].length == n) {
+        accum.push([x]);
+      } else {
+        accum[accum.length - 1].push(x);
+      }
+      return accum;
+    }, []);
+
+const twoByTwo = nByN(2);
 
 const userQuery = (userID: string) => new Promise((resolve, reject) => {
   promisify(db.query, 'MATCH (p:Person {userID: {userID}}) RETURN p', { userID })
@@ -147,6 +161,8 @@ const processUser = (userID: string, globalAsks: any[], globalOffers: any[]): Pr
             templateData.hasAsks = templateData.asks.length > 0;
             templateData.interestsInFeed = Array.from(new Set((templateData.asks.concat(templateData.offers)).map(p => cidify(p.category))));
 
+            templateData.offers = twoByTwo(templateData.offers);
+            templateData.asks = twoByTwo(templateData.asks);
             //console.log('data', templateData)
 
             let htmlContent = ''
@@ -214,7 +230,7 @@ const mailReport = (data: any, htmlContent: string): Promise<any> => {
   if (config.logging) {
     console.log('SENDING', data.user.userID);
   }
-  return promisify(transporter.sendMail.bind(transporter), email);
+  promisify(transporter.sendMail.bind(transporter), email);
 };
 
 const main = () => {
@@ -227,7 +243,7 @@ const main = () => {
 
       const files: string[] = result[1];
 
-      if (globalAsks.length + globalOffers.length < 1) {
+      if (globalAsks.length + globalOffers.length < postMinimum) {
         // Not enough data for the newsletter, skip it
         if (config.logging) {
           console.log("Not enough posts for the newsletter, nothing sent");
