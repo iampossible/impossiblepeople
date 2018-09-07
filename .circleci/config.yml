@@ -34,34 +34,48 @@ jobs:
       - run:
           name: Docker push humankind-web image
           command: docker push $DOCKER_REPO/$DOCKER_USER/humankind-web
+
   deploy:
     docker:
-      # specify the version you desire here
-      - image: circleci/node:7.10.1
-    working_directory: ~/repo  
+      - image: circleci/python:2.7-jessie
+    working_directory: ~/repo
     steps:
-      - checkout
+      - setup_remote_docker
       - run:
           name: Set env variables
-          command: echo 'export VERSION=$(echo $CIRCLE_SHA1 | cut -c -7)' >> $BASH_ENV 
-      - run: 
-         name: Install AWS cli
-         command: sudo apt install python-pip python-dev && sudo pip install awscli 
+          command: echo 'export VERSION=$(echo $CIRCLE_SHA1 | cut -c -7)' >> $BASH_ENV
       - run:
-          name: Deploy humankind-api to aws
-          command: ./ci/deploy.sh --cluster humankind-cluster --service humankind-api --task humankind-api-task docker.io/codeyourfuture/humankind-api:$VERSION
+          name: Install awscli
+          command: sudo pip install awscli
       - run:
-          name: Deploy humankind-web to aws
-          command: ./ci/deploy.sh --cluster humankind-cluster --service humankind-web --task humankind-web-task docker.io/codeyourfuture/humankind-web:$VERSION
+          name: Install kubectl
+          command: curl -LO https://storage.googleapis.com/kubernetes-release/release/$(curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt)/bin/linux/amd64/kubectl && chmod +x kubectl
+      - run:
+          name: Install gnupg
+          command: sudo apt-get -y install gnupg
+      - run:
+          name: Get kubeconfig
+          command: aws s3 cp s3://$SECRETS_BUCKET/kubectl/config_cyfbot.gpg ./config.gpg
+      - run:
+          name: Decrypt kubeconfig and set KUBECONFIG
+          command: gpg --yes --passphrase="$GPG_KEY" config.gpg
+      - run:
+          name: Update backend k8s deployment
+          command: KUBECONFIG=$(pwd)/config ./kubectl set image deployment/humankind-dep-api humankind-api=codeyourfuture/humankind-api:$VERSION
+      - run:
+          name: Update frontend k8s deployment
+          command: KUBECONFIG=$(pwd)/config ./kubectl set image deployment/humankind-dep-web humankind-web=codeyourfuture/humankind-web:$VERSION
 
 workflows:
   version: 2
   build_and_deploy:
     jobs:
-      - build
+      - build:
+          context: build    
       - deploy:
+          context: deployments
           requires:
             - build
-          filters:
-            branches:
-              only: master 
+          #filters:
+          #  branches:
+          #    only: master 

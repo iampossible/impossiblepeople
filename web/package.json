@@ -23,5 +23,5 @@
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject"
   },
-  "proxy": "http://api.humankind.codeyourfuture.io"
+  "proxy": "https://api.humankind.codeyourfuture.io"
 }
