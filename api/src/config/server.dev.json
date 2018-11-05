@@ -5,7 +5,7 @@
     "salt": "8f6e57c1822d6328e62104dd13095dc8",
     "aws": {
         "sqs": {
-            "endpoint": "http://sqs:4568/"
+            "endpoint": "http://localhost:4568/"
         },
         "sns": {
             "Apple": "",
@@ -15,8 +15,12 @@
             "from": "hello@humankindhub.org"
         }
     },
+    "facebook": {
+        "appID": "",
+        "appSecret": ""
+    },
     "neo4j": {
-        "host": "http://neo4j:7474"
+        "host": "http://localhost:7474"
     },
     "smtp": {
         "from": "hello@humankindhub.org"

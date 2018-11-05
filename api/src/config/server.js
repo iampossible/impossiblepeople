@@ -23,7 +23,7 @@ if (process.env.NEO4J_AUTH) {
   neo4jPassword = neo4jCreds[1];
 }
 
-let processedHost = process.env.GNOME_HOST || rawConfig.host || "172.18.0.3";
+let processedHost = process.env.GNOME_HOST || rawConfig.host || "localhost";
 let processedPort = process.env.GNOME_PORT || rawConfig.port || 3000;
 
 let config = {
