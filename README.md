@@ -1,5 +1,7 @@
 # Impossible People
 
+![Impossible Logo](static/logo.png)
+
 This repository contains the new impossible application, consisting of an [api](https://github.com/iampossible/impossiblepeople/tree/master/api) and a [mobile app](https://github.com/iampossible/impossiblepeople/tree/master/app). The api is based on nodejs, the client is a based on ionic 2.
 
 To find out more about the mobile app, [check this](https://github.com/iampossible/impossiblepeople/blob/master/app/README.md).
